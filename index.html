@@ -1,26 +1,728 @@
 <!DOCTYPE html>
-<html lang="fa" dir="rtl">
+<html lang="en" dir="ltr">
+
 <head>
-  <meta charset="UTF-8">
-  <title>سایت من</title>
-  <style>
-    body {
-      font-family: Tahoma, sans-serif;
-      background-color: #f4f4f9;
-      text-align: center;
-      padding-top: 100px;
-    }
-    h1 {
-      color: #2c3e50;
-    }
-    p {
-      color: #555;
-      font-size: 18px;
-    }
-  </style>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <meta name="description"
+          content="My DevOps learning journey, technical notes, projects and experiments.">
+
+    <title>Z.DevOps | DevOps Learning Journey</title>
+
+    <link rel="stylesheet" href="style.css">
+
 </head>
+
 <body>
-  <h1>سلام! به سایت من خوش اومدی 👋</h1>
-  <p>این اولین سایت من با GitHub Pages هست.</p>
+
+<!-- =========================
+     NAVBAR
+========================= -->
+
+<header class="navbar">
+
+    <div class="container navbar-inner">
+
+        <a href="#" class="logo">
+            Z<span>.DevOps</span>
+        </a>
+
+        <nav>
+
+            <ul class="nav-links">
+
+                <li>
+                    <a href="#articles">Articles</a>
+                </li>
+
+                <li>
+                    <a href="#skills">Skills</a>
+                </li>
+
+                <li>
+                    <a href="#projects">Projects</a>
+                </li>
+
+                <li>
+                    <a href="#roadmap">Roadmap</a>
+                </li>
+
+                <li>
+                    <a href="#about">About</a>
+                </li>
+
+            </ul>
+
+        </nav>
+
+    </div>
+
+</header>
+
+
+<!-- =========================
+     HERO
+========================= -->
+
+<main>
+
+<section class="hero">
+
+    <div class="container">
+
+        <div class="hero-content">
+
+            <div class="badge">
+                DevOps Learning Journey
+            </div>
+
+            <h1>
+                Learn.
+                <span>Build.</span>
+                Break.
+                Fix.
+            </h1>
+
+            <p>
+                Documenting my journey into the world of DevOps,
+                one technology, project and problem at a time.
+            </p>
+
+            <div class="hero-buttons">
+
+                <a href="#articles"
+                   class="btn btn-primary">
+                    Explore Articles
+                </a>
+
+                <a href="#projects"
+                   class="btn btn-secondary">
+                    View Projects
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     SKILLS
+========================= -->
+
+<section id="skills">
+
+    <div class="container">
+
+        <div class="section-title">
+
+            <h2>
+                What I'm Learning
+            </h2>
+
+            <p>
+                Technologies and tools I'm exploring on my DevOps journey.
+            </p>
+
+        </div>
+
+
+        <div class="skills-grid">
+
+
+            <div class="skill">
+
+                <div class="skill-icon">
+                    🐧
+                </div>
+
+                <h3>Linux</h3>
+
+                <p>
+                    Ubuntu, Bash, permissions, processes and system administration.
+                </p>
+
+            </div>
+
+
+            <div class="skill">
+
+                <div class="skill-icon">
+                    🐳
+                </div>
+
+                <h3>Docker</h3>
+
+                <p>
+                    Containers, images, networking and Docker Compose.
+                </p>
+
+            </div>
+
+
+            <div class="skill">
+
+                <div class="skill-icon">
+                    🔀
+                </div>
+
+                <h3>Git</h3>
+
+                <p>
+                    Version control, GitHub, branches and collaboration.
+                </p>
+
+            </div>
+
+
+            <div class="skill">
+
+                <div class="skill-icon">
+                    🔄
+                </div>
+
+                <h3>CI/CD</h3>
+
+                <p>
+                    Automation, pipelines, testing and deployment.
+                </p>
+
+            </div>
+
+
+            <div class="skill">
+
+                <div class="skill-icon">
+                    ☸️
+                </div>
+
+                <h3>Kubernetes</h3>
+
+                <p>
+                    Containers orchestration, services and deployments.
+                </p>
+
+            </div>
+
+
+            <div class="skill">
+
+                <div class="skill-icon">
+                    📊
+                </div>
+
+                <h3>Zabbix</h3>
+
+                <p>
+                    Infrastructure monitoring, triggers and alerting.
+                </p>
+
+            </div>
+
+
+            <div class="skill">
+
+                <div class="skill-icon">
+                    📈
+                </div>
+
+                <h3>Grafana</h3>
+
+                <p>
+                    Dashboards, visualization and monitoring.
+                </p>
+
+            </div>
+
+
+            <div class="skill">
+
+                <div class="skill-icon">
+                    ☁️
+                </div>
+
+                <h3>Cloud</h3>
+
+                <p>
+                    Exploring cloud infrastructure and services.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     ARTICLES
+========================= -->
+
+<section id="articles">
+
+    <div class="container">
+
+        <div class="section-title">
+
+            <h2>
+                Latest Articles
+            </h2>
+
+            <p>
+                Notes, tutorials and real-world troubleshooting.
+            </p>
+
+        </div>
+
+
+        <div class="articles-grid">
+
+
+            <article class="article-card">
+
+                <div class="article-content">
+
+                    <div class="category">
+                        LINUX
+                    </div>
+
+                    <h3>
+                        Linux Commands I Actually Use
+                    </h3>
+
+                    <p>
+                        A collection of useful Linux commands
+                        and practical examples.
+                    </p>
+
+                    <div class="article-date">
+                        Coming soon
+                    </div>
+
+                </div>
+
+            </article>
+
+
+            <article class="article-card">
+
+                <div class="article-content">
+
+                    <div class="category">
+                        DOCKER
+                    </div>
+
+                    <h3>
+                        Docker Networking Explained
+                    </h3>
+
+                    <p>
+                        Understanding containers, networks
+                        and communication between services.
+                    </p>
+
+                    <div class="article-date">
+                        Coming soon
+                    </div>
+
+                </div>
+
+            </article>
+
+
+            <article class="article-card">
+
+                <div class="article-content">
+
+                    <div class="category">
+                        MONITORING
+                    </div>
+
+                    <h3>
+                        Zabbix Monitoring
+                    </h3>
+
+                    <p>
+                        My experience setting up infrastructure
+                        monitoring with Zabbix.
+                    </p>
+
+                    <div class="article-date">
+                        Coming soon
+                    </div>
+
+                </div>
+
+            </article>
+
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     PROJECTS
+========================= -->
+
+<section id="projects" class="projects">
+
+    <div class="container">
+
+        <div class="section-title">
+
+            <h2>
+                Projects
+            </h2>
+
+            <p>
+                Practical projects and experiments.
+            </p>
+
+        </div>
+
+
+        <div class="projects-grid">
+
+
+            <div class="project">
+
+                <h3>
+                    Zabbix Monitoring Infrastructure
+                </h3>
+
+                <p>
+                    Monitoring servers, network devices,
+                    VMware and infrastructure components.
+                </p>
+
+                <div class="project-tags">
+
+                    <span>Zabbix</span>
+                    <span>Linux</span>
+                    <span>SNMP</span>
+                    <span>Monitoring</span>
+
+                </div>
+
+            </div>
+
+
+            <div class="project">
+
+                <h3>
+                    Grafana Monitoring
+                </h3>
+
+                <p>
+                    Building dashboards and visualizing
+                    infrastructure monitoring data.
+                </p>
+
+                <div class="project-tags">
+
+                    <span>Grafana</span>
+                    <span>Zabbix</span>
+                    <span>PostgreSQL</span>
+
+                </div>
+
+            </div>
+
+
+            <div class="project">
+
+                <h3>
+                    DevOps Learning Lab
+                </h3>
+
+                <p>
+                    A personal laboratory for experimenting
+                    with Linux, Docker and CI/CD.
+                </p>
+
+                <div class="project-tags">
+
+                    <span>Linux</span>
+                    <span>Docker</span>
+                    <span>Git</span>
+                    <span>CI/CD</span>
+
+                </div>
+
+            </div>
+
+
+            <div class="project">
+
+                <h3>
+                    Future Projects
+                </h3>
+
+                <p>
+                    More infrastructure and automation
+                    projects will be added here.
+                </p>
+
+                <div class="project-tags">
+
+                    <span>Coming Soon</span>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     ROADMAP
+========================= -->
+
+<section id="roadmap">
+
+    <div class="container">
+
+        <div class="section-title">
+
+            <h2>
+                My DevOps Roadmap
+            </h2>
+
+            <p>
+                The path I'm following.
+            </p>
+
+        </div>
+
+
+        <div class="roadmap">
+
+
+            <div class="roadmap-item">
+
+                <div class="roadmap-dot"></div>
+
+                <div class="roadmap-line"></div>
+
+                <div class="roadmap-content">
+
+                    <h3>
+                        Linux
+                    </h3>
+
+                    <p>
+                        Linux fundamentals, Bash and system administration.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="roadmap-item">
+
+                <div class="roadmap-dot"></div>
+
+                <div class="roadmap-line"></div>
+
+                <div class="roadmap-content">
+
+                    <h3>
+                        Networking
+                    </h3>
+
+                    <p>
+                        TCP/IP, DNS, HTTP, routing and troubleshooting.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="roadmap-item">
+
+                <div class="roadmap-dot"></div>
+
+                <div class="roadmap-line"></div>
+
+                <div class="roadmap-content">
+
+                    <h3>
+                        Git & GitHub
+                    </h3>
+
+                    <p>
+                        Version control and collaborative development.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="roadmap-item">
+
+                <div class="roadmap-dot"></div>
+
+                <div class="roadmap-line"></div>
+
+                <div class="roadmap-content">
+
+                    <h3>
+                        Docker
+                    </h3>
+
+                    <p>
+                        Containers, images, networking and Compose.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="roadmap-item">
+
+                <div class="roadmap-dot"></div>
+
+                <div class="roadmap-line"></div>
+
+                <div class="roadmap-content">
+
+                    <h3>
+                        CI/CD
+                    </h3>
+
+                    <p>
+                        Automated testing, builds and deployments.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="roadmap-item">
+
+                <div class="roadmap-dot"></div>
+
+                <div class="roadmap-content">
+
+                    <h3>
+                        Kubernetes & Cloud
+                    </h3>
+
+                    <p>
+                        Container orchestration and cloud infrastructure.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     ABOUT
+========================= -->
+
+<section id="about">
+
+    <div class="container">
+
+        <div class="section-title">
+
+            <h2>
+                About This Website
+            </h2>
+
+            <p>
+                This website is my personal DevOps knowledge base.
+            </p>
+
+        </div>
+
+        <div style="max-width:750px;margin:auto;text-align:center;color:#94a3b8;">
+
+            <p>
+                I'm documenting what I learn, the projects I build,
+                the problems I face and the solutions I discover.
+            </p>
+
+            <br>
+
+            <p>
+                The goal is simple:
+                learn by building and share the journey.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+</main>
+
+
+<!-- =========================
+     FOOTER
+========================= -->
+
+<footer>
+
+    <div class="container">
+
+        <p>
+            © 2026 Z.DevOps — Built while learning DevOps.
+        </p>
+
+        <div class="social-links">
+
+            <a href="#" target="_blank">
+                GitHub
+            </a>
+
+            <a href="#" target="_blank">
+                LinkedIn
+            </a>
+
+            <a href="mailto:your-email@example.com">
+                Email
+            </a>
+
+        </div>
+
+    </div>
+
+</footer>
+
+
 </body>
+
 </html>
