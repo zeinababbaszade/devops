@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Linux File System | Z.DevOps</title>
+
+    <link rel="stylesheet" href="../style.css">
+</head>
+
+<body>
+
+<header class="navbar">
+    <div class="container">
+
+        <a href="../index.html" class="logo">
+            Z.DevOps
+        </a>
+
+        <nav>
+            <a href="../index.html">خانه</a>
+            <a href="index.html">مقالات</a>
+        </nav>
+
+    </div>
+</header>
+
+
+<main class="container">
+
+    <article class="article-page">
+
+        <div class="article-header">
+
+            <span class="badge">
+                Linux
+            </span>
+
+            <h1>
+                آشنایی با File System در Linux
+            </h1>
+
+            <p class="article-description">
+                در این مقاله با ساختار فایل‌سیستم لینوکس و مهم‌ترین
+                دایرکتوری‌های آن آشنا می‌شویم.
+            </p>
+
+        </div>
+
+
+        <!-- Table of Contents -->
+
+        <div class="article-toc">
+
+            <h3>فهرست مطالب</h3>
+
+            <ul>
+                <li><a href="#intro">فایل‌سیستم لینوکس چیست؟</a></li>
+                <li><a href="#root">دایرکتوری Root</a></li>
+                <li><a href="#home">/home</a></li>
+                <li><a href="#etc">/etc</a></li>
+                <li><a href="#var">/var</a></li>
+                <li><a href="#tmp">/tmp</a></li>
+                <li><a href="#usr">/usr</a></li>
+                <li><a href="#opt">/opt</a></li>
+                <li><a href="#commands">دستورات کاربردی</a></li>
+                <li><a href="#lab">تمرین عملی</a></li>
+            </ul>
+
+        </div>
+
+
+        <!-- Introduction -->
+
+        <section id="intro">
+
+            <h2>فایل‌سیستم Linux چیست؟</h2>
+
+            <p>
+                یکی از تفاوت‌های مهم Linux با Windows نحوه سازمان‌دهی
+                فایل‌ها و دایرکتوری‌ها است.
+            </p>
+
+            <p>
+                در Linux تقریباً همه چیز از یک نقطه شروع می‌شود که به آن
+                <strong>Root Directory</strong> گفته می‌شود.
+            </p>
+
+            <p>
+                این دایرکتوری با علامت
+                <code>/</code>
+                نمایش داده می‌شود.
+            </p>
+
+            <p>
+                بنابراین ساختار فایل‌سیستم لینوکس را می‌توانیم به شکل
+                یک درخت تصور کنیم:
+            </p>
+
+<pre><code>/
+├── bin
+├── boot
+├── dev
+├── etc
+├── home
+├── lib
+├── media
+├── mnt
+├── opt
+├── proc
+├── root
+├── run
+├── sbin
+├── srv
+├── sys
+├── tmp
+├── usr
+└── var</code></pre>
+
+        </section>
+
+
+        <!-- Root -->
+
+        <section id="root">
+
+            <h2>1. دایرکتوری / یا Root Directory</h2>
+
+            <p>
+                علامت
+                <code>/</code>
+                ریشه فایل‌سیستم Linux است.
+            </p>
+
+            <p>
+                تمام دایرکتوری‌های اصلی Linux در نهایت زیر
+                <code>/</code>
+                قرار دارند.
+            </p>
+
+            <p>
+                برای رفتن به Root Directory می‌توانیم از دستور زیر استفاده کنیم:
+            </p>
+
+<pre><code>cd /</code></pre>
+
+            <p>
+                سپس با دستور زیر محتویات آن را مشاهده می‌کنیم:
+            </p>
+
+<pre><code>ls -la</code></pre>
+
+            <div class="info-box">
+
+                <strong>نکته مهم:</strong>
+
+                <p>
+                    <code>/</code>
+                    با کاربر
+                    <code>root</code>
+                    یکی نیست.
+                </p>
+
+                <p>
+                    <code>/</code>
+                    یک دایرکتوری است، اما
+                    <code>root</code>
+                    نام کاربر قدرتمند سیستم Linux است.
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- Home -->
+
+        <section id="home">
+
+            <h2>2. دایرکتوری /home</h2>
+
+            <p>
+                دایرکتوری
+                <code>/home</code>
+                محل قرارگیری فایل‌های کاربران عادی سیستم است.
+            </p>
+
+            <p>
+                برای مثال اگر کاربری با نام
+                <code>zeinab</code>
+                داشته باشیم، معمولاً Home Directory او چیزی شبیه این خواهد بود:
+            </p>
+
+<pre><code>/home/zeinab</code></pre>
+
+            <p>
+                می‌توانیم با دستور زیر وارد Home خودمان شویم:
+            </p>
+
+<pre><code>cd ~</code></pre>
+
+            <p>
+                یا:
+            </p>
+
+<pre><code>cd /home/zeinab</code></pre>
+
+            <p>
+                البته نام کاربر در سیستم شما ممکن است متفاوت باشد.
+            </p>
+
+        </section>
+
+
+        <!-- etc -->
+
+        <section id="etc">
+
+            <h2>3. دایرکتوری /etc</h2>
+
+            <p>
+                دایرکتوری
+                <code>/etc</code>
+                یکی از مهم‌ترین قسمت‌های Linux است.
+            </p>
+
+            <p>
+                بسیاری از فایل‌های Configuration یا تنظیمات سیستم
+                و سرویس‌ها در این دایرکتوری قرار دارند.
+            </p>
+
+            <p>
+                برای مشاهده محتویات آن:
+            </p>
+
+<pre><code>ls -la /etc</code></pre>
+
+            <p>
+                بعدها وقتی وارد مباحثی مثل SSH، Nginx، Docker و
+                سرویس‌های Linux شویم، زیاد با
+                <code>/etc</code>
+                سر و کار خواهیم داشت.
+            </p>
+
+        </section>
+
+
+        <!-- var -->
+
+        <section id="var">
+
+            <h2>4. دایرکتوری /var</h2>
+
+            <p>
+                <code>/var</code>
+                برای اطلاعاتی استفاده می‌شود که در طول اجرای سیستم
+                یا برنامه‌ها مرتب تغییر می‌کنند.
+            </p>
+
+            <p>
+                یکی از مهم‌ترین قسمت‌های آن:
+            </p>
+
+<pre><code>/var/log</code></pre>
+
+            <p>
+                است که محل قرارگیری بسیاری از Logهای سیستم و سرویس‌هاست.
+            </p>
+
+            <p>
+                برای مشاهده Logها:
+            </p>
+
+<pre><code>ls -la /var/log</code></pre>
+
+            <p>
+                این قسمت در آینده برای Troubleshooting و مانیتورینگ
+                خیلی مهم خواهد بود.
+            </p>
+
+        </section>
+
+
+        <!-- tmp -->
+
+        <section id="tmp">
+
+            <h2>5. دایرکتوری /tmp</h2>
+
+            <p>
+                <code>/tmp</code>
+                برای فایل‌های موقتی استفاده می‌شود.
+            </p>
+
+            <p>
+                برنامه‌ها می‌توانند در این قسمت فایل‌هایی ایجاد کنند
+                که فقط برای مدت کوتاهی مورد نیاز هستند.
+            </p>
+
+            <p>
+                برای مشاهده محتویات:
+            </p>
+
+<pre><code>ls -la /tmp</code></pre>
+
+            <div class="warning-box">
+
+                <strong>نکته:</strong>
+
+                <p>
+                    فایل‌های موجود در
+                    <code>/tmp</code>
+                    را نباید بدون شناخت کامل سیستم به صورت دستی حذف کرد.
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- usr -->
+
+        <section id="usr">
+
+            <h2>6. دایرکتوری /usr</h2>
+
+            <p>
+                <code>/usr</code>
+                شامل بخش بزرگی از برنامه‌ها، کتابخانه‌ها و
+                فایل‌های مربوط به نرم‌افزارهای سیستم است.
+            </p>
+
+            <p>
+                برای مثال:
+            </p>
+
+<pre><code>/usr/bin
+/usr/sbin
+/usr/lib
+/usr/share</code></pre>
+
+            <p>
+                بعداً هنگام کار با Package Managerها و نصب نرم‌افزارها
+                بیشتر با این ساختار آشنا خواهیم شد.
+            </p>
+
+        </section>
+
+
+        <!-- opt -->
+
+        <section id="opt">
+
+            <h2>7. دایرکتوری /opt</h2>
+
+            <p>
+                <code>/opt</code>
+                معمولاً برای نصب نرم‌افزارهای اضافی و Third-party
+                استفاده می‌شود.
+            </p>
+
+            <p>
+                برای مثال ممکن است یک نرم‌افزار خاص را در مسیری مانند
+                زیر نصب کنیم:
+            </p>
+
+<pre><code>/opt/my-application</code></pre>
+
+            <p>
+                در محیط‌های DevOps ممکن است هنگام نصب بعضی نرم‌افزارها
+                و Applicationهای خاص با این مسیر مواجه شویم.
+            </p>
+
+        </section>
+
+
+        <!-- Commands -->
+
+        <section id="commands">
+
+            <h2>دستورات کاربردی برای بررسی File System</h2>
+
+            <h3>مشاهده مسیر فعلی</h3>
+
+<pre><code>pwd</code></pre>
+
+
+            <h3>مشاهده محتویات یک دایرکتوری</h3>
+
+<pre><code>ls</code></pre>
+
+
+            <h3>مشاهده جزئیات</h3>
+
+<pre><code>ls -la</code></pre>
+
+
+            <h3>رفتن به Root</h3>
+
+<pre><code>cd /</code></pre>
+
+
+            <h3>رفتن به Home</h3>
+
+<pre><code>cd ~</code></pre>
+
+
+            <h3>مشاهده ساختار دایرکتوری‌های Root</h3>
+
+<pre><code>ls -la /</code></pre>
+
+
+            <h3>مشاهده فضای دیسک</h3>
+
+<pre><code>df -h</code></pre>
+
+            <p>
+                دستور
+                <code>df -h</code>
+                برای مشاهده میزان فضای استفاده‌شده و آزاد
+                فایل‌سیستم‌ها بسیار کاربردی است.
+            </p>
+
+        </section>
+
+
+        <!-- Lab -->
+
+        <section id="lab">
+
+            <h2>تمرین عملی روی Ubuntu</h2>
+
+            <p>
+                حالا نوبت تمرین است.
+                این دستورات را روی Ubuntu خودت اجرا کن.
+            </p>
+
+
+            <h3>مرحله 1 — مسیر فعلی</h3>
+
+<pre><code>pwd</code></pre>
+
+
+            <h3>مرحله 2 — رفتن به Root</h3>
+
+<pre><code>cd /
+pwd</code></pre>
+
+            <p>
+                باید ببینی مسیر فعلی:
+            </p>
+
+<pre><code>/</code></pre>
+
+
+            <h3>مرحله 3 — مشاهده دایرکتوری‌ها</h3>
+
+<pre><code>ls -la</code></pre>
+
+
+            <h3>مرحله 4 — بررسی Home</h3>
+
+<pre><code>ls -la /home</code></pre>
+
+
+            <h3>مرحله 5 — بررسی Logها</h3>
+
+<pre><code>ls -la /var/log</code></pre>
+
+
+            <h3>مرحله 6 — بررسی فضای دیسک</h3>
+
+<pre><code>df -h</code></pre>
+
+
+            <h3>مرحله 7 — برگشت به Home</h3>
+
+<pre><code>cd ~
+pwd</code></pre>
+
+
+            <div class="success-box">
+
+                <strong>تمرین پیشنهادی:</strong>
+
+                <p>
+                    قبل از اینکه مقاله بعدی را شروع کنیم، تمام دستورات
+                    بالا را روی Ubuntu اجرا کن و خروجی آن‌ها را بررسی کن.
+                </p>
+
+                <p>
+                    هدف این نیست که فقط دستورات را حفظ کنیم؛
+                    می‌خواهیم واقعاً با محیط Linux کار کنیم.
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- Cheat Sheet -->
+
+        <section>
+
+            <h2>Cheat Sheet</h2>
+
+            <table>
+
+                <thead>
+                    <tr>
+                        <th>مسیر</th>
+                        <th>کاربرد</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    <tr>
+                        <td><code>/</code></td>
+                        <td>ریشه فایل‌سیستم</td>
+                    </tr>
+
+                    <tr>
+                        <td><code>/home</code></td>
+                        <td>فایل‌های کاربران</td>
+                    </tr>
+
+                    <tr>
+                        <td><code>/etc</code></td>
+                        <td>فایل‌های Configuration</td>
+                    </tr>
+
+                    <tr>
+                        <td><code>/var</code></td>
+                        <td>داده‌های متغیر و Logها</td>
+                    </tr>
+
+                    <tr>
+                        <td><code>/tmp</code></td>
+                        <td>فایل‌های موقت</td>
+                    </tr>
+
+                    <tr>
+                        <td><code>/usr</code></td>
+                        <td>برنامه‌ها و فایل‌های سیستم</td>
+                    </tr>
+
+                    <tr>
+                        <td><code>/opt</code></td>
+                        <td>نرم‌افزارهای اضافی</td>
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </section>
+
+
+        <!-- Conclusion -->
+
+        <section>
+
+            <h2>چیزی که در این مقاله یاد گرفتم</h2>
+
+            <ul>
+
+                <li>ساختار فایل‌سیستم Linux</li>
+
+                <li>مفهوم Root Directory</li>
+
+                <li>تفاوت <code>/</code> و <code>root</code></li>
+
+                <li>کاربرد <code>/home</code></li>
+
+                <li>کاربرد <code>/etc</code></li>
+
+                <li>کاربرد <code>/var</code> و Logها</li>
+
+                <li>کاربرد <code>/tmp</code></li>
+
+                <li>کاربرد <code>/usr</code></li>
+
+                <li>کاربرد <code>/opt</code></li>
+
+                <li>بررسی فضای دیسک با <code>df -h</code></li>
+
+            </ul>
+
+        </section>
+
+
+        <!-- Next -->
+
+        <section>
+
+            <h2>مقاله بعدی</h2>
+
+            <p>
+                در مقاله بعدی می‌رویم سراغ یکی از مهم‌ترین مباحث Linux:
+            </p>
+
+            <h3>
+                Linux Files & Directories
+            </h3>
+
+            <p>
+                در آنجا یاد می‌گیریم چطور فایل و Directory ایجاد،
+                کپی، جابه‌جا، Rename و حذف کنیم.
+            </p>
+
+        </section>
+
+
+        <div class="article-navigation">
+
+            <a href="linux-basics.html" class="btn">
+                ← مقاله قبلی
+            </a>
+
+            <a href="index.html" class="btn">
+                بازگشت به مقالات
+            </a>
+
+        </div>
+
+    </article>
+
+</main>
+
+
+<footer>
+
+    <div class="container">
+
+        <p>
+            © 2026 Z.DevOps
+        </p>
+
+    </div>
+
+</footer>
+
+</body>
+</html>
