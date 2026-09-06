@@ -9,7 +9,10 @@
           content="width=device-width, initial-scale=1.0">
 
     <meta name="description"
-          content="My first steps learning Linux for DevOps.">
+          content="آشنایی با Linux و دستورات پایه Terminal برای شروع مسیر یادگیری DevOps">
+
+    <meta name="keywords"
+          content="Linux, Ubuntu, DevOps, Terminal, Linux Commands, Bash">
 
     <title>Linux Basics | Z.DevOps</title>
 
@@ -18,60 +21,178 @@
 
     <style>
 
-        .article-page {
-            max-width: 850px;
+        /* =========================================
+           ARTICLE PAGE
+        ========================================= */
+
+        .article-wrapper {
+            max-width: 900px;
             margin: auto;
         }
 
         .article-header {
             text-align: center;
-            margin-bottom: 60px;
+            margin-bottom: 70px;
+        }
+
+        .article-header .badge {
+            margin-bottom: 20px;
         }
 
         .article-header h1 {
-            font-size: 46px;
-            margin: 20px 0;
+            font-size: clamp(38px, 6vw, 60px);
+            line-height: 1.2;
+            margin-bottom: 20px;
         }
 
-        .article-header p {
-            color: #94a3b8;
-            font-size: 17px;
+        .article-header h1 span {
+            color: var(--primary);
+        }
+
+        .article-subtitle {
+            color: var(--text-secondary);
+            font-size: 18px;
+            max-width: 700px;
+            margin: auto;
         }
 
         .article-meta {
+            margin-top: 20px;
             color: #64748b;
             font-size: 13px;
-            margin-top: 15px;
         }
 
+
+        /* =========================================
+           TABLE OF CONTENTS
+        ========================================= */
+
+        .toc {
+            background: var(--card);
+            border: 1px solid var(--border);
+
+            border-radius: 14px;
+
+            padding: 25px 30px;
+
+            margin-bottom: 55px;
+        }
+
+        .toc h3 {
+            margin-bottom: 15px;
+        }
+
+        .toc ol {
+            margin: 0;
+            padding-right: 22px;
+        }
+
+        .toc li {
+            margin-bottom: 8px;
+        }
+
+        .toc a {
+            color: var(--text-secondary);
+            transition: 0.2s;
+        }
+
+        .toc a:hover {
+            color: var(--primary);
+        }
+
+
+        /* =========================================
+           ARTICLE BODY
+        ========================================= */
+
         .article-body {
-            font-family: "Vazirmatn", "Inter", sans-serif;
             text-align: right;
+
+            font-family:
+                "Vazirmatn",
+                "Tahoma",
+                sans-serif;
         }
 
         .article-body h2 {
-            font-size: 28px;
-            margin-top: 55px;
-            margin-bottom: 18px;
+            font-size: 30px;
+
+            margin-top: 65px;
+            margin-bottom: 20px;
+
+            padding-bottom: 10px;
+
+            border-bottom: 1px solid var(--border);
         }
 
         .article-body h3 {
             font-size: 21px;
+
             margin-top: 35px;
             margin-bottom: 12px;
         }
 
         .article-body p {
             color: #cbd5e1;
+
             font-size: 16px;
+
             line-height: 2;
-            margin-bottom: 18px;
+
+            margin-bottom: 20px;
         }
 
-        .article-body ul {
+        .article-body ul,
+        .article-body ol {
             color: #cbd5e1;
+
             line-height: 2;
-            margin-bottom: 20px;
+
+            margin-bottom: 25px;
+
+            padding-right: 25px;
+        }
+
+        .article-body li {
+            margin-bottom: 7px;
+        }
+
+        .article-body strong {
+            color: #f8fafc;
+        }
+
+
+        /* =========================================
+           CODE
+        ========================================= */
+
+        .code-wrapper {
+            position: relative;
+
+            margin: 20px 0 28px;
+        }
+
+        .code-label {
+            direction: ltr;
+            text-align: left;
+
+            background: #111827;
+
+            color: #64748b;
+
+            padding: 7px 15px;
+
+            border-radius: 8px 8px 0 0;
+
+            font-family: Consolas, monospace;
+
+            font-size: 12px;
+
+            border:
+                1px solid
+                rgba(148, 163, 184, 0.15);
+
+            border-bottom: none;
         }
 
         .code-block {
@@ -80,45 +201,206 @@
 
             background: #020617;
 
-            border: 1px solid rgba(148, 163, 184, 0.15);
+            border:
+                1px solid
+                rgba(148, 163, 184, 0.15);
 
-            border-radius: 10px;
+            border-radius: 0 0 8px 8px;
 
-            padding: 18px;
-
-            margin: 20px 0;
+            padding: 20px;
 
             overflow-x: auto;
+
+            margin: 0;
         }
 
         .code-block code {
-            color: #e2e8f0;
-            font-family: Consolas, monospace;
+            font-family:
+                Consolas,
+                "Courier New",
+                monospace;
+
             font-size: 14px;
+
+            line-height: 1.8;
+
+            color: #e2e8f0;
         }
 
+
+        /* =========================================
+           NOTE
+        ========================================= */
+
         .note {
-            background: rgba(56, 189, 248, 0.08);
+            background:
+                rgba(56, 189, 248, 0.07);
 
-            border-right: 4px solid #38bdf8;
+            border-right:
+                4px solid
+                var(--primary);
 
-            padding: 18px;
+            padding: 20px 22px;
 
             border-radius: 8px;
 
-            margin: 25px 0;
+            margin: 30px 0;
 
+            color: #cbd5e1;
+
+            line-height: 1.9;
+        }
+
+        .warning {
+            background:
+                rgba(251, 191, 36, 0.07);
+
+            border-right:
+                4px solid
+                #fbbf24;
+
+            padding: 20px 22px;
+
+            border-radius: 8px;
+
+            margin: 30px 0;
+
+            color: #cbd5e1;
+
+            line-height: 1.9;
+        }
+
+
+        /* =========================================
+           COMMAND TABLE
+        ========================================= */
+
+        .command-table {
+            width: 100%;
+
+            border-collapse: collapse;
+
+            margin: 25px 0 35px;
+
+            overflow: hidden;
+
+            border-radius: 10px;
+        }
+
+        .command-table th,
+        .command-table td {
+            padding: 13px 15px;
+
+            border-bottom:
+                1px solid
+                var(--border);
+
+            text-align: right;
+        }
+
+        .command-table th {
+            background: var(--card);
+
+            color: var(--primary);
+
+            font-weight: 600;
+        }
+
+        .command-table td {
             color: #cbd5e1;
         }
 
+        .command-table code {
+            direction: ltr;
+
+            display: inline-block;
+
+            background:
+                rgba(148, 163, 184, 0.08);
+
+            padding: 3px 7px;
+
+            border-radius: 5px;
+
+            color: #e2e8f0;
+
+            font-family: Consolas, monospace;
+        }
+
+
+        /* =========================================
+           EXERCISE
+        ========================================= */
+
+        .exercise {
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(56,189,248,0.08),
+                    rgba(14,165,233,0.02)
+                );
+
+            border:
+                1px solid
+                rgba(56, 189, 248, 0.18);
+
+            border-radius: 14px;
+
+            padding: 28px;
+
+            margin: 35px 0;
+        }
+
+        .exercise h3 {
+            margin-top: 0;
+
+            color: var(--primary);
+        }
+
+
+        /* =========================================
+           ARTICLE FOOTER
+        ========================================= */
+
         .article-footer {
-            margin-top: 70px;
+            margin-top: 80px;
 
             padding-top: 30px;
 
-            border-top: 1px solid rgba(148, 163, 184, 0.15);
+            border-top:
+                1px solid
+                var(--border);
 
-            text-align: center;
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            gap: 15px;
+
+            flex-wrap: wrap;
+        }
+
+
+        @media (max-width: 650px) {
+
+            .article-header h1 {
+                font-size: 38px;
+            }
+
+            .article-body h2 {
+                font-size: 25px;
+            }
+
+            .article-body p {
+                font-size: 15px;
+            }
+
+            .command-table {
+                font-size: 13px;
+            }
+
         }
 
     </style>
@@ -129,24 +411,36 @@
 <body>
 
 
+<!-- =========================================
+     NAVBAR
+========================================= -->
+
 <header class="navbar">
 
     <div class="container navbar-inner">
 
-        <a href="../index.html" class="logo">
+        <a href="../index.html"
+           class="logo">
+
             Z<span>.DevOps</span>
+
         </a>
+
 
         <nav>
 
             <ul class="nav-links">
 
                 <li>
-                    <a href="../index.html">Home</a>
+                    <a href="../index.html">
+                        Home
+                    </a>
                 </li>
 
                 <li>
-                    <a href="index.html">Articles</a>
+                    <a href="index.html">
+                        Articles
+                    </a>
                 </li>
 
                 <li>
@@ -176,325 +470,1033 @@
 </header>
 
 
+
+<!-- =========================================
+     MAIN
+========================================= -->
+
 <main>
 
 <section>
 
-<div class="container article-page">
+<div class="container article-wrapper">
 
 
-    <!-- ARTICLE HEADER -->
+    <!-- =====================================
+         HEADER
+    ====================================== -->
 
-    <div class="article-header">
+    <header class="article-header">
 
         <div class="badge">
-            LINUX
+            LINUX · DEVOPS
         </div>
 
         <h1>
-            Linux Basics
+            Linux <span>Basics</span>
         </h1>
 
-        <p>
-            My first steps learning Linux for DevOps
+        <p class="article-subtitle">
+
+            شروع مسیر یادگیری Linux برای ورود به دنیای DevOps؛
+            از Terminal و مسیرها تا ساخت فایل و Directory.
+
         </p>
 
         <div class="article-meta">
-            September 2026 · Linux · DevOps
+
+            📅 September 2026
+            &nbsp; · &nbsp;
+            ⏱ Beginner
+            &nbsp; · &nbsp;
+            🐧 Ubuntu
+
         </div>
+
+    </header>
+
+
+
+    <!-- =====================================
+         TABLE OF CONTENTS
+    ====================================== -->
+
+    <div class="toc">
+
+        <h3>
+            📚 فهرست مطالب
+        </h3>
+
+        <ol>
+
+            <li>
+                <a href="#intro">
+                    چرا Linux؟
+                </a>
+            </li>
+
+            <li>
+                <a href="#terminal">
+                    Terminal چیست؟
+                </a>
+            </li>
+
+            <li>
+                <a href="#location">
+                    شناخت موقعیت فعلی
+                </a>
+            </li>
+
+            <li>
+                <a href="#navigation">
+                    حرکت بین Directoryها
+                </a>
+            </li>
+
+            <li>
+                <a href="#files">
+                    ساخت فایل و Directory
+                </a>
+            </li>
+
+            <li>
+                <a href="#content">
+                    کار با محتوای فایل
+                </a>
+            </li>
+
+            <li>
+                <a href="#redirection">
+                    تفاوت > و >>
+                </a>
+            </li>
+
+            <li>
+                <a href="#practice">
+                    تمرین عملی
+                </a>
+            </li>
+
+            <li>
+                <a href="#cheatsheet">
+                    Cheat Sheet
+                </a>
+            </li>
+
+            <li>
+                <a href="#next">
+                    مرحله بعد
+                </a>
+            </li>
+
+        </ol>
 
     </div>
 
 
-    <!-- ARTICLE -->
+
+    <!-- =====================================
+         ARTICLE
+    ====================================== -->
 
     <article class="article-body">
 
 
-        <h2>
-            مقدمه
+        <!-- INTRO -->
+
+        <h2 id="intro">
+            چرا Linux؟
         </h2>
 
         <p>
-            یکی از اولین مهارت‌هایی که برای ورود به دنیای
-            DevOps باید یاد بگیرم، کار با Linux است.
+
+            وقتی تصمیم گرفتم مسیر یادگیری DevOps را شروع کنم،
+            یکی از اولین چیزهایی که متوجه شدم این بود که
+            باید با Linux راحت باشم.
+
         </p>
 
         <p>
-            بیشتر سرورها، ابزارهای DevOps و محیط‌های
-            Container و Cloud بر پایه Linux اجرا می‌شوند.
-            بنابراین قبل از رفتن سراغ Docker، Kubernetes
-            و CI/CD باید با خود Linux راحت باشم.
+
+            بسیاری از سرورها و محیط‌های زیرساختی مورد استفاده
+            در دنیای DevOps بر پایه Linux هستند و ابزارهایی
+            مثل Docker، Kubernetes، سیستم‌های مانیتورینگ و
+            بسیاری از سرویس‌های Cloud را در عمل زیاد در محیط
+            Linux خواهیم دید.
+
         </p>
 
         <div class="note">
 
-            هدف این مقاله این نیست که Linux را در یک روز
-            یاد بگیرم. هدف این است که قدم‌به‌قدم با Linux
-            کار کنم و چیزهایی را که واقعاً یاد می‌گیرم
-            مستند کنم.
+            💡 <strong>هدف این مقاله:</strong>
+
+            قرار نیست در یک مقاله Linux را کامل یاد بگیرم.
+            هدف من این است که از پایه با Terminal و فایل‌سیستم
+            Linux کار کنم و هر مرحله را واقعاً روی Ubuntu
+            اجرا و تست کنم.
 
         </div>
 
 
-        <h2>
-            Linux چیست؟
-        </h2>
 
-        <p>
-            Linux یک خانواده از سیستم‌عامل‌های Unix-like
-            است که در سرورها، کامپیوترها، تجهیزات شبکه،
-            Cloud و بسیاری از زیرساخت‌های نرم‌افزاری استفاده
-            می‌شود.
-        </p>
+        <!-- TERMINAL -->
 
-        <p>
-            توزیع‌هایی مثل Ubuntu، Debian، Fedora و
-            Red Hat Enterprise Linux از توزیع‌های معروف
-            Linux هستند.
-        </p>
-
-
-        <h2>
+        <h2 id="terminal">
             Terminal چیست؟
         </h2>
 
         <p>
-            در Linux می‌توانیم بسیاری از کارهای مدیریتی را
-            مستقیماً از طریق Terminal انجام دهیم.
+
+            Terminal یک رابط متنی برای کار با سیستم است.
+            در آن به جای استفاده از رابط گرافیکی، دستورات را
+            وارد می‌کنیم و سیستم نتیجه را برمی‌گرداند.
+
         </p>
 
         <p>
-            به جای اینکه برای هر کار از رابط گرافیکی استفاده
-            کنیم، می‌توانیم با Commandها با سیستم کار کنیم.
+
+            در مسیر DevOps استفاده از Terminal بسیار مهم است،
+            چون بخش بزرگی از کارهای مربوط به سرورها، سرویس‌ها،
+            فایل‌ها، شبکه و Automation از طریق Command Line
+            انجام می‌شود.
+
+        </p>
+
+        <p>
+
+            یک نکته مهم این است که Terminal، Shell و Command
+            Line دقیقاً مترادف یکدیگر نیستند؛ اما در شروع مسیر
+            لازم نیست درگیر این تفاوت‌ها شویم.
+
         </p>
 
 
-        <h2>
-            اولین دستورها
+
+        <!-- LOCATION -->
+
+        <h2 id="location">
+            اولین سؤال: الان کجا هستم؟
         </h2>
+
+        <p>
+
+            وقتی Terminal را باز می‌کنیم، Shell یک
+            <strong>Working Directory</strong> دارد؛ یعنی
+            مسیری که در حال حاضر در آن قرار داریم.
+
+        </p>
+
+        <p>
+
+            برای فهمیدن مسیر فعلی از دستور
+            <strong>pwd</strong> استفاده می‌کنیم.
+
+        </p>
+
+
+        <div class="code-wrapper">
+
+            <div class="code-label">
+                Terminal
+            </div>
+
+            <pre class="code-block"><code>pwd</code></pre>
+
+        </div>
+
+
+        <p>
+
+            خروجی معمولاً چیزی شبیه این است:
+
+        </p>
+
+
+        <div class="code-wrapper">
+
+            <div class="code-label">
+                Output
+            </div>
+
+            <pre class="code-block"><code>/home/username</code></pre>
+
+        </div>
+
+
+        <p>
+
+            دستور <code>pwd</code> مخفف
+            <strong>Print Working Directory</strong> است.
+            مستندات Ubuntu نیز از آن برای نمایش مسیر فعلی
+            استفاده می‌کند. :contentReference[oaicite:1]{index=1}
+
+        </p>
+
+
+
+        <!-- LS -->
+
+        <h2>
+            چه فایل‌هایی اینجا وجود دارند؟
+        </h2>
+
+        <p>
+
+            برای مشاهده فایل‌ها و Directoryهای موجود در مسیر
+            فعلی از دستور <strong>ls</strong> استفاده می‌کنیم.
+
+        </p>
+
+
+        <div class="code-wrapper">
+
+            <div class="code-label">
+                Terminal
+            </div>
+
+            <pre class="code-block"><code>ls</code></pre>
+
+        </div>
+
+
+        <p>
+
+            برای دیدن اطلاعات بیشتر می‌توانیم از گزینه
+            <strong>-l</strong> استفاده کنیم:
+
+        </p>
+
+
+        <div class="code-wrapper">
+
+            <pre class="code-block"><code>ls -l</code></pre>
+
+        </div>
+
+
+        <p>
+
+            و اگر بخواهیم فایل‌های مخفی را هم ببینیم:
+
+        </p>
+
+
+        <div class="code-wrapper">
+
+            <pre class="code-block"><code>ls -a</code></pre>
+
+        </div>
+
+
+        <p>
+
+            ترکیب این دو گزینه نیز بسیار پرکاربرد است:
+
+        </p>
+
+
+        <div class="code-wrapper">
+
+            <pre class="code-block"><code>ls -la</code></pre>
+
+        </div>
+
+
+        <div class="note">
+
+            💡 در Linux فایل‌ها و Directoryهایی که نامشان با
+            <code>.</code> شروع می‌شود معمولاً در خروجی عادی
+            <code>ls</code> نمایش داده نمی‌شوند و برای دیدن
+            آن‌ها می‌توان از <code>ls -a</code> استفاده کرد.
+
+        </div>
+
+
+
+        <!-- NAVIGATION -->
+
+        <h2 id="navigation">
+            حرکت بین Directoryها
+        </h2>
+
+        <p>
+
+            برای تغییر Directory از دستور
+            <strong>cd</strong> استفاده می‌کنیم.
+
+        </p>
 
 
         <h3>
-            1. pwd
+            رفتن به یک مسیر
         </h3>
 
+
+        <div class="code-wrapper">
+
+            <pre class="code-block"><code>cd /tmp</code></pre>
+
+        </div>
+
+
+        <h3>
+            برگشتن به Home
+        </h3>
+
+
+        <div class="code-wrapper">
+
+            <pre class="code-block"><code>cd ~</code></pre>
+
+        </div>
+
+
         <p>
-            دستور pwd مسیر فعلی‌ای که در آن قرار داریم را
+
+            علامت <code>~</code> یک میانبر برای Home Directory
+            کاربر فعلی است. :contentReference[oaicite:2]{index=2}
+
+        </p>
+
+
+        <h3>
+            رفتن یک مرحله به عقب
+        </h3>
+
+
+        <div class="code-wrapper">
+
+            <pre class="code-block"><code>cd ..</code></pre>
+
+        </div>
+
+
+        <h3>
+            برگشتن به مسیر قبلی
+        </h3>
+
+
+        <div class="code-wrapper">
+
+            <pre class="code-block"><code>cd -</code></pre>
+
+        </div>
+
+
+        <h3>
+            رفتن به Root
+        </h3>
+
+
+        <div class="code-wrapper">
+
+            <pre class="code-block"><code>cd /</code></pre>
+
+        </div>
+
+
+        <div class="warning">
+
+            ⚠️ <strong>توجه:</strong>
+
+            در Linux دو مفهوم با نام root داریم.
+            <code>/</code> به Root Directory سیستم اشاره دارد،
+            در حالی که <code>root</code> نام کاربر Superuser نیز
+            هست. این دو مفهوم را با هم اشتباه نگیریم.
+
+        </div>
+
+
+
+        <!-- WHOAMI -->
+
+        <h2>
+            من با چه کاربری وارد شده‌ام؟
+        </h2>
+
+        <p>
+
+            برای فهمیدن نام کاربری فعلی می‌توانیم از
+            <strong>whoami</strong> استفاده کنیم.
+
+        </p>
+
+
+        <div class="code-wrapper">
+
+            <pre class="code-block"><code>whoami</code></pre>
+
+        </div>
+
+
+        <p>
+
+            این دستور مخصوصاً زمانی مفید است که روی یک سرور
+            کار می‌کنیم و مطمئن نیستیم با چه Userای وارد شده‌ایم.
+
+        </p>
+
+
+
+        <!-- HOSTNAME -->
+
+        <h2>
+            نام سیستم چیست؟
+        </h2>
+
+        <p>
+
+            دستور <strong>hostname</strong> نام سیستم را
             نمایش می‌دهد.
+
         </p>
 
-        <div class="code-block">
-<code>pwd</code>
+
+        <div class="code-wrapper">
+
+            <pre class="code-block"><code>hostname</code></pre>
+
         </div>
 
 
-        <h3>
-            2. ls
-        </h3>
 
-        <p>
-            برای مشاهده فایل‌ها و پوشه‌های موجود در مسیر
-            فعلی از ls استفاده می‌کنیم.
-        </p>
+        <!-- FILES -->
 
-        <div class="code-block">
-<code>ls</code>
-        </div>
-
-        <p>
-            برای مشاهده جزئیات بیشتر:
-        </p>
-
-        <div class="code-block">
-<code>ls -la</code>
-        </div>
-
-
-        <h3>
-            3. cd
-        </h3>
-
-        <p>
-            برای تغییر مسیر از دستور cd استفاده می‌کنیم.
-        </p>
-
-        <div class="code-block">
-<code>cd /tmp</code>
-        </div>
-
-        <p>
-            برای برگشتن به Home:
-        </p>
-
-        <div class="code-block">
-<code>cd ~</code>
-        </div>
-
-
-        <h3>
-            4. whoami
-        </h3>
-
-        <p>
-            این دستور نام کاربری‌ای که با آن وارد Linux
-            شده‌ایم را نمایش می‌دهد.
-        </p>
-
-        <div class="code-block">
-<code>whoami</code>
-        </div>
-
-
-        <h3>
-            5. clear
-        </h3>
-
-        <p>
-            برای پاک کردن محتوای Terminal:
-        </p>
-
-        <div class="code-block">
-<code>clear</code>
-        </div>
-
-
-        <h2>
-            ساخت اولین پوشه
+        <h2 id="files">
+            ساخت Directory
         </h2>
 
         <p>
-            با دستور mkdir می‌توانیم یک Directory جدید
-            ایجاد کنیم.
+
+            برای ساخت یک Directory جدید از دستور
+            <strong>mkdir</strong> استفاده می‌کنیم.
+
         </p>
 
-        <div class="code-block">
-<code>mkdir devops-lab</code>
+
+        <div class="code-wrapper">
+
+            <pre class="code-block"><code>mkdir devops-lab</code></pre>
+
         </div>
+
 
         <p>
-            سپس وارد آن می‌شویم:
+
+            حالا وارد آن می‌شویم:
+
         </p>
 
-        <div class="code-block">
-<code>cd devops-lab</code>
+
+        <div class="code-wrapper">
+
+            <pre class="code-block"><code>cd devops-lab</code></pre>
+
         </div>
 
 
+        <p>
+
+            و با <code>pwd</code> بررسی می‌کنیم که واقعاً وارد
+            مسیر موردنظر شده‌ایم.
+
+        </p>
+
+
+        <div class="code-wrapper">
+
+            <pre class="code-block"><code>pwd</code></pre>
+
+        </div>
+
+
+        <p>
+
+            <code>mkdir</code> مخفف
+            <strong>Make Directory</strong> است. :contentReference[oaicite:3]{index=3}
+
+        </p>
+
+
+
+        <!-- TOUCH -->
+
         <h2>
-            ساخت اولین فایل
+            ساخت فایل
         </h2>
 
         <p>
-            برای ایجاد یک فایل خالی می‌توانیم از touch
-            استفاده کنیم.
+
+            دستور <strong>touch</strong> می‌تواند یک فایل خالی
+            ایجاد کند.
+
         </p>
 
-        <div class="code-block">
-<code>touch notes.txt</code>
+
+        <div class="code-wrapper">
+
+            <pre class="code-block"><code>touch notes.txt</code></pre>
+
         </div>
+
 
         <p>
-            حالا با ls می‌توانیم فایل را ببینیم:
+
+            حالا با <code>ls</code> می‌توانیم فایل را ببینیم:
+
         </p>
 
-        <div class="code-block">
-<code>ls</code>
+
+        <div class="code-wrapper">
+
+            <pre class="code-block"><code>ls -l</code></pre>
+
         </div>
 
 
-        <h2>
+        <p>
+
+            در این مرحله یک فایل به نام
+            <code>notes.txt</code> داریم.
+
+        </p>
+
+
+
+        <!-- CAT -->
+
+        <h2 id="content">
             مشاهده محتوای فایل
         </h2>
 
         <p>
-            دستور cat برای نمایش محتوای فایل استفاده می‌شود.
+
+            برای مشاهده محتوای یک فایل متنی می‌توانیم از
+            <strong>cat</strong> استفاده کنیم.
+
         </p>
 
-        <div class="code-block">
-<code>cat notes.txt</code>
+
+        <div class="code-wrapper">
+
+            <pre class="code-block"><code>cat notes.txt</code></pre>
+
         </div>
 
 
+        <p>
+
+            چون فایل تازه ساخته شده و خالی است، احتمالاً
+            خروجی خاصی نمی‌بینیم.
+
+        </p>
+
+
+
+        <!-- ECHO -->
+
         <h2>
-            نوشتن داخل فایل
+            نوشتن داخل فایل با echo
         </h2>
 
         <p>
-            برای یک تست ساده می‌توانیم از echo استفاده کنیم.
+
+            دستور <strong>echo</strong> می‌تواند یک متن را
+            در Terminal نمایش دهد.
+
         </p>
 
-        <div class="code-block">
-<code>echo "My first Linux note" > notes.txt</code>
+
+        <div class="code-wrapper">
+
+            <pre class="code-block"><code>echo "Hello Linux"</code></pre>
+
         </div>
+
 
         <p>
-            حالا محتوای فایل را ببینیم:
+
+            اما می‌توانیم خروجی آن را به یک فایل هم بفرستیم:
+
         </p>
 
-        <div class="code-block">
-<code>cat notes.txt</code>
+
+        <div class="code-wrapper">
+
+            <pre class="code-block"><code>echo "My first Linux note" > notes.txt</code></pre>
+
         </div>
 
 
-        <h2>
-            چند دستور مهم دیگر
+        <p>
+
+            حالا محتوای فایل را بررسی می‌کنیم:
+
+        </p>
+
+
+        <div class="code-wrapper">
+
+            <pre class="code-block"><code>cat notes.txt</code></pre>
+
+        </div>
+
+
+        <p>
+
+            خروجی:
+
+        </p>
+
+
+        <div class="code-wrapper">
+
+            <pre class="code-block"><code>My first Linux note</code></pre>
+
+        </div>
+
+
+
+        <!-- REDIRECTION -->
+
+        <h2 id="redirection">
+            تفاوت > و >>
         </h2>
 
-        <div class="code-block">
-<code>date</code>
-        </div>
-
         <p>
-            نمایش تاریخ و زمان سیستم.
+
+            این یکی از مفاهیم مهمی است که از همین ابتدا باید
+            به آن توجه کنیم.
+
         </p>
 
 
-        <div class="code-block">
-<code>uname -a</code>
-        </div>
+        <h3>
+            علامت >
+        </h3>
 
         <p>
-            نمایش اطلاعات Kernel و سیستم.
+
+            علامت <code>></code> خروجی را در فایل می‌نویسد و
+            اگر فایل قبلاً محتوا داشته باشد، محتوای قبلی
+            جایگزین می‌شود.
+
         </p>
 
 
-        <div class="code-block">
-<code>hostname</code>
+        <div class="code-wrapper">
+
+            <pre class="code-block"><code>echo "Line 1" > notes.txt</code></pre>
+
         </div>
 
+
+        <h3>
+            علامت >>
+        </h3>
+
         <p>
-            نمایش نام سیستم.
+
+            علامت <code>>></code> متن جدید را به انتهای فایل
+            اضافه می‌کند.
+
         </p>
 
 
-        <h2>
-            تمرین عملی من
+        <div class="code-wrapper">
+
+            <pre class="code-block"><code>echo "Line 2" >> notes.txt</code></pre>
+
+        </div>
+
+
+        <p>
+
+            حالا:
+
+        </p>
+
+
+        <div class="code-wrapper">
+
+            <pre class="code-block"><code>cat notes.txt</code></pre>
+
+        </div>
+
+
+        <p>
+
+            خروجی:
+
+        </p>
+
+
+        <div class="code-wrapper">
+
+            <pre class="code-block"><code>Line 1
+Line 2</code></pre>
+
+        </div>
+
+
+        <div class="warning">
+
+            ⚠️ هنگام استفاده از <code>></code> مراقب باش.
+            اگر فایل مهمی را به اشتباه با این عملگر بازنویسی
+            کنی، ممکن است محتوای قبلی آن از بین برود.
+
+        </div>
+
+
+
+        <!-- PRACTICE -->
+
+        <h2 id="practice">
+            تمرین عملی: ساخت DevOps Lab
         </h2>
 
         <p>
-            برای اینکه فقط دستورات را حفظ نکنم، یک آزمایش
-            کوچک انجام می‌دهم.
+
+            حالا می‌خواهم یک محیط کوچک برای تمرین‌های آینده
+            DevOps خودم بسازم.
+
         </p>
 
-        <div class="code-block">
-<code>mkdir ~/devops-lab
+        <div class="exercise">
+
+            <h3>
+                🧪 تمرین
+            </h3>
+
+            <p>
+
+                دستورات زیر را در Ubuntu اجرا کن و خروجی هر
+                مرحله را بررسی کن.
+
+            </p>
+
+
+            <div class="code-wrapper">
+
+                <div class="code-label">
+                    Ubuntu Terminal
+                </div>
+
+                <pre class="code-block"><code>mkdir ~/devops-lab
+
 cd ~/devops-lab
 
 mkdir linux
 mkdir docker
+mkdir networking
 
 touch linux/commands.txt
 touch linux/notes.txt
 
-echo "Linux Learning Journey" > linux/notes.txt
+echo "My Linux Learning Journey" > linux/notes.txt
+
+echo "Linux is the foundation of my DevOps journey" >> linux/notes.txt
 
 ls -la
+
 ls -la linux
 
-cat linux/notes.txt</code>
+cat linux/notes.txt</code></pre>
+
+            </div>
+
         </div>
 
+
+        <p>
+
+            اگر همه چیز درست انجام شده باشد، ساختار ساده‌ای
+            شبیه این خواهیم داشت:
+
+        </p>
+
+
+        <div class="code-wrapper">
+
+            <pre class="code-block"><code>devops-lab/
+├── linux/
+│   ├── commands.txt
+│   └── notes.txt
+├── docker/
+└── networking/</code></pre>
+
+        </div>
+
+
+
+        <!-- CHEATSHEET -->
+
+        <h2 id="cheatsheet">
+            Linux Command Cheat Sheet
+        </h2>
+
+        <p>
+
+            تا اینجا این دستورات را یاد گرفتیم:
+
+        </p>
+
+
+        <table class="command-table">
+
+            <thead>
+
+                <tr>
+                    <th>
+                        Command
+                    </th>
+
+                    <th>
+                        کاربرد
+                    </th>
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                <tr>
+                    <td>
+                        <code>pwd</code>
+                    </td>
+
+                    <td>
+                        نمایش مسیر فعلی
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <code>ls</code>
+                    </td>
+
+                    <td>
+                        نمایش فایل‌ها و Directoryها
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <code>ls -la</code>
+                    </td>
+
+                    <td>
+                        نمایش جزئیات و فایل‌های مخفی
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <code>cd</code>
+                    </td>
+
+                    <td>
+                        تغییر Directory
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <code>cd ..</code>
+                    </td>
+
+                    <td>
+                        رفتن به Parent Directory
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <code>cd ~</code>
+                    </td>
+
+                    <td>
+                        رفتن به Home
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <code>cd -</code>
+                    </td>
+
+                    <td>
+                        برگشت به مسیر قبلی
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <code>whoami</code>
+                    </td>
+
+                    <td>
+                        نمایش User فعلی
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <code>hostname</code>
+                    </td>
+
+                    <td>
+                        نمایش نام سیستم
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <code>mkdir</code>
+                    </td>
+
+                    <td>
+                        ساخت Directory
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <code>touch</code>
+                    </td>
+
+                    <td>
+                        ساخت فایل خالی
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <code>cat</code>
+                    </td>
+
+                    <td>
+                        نمایش محتوای فایل
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <code>echo</code>
+                    </td>
+
+                    <td>
+                        نمایش یا نوشتن متن
+                    </td>
+                </tr>
+
+            </tbody>
+
+        </table>
+
+
+
+        <!-- WHAT I LEARNED -->
 
         <h2>
             چیزی که از این مرحله یاد گرفتم
@@ -503,60 +1505,148 @@ cat linux/notes.txt</code>
         <ul>
 
             <li>
-                Terminal چیست و چگونه با آن کار کنم.
+                Terminal محیط اصلی کار با Linux از طریق
+                Command Line است.
             </li>
 
             <li>
-                مسیر فعلی را با pwd ببینم.
+                با <code>pwd</code> می‌توانم بفهمم در کدام
+                Directory هستم.
             </li>
 
             <li>
-                فایل‌ها را با ls مشاهده کنم.
+                با <code>ls</code> محتویات یک Directory را
+                مشاهده می‌کنم.
             </li>
 
             <li>
-                بین Directoryها با cd جابه‌جا شوم.
+                با <code>cd</code> بین Directoryها جابه‌جا
+                می‌شوم.
             </li>
 
             <li>
-                Directory جدید با mkdir بسازم.
+                <code>~</code> به Home Directory اشاره می‌کند.
             </li>
 
             <li>
-                فایل جدید با touch ایجاد کنم.
+                <code>..</code> به Parent Directory اشاره دارد.
             </li>
 
             <li>
-                محتوای فایل را با cat ببینم.
+                با <code>mkdir</code> Directory می‌سازم.
             </li>
 
             <li>
-                اطلاعات سیستم را با uname بررسی کنم.
+                با <code>touch</code> فایل ایجاد می‌کنم.
+            </li>
+
+            <li>
+                با <code>cat</code> محتوای فایل را می‌بینم.
+            </li>
+
+            <li>
+                با <code>></code> خروجی را بازنویسی و با
+                <code>>></code> به انتهای فایل اضافه می‌کنم.
             </li>
 
         </ul>
 
 
-        <h2>
-            مرحله بعد
+
+        <!-- NEXT -->
+
+        <h2 id="next">
+            مرحله بعدی چیست؟
         </h2>
 
         <p>
-            در مقاله بعدی سراغ Linux File System می‌روم
-            و با مسیرهایی مثل /، /home، /etc، /var و /tmp
-            آشنا می‌شوم.
+
+            در مقاله بعدی وارد یکی از مهم‌ترین مباحث Linux
+            می‌شوم:
+
         </p>
+
+        <div class="exercise">
+
+            <h3>
+                🐧 Linux File System
+            </h3>
+
+            <p>
+
+                در مرحله بعد با ساختار فایل‌سیستم Linux آشنا
+                می‌شوم و بررسی می‌کنم که Directoryهای مهمی
+                مثل این‌ها چه کاربردی دارند:
+
+            </p>
+
+            <ul>
+
+                <li>
+                    <code>/</code>
+                </li>
+
+                <li>
+                    <code>/home</code>
+                </li>
+
+                <li>
+                    <code>/etc</code>
+                </li>
+
+                <li>
+                    <code>/var</code>
+                </li>
+
+                <li>
+                    <code>/tmp</code>
+                </li>
+
+                <li>
+                    <code>/usr</code>
+                </li>
+
+                <li>
+                    <code>/opt</code>
+                </li>
+
+            </ul>
+
+        </div>
+
+
+        <div class="note">
+
+            🚀 این فقط شروع مسیر است.
+            هدف این سایت ثبت چیزهایی است که واقعاً یاد می‌گیرم،
+            روی سیستمم تست می‌کنم و در پروژه‌های واقعی به کار
+            می‌برم.
+
+        </div>
 
 
     </article>
 
+
+
+    <!-- =====================================
+         FOOTER NAVIGATION
+    ====================================== -->
 
     <div class="article-footer">
 
         <a href="index.html"
            class="btn btn-secondary">
 
-            ← Back to Articles
+            ← بازگشت به مقالات
+
+        </a>
+
+
+        <a href="../index.html"
+           class="btn btn-primary">
+
+            صفحه اصلی →
 
         </a>
 
@@ -570,6 +1660,11 @@ cat linux/notes.txt</code>
 </main>
 
 
+
+<!-- =========================================
+     FOOTER
+========================================= -->
+
 <footer>
 
     <div class="container">
@@ -577,6 +1672,14 @@ cat linux/notes.txt</code>
         <p>
             © 2026 Z.DevOps — Built while learning DevOps.
         </p>
+
+        <div class="social-links">
+
+            <a href="../index.html">
+                Home
+            </a>
+
+        </div>
 
     </div>
 
