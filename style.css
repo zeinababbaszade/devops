@@ -574,3 +574,11 @@ footer {
     }
 
 }
+.article-card h3 a {
+    color: var(--text);
+    transition: 0.2s;
+}
+
+.article-card h3 a:hover {
+    color: var(--primary);
+}
