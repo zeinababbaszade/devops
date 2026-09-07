@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="آشنایی با Serviceها و مدیریت آن‌ها با systemd و systemctl در Ubuntu.">
+<meta name="keywords" content="Linux, Ubuntu, DevOps, Linux Services &amp; systemd">
+<title>Linux Services &amp; systemd | Z.DevOps</title>
+<link rel="stylesheet" href="../style.css">
+<style>
+.article-wrapper{max-width:900px;margin:auto}.article-header{text-align:center;margin-bottom:70px}.article-header .badge{margin-bottom:20px}.article-header h1{font-size:clamp(38px,6vw,60px);line-height:1.2;margin-bottom:20px}.article-header h1 span{color:var(--primary)}.article-subtitle{color:var(--text-secondary);font-size:18px;max-width:700px;margin:auto}.article-meta{margin-top:20px;color:#64748b;font-size:13px}
+.toc{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:25px 30px;margin-bottom:55px}.toc h3{margin-bottom:15px}.toc ol{margin:0;padding-right:22px}.toc li{margin-bottom:8px}.toc a{color:var(--text-secondary);transition:.2s}.toc a:hover{color:var(--primary)}
+.article-body{text-align:right;font-family:"Vazirmatn","Tahoma",sans-serif}.article-body h2{font-size:30px;margin-top:65px;margin-bottom:20px;padding-bottom:10px;border-bottom:1px solid var(--border)}.article-body h3{font-size:21px;margin-top:35px;margin-bottom:12px}.article-body p{color:#cbd5e1;font-size:16px;line-height:2;margin-bottom:20px}.article-body ul,.article-body ol{color:#cbd5e1;line-height:2;margin-bottom:25px;padding-right:25px}.article-body li{margin-bottom:7px}.article-body strong{color:#f8fafc}
+.code-wrapper{position:relative;margin:20px 0 28px}.code-label{direction:ltr;text-align:left;background:#111827;color:#64748b;padding:7px 15px;border-radius:8px 8px 0 0;font-family:Consolas,monospace;font-size:12px;border:1px solid rgba(148,163,184,.15);border-bottom:none}.code-block{direction:ltr;text-align:left;background:#020617;border:1px solid rgba(148,163,184,.15);border-radius:0 0 8px 8px;padding:20px;overflow-x:auto;margin:0}.code-block code{font-family:Consolas,"Courier New",monospace;font-size:14px;line-height:1.8;color:#e2e8f0}
+.note{background:rgba(56,189,248,.07);border-right:4px solid var(--primary);padding:20px 22px;border-radius:8px;margin:30px 0;color:#cbd5e1;line-height:1.9}.warning{background:rgba(251,191,36,.07);border-right:4px solid #fbbf24;padding:20px 22px;border-radius:8px;margin:30px 0;color:#cbd5e1;line-height:1.9}
+.command-table{width:100%;border-collapse:collapse;margin:25px 0 35px;border-radius:10px}.command-table th,.command-table td{padding:13px 15px;border-bottom:1px solid var(--border);text-align:right}.command-table th{background:var(--card);color:var(--primary);font-weight:600}.command-table td{color:#cbd5e1}.command-table code{direction:ltr;display:inline-block;background:rgba(148,163,184,.08);padding:3px 7px;border-radius:5px;color:#e2e8f0;font-family:Consolas,monospace}
+.exercise{background:linear-gradient(135deg,rgba(56,189,248,.08),rgba(14,165,233,.02));border:1px solid rgba(56,189,248,.18);border-radius:14px;padding:28px;margin:35px 0}.exercise h3{margin-top:0;color:var(--primary)}.article-footer{margin-top:80px;padding-top:30px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;gap:15px;flex-wrap:wrap}@media(max-width:650px){.article-header h1{font-size:38px}.article-body h2{font-size:25px}.article-body p{font-size:15px}.command-table{font-size:13px}}
+</style>
+</head>
+<body>
+<header class="navbar"><div class="container navbar-inner">
+<a href="../index.html" class="logo">Z<span>.DevOps</span></a>
+<nav><ul class="nav-links">
+<li><a href="../index.html">Home</a></li><li><a href="index.html">Articles</a></li>
+<li><a href="../index.html#projects">Projects</a></li><li><a href="../index.html#roadmap">Roadmap</a></li>
+<li><a href="../index.html#about">About</a></li>
+</ul></nav></div></header>
+<main><section><div class="container article-wrapper">
+<header class="article-header"><div class="badge">LINUX · DEVOPS</div>
+<h1>Linux <span>Services &amp; systemd</span></h1>
+<p class="article-subtitle">آشنایی با Serviceها و مدیریت آن‌ها با systemd و systemctl در Ubuntu.</p>
+<div class="article-meta">📅 September 2026 &nbsp; · &nbsp; ⏱ Beginner &nbsp; · &nbsp; 🐧 Ubuntu</div></header>
+<div class="toc"><h3>📚 فهرست مطالب</h3><ol><li><a href="#intro">Service چیست؟</a></li><li><a href="#systemctl">systemctl چیست؟</a></li><li><a href="#status">بررسی وضعیت</a></li><li><a href="#start-stop">Start و Stop</a></li><li><a href="#restart">Restart و Reload</a></li><li><a href="#enable">Enable و Disable</a></li><li><a href="#is-enabled">بررسی Enable بودن</a></li><li><a href="#logs">بررسی Logهای Service</a></li><li><a href="#practice">تمرین عملی</a></li><li><a href="#cheatsheet">Cheat Sheet</a></li><li><a href="#learned">چیزی که یاد گرفتم</a></li><li><a href="#next">مرحله بعد</a></li></ol></div>
+<article class="article-body">
+<h2 id="intro">Service چیست؟</h2>
+<p>در Linux بسیاری از برنامه‌ها به شکل Service اجرا می‌شوند؛ یعنی برنامه‌ای که معمولاً در پس‌زمینه کار می‌کند و برای سیستم یا کاربران یک وظیفه مشخص انجام می‌دهد. Web Server، SSH و Database نمونه‌هایی از سرویس‌ها هستند.</p>
+<div class="note">💡 در Ubuntu جدید، <strong>systemd</strong> یکی از اجزای اصلی مدیریت سرویس‌ها و فرآیندهای سیستم است و ابزار <code>systemctl</code> رابط اصلی ما برای کار با آن است.</div>
+
+<h2 id="systemctl">systemctl چیست؟</h2>
+<p>با <strong>systemctl</strong> می‌توانیم وضعیت Serviceها را ببینیم و عملیات‌هایی مثل Start، Stop، Restart و Enable را انجام دهیم.</p>
+<div class="code-wrapper"><div class="code-label">Terminal</div><pre class="code-block"><code>systemctl status ssh</code></pre></div>
+<p>اگر SSH روی سیستم نصب نباشد، می‌توانی یک سرویس موجود دیگر را بررسی کنی.</p>
+<div class="code-wrapper"><div class="code-label">Terminal</div><pre class="code-block"><code>systemctl list-units --type=service</code></pre></div>
+
+<h2 id="status">بررسی وضعیت Service</h2>
+<p>یکی از مهم‌ترین دستورها در Troubleshooting همین <code>status</code> است.</p>
+<div class="code-wrapper"><div class="code-label">Terminal</div><pre class="code-block"><code>systemctl status ssh</code></pre></div>
+<p>در خروجی معمولاً می‌توانیم وضعیت سرویس، زمان اجرا و بخشی از Logهای مرتبط را ببینیم.</p>
+
+<h2 id="start-stop">Start و Stop</h2>
+<p>برای روشن کردن یک Service:</p>
+<div class="code-wrapper"><div class="code-label">Terminal</div><pre class="code-block"><code>sudo systemctl start ssh</code></pre></div>
+<p>برای متوقف کردن آن:</p>
+<div class="code-wrapper"><div class="code-label">Terminal</div><pre class="code-block"><code>sudo systemctl stop ssh</code></pre></div>
+<div class="warning">⚠️ روی یک سرور واقعی، قبل از Stop کردن سرویس‌هایی مثل SSH مطمئن شو دسترسی جایگزین داری؛ چون ممکن است اتصال مدیریتی خودت را از دست بدهی.</div>
+
+<h2 id="restart">Restart و Reload</h2>
+<p>وقتی تنظیمات یک سرویس تغییر کرده باشد، گاهی نیاز به Restart یا Reload داریم.</p>
+<div class="code-wrapper"><div class="code-label">Terminal</div><pre class="code-block"><code>sudo systemctl restart ssh</code></pre></div>
+<p>در بعضی سرویس‌ها <code>reload</code> اجازه می‌دهد Configuration بدون توقف کامل سرویس دوباره خوانده شود؛ پشتیبانی از آن به خود Service بستگی دارد.</p>
+<div class="code-wrapper"><div class="code-label">Terminal</div><pre class="code-block"><code>sudo systemctl reload ssh</code></pre></div>
+
+<h2 id="enable">Enable و Disable</h2>
+<p><code>start</code> سرویس را همین الان اجرا می‌کند؛ اما برای اجرای خودکار بعد از Boot معمولاً از <strong>enable</strong> استفاده می‌کنیم.</p>
+<div class="code-wrapper"><div class="code-label">Terminal</div><pre class="code-block"><code>sudo systemctl enable ssh</code></pre></div>
+<p>برای لغو اجرای خودکار:</p>
+<div class="code-wrapper"><div class="code-label">Terminal</div><pre class="code-block"><code>sudo systemctl disable ssh</code></pre></div>
+
+<h2 id="is-enabled">بررسی Enable بودن</h2>
+<div class="code-wrapper"><div class="code-label">Terminal</div><pre class="code-block"><code>systemctl is-enabled ssh</code></pre></div>
+
+<h2 id="logs">بررسی Logهای Service</h2>
+<p>برای دیدن Logهای مربوط به systemd می‌توان از <strong>journalctl</strong> استفاده کرد.</p>
+<div class="code-wrapper"><div class="code-label">Terminal</div><pre class="code-block"><code>journalctl -u ssh</code></pre></div>
+<p>برای دیدن Logهای جدیدتر:</p>
+<div class="code-wrapper"><div class="code-label">Terminal</div><pre class="code-block"><code>journalctl -u ssh -n 50</code></pre></div>
+<div class="note">💡 در Troubleshooting، ترکیب <code>systemctl status</code> و <code>journalctl</code> یکی از مسیرهای مهم پیدا کردن علت مشکل یک Service است.</div>
+
+<h2 id="practice">تمرین عملی: Service Lab</h2>
+<div class="exercise"><h3>🧪 تمرین</h3>
+<div class="code-wrapper"><div class="code-label">Ubuntu Terminal</div><pre class="code-block"><code>systemctl status ssh
+systemctl is-enabled ssh
+systemctl list-units --type=service --state=running
+journalctl -u ssh -n 20</code></pre></div>
+<p>اگر SSH روی سیستم تو وجود ندارد، به جای آن نام یکی از Serviceهای موجود را از خروجی <code>systemctl list-units --type=service</code> انتخاب کن.</p></div>
+
+<h2 id="cheatsheet">systemd Cheat Sheet</h2>
+<table class="command-table"><thead><tr><th>Command</th><th>کاربرد</th></tr></thead><tbody>
+<tr><td><code>systemctl status service</code></td><td>مشاهده وضعیت Service</td></tr>
+<tr><td><code>systemctl start service</code></td><td>اجرای Service</td></tr>
+<tr><td><code>systemctl stop service</code></td><td>توقف Service</td></tr>
+<tr><td><code>systemctl restart service</code></td><td>Restart Service</td></tr>
+<tr><td><code>systemctl reload service</code></td><td>Reload تنظیمات در صورت پشتیبانی</td></tr>
+<tr><td><code>systemctl enable service</code></td><td>اجرای خودکار بعد از Boot</td></tr>
+<tr><td><code>systemctl disable service</code></td><td>لغو اجرای خودکار</td></tr>
+<tr><td><code>journalctl -u service</code></td><td>مشاهده Logهای Service</td></tr>
+</tbody></table>
+
+<h2 id="learned">چیزی که از این مرحله یاد گرفتم</h2>
+<ul><li>Serviceها برنامه‌هایی هستند که برای انجام وظایف مشخص سیستم اجرا می‌شوند.</li><li><code>systemctl</code> ابزار اصلی مدیریت Serviceهاست.</li><li>تفاوت Start با Enable را می‌دانم.</li><li>با <code>status</code> وضعیت Service را بررسی می‌کنم.</li><li>با <code>journalctl</code> می‌توانم Logهای Service را بررسی کنم.</li></ul>
+
+<h2 id="next">مرحله بعدی چیست؟</h2>
+<div class="exercise"><h3>📦 Linux Package Management</h3><p>در مقاله بعدی سراغ نصب و مدیریت نرم‌افزارها در Ubuntu می‌روم و با <code>apt</code>، Update، Upgrade، Install، Remove و Search کار می‌کنم.</p></div>
+</article>
+<div class="article-footer">
+<a href="linux-processes.html" class="btn btn-secondary">← مقاله قبلی</a>
+<a href="index.html" class="btn btn-secondary">بازگشت به مقالات</a>
+<a href="../index.html" class="btn btn-primary">صفحه اصلی →</a>
+<a href="linux-package-management.html" class="btn btn-primary">مقاله بعدی →</a>
+</div>
+</div></section></main>
+<footer><div class="container"><p>© 2026 Z.DevOps — Built while learning DevOps.</p><div class="social-links"><a href="../index.html">Home</a></div></div></footer>
+</body></html>
