@@ -1,685 +1,173 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
-
 <head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="آموزش مدیریت فایل‌ها و Directoryها در Linux؛ از ساخت و کپی تا جابه‌جایی، حذف و جست‌وجوی فایل‌ها.">
+<meta name="keywords" content="Linux, Ubuntu, DevOps, Linux Files &amp; Directories">
+<title>Linux Files &amp; Directories | Z.DevOps</title>
+<link rel="stylesheet" href="../style.css">
 
-    <meta charset="UTF-8">
-
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
-
-    <meta name="description"
-          content="آموزش مدیریت فایل‌ها و دایرکتوری‌ها در Linux شامل ایجاد، کپی، جابه‌جایی، تغییر نام و حذف فایل‌ها.">
-
-    <title>مدیریت فایل‌ها و دایرکتوری‌ها در Linux | Z.DevOps</title>
-
-    <link rel="stylesheet"
-          href="../style.css">
+<style>
+.article-wrapper{max-width:900px;margin:auto}
+.article-header{text-align:center;margin-bottom:70px}
+.article-header .badge{margin-bottom:20px}
+.article-header h1{font-size:clamp(38px,6vw,60px);line-height:1.2;margin-bottom:20px}
+.article-header h1 span{color:var(--primary)}
+.article-subtitle{color:var(--text-secondary);font-size:18px;max-width:700px;margin:auto}
+.article-meta{margin-top:20px;color:#64748b;font-size:13px}
+.toc{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:25px 30px;margin-bottom:55px}
+.toc h3{margin-bottom:15px}.toc ol{margin:0;padding-right:22px}.toc li{margin-bottom:8px}
+.toc a{color:var(--text-secondary);transition:.2s}.toc a:hover{color:var(--primary)}
+.article-body{text-align:right;font-family:"Vazirmatn","Tahoma",sans-serif}
+.article-body h2{font-size:30px;margin-top:65px;margin-bottom:20px;padding-bottom:10px;border-bottom:1px solid var(--border)}
+.article-body h3{font-size:21px;margin-top:35px;margin-bottom:12px}
+.article-body p{color:#cbd5e1;font-size:16px;line-height:2;margin-bottom:20px}
+.article-body ul,.article-body ol{color:#cbd5e1;line-height:2;margin-bottom:25px;padding-right:25px}
+.article-body li{margin-bottom:7px}.article-body strong{color:#f8fafc}
+.code-wrapper{position:relative;margin:20px 0 28px}
+.code-label{direction:ltr;text-align:left;background:#111827;color:#64748b;padding:7px 15px;border-radius:8px 8px 0 0;font-family:Consolas,monospace;font-size:12px;border:1px solid rgba(148,163,184,.15);border-bottom:none}
+.code-block{direction:ltr;text-align:left;background:#020617;border:1px solid rgba(148,163,184,.15);border-radius:0 0 8px 8px;padding:20px;overflow-x:auto;margin:0}
+.code-block code{font-family:Consolas,"Courier New",monospace;font-size:14px;line-height:1.8;color:#e2e8f0}
+.note{background:rgba(56,189,248,.07);border-right:4px solid var(--primary);padding:20px 22px;border-radius:8px;margin:30px 0;color:#cbd5e1;line-height:1.9}
+.warning{background:rgba(251,191,36,.07);border-right:4px solid #fbbf24;padding:20px 22px;border-radius:8px;margin:30px 0;color:#cbd5e1;line-height:1.9}
+.command-table{width:100%;border-collapse:collapse;margin:25px 0 35px;border-radius:10px}
+.command-table th,.command-table td{padding:13px 15px;border-bottom:1px solid var(--border);text-align:right}
+.command-table th{background:var(--card);color:var(--primary);font-weight:600}
+.command-table td{color:#cbd5e1}.command-table code{direction:ltr;display:inline-block;background:rgba(148,163,184,.08);padding:3px 7px;border-radius:5px;color:#e2e8f0;font-family:Consolas,monospace}
+.exercise{background:linear-gradient(135deg,rgba(56,189,248,.08),rgba(14,165,233,.02));border:1px solid rgba(56,189,248,.18);border-radius:14px;padding:28px;margin:35px 0}
+.exercise h3{margin-top:0;color:var(--primary)}
+.article-footer{margin-top:80px;padding-top:30px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;gap:15px;flex-wrap:wrap}
+@media(max-width:650px){.article-header h1{font-size:38px}.article-body h2{font-size:25px}.article-body p{font-size:15px}.command-table{font-size:13px}}
+</style>
 
 </head>
-
 <body>
-
-
 <header class="navbar">
-
-    <div class="container navbar-inner">
-
-        <a href="../index.html" class="logo">
-            Z<span>.DevOps</span>
-        </a>
-
-        <nav>
-
-            <ul class="nav-links">
-
-                <li>
-                    <a href="../index.html">خانه</a>
-                </li>
-
-                <li>
-                    <a href="index.html">مقالات</a>
-                </li>
-
-                <li>
-                    <a href="../index.html#projects">پروژه‌ها</a>
-                </li>
-
-                <li>
-                    <a href="../index.html#roadmap">مسیر یادگیری</a>
-                </li>
-
-                <li>
-                    <a href="../index.html#about">درباره من</a>
-                </li>
-
-            </ul>
-
-        </nav>
-
-    </div>
-
+<div class="container navbar-inner">
+<a href="../index.html" class="logo">Z<span>.DevOps</span></a>
+<nav><ul class="nav-links">
+<li><a href="../index.html">Home</a></li>
+<li><a href="index.html">Articles</a></li>
+<li><a href="../index.html#projects">Projects</a></li>
+<li><a href="../index.html#roadmap">Roadmap</a></li>
+<li><a href="../index.html#about">About</a></li>
+</ul></nav>
+</div>
 </header>
+<main><section><div class="container article-wrapper">
+<header class="article-header">
+<div class="badge">LINUX · DEVOPS</div>
+<h1>Linux <span>Files &amp; Directories</span></h1>
+<p class="article-subtitle">آموزش مدیریت فایل‌ها و Directoryها در Linux؛ از ساخت و کپی تا جابه‌جایی، حذف و جست‌وجوی فایل‌ها.</p>
+<div class="article-meta">📅 September 2026 &nbsp; · &nbsp; ⏱ Beginner &nbsp; · &nbsp; 🐧 Ubuntu</div>
+</header>
+<div class="toc"><h3>📚 فهرست مطالب</h3><ol><li><a href="#intro">مقدمه</a></li>
+<li><a href="#mkdir">ساخت Directory</a></li>
+<li><a href="#touch">ساخت فایل</a></li>
+<li><a href="#cp">کپی فایل و Directory</a></li>
+<li><a href="#mv">جابه‌جایی و تغییر نام</a></li>
+<li><a href="#rm">حذف فایل و Directory</a></li>
+<li><a href="#find">پیدا کردن فایل‌ها</a></li>
+<li><a href="#wildcards">Wildcardها</a></li>
+<li><a href="#practice">تمرین عملی</a></li>
+<li><a href="#cheatsheet">Cheat Sheet</a></li>
+<li><a href="#learned">چیزی که یاد گرفتم</a></li>
+<li><a href="#next">مرحله بعد</a></li></ol></div>
+<article class="article-body">
 
+<h2 id="intro">مقدمه</h2>
+<p>بعد از آشنایی با Terminal و مفاهیم پایه Linux، قدم بعدی این است که بتوانم فایل‌ها و Directoryها را واقعاً مدیریت کنم. در کارهای DevOps تقریباً همیشه با فایل‌های Configuration، Log، Script و Directoryهای سرویس‌ها سروکار داریم.</p>
+<div class="note">💡 هدف این مقاله این است که عملیات روزمره روی فایل‌ها را روی Ubuntu تمرین کنم؛ از ساختن و کپی کردن تا جابه‌جایی، حذف و پیدا کردن فایل‌ها.</div>
 
-<main>
+<h2 id="mkdir">ساخت Directory</h2>
+<p>برای ساخت Directory از <strong>mkdir</strong> استفاده می‌کنیم.</p>
+<div class="code-wrapper"><div class="code-label">Terminal</div><pre class="code-block"><code>mkdir project</code></pre></div>
+<p>اگر بخواهیم چند Directory را هم‌زمان بسازیم:</p>
+<div class="code-wrapper"><div class="code-label">Terminal</div><pre class="code-block"><code>mkdir linux docker networking</code></pre></div>
 
-<section>
+<h2 id="touch">ساخت فایل</h2>
+<p>با <strong>touch</strong> می‌توانیم یک فایل خالی ایجاد کنیم.</p>
+<div class="code-wrapper"><div class="code-label">Terminal</div><pre class="code-block"><code>touch notes.txt</code></pre></div>
+<p>همچنین می‌توانیم چند فایل را یک‌جا بسازیم:</p>
+<div class="code-wrapper"><div class="code-label">Terminal</div><pre class="code-block"><code>touch commands.txt config.txt README.md</code></pre></div>
 
-<div class="container">
+<h2 id="cp">کپی فایل و Directory</h2>
+<p>دستور <strong>cp</strong> برای کپی کردن استفاده می‌شود.</p>
+<div class="code-wrapper"><div class="code-label">Terminal</div><pre class="code-block"><code>cp notes.txt notes-backup.txt</code></pre></div>
+<p>برای کپی کردن یک Directory همراه با محتویات آن معمولاً از گزینه <code>-r</code> استفاده می‌کنیم.</p>
+<div class="code-wrapper"><div class="code-label">Terminal</div><pre class="code-block"><code>cp -r linux linux-backup</code></pre></div>
 
-<article class="article-page">
+<h2 id="mv">جابه‌جایی و تغییر نام</h2>
+<p>دستور <strong>mv</strong> هم برای جابه‌جایی و هم برای تغییر نام فایل یا Directory استفاده می‌شود.</p>
+<div class="code-wrapper"><div class="code-label">Terminal</div><pre class="code-block"><code>mv notes.txt linux/</code></pre></div>
+<p>برای تغییر نام:</p>
+<div class="code-wrapper"><div class="code-label">Terminal</div><pre class="code-block"><code>mv linux/notes.txt linux/linux-notes.txt</code></pre></div>
 
+<h2 id="rm">حذف فایل و Directory</h2>
+<p>برای حذف فایل از <strong>rm</strong> استفاده می‌کنیم.</p>
+<div class="code-wrapper"><div class="code-label">Terminal</div><pre class="code-block"><code>rm notes-backup.txt</code></pre></div>
+<p>برای حذف Directory خالی:</p>
+<div class="code-wrapper"><div class="code-label">Terminal</div><pre class="code-block"><code>rmdir project</code></pre></div>
+<p>برای حذف یک Directory به همراه محتویات آن می‌توان از <code>rm -r</code> استفاده کرد.</p>
+<div class="warning">⚠️ دستور <code>rm</code> را با دقت استفاده کن. مخصوصاً <code>rm -r</code> می‌تواند تعداد زیادی فایل را حذف کند و معمولاً مسیر برگشت ساده‌ای ندارد.</div>
 
-<div class="section-title">
+<h2 id="find">پیدا کردن فایل‌ها</h2>
+<p>دستور <strong>find</strong> یکی از ابزارهای مهم مدیریت سیستم است. می‌توانیم بر اساس نام، نوع و معیارهای دیگر فایل‌ها را جست‌وجو کنیم.</p>
+<div class="code-wrapper"><div class="code-label">Terminal</div><pre class="code-block"><code>find . -name "*.txt"</code></pre></div>
+<p>دستور بالا فایل‌های متنی را از Directory فعلی و زیرشاخه‌های آن پیدا می‌کند.</p>
+<div class="code-wrapper"><div class="code-label">Terminal</div><pre class="code-block"><code>find ~/devops-lab -type f -name "notes.txt"</code></pre></div>
 
-    <div class="badge">
-        LINUX
-    </div>
+<h2 id="wildcards">Wildcardها</h2>
+<p>علامت <code>*</code> برای تطبیق چند کاراکتر استفاده می‌شود.</p>
+<div class="code-wrapper"><div class="code-label">Terminal</div><pre class="code-block"><code>ls *.txt</code></pre></div>
+<p>مثلاً دستور بالا فایل‌هایی را که پسوند <code>.txt</code> دارند نمایش می‌دهد.</p>
 
-    <h1>
-        مدیریت فایل‌ها و دایرکتوری‌ها در Linux
-    </h1>
-
-    <p>
-        در این مقاله یاد می‌گیریم چگونه در Linux فایل‌ها و
-        دایرکتوری‌ها را ایجاد، کپی، جابه‌جا، تغییر نام و حذف کنیم.
-    </p>
-
+<h2 id="practice">تمرین عملی: مدیریت فایل‌های DevOps</h2>
+<div class="exercise">
+<h3>🧪 تمرین</h3>
+<p>این تمرین را در Ubuntu اجرا کن:</p>
+<div class="code-wrapper"><div class="code-label">Ubuntu Terminal</div><pre class="code-block"><code>cd ~/devops-lab
+mkdir -p linux/files
+cd linux/files
+touch commands.txt notes.txt config.txt
+echo "Linux file management" &gt; notes.txt
+cp notes.txt notes-backup.txt
+mkdir scripts
+mv commands.txt scripts/
+find . -type f
+ls -la
+ls -la scripts
+cat notes.txt</code></pre></div>
+<p>در پایان باید بتوانی محل فایل‌ها و محتوای <code>notes.txt</code> را بررسی کنی.</p>
 </div>
 
-
-<section>
-
-    <h2>مقدمه</h2>
-
-    <p>
-        یکی از مهم‌ترین مهارت‌ها در کار با Linux، توانایی مدیریت
-        فایل‌ها و دایرکتوری‌ها از طریق Terminal است.
-    </p>
-
-    <p>
-        در محیط‌های DevOps دائماً با فایل‌های Configuration،
-        Logها، Scriptها، فایل‌های Application و دایرکتوری‌های مختلف
-        سروکار داریم.
-    </p>
-
-    <p>
-        بنابراین قبل از اینکه وارد مباحث پیشرفته‌تر DevOps شویم،
-        باید کار با فایل‌ها و دایرکتوری‌ها را به‌خوبی یاد بگیریم.
-    </p>
-
-</section>
-
-
-<section>
-
-    <h2>1. ایجاد دایرکتوری با mkdir</h2>
-
-    <p>
-        برای ایجاد یک دایرکتوری در Linux از دستور
-        <code>mkdir</code>
-        استفاده می‌کنیم.
-    </p>
-
-<pre><code>mkdir myfolder</code></pre>
-
-    <p>
-        با اجرای این دستور، دایرکتوری
-        <code>myfolder</code>
-        در مسیر فعلی ساخته می‌شود.
-    </p>
-
-    <p>
-        می‌توانیم چند دایرکتوری را هم‌زمان ایجاد کنیم:
-    </p>
-
-<pre><code>mkdir folder1 folder2 folder3</code></pre>
-
-    <p>
-        اگر بخواهیم چند دایرکتوری تو در تو ایجاد کنیم،
-        می‌توانیم از گزینه
-        <code>-p</code>
-        استفاده کنیم:
-    </p>
-
-<pre><code>mkdir -p projects/devops/linux</code></pre>
-
-    <p>
-        در این حالت اگر دایرکتوری‌های والد وجود نداشته باشند،
-        Linux آن‌ها را نیز ایجاد می‌کند.
-    </p>
-
-</section>
-
-
-<section>
-
-    <h2>2. ایجاد فایل با touch</h2>
-
-    <p>
-        برای ایجاد یک فایل خالی می‌توانیم از دستور
-        <code>touch</code>
-        استفاده کنیم.
-    </p>
-
-<pre><code>touch notes.txt</code></pre>
-
-    <p>
-        همچنین می‌توانیم چند فایل را هم‌زمان ایجاد کنیم:
-    </p>
-
-<pre><code>touch file1.txt file2.txt file3.txt</code></pre>
-
-    <p>
-        برای مشاهده فایل‌های ایجادشده:
-    </p>
-
-<pre><code>ls -la</code></pre>
-
-</section>
-
-
-<section>
-
-    <h2>3. مشاهده محتوای فایل با cat</h2>
-
-    <p>
-        دستور
-        <code>cat</code>
-        برای نمایش محتوای فایل‌های متنی بسیار کاربردی است.
-    </p>
-
-<pre><code>cat notes.txt</code></pre>
-
-    <p>
-        برای نوشتن یک متن داخل فایل می‌توانیم از
-        <code>echo</code>
-        استفاده کنیم:
-    </p>
-
-<pre><code>echo "Hello Linux" &gt; notes.txt</code></pre>
-
-    <p>
-        حالا محتوای فایل را بررسی می‌کنیم:
-    </p>
-
-<pre><code>cat notes.txt</code></pre>
-
-    <div class="info-box">
-
-        <strong>نکته:</strong>
-
-        <p>
-            علامت
-            <code>&gt;</code>
-            محتوای قبلی فایل را جایگزین می‌کند.
-        </p>
-
-        <p>
-            اما
-            <code>&gt;&gt;</code>
-            متن جدید را به انتهای فایل اضافه می‌کند.
-        </p>
-
-    </div>
-
-<pre><code>echo "Linux is important for DevOps" &gt;&gt; notes.txt</code></pre>
-
-</section>
-
-
-<section>
-
-    <h2>4. کپی کردن فایل با cp</h2>
-
-    <p>
-        برای کپی کردن فایل از دستور
-        <code>cp</code>
-        استفاده می‌کنیم.
-    </p>
-
-<pre><code>cp notes.txt backup.txt</code></pre>
-
-    <p>
-        در این مثال، یک نسخه کپی‌شده از
-        <code>notes.txt</code>
-        با نام
-        <code>backup.txt</code>
-        ایجاد می‌شود.
-    </p>
-
-    <p>
-        برای کپی کردن فایل داخل یک دایرکتوری:
-    </p>
-
-<pre><code>cp notes.txt myfolder/</code></pre>
-
-    <p>
-        برای کپی کردن یک دایرکتوری به همراه محتویات آن،
-        معمولاً از گزینه
-        <code>-r</code>
-        استفاده می‌کنیم:
-    </p>
-
-<pre><code>cp -r myfolder backupfolder</code></pre>
-
-</section>
-
-
-<section>
-
-    <h2>5. جابه‌جایی فایل با mv</h2>
-
-    <p>
-        دستور
-        <code>mv</code>
-        برای جابه‌جایی فایل‌ها و دایرکتوری‌ها استفاده می‌شود.
-    </p>
-
-<pre><code>mv notes.txt myfolder/</code></pre>
-
-    <p>
-        این دستور فایل
-        <code>notes.txt</code>
-        را به دایرکتوری
-        <code>myfolder</code>
-        منتقل می‌کند.
-    </p>
-
-</section>
-
-
-<section>
-
-    <h2>6. تغییر نام فایل با mv</h2>
-
-    <p>
-        جالب است بدانیم که در Linux برای تغییر نام فایل
-        دستور جداگانه‌ای وجود ندارد.
-    </p>
-
-    <p>
-        از همان دستور
-        <code>mv</code>
-        استفاده می‌کنیم:
-    </p>
-
-<pre><code>mv notes.txt linux-notes.txt</code></pre>
-
-    <p>
-        در این حالت فایل تغییر مکان نداده است؛
-        فقط نام آن تغییر کرده است.
-    </p>
-
-</section>
-
-
-<section>
-
-    <h2>7. حذف فایل با rm</h2>
-
-    <p>
-        برای حذف فایل از دستور
-        <code>rm</code>
-        استفاده می‌کنیم.
-    </p>
-
-<pre><code>rm notes.txt</code></pre>
-
-    <p>
-        برای حذف یک دایرکتوری به همراه محتویات آن:
-    </p>
-
-<pre><code>rm -r myfolder</code></pre>
-
-    <div class="warning-box">
-
-        <strong>هشدار مهم:</strong>
-
-        <p>
-            در استفاده از
-            <code>rm</code>
-            بسیار دقت کنید.
-        </p>
-
-        <p>
-            فایل‌هایی که با این دستور حذف می‌شوند معمولاً
-            وارد Recycle Bin نمی‌شوند و ممکن است بازیابی آن‌ها
-            بسیار دشوار یا غیرممکن باشد.
-        </p>
-
-    </div>
-
-</section>
-
-
-<section>
-
-    <h2>8. پیدا کردن فایل‌ها با find</h2>
-
-    <p>
-        دستور
-        <code>find</code>
-        برای پیدا کردن فایل‌ها و دایرکتوری‌ها بسیار کاربردی است.
-    </p>
-
-<pre><code>find . -name "notes.txt"</code></pre>
-
-    <p>
-        علامت
-        <code>.</code>
-        یعنی جستجو از دایرکتوری فعلی شروع شود.
-    </p>
-
-    <p>
-        برای پیدا کردن تمام فایل‌های متنی:
-    </p>
-
-<pre><code>find . -name "*.txt"</code></pre>
-
-</section>
-
-
-<section>
-
-    <h2>9. تشخیص نوع فایل با file</h2>
-
-    <p>
-        دستور
-        <code>file</code>
-        می‌تواند نوع واقعی یک فایل را بررسی کند.
-    </p>
-
-<pre><code>file notes.txt</code></pre>
-
-    <p>
-        این دستور در زمان Troubleshooting و بررسی فایل‌هایی
-        که نوع آن‌ها مشخص نیست بسیار مفید است.
-    </p>
-
-</section>
-
-
-<section>
-
-    <h2>10. کار با چند فایل با Wildcard</h2>
-
-    <p>
-        در Linux می‌توانیم از Wildcardها برای کار با چند فایل
-        به‌صورت هم‌زمان استفاده کنیم.
-    </p>
-
-    <p>
-        یکی از مهم‌ترین Wildcardها علامت
-        <code>*</code>
-        است.
-    </p>
-
-<pre><code>ls *.txt</code></pre>
-
-    <p>
-        این دستور تمام فایل‌هایی را که پسوند
-        <code>.txt</code>
-        دارند نمایش می‌دهد.
-    </p>
-
-    <div class="warning-box">
-
-        <strong>دقت کنید:</strong>
-
-        <p>
-            قبل از استفاده از دستورات حذف همراه با Wildcard،
-            بهتر است ابتدا با
-            <code>ls</code>
-            بررسی کنید که دقیقاً چه فایل‌هایی Match می‌شوند.
-        </p>
-
-    </div>
-
-</section>
-
-
-<section>
-
-    <h2>11. تمرین عملی</h2>
-
-    <p>
-        حالا می‌خواهیم یک محیط کوچک برای تمرین بسازیم.
-    </p>
-
-    <h3>مرحله اول — ساخت پروژه</h3>
-
-<pre><code>cd ~
-
-mkdir -p devops-lab/linux/files</code></pre>
-
-
-    <h3>مرحله دوم — ورود به دایرکتوری</h3>
-
-<pre><code>cd ~/devops-lab/linux/files</code></pre>
-
-
-    <h3>مرحله سوم — ایجاد فایل‌ها</h3>
-
-<pre><code>touch notes.txt
-touch commands.txt
-touch backup.txt</code></pre>
-
-
-    <h3>مرحله چهارم — نوشتن اطلاعات</h3>
-
-<pre><code>echo "Linux File Management" &gt; notes.txt
-
-echo "mkdir" &gt; commands.txt
-echo "touch" &gt;&gt; commands.txt
-echo "cp" &gt;&gt; commands.txt
-echo "mv" &gt;&gt; commands.txt</code></pre>
-
-
-    <h3>مرحله پنجم — مشاهده فایل‌ها</h3>
-
-<pre><code>ls -la
-
-cat notes.txt
-cat commands.txt</code></pre>
-
-
-    <h3>مرحله ششم — ساخت نسخه پشتیبان</h3>
-
-<pre><code>cp notes.txt notes-backup.txt</code></pre>
-
-
-    <h3>مرحله هفتم — تغییر نام</h3>
-
-<pre><code>mv notes-backup.txt backup-notes.txt</code></pre>
-
-
-    <h3>مرحله هشتم — پیدا کردن فایل‌ها</h3>
-
-<pre><code>find . -name "*.txt"</code></pre>
-
-
-    <div class="success-box">
-
-        <strong>تمرین پیشنهادی:</strong>
-
-        <p>
-            قبل از رفتن به مقاله بعدی، تمام دستورات این بخش را
-            روی Ubuntu خودت اجرا کن.
-        </p>
-
-        <p>
-            سعی کن بعد از انجام تمرین، یک فایل جدید به نام
-            <code>devops-notes.txt</code>
-            ایجاد کنی و چند دستور Linux که یاد گرفته‌ای
-            داخل آن بنویسی.
-        </p>
-
-    </div>
-
-</section>
-
-
-<section>
-
-    <h2>Cheat Sheet</h2>
-
-    <table>
-
-        <thead>
-
-            <tr>
-                <th>دستور</th>
-                <th>کاربرد</th>
-            </tr>
-
-        </thead>
-
-        <tbody>
-
-            <tr>
-                <td><code>mkdir</code></td>
-                <td>ایجاد دایرکتوری</td>
-            </tr>
-
-            <tr>
-                <td><code>touch</code></td>
-                <td>ایجاد فایل خالی</td>
-            </tr>
-
-            <tr>
-                <td><code>cat</code></td>
-                <td>نمایش محتوای فایل</td>
-            </tr>
-
-            <tr>
-                <td><code>cp</code></td>
-                <td>کپی کردن</td>
-            </tr>
-
-            <tr>
-                <td><code>mv</code></td>
-                <td>جابه‌جایی یا تغییر نام</td>
-            </tr>
-
-            <tr>
-                <td><code>rm</code></td>
-                <td>حذف فایل یا دایرکتوری</td>
-            </tr>
-
-            <tr>
-                <td><code>find</code></td>
-                <td>جستجوی فایل و دایرکتوری</td>
-            </tr>
-
-            <tr>
-                <td><code>file</code></td>
-                <td>تشخیص نوع فایل</td>
-            </tr>
-
-        </tbody>
-
-    </table>
-
-</section>
-
-
-<section>
-
-    <h2>چیزی که در این مقاله یاد گرفتم</h2>
-
-    <ul>
-
-        <li>ایجاد دایرکتوری با <code>mkdir</code></li>
-
-        <li>ایجاد فایل با <code>touch</code></li>
-
-        <li>خواندن فایل با <code>cat</code></li>
-
-        <li>کپی فایل با <code>cp</code></li>
-
-        <li>جابه‌جایی و تغییر نام با <code>mv</code></li>
-
-        <li>حذف فایل با <code>rm</code></li>
-
-        <li>جستجوی فایل با <code>find</code></li>
-
-        <li>استفاده از Wildcardها</li>
-
-    </ul>
-
-</section>
-
-
-<section>
-
-    <h2>مقاله بعدی</h2>
-
-    <p>
-        حالا که با فایل‌ها و دایرکتوری‌ها آشنا شدیم،
-        در مقاله بعدی سراغ یکی از مهم‌ترین مفاهیم Linux می‌رویم:
-    </p>
-
-    <h3>
-        Linux Permissions
-    </h3>
-
-    <p>
-        یاد می‌گیریم چه کسی اجازه خواندن، نوشتن و اجرای
-        فایل‌ها را دارد و دستورهای
-        <code>chmod</code>
-        و
-        <code>chown</code>
-        چگونه کار می‌کنند.
-    </p>
-
-</section>
-
-
-<div class="article-navigation">
-
-    <a href="linux-filesystem.html" class="btn">
-        مقاله قبلی
-    </a>
-
-    <a href="index.html" class="btn">
-        بازگشت به مقالات
-    </a>
-
-</div>
-
+<h2 id="cheatsheet">Linux File Management Cheat Sheet</h2>
+<table class="command-table"><thead><tr><th>Command</th><th>کاربرد</th></tr></thead><tbody>
+<tr><td><code>mkdir</code></td><td>ساخت Directory</td></tr>
+<tr><td><code>touch</code></td><td>ساخت فایل خالی</td></tr>
+<tr><td><code>cp</code></td><td>کپی فایل</td></tr>
+<tr><td><code>cp -r</code></td><td>کپی Directory و محتویات</td></tr>
+<tr><td><code>mv</code></td><td>جابه‌جایی یا تغییر نام</td></tr>
+<tr><td><code>rm</code></td><td>حذف فایل</td></tr>
+<tr><td><code>rmdir</code></td><td>حذف Directory خالی</td></tr>
+<tr><td><code>find</code></td><td>جست‌وجوی فایل و Directory</td></tr>
+</tbody></table>
+
+<h2 id="learned">چیزی که از این مرحله یاد گرفتم</h2>
+<ul><li>ساختار فایل‌ها و Directoryها را بهتر مدیریت می‌کنم.</li><li>می‌توانم فایل‌ها را کپی، جابه‌جا، تغییر نام و حذف کنم.</li><li>با <code>find</code> می‌توانم فایل‌ها را در مسیرهای مختلف پیدا کنم.</li><li>قبل از اجرای دستورات حذف، باید مسیر و هدف دستور را بررسی کنم.</li></ul>
+
+<h2 id="next">مرحله بعدی چیست؟</h2>
+<div class="exercise"><h3>🔐 Linux Permissions</h3><p>در مقاله بعدی وارد مبحث Permissionها می‌شوم و با Owner، Group، Read، Write، Execute و دستورهای <code>chmod</code> و <code>chown</code> کار می‌کنم.</p></div>
+<div class="note">🚀 هدف این مسیر فقط حفظ کردن دستورها نیست؛ هر دستور را روی Ubuntu اجرا می‌کنم و نتیجه را در مسیر یادگیری DevOps خودم ثبت می‌کنم.</div>
 
 </article>
-
+<div class="article-footer">
+<a href="linux-filesystem.html" class="btn btn-secondary">← مقاله قبلی</a>
+<a href="index.html" class="btn btn-secondary">بازگشت به مقالات</a>
+<a href="../index.html" class="btn btn-primary">صفحه اصلی →</a>
+<a href="linux-permissions.html" class="btn btn-primary">مقاله بعدی →</a>
 </div>
-
-</section>
-
-</main>
-
-
-<footer>
-
-    <div class="container">
-
-        <p>
-            © 2026 Z.DevOps
-        </p>
-
-        <div class="social-links">
-
-            <a href="../index.html">
-                خانه
-            </a>
-
-        </div>
-
-    </div>
-
-</footer>
-
-
-</body>
-
-</html>
+</div></section></main>
+<footer><div class="container"><p>© 2026 Z.DevOps — Built while learning DevOps.</p><div class="social-links"><a href="../index.html">Home</a></div></div></footer>
+</body></html>
