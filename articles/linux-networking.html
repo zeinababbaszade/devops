@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="آشنایی عملی با IP، Interface، Route، DNS، Port و ابزارهای پایه Networking در Ubuntu.">
+<meta name="keywords" content="Linux, Ubuntu, DevOps, Linux Networking">
+<title>Linux Networking | Z.DevOps</title>
+<link rel="stylesheet" href="../style.css">
+<style>
+.article-wrapper{max-width:900px;margin:auto}.article-header{text-align:center;margin-bottom:70px}.article-header .badge{margin-bottom:20px}.article-header h1{font-size:clamp(38px,6vw,60px);line-height:1.2;margin-bottom:20px}.article-header h1 span{color:var(--primary)}.article-subtitle{color:var(--text-secondary);font-size:18px;max-width:700px;margin:auto}.article-meta{margin-top:20px;color:#64748b;font-size:13px}
+.toc{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:25px 30px;margin-bottom:55px}.toc h3{margin-bottom:15px}.toc ol{margin:0;padding-right:22px}.toc li{margin-bottom:8px}.toc a{color:var(--text-secondary);transition:.2s}.toc a:hover{color:var(--primary)}
+.article-body{text-align:right;font-family:"Vazirmatn","Tahoma",sans-serif}.article-body h2{font-size:30px;margin-top:65px;margin-bottom:20px;padding-bottom:10px;border-bottom:1px solid var(--border)}.article-body h3{font-size:21px;margin-top:35px;margin-bottom:12px}.article-body p{color:#cbd5e1;font-size:16px;line-height:2;margin-bottom:20px}.article-body ul,.article-body ol{color:#cbd5e1;line-height:2;margin-bottom:25px;padding-right:25px}.article-body li{margin-bottom:7px}.article-body strong{color:#f8fafc}
+.code-wrapper{position:relative;margin:20px 0 28px}.code-label{direction:ltr;text-align:left;background:#111827;color:#64748b;padding:7px 15px;border-radius:8px 8px 0 0;font-family:Consolas,monospace;font-size:12px;border:1px solid rgba(148,163,184,.15);border-bottom:none}.code-block{direction:ltr;text-align:left;background:#020617;border:1px solid rgba(148,163,184,.15);border-radius:0 0 8px 8px;padding:20px;overflow-x:auto;margin:0}.code-block code{font-family:Consolas,"Courier New",monospace;font-size:14px;line-height:1.8;color:#e2e8f0}
+.note{background:rgba(56,189,248,.07);border-right:4px solid var(--primary);padding:20px 22px;border-radius:8px;margin:30px 0;color:#cbd5e1;line-height:1.9}.warning{background:rgba(251,191,36,.07);border-right:4px solid #fbbf24;padding:20px 22px;border-radius:8px;margin:30px 0;color:#cbd5e1;line-height:1.9}
+.command-table{width:100%;border-collapse:collapse;margin:25px 0 35px;border-radius:10px}.command-table th,.command-table td{padding:13px 15px;border-bottom:1px solid var(--border);text-align:right}.command-table th{background:var(--card);color:var(--primary);font-weight:600}.command-table td{color:#cbd5e1}.command-table code{direction:ltr;display:inline-block;background:rgba(148,163,184,.08);padding:3px 7px;border-radius:5px;color:#e2e8f0;font-family:Consolas,monospace}
+.exercise{background:linear-gradient(135deg,rgba(56,189,248,.08),rgba(14,165,233,.02));border:1px solid rgba(56,189,248,.18);border-radius:14px;padding:28px;margin:35px 0}.exercise h3{margin-top:0;color:var(--primary)}.article-footer{margin-top:80px;padding-top:30px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;gap:15px;flex-wrap:wrap}@media(max-width:650px){.article-header h1{font-size:38px}.article-body h2{font-size:25px}.article-body p{font-size:15px}.command-table{font-size:13px}}
+</style>
+</head>
+<body>
+<header class="navbar"><div class="container navbar-inner">
+<a href="../index.html" class="logo">Z<span>.DevOps</span></a>
+<nav><ul class="nav-links">
+<li><a href="../index.html">Home</a></li><li><a href="index.html">Articles</a></li>
+<li><a href="../index.html#projects">Projects</a></li><li><a href="../index.html#roadmap">Roadmap</a></li>
+<li><a href="../index.html#about">About</a></li>
+</ul></nav></div></header>
+<main><section><div class="container article-wrapper">
+<header class="article-header"><div class="badge">LINUX · DEVOPS</div>
+<h1>Linux <span>Networking</span></h1>
+<p class="article-subtitle">آشنایی عملی با IP، Interface، Route، DNS، Port و ابزارهای پایه Networking در Ubuntu.</p>
+<div class="article-meta">📅 September 2026 &nbsp; · &nbsp; ⏱ Beginner &nbsp; · &nbsp; 🐧 Ubuntu</div></header>
+<div class="toc"><h3>📚 فهرست مطالب</h3><ol><li><a href="#intro">چرا Networking برای DevOps مهم است؟</a></li><li><a href="#ip">IP و Interface</a></li><li><a href="#route">Routing</a></li><li><a href="#ping">بررسی Connectivity</a></li><li><a href="#dns">DNS</a></li><li><a href="#ports">Port چیست؟</a></li><li><a href="#connections">Connectionهای فعال</a></li><li><a href="#curl">تست HTTP با curl</a></li><li><a href="#practice">تمرین عملی</a></li><li><a href="#troubleshooting">روش Troubleshooting</a></li><li><a href="#cheatsheet">Cheat Sheet</a></li><li><a href="#learned">چیزی که یاد گرفتم</a></li><li><a href="#next">مرحله بعد</a></li></ol></div>
+<article class="article-body">
+<h2 id="intro">چرا Networking برای DevOps مهم است؟</h2>
+<p>تقریباً هر سرویس DevOps به شبکه وابسته است. Client باید به Server وصل شود، سرویس‌ها باید روی Portهای مشخص Listen کنند و DNS باید نام‌ها را به IP تبدیل کند. بنابراین قبل از Docker و Kubernetes باید مفاهیم پایه Networking را خوب بشناسیم.</p>
+<div class="note">💡 هدف این مقاله Networking پیشرفته نیست؛ می‌خواهیم ابزارهای پایه‌ای را روی Ubuntu اجرا کنیم و بفهمیم سیستم چه Interfaceها، IPها، Routeها و Connectionهایی دارد.</div>
+
+<h2 id="ip">IP و Interface</h2>
+<p>برای دیدن Interfaceهای شبکه و IPهای آن‌ها از دستور <strong>ip</strong> استفاده می‌کنیم.</p>
+<div class="code-wrapper"><div class="code-label">Terminal</div><pre class="code-block"><code>ip addr</code></pre></div>
+<p>خلاصه‌تر:</p>
+<div class="code-wrapper"><div class="code-label">Terminal</div><pre class="code-block"><code>ip -br addr</code></pre></div>
+
+<h2 id="route">Routing</h2>
+<p>سیستم باید بداند برای رسیدن به شبکه‌های مختلف بسته‌ها را از چه مسیری ارسال کند. جدول Route را می‌توان با دستور زیر دید.</p>
+<div class="code-wrapper"><div class="code-label">Terminal</div><pre class="code-block"><code>ip route</code></pre></div>
+<div class="note">💡 اگر Default Route وجود داشته باشد، معمولاً برای مقصدهایی که Route مشخص دیگری ندارند استفاده می‌شود.</div>
+
+<h2 id="ping">بررسی Connectivity با ping</h2>
+<p>دستور <strong>ping</strong> برای آزمایش دسترسی شبکه به یک مقصد و اندازه‌گیری زمان پاسخ استفاده می‌شود.</p>
+<div class="code-wrapper"><div class="code-label">Terminal</div><pre class="code-block"><code>ping -c 4 8.8.8.8</code></pre></div>
+<p>اگر IP کار کرد اما یک نام دامنه کار نکرد، احتمالاً باید DNS را هم بررسی کنیم؛ البته علت می‌تواند موارد دیگری هم باشد.</p>
+
+<h2 id="dns">DNS</h2>
+<p>DNS نام‌هایی مثل <code>example.com</code> را به اطلاعاتی مانند IP تبدیل می‌کند. برای یک تست ساده می‌توان از ابزارهایی مثل <code>getent</code> استفاده کرد.</p>
+<div class="code-wrapper"><div class="code-label">Terminal</div><pre class="code-block"><code>getent hosts example.com</code></pre></div>
+<p>همچنین در سیستم‌های دارای ابزار مناسب می‌توان از <code>dig</code> استفاده کرد.</p>
+<div class="code-wrapper"><div class="code-label">Terminal</div><pre class="code-block"><code>dig example.com</code></pre></div>
+
+<h2 id="ports">Port چیست؟</h2>
+<p>IP مشخص می‌کند به کدام Host می‌خواهیم برسیم و Port کمک می‌کند مشخص شود با کدام سرویس یا Endpoint ارتباط داریم. برای مثال Web Serverها معمولاً روی Portهای مشخصی Listen می‌کنند.</p>
+<p>برای دیدن Socketها و Portهای Listening:</p>
+<div class="code-wrapper"><div class="code-label">Terminal</div><pre class="code-block"><code>ss -tuln</code></pre></div>
+
+<h2 id="connections">Connectionهای فعال</h2>
+<p>برای مشاهده Connectionهای TCP می‌توان از:</p>
+<div class="code-wrapper"><div class="code-label">Terminal</div><pre class="code-block"><code>ss -tn</code></pre></div>
+<p>استفاده کرد. این دستور برای Troubleshooting شبکه بسیار کاربردی است.</p>
+
+<h2 id="curl">تست HTTP با curl</h2>
+<p>برای بررسی یک HTTP Endpoint می‌توان از <strong>curl</strong> استفاده کرد.</p>
+<div class="code-wrapper"><div class="code-label">Terminal</div><pre class="code-block"><code>curl -I https://example.com</code></pre></div>
+<p>این روش کمک می‌کند بفهمیم درخواست HTTP تا چه حد به مقصد می‌رسد و چه Status Codeای برمی‌گردد.</p>
+
+<h2 id="practice">تمرین عملی: Networking Lab</h2>
+<div class="exercise"><h3>🧪 تمرین</h3>
+<div class="code-wrapper"><div class="code-label">Ubuntu Terminal</div><pre class="code-block"><code>ip -br addr
+ip route
+ping -c 4 8.8.8.8
+getent hosts example.com
+ss -tuln
+curl -I https://example.com</code></pre></div>
+<p>خروجی هر دستور را نگاه کن و برای خودت به این سؤال‌ها جواب بده: IP سیستم چیست؟ Default Route چیست؟ DNS چه IPای برگرداند؟ چه Portهایی در حال Listen هستند؟</p></div>
+
+<h2 id="troubleshooting">یک روش ساده برای Troubleshooting شبکه</h2>
+<p>وقتی یک سرویس به مقصدی دسترسی ندارد، بهتر است مرحله‌به‌مرحله جلو برویم و همه چیز را یک‌جا مقصر ندانیم.</p>
+<ol>
+<li>Interface و IP را بررسی کن.</li>
+<li>Route را بررسی کن.</li>
+<li>Connectivity پایه را تست کن.</li>
+<li>DNS را جداگانه بررسی کن.</li>
+<li>Port و Listening Service را بررسی کن.</li>
+<li>در نهایت خود Application را بررسی کن.</li>
+</ol>
+
+<h2 id="cheatsheet">Networking Cheat Sheet</h2>
+<table class="command-table"><thead><tr><th>Command</th><th>کاربرد</th></tr></thead><tbody>
+<tr><td><code>ip addr</code></td><td>نمایش Interface و IP</td></tr>
+<tr><td><code>ip -br addr</code></td><td>نمایش خلاصه IPها</td></tr>
+<tr><td><code>ip route</code></td><td>نمایش Routing Table</td></tr>
+<tr><td><code>ping -c 4 host</code></td><td>تست Connectivity</td></tr>
+<tr><td><code>getent hosts host</code></td><td>بررسی Resolution نام</td></tr>
+<tr><td><code>ss -tuln</code></td><td>نمایش Portهای Listening</td></tr>
+<tr><td><code>ss -tn</code></td><td>نمایش TCP Connectionها</td></tr>
+<tr><td><code>curl -I URL</code></td><td>تست HTTP و Headerها</td></tr>
+<tr><td><code>dig domain</code></td><td>بررسی DNS با ابزار dig</td></tr>
+</tbody></table>
+
+<h2 id="learned">چیزی که از این مرحله یاد گرفتم</h2>
+<ul><li>با <code>ip</code> می‌توانم Interface، IP و Route را بررسی کنم.</li><li>با <code>ping</code> Connectivity را آزمایش می‌کنم.</li><li>DNS را باید از Connectivity جداگانه بررسی کنم.</li><li>با <code>ss</code> می‌توانم Portها و Connectionها را ببینم.</li><li><code>curl</code> برای تست HTTP Endpointها بسیار کاربردی است.</li></ul>
+
+<h2 id="next">مرحله بعدی چیست؟</h2>
+<div class="exercise"><h3>🔐 SSH</h3><p>در مقاله بعدی سراغ SSH می‌روم؛ یعنی اتصال امن به Linux Server، ساخت و استفاده از SSH Key، تنظیمات پایه و نکات امنیتی مهم.</p></div>
+<div class="note">🚀 از اینجا Networking مستقیماً به Docker، سرویس‌ها، Monitoring و Troubleshooting وصل می‌شود.</div>
+</article>
+<div class="article-footer">
+<a href="linux-package-management.html" class="btn btn-secondary">← مقاله قبلی</a>
+<a href="index.html" class="btn btn-secondary">بازگشت به مقالات</a>
+<a href="../index.html" class="btn btn-primary">صفحه اصلی →</a>
+<a href="linux-ssh.html" class="btn btn-primary">مقاله بعدی →</a>
+</div>
+</div></section></main>
+<footer><div class="container"><p>© 2026 Z.DevOps — Built while learning DevOps.</p><div class="social-links"><a href="../index.html">Home</a></div></div></footer>
+</body></html>
