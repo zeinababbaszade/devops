@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <meta name="description"
+          content="Learn Linux file permissions, chmod, chown and access control.">
+
+    <title>Linux Permissions | Z.DevOps</title>
+
+    <link rel="stylesheet"
+          href="../style.css">
+
+</head>
+
+<body>
+
+
+<header class="navbar">
+
+    <div class="container navbar-inner">
+
+        <a href="../index.html" class="logo">
+            Z<span>.DevOps</span>
+        </a>
+
+        <nav>
+
+            <ul class="nav-links">
+
+                <li>
+                    <a href="../index.html">Home</a>
+                </li>
+
+                <li>
+                    <a href="index.html">Articles</a>
+                </li>
+
+                <li>
+                    <a href="../index.html#projects">Projects</a>
+                </li>
+
+                <li>
+                    <a href="../index.html#roadmap">Roadmap</a>
+                </li>
+
+                <li>
+                    <a href="../index.html#about">About</a>
+                </li>
+
+            </ul>
+
+        </nav>
+
+    </div>
+
+</header>
+
+
+<main>
+
+<section>
+
+<div class="container">
+
+<article class="article-page">
+
+
+<div class="section-title">
+
+    <div class="badge">
+        LINUX
+    </div>
+
+    <h1>
+        Linux Permissions
+    </h1>
+
+    <p>
+        Understanding Linux file permissions,
+        chmod, chown and access control.
+    </p>
+
+</div>
+
+
+<!-- Introduction -->
+
+<section>
+
+    <h2>Introduction</h2>
+
+    <p>
+        Linux is a multi-user operating system.
+        Multiple users and services can work on the same system.
+    </p>
+
+    <p>
+        Because of this, Linux needs a mechanism to control
+        who can read, modify or execute files.
+    </p>
+
+    <p>
+        This mechanism is called
+        <strong>File Permissions</strong>.
+    </p>
+
+</section>
+
+
+<!-- ls -l -->
+
+<section>
+
+    <h2>1. Reading File Permissions</h2>
+
+    <p>
+        We can use <code>ls -l</code> to see file permissions.
+    </p>
+
+<pre><code>ls -l</code></pre>
+
+    <p>
+        A result might look like:
+    </p>
+
+<pre><code>-rw-r--r-- 1 user user 120 Sep 7 10:00 notes.txt</code></pre>
+
+    <p>
+        The first part:
+    </p>
+
+<pre><code>-rw-r--r--</code></pre>
+
+    <p>
+        contains the permission information.
+    </p>
+
+</section>
+
+
+<!-- Permission structure -->
+
+<section>
+
+    <h2>2. Understanding rwx</h2>
+
+    <p>
+        Linux permissions are based on three basic permissions:
+    </p>
+
+    <table>
+
+        <thead>
+
+            <tr>
+                <th>Symbol</th>
+                <th>Meaning</th>
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+            <tr>
+                <td><code>r</code></td>
+                <td>Read</td>
+            </tr>
+
+            <tr>
+                <td><code>w</code></td>
+                <td>Write</td>
+            </tr>
+
+            <tr>
+                <td><code>x</code></td>
+                <td>Execute</td>
+            </tr>
+
+        </tbody>
+
+    </table>
+
+    <p>
+        These permissions are applied to three categories:
+    </p>
+
+    <ul>
+
+        <li>Owner</li>
+
+        <li>Group</li>
+
+        <li>Others</li>
+
+    </ul>
+
+    <p>
+        Therefore a permission such as:
+    </p>
+
+<pre><code>-rwxr-xr--</code></pre>
+
+    <p>
+        can be divided like this:
+    </p>
+
+<pre><code>Owner   Group   Others
+rwx     r-x     r--</code></pre>
+
+</section>
+
+
+<!-- Numeric permissions -->
+
+<section>
+
+    <h2>3. Numeric Permissions</h2>
+
+    <p>
+        Linux also allows us to represent permissions using numbers.
+    </p>
+
+    <table>
+
+        <thead>
+
+            <tr>
+                <th>Permission</th>
+                <th>Value</th>
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+            <tr>
+                <td>Read (r)</td>
+                <td>4</td>
+            </tr>
+
+            <tr>
+                <td>Write (w)</td>
+                <td>2</td>
+            </tr>
+
+            <tr>
+                <td>Execute (x)</td>
+                <td>1</td>
+            </tr>
+
+        </tbody>
+
+    </table>
+
+    <p>
+        For example:
+    </p>
+
+<pre><code>rwx = 4 + 2 + 1 = 7
+rw- = 4 + 2 = 6
+r-x = 4 + 1 = 5
+r-- = 4</code></pre>
+
+    <p>
+        Therefore:
+    </p>
+
+<pre><code>755</code></pre>
+
+    <p>
+        means:
+    </p>
+
+<pre><code>Owner   = 7 = rwx
+Group   = 5 = r-x
+Others  = 5 = r-x</code></pre>
+
+</section>
+
+
+<!-- chmod -->
+
+<section>
+
+    <h2>4. chmod</h2>
+
+    <p>
+        The <code>chmod</code> command changes file permissions.
+    </p>
+
+    <p>
+        For example:
+    </p>
+
+<pre><code>chmod 755 script.sh</code></pre>
+
+    <p>
+        This gives the owner full permissions and gives
+        read and execute permissions to the group and others.
+    </p>
+
+    <p>
+        Another common example:
+    </p>
+
+<pre><code>chmod 644 notes.txt</code></pre>
+
+    <p>
+        This means:
+    </p>
+
+<pre><code>Owner   = rw-
+Group   = r--
+Others  = r--</code></pre>
+
+</section>
+
+
+<!-- Symbolic chmod -->
+
+<section>
+
+    <h2>5. Symbolic chmod</h2>
+
+    <p>
+        Permissions can also be changed using symbolic notation.
+    </p>
+
+    <p>
+        Give the owner execute permission:
+    </p>
+
+<pre><code>chmod u+x script.sh</code></pre>
+
+    <p>
+        Remove write permission from others:
+    </p>
+
+<pre><code>chmod o-w notes.txt</code></pre>
+
+    <p>
+        Give the group write permission:
+    </p>
+
+<pre><code>chmod g+w project.txt</code></pre>
+
+    <p>
+        The letters mean:
+    </p>
+
+<pre><code>u = user / owner
+g = group
+o = others
+a = all</code></pre>
+
+</section>
+
+
+<!-- chown -->
+
+<section>
+
+    <h2>6. File Ownership</h2>
+
+    <p>
+        Linux files also have an owner and a group.
+    </p>
+
+    <p>
+        We can inspect ownership using:
+    </p>
+
+<pre><code>ls -l</code></pre>
+
+    <p>
+        The <code>chown</code> command changes ownership.
+    </p>
+
+<pre><code>sudo chown username file.txt</code></pre>
+
+    <p>
+        We can change both owner and group:
+    </p>
+
+<pre><code>sudo chown username:groupname file.txt</code></pre>
+
+    <div class="warning-box">
+
+        <strong>Important:</strong>
+
+        <p>
+            Be careful when using <code>sudo chown</code>
+            on system files.
+        </p>
+
+    </div>
+
+</section>
+
+
+<!-- Practical Lab -->
+
+<section>
+
+    <h2>7. Practical Lab</h2>
+
+    <p>
+        Let's create a small permission lab.
+    </p>
+
+    <h3>Step 1 — Create the directory</h3>
+
+<pre><code>cd ~
+
+mkdir -p devops-lab/permissions
+
+cd ~/devops-lab/permissions</code></pre>
+
+
+    <h3>Step 2 — Create a file</h3>
+
+<pre><code>echo "Linux Permissions Lab" &gt; notes.txt</code></pre>
+
+
+    <h3>Step 3 — Check permissions</h3>
+
+<pre><code>ls -l notes.txt</code></pre>
+
+
+    <h3>Step 4 — Change permissions</h3>
+
+<pre><code>chmod 600 notes.txt</code></pre>
+
+
+    <p>
+        Check again:
+    </p>
+
+<pre><code>ls -l notes.txt</code></pre>
+
+
+    <p>
+        Now try:
+    </p>
+
+<pre><code>chmod 644 notes.txt
+
+ls -l notes.txt</code></pre>
+
+
+    <h3>Step 5 — Create a script</h3>
+
+<pre><code>echo '#!/bin/bash' &gt; hello.sh
+echo 'echo "Hello from Linux"' &gt;&gt; hello.sh</code></pre>
+
+
+    <h3>Step 6 — Try to execute it</h3>
+
+<pre><code>./hello.sh</code></pre>
+
+
+    <p>
+        Depending on the current permissions, you may receive
+        a permission denied error.
+    </p>
+
+
+    <h3>Step 7 — Add execute permission</h3>
+
+<pre><code>chmod u+x hello.sh</code></pre>
+
+
+    <p>
+        Now run:
+    </p>
+
+<pre><code>./hello.sh</code></pre>
+
+
+    <p>
+        The script should now execute.
+    </p>
+
+</section>
+
+
+<!-- Security -->
+
+<section>
+
+    <h2>8. Why Permissions Matter in DevOps</h2>
+
+    <p>
+        File permissions are extremely important in DevOps.
+    </p>
+
+    <p>
+        Applications, services and users should only have
+        the permissions they actually need.
+    </p>
+
+    <p>
+        Incorrect permissions can cause:
+    </p>
+
+    <ul>
+
+        <li>Security vulnerabilities</li>
+
+        <li>Application failures</li>
+
+        <li>Permission denied errors</li>
+
+        <li>Unauthorized access</li>
+
+    </ul>
+
+    <p>
+        Understanding permissions will become especially important
+        when working with SSH, Docker, web servers and CI/CD pipelines.
+    </p>
+
+</section>
+
+
+<!-- Cheat Sheet -->
+
+<section>
+
+    <h2>Permissions Cheat Sheet</h2>
+
+    <table>
+
+        <thead>
+
+            <tr>
+                <th>Command</th>
+                <th>Purpose</th>
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+            <tr>
+                <td><code>ls -l</code></td>
+                <td>View permissions and ownership</td>
+            </tr>
+
+            <tr>
+                <td><code>chmod</code></td>
+                <td>Change permissions</td>
+            </tr>
+
+            <tr>
+                <td><code>chown</code></td>
+                <td>Change owner</td>
+            </tr>
+
+            <tr>
+                <td><code>r</code></td>
+                <td>Read</td>
+            </tr>
+
+            <tr>
+                <td><code>w</code></td>
+                <td>Write</td>
+            </tr>
+
+            <tr>
+                <td><code>x</code></td>
+                <td>Execute</td>
+            </tr>
+
+        </tbody>
+
+    </table>
+
+</section>
+
+
+<!-- What I Learned -->
+
+<section>
+
+    <h2>What I Learned</h2>
+
+    <ul>
+
+        <li>Linux file permissions.</li>
+
+        <li>Owner, Group and Others.</li>
+
+        <li>Read, Write and Execute permissions.</li>
+
+        <li>Numeric permissions such as 644 and 755.</li>
+
+        <li>Using <code>chmod</code>.</li>
+
+        <li>Using <code>chown</code>.</li>
+
+        <li>Why permissions matter in DevOps.</li>
+
+    </ul>
+
+</section>
+
+
+<!-- Next -->
+
+<section>
+
+    <h2>Next Article</h2>
+
+    <p>
+        In the next article we will learn about:
+    </p>
+
+    <h3>
+        Linux Users & Groups
+    </h3>
+
+    <p>
+        We will learn how Linux manages users and groups
+        and how they interact with file permissions.
+    </p>
+
+</section>
+
+
+<div class="article-navigation">
+
+    <a href="linux-files-directories.html" class="btn">
+        Previous Article
+    </a>
+
+    <a href="index.html" class="btn">
+        Back to Articles
+    </a>
+
+</div>
+
+
+</article>
+
+</div>
+
+</section>
+
+</main>
+
+
+<footer>
+
+    <div class="container">
+
+        <p>
+            © 2026 Z.DevOps
+        </p>
+
+        <div class="social-links">
+
+            <a href="../index.html">
+                Home
+            </a>
+
+        </div>
+
+    </div>
+
+</footer>
+
+
+</body>
+
+</html>
