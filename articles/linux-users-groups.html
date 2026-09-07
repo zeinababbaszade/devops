@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <meta name="description"
+          content="Learn Linux users, groups, user management and sudo.">
+
+    <title>Linux Users & Groups | Z.DevOps</title>
+
+    <link rel="stylesheet"
+          href="../style.css">
+
+</head>
+
+<body>
+
+
+<header class="navbar">
+
+    <div class="container navbar-inner">
+
+        <a href="../index.html" class="logo">
+            Z<span>.DevOps</span>
+        </a>
+
+        <nav>
+
+            <ul class="nav-links">
+
+                <li>
+                    <a href="../index.html">Home</a>
+                </li>
+
+                <li>
+                    <a href="index.html">Articles</a>
+                </li>
+
+                <li>
+                    <a href="../index.html#projects">Projects</a>
+                </li>
+
+                <li>
+                    <a href="../index.html#roadmap">Roadmap</a>
+                </li>
+
+                <li>
+                    <a href="../index.html#about">About</a>
+                </li>
+
+            </ul>
+
+        </nav>
+
+    </div>
+
+</header>
+
+
+<main>
+
+<section>
+
+<div class="container">
+
+<article class="article-page">
+
+
+<div class="section-title">
+
+    <div class="badge">
+        LINUX
+    </div>
+
+    <h1>
+        Linux Users & Groups
+    </h1>
+
+    <p>
+        Understanding Linux users, groups, user management
+        and sudo privileges.
+    </p>
+
+</div>
+
+
+<!-- Introduction -->
+
+<section>
+
+    <h2>Introduction</h2>
+
+    <p>
+        Linux is designed as a multi-user operating system.
+        Different users can have different permissions
+        and access to system resources.
+    </p>
+
+    <p>
+        Understanding users and groups is essential for
+        system administration and DevOps.
+    </p>
+
+    <p>
+        In this article we will learn how to inspect users,
+        create users, manage groups and work with sudo.
+    </p>
+
+</section>
+
+
+<!-- whoami -->
+
+<section>
+
+    <h2>1. Checking the Current User</h2>
+
+    <p>
+        The simplest way to find out which user is currently
+        logged in is the <code>whoami</code> command.
+    </p>
+
+<pre><code>whoami</code></pre>
+
+    <p>
+        Another useful command is:
+    </p>
+
+<pre><code>id</code></pre>
+
+    <p>
+        The <code>id</code> command shows information about
+        the current user's UID, GID and groups.
+    </p>
+
+</section>
+
+
+<!-- passwd -->
+
+<section>
+
+    <h2>2. Understanding /etc/passwd</h2>
+
+    <p>
+        Linux stores information about local users in:
+    </p>
+
+<pre><code>/etc/passwd</code></pre>
+
+    <p>
+        We can inspect it with:
+    </p>
+
+<pre><code>cat /etc/passwd</code></pre>
+
+    <p>
+        Each line represents a user account.
+    </p>
+
+    <p>
+        You can also search for a specific user:
+    </p>
+
+<pre><code>grep username /etc/passwd</code></pre>
+
+    <div class="info-box">
+
+        <strong>Security note:</strong>
+
+        <p>
+            Do not edit <code>/etc/passwd</code> manually unless
+            you fully understand the consequences.
+            Use system management commands instead.
+        </p>
+
+    </div>
+
+</section>
+
+
+<!-- Creating users -->
+
+<section>
+
+    <h2>3. Creating a User</h2>
+
+    <p>
+        The <code>adduser</code> command provides an interactive
+        way to create a new user on Ubuntu.
+    </p>
+
+<pre><code>sudo adduser devopsuser</code></pre>
+
+    <p>
+        Ubuntu will ask for a password and some additional
+        information.
+    </p>
+
+    <p>
+        After creating the user, check it with:
+    </p>
+
+<pre><code>id devopsuser</code></pre>
+
+    <p>
+        You can also check its Home directory:
+    </p>
+
+<pre><code>ls -la /home/devopsuser</code></pre>
+
+</section>
+
+
+<!-- Switching users -->
+
+<section>
+
+    <h2>4. Switching Users</h2>
+
+    <p>
+        The <code>su</code> command can be used to switch
+        to another user.
+    </p>
+
+<pre><code>su - devopsuser</code></pre>
+
+    <p>
+        To return to the previous user:
+    </p>
+
+<pre><code>exit</code></pre>
+
+    <p>
+        Another common command is <code>sudo -u</code>,
+        which allows a command to run as another user
+        when permitted.
+    </p>
+
+</section>
+
+
+<!-- Groups -->
+
+<section>
+
+    <h2>5. Linux Groups</h2>
+
+    <p>
+        Groups make it easier to manage permissions for
+        multiple users.
+    </p>
+
+    <p>
+        To see the groups of the current user:
+    </p>
+
+<pre><code>groups</code></pre>
+
+    <p>
+        Or:
+    </p>
+
+<pre><code>id</code></pre>
+
+</section>
+
+
+<!-- groupadd -->
+
+<section>
+
+    <h2>6. Creating a Group</h2>
+
+    <p>
+        The <code>groupadd</code> command creates a new group.
+    </p>
+
+<pre><code>sudo groupadd devops</code></pre>
+
+    <p>
+        Check the group:
+    </p>
+
+<pre><code>getent group devops</code></pre>
+
+</section>
+
+
+<!-- Adding user to group -->
+
+<section>
+
+    <h2>7. Adding a User to a Group</h2>
+
+    <p>
+        We can add a user to a group using:
+    </p>
+
+<pre><code>sudo usermod -aG devops devopsuser</code></pre>
+
+    <p>
+        The important part is:
+    </p>
+
+<pre><code>-aG</code></pre>
+
+    <p>
+        The <code>-a</code> means append, while
+        <code>-G</code> specifies supplementary groups.
+    </p>
+
+    <p>
+        Check the user's groups:
+    </p>
+
+<pre><code>id devopsuser</code></pre>
+
+    <div class="warning-box">
+
+        <strong>Important:</strong>
+
+        <p>
+            After changing a user's group membership,
+            the user may need to start a new login session
+            before the change is reflected in that session.
+        </p>
+
+    </div>
+
+</section>
+
+
+<!-- sudo -->
+
+<section>
+
+    <h2>8. Understanding sudo</h2>
+
+    <p>
+        Some administrative operations require elevated privileges.
+    </p>
+
+    <p>
+        The <code>sudo</code> command allows an authorized user
+        to run a command with elevated privileges.
+    </p>
+
+<pre><code>sudo apt update</code></pre>
+
+    <p>
+        Another example:
+    </p>
+
+<pre><code>sudo systemctl status ssh</code></pre>
+
+    <p>
+        In DevOps, you will frequently encounter
+        <code>sudo</code> when managing servers.
+    </p>
+
+</section>
+
+
+<!-- User management -->
+
+<section>
+
+    <h2>9. Useful User Management Commands</h2>
+
+    <table>
+
+        <thead>
+
+            <tr>
+                <th>Command</th>
+                <th>Purpose</th>
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+            <tr>
+                <td><code>whoami</code></td>
+                <td>Show current user</td>
+            </tr>
+
+            <tr>
+                <td><code>id</code></td>
+                <td>Show user and group IDs</td>
+            </tr>
+
+            <tr>
+                <td><code>groups</code></td>
+                <td>Show user's groups</td>
+            </tr>
+
+            <tr>
+                <td><code>adduser</code></td>
+                <td>Create a user</td>
+            </tr>
+
+            <tr>
+                <td><code>groupadd</code></td>
+                <td>Create a group</td>
+            </tr>
+
+            <tr>
+                <td><code>usermod</code></td>
+                <td>Modify a user</td>
+            </tr>
+
+            <tr>
+                <td><code>passwd</code></td>
+                <td>Change a password</td>
+            </tr>
+
+            <tr>
+                <td><code>su</code></td>
+                <td>Switch user</td>
+            </tr>
+
+            <tr>
+                <td><code>sudo</code></td>
+                <td>Run an authorized command with elevated privileges</td>
+            </tr>
+
+        </tbody>
+
+    </table>
+
+</section>
+
+
+<!-- Practical Lab -->
+
+<section>
+
+    <h2>10. Practical Lab</h2>
+
+    <p>
+        Now let's create a small user and group environment.
+    </p>
+
+    <h3>Step 1 — Create a group</h3>
+
+<pre><code>sudo groupadd devops-lab</code></pre>
+
+
+    <h3>Step 2 — Create a user</h3>
+
+<pre><code>sudo adduser labuser</code></pre>
+
+
+    <h3>Step 3 — Check the user</h3>
+
+<pre><code>id labuser</code></pre>
+
+
+    <h3>Step 4 — Add the user to the group</h3>
+
+<pre><code>sudo usermod -aG devops-lab labuser</code></pre>
+
+
+    <h3>Step 5 — Check group membership</h3>
+
+<pre><code>id labuser</code></pre>
+
+
+    <p>
+        You should see <code>devops-lab</code> among the user's groups.
+    </p>
+
+
+    <h3>Step 6 — Switch to the new user</h3>
+
+<pre><code>su - labuser</code></pre>
+
+
+    <h3>Step 7 — Check the current user</h3>
+
+<pre><code>whoami</code></pre>
+
+
+    <p>
+        The result should be:
+    </p>
+
+<pre><code>labuser</code></pre>
+
+
+    <h3>Step 8 — Return to your original user</h3>
+
+<pre><code>exit</code></pre>
+
+
+    <h3>Step 9 — Clean up the lab</h3>
+
+    <p>
+        When you finish experimenting, you can remove
+        the test user and group.
+    </p>
+
+<pre><code>sudo deluser labuser
+sudo groupdel devops-lab</code></pre>
+
+    <div class="warning-box">
+
+        <strong>Important:</strong>
+
+        <p>
+            Only run the cleanup commands if
+            <code>labuser</code> and <code>devops-lab</code>
+            were created specifically for this lab.
+        </p>
+
+    </div>
+
+</section>
+
+
+<!-- DevOps -->
+
+<section>
+
+    <h2>11. Why Users & Groups Matter in DevOps</h2>
+
+    <p>
+        User and group management becomes very important
+        when working with Linux servers.
+    </p>
+
+    <p>
+        For example, a production server may have:
+    </p>
+
+    <ul>
+
+        <li>System administrators</li>
+
+        <li>Developers</li>
+
+        <li>Deployment users</li>
+
+        <li>Monitoring services</li>
+
+        <li>Application users</li>
+
+    </ul>
+
+    <p>
+        Giving every account unrestricted access is dangerous.
+        Good system administration follows the principle of
+        least privilege.
+    </p>
+
+    <p>
+        Later, when we work with SSH, Docker and CI/CD,
+        these concepts will become even more important.
+    </p>
+
+</section>
+
+
+<!-- What I Learned -->
+
+<section>
+
+    <h2>What I Learned</h2>
+
+    <ul>
+
+        <li>How Linux manages users.</li>
+
+        <li>How to inspect users with <code>id</code>.</li>
+
+        <li>How to create users with <code>adduser</code>.</li>
+
+        <li>How Linux groups work.</li>
+
+        <li>How to create groups.</li>
+
+        <li>How to add users to groups.</li>
+
+        <li>How <code>sudo</code> works.</li>
+
+        <li>Why least privilege matters in DevOps.</li>
+
+    </ul>
+
+</section>
+
+
+<!-- Next -->
+
+<section>
+
+    <h2>Next Article</h2>
+
+    <p>
+        Now that we understand files, permissions,
+        users and groups, we can move to another important
+        Linux concept:
+    </p>
+
+    <h3>
+        Linux Processes
+    </h3>
+
+    <p>
+        We will learn how to find running processes,
+        inspect resource usage and manage processes.
+    </p>
+
+</section>
+
+
+<div class="article-navigation">
+
+    <a href="linux-permissions.html" class="btn">
+        Previous Article
+    </a>
+
+    <a href="index.html" class="btn">
+        Back to Articles
+    </a>
+
+</div>
+
+
+</article>
+
+</div>
+
+</section>
+
+</main>
+
+
+<footer>
+
+    <div class="container">
+
+        <p>
+            © 2026 Z.DevOps
+        </p>
+
+        <div class="social-links">
+
+            <a href="../index.html">
+                Home
+            </a>
+
+        </div>
+
+    </div>
+
+</footer>
+
+
+</body>
+
+</html>
