@@ -1,644 +1,170 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
-
 <head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="آموزش مدیریت Userها و Groupها در Linux و آشنایی با sudo، adduser و usermod.">
+<meta name="keywords" content="Linux, Ubuntu, DevOps, Linux Users &amp; Groups">
+<title>Linux Users &amp; Groups | Z.DevOps</title>
+<link rel="stylesheet" href="../style.css">
 
-    <meta charset="UTF-8">
-
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
-
-    <meta name="description"
-          content="آموزش کاربران و گروه‌ها در Linux، مدیریت User، Group و sudo.">
-
-    <title>کاربران و گروه‌ها در Linux | Z.DevOps</title>
-
-    <link rel="stylesheet"
-          href="../style.css">
+<style>
+.article-wrapper{max-width:900px;margin:auto}
+.article-header{text-align:center;margin-bottom:70px}
+.article-header .badge{margin-bottom:20px}
+.article-header h1{font-size:clamp(38px,6vw,60px);line-height:1.2;margin-bottom:20px}
+.article-header h1 span{color:var(--primary)}
+.article-subtitle{color:var(--text-secondary);font-size:18px;max-width:700px;margin:auto}
+.article-meta{margin-top:20px;color:#64748b;font-size:13px}
+.toc{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:25px 30px;margin-bottom:55px}
+.toc h3{margin-bottom:15px}.toc ol{margin:0;padding-right:22px}.toc li{margin-bottom:8px}
+.toc a{color:var(--text-secondary);transition:.2s}.toc a:hover{color:var(--primary)}
+.article-body{text-align:right;font-family:"Vazirmatn","Tahoma",sans-serif}
+.article-body h2{font-size:30px;margin-top:65px;margin-bottom:20px;padding-bottom:10px;border-bottom:1px solid var(--border)}
+.article-body h3{font-size:21px;margin-top:35px;margin-bottom:12px}
+.article-body p{color:#cbd5e1;font-size:16px;line-height:2;margin-bottom:20px}
+.article-body ul,.article-body ol{color:#cbd5e1;line-height:2;margin-bottom:25px;padding-right:25px}
+.article-body li{margin-bottom:7px}.article-body strong{color:#f8fafc}
+.code-wrapper{position:relative;margin:20px 0 28px}
+.code-label{direction:ltr;text-align:left;background:#111827;color:#64748b;padding:7px 15px;border-radius:8px 8px 0 0;font-family:Consolas,monospace;font-size:12px;border:1px solid rgba(148,163,184,.15);border-bottom:none}
+.code-block{direction:ltr;text-align:left;background:#020617;border:1px solid rgba(148,163,184,.15);border-radius:0 0 8px 8px;padding:20px;overflow-x:auto;margin:0}
+.code-block code{font-family:Consolas,"Courier New",monospace;font-size:14px;line-height:1.8;color:#e2e8f0}
+.note{background:rgba(56,189,248,.07);border-right:4px solid var(--primary);padding:20px 22px;border-radius:8px;margin:30px 0;color:#cbd5e1;line-height:1.9}
+.warning{background:rgba(251,191,36,.07);border-right:4px solid #fbbf24;padding:20px 22px;border-radius:8px;margin:30px 0;color:#cbd5e1;line-height:1.9}
+.command-table{width:100%;border-collapse:collapse;margin:25px 0 35px;border-radius:10px}
+.command-table th,.command-table td{padding:13px 15px;border-bottom:1px solid var(--border);text-align:right}
+.command-table th{background:var(--card);color:var(--primary);font-weight:600}
+.command-table td{color:#cbd5e1}.command-table code{direction:ltr;display:inline-block;background:rgba(148,163,184,.08);padding:3px 7px;border-radius:5px;color:#e2e8f0;font-family:Consolas,monospace}
+.exercise{background:linear-gradient(135deg,rgba(56,189,248,.08),rgba(14,165,233,.02));border:1px solid rgba(56,189,248,.18);border-radius:14px;padding:28px;margin:35px 0}
+.exercise h3{margin-top:0;color:var(--primary)}
+.article-footer{margin-top:80px;padding-top:30px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;gap:15px;flex-wrap:wrap}
+@media(max-width:650px){.article-header h1{font-size:38px}.article-body h2{font-size:25px}.article-body p{font-size:15px}.command-table{font-size:13px}}
+</style>
 
 </head>
-
 <body>
-
-
 <header class="navbar">
-
-    <div class="container navbar-inner">
-
-        <a href="../index.html" class="logo">
-            Z<span>.DevOps</span>
-        </a>
-
-        <nav>
-
-            <ul class="nav-links">
-
-                <li><a href="../index.html">خانه</a></li>
-
-                <li><a href="index.html">مقالات</a></li>
-
-                <li><a href="../index.html#projects">پروژه‌ها</a></li>
-
-                <li><a href="../index.html#roadmap">مسیر یادگیری</a></li>
-
-                <li><a href="../index.html#about">درباره من</a></li>
-
-            </ul>
-
-        </nav>
-
-    </div>
-
+<div class="container navbar-inner">
+<a href="../index.html" class="logo">Z<span>.DevOps</span></a>
+<nav><ul class="nav-links">
+<li><a href="../index.html">Home</a></li>
+<li><a href="index.html">Articles</a></li>
+<li><a href="../index.html#projects">Projects</a></li>
+<li><a href="../index.html#roadmap">Roadmap</a></li>
+<li><a href="../index.html#about">About</a></li>
+</ul></nav>
+</div>
 </header>
-
-
-<main>
-
-<section>
-
-<div class="container">
-
-<article class="article-page">
-
-
-<div class="section-title">
-
-    <div class="badge">
-        LINUX
-    </div>
-
-    <h1>
-        کاربران و گروه‌ها در Linux
-    </h1>
-
-    <p>
-        آشنایی با Userها، Groupها، مدیریت کاربران و
-        دسترسی‌های sudo در Linux.
-    </p>
-
-</div>
-
-
-<section>
-
-    <h2>مقدمه</h2>
-
-    <p>
-        Linux یک سیستم‌عامل چندکاربره است.
-        یعنی می‌تواند چندین User داشته باشد و برای هر User
-        دسترسی‌های متفاوتی تعریف کند.
-    </p>
-
-    <p>
-        این موضوع در Serverها اهمیت زیادی دارد؛
-        زیرا معمولاً چندین کاربر، سرویس و Application
-        روی یک سیستم فعالیت می‌کنند.
-    </p>
-
-    <p>
-        در این مقاله با User، Group و دستورات مهم مدیریت
-        آن‌ها آشنا می‌شویم.
-    </p>
-
-</section>
-
-
-<section>
-
-    <h2>1. مشاهده کاربر فعلی با whoami</h2>
-
-    <p>
-        برای اینکه بفهمیم در حال حاضر با چه کاربری وارد سیستم
-        شده‌ایم، از دستور زیر استفاده می‌کنیم:
-    </p>
-
-<pre><code>whoami</code></pre>
-
-    <p>
-        یک دستور مفید دیگر:
-    </p>
-
-<pre><code>id</code></pre>
-
-    <p>
-        دستور
-        <code>id</code>
-        اطلاعات بیشتری مانند UID، GID و گروه‌های کاربر
-        را نمایش می‌دهد.
-    </p>
-
-</section>
-
-
-<section>
-
-    <h2>2. فایل /etc/passwd</h2>
-
-    <p>
-        اطلاعات حساب‌های کاربری محلی Linux در فایل:
-    </p>
-
-<pre><code>/etc/passwd</code></pre>
-
-    <p>
-        قرار دارد.
-    </p>
-
-    <p>
-        می‌توانیم محتوای آن را مشاهده کنیم:
-    </p>
-
-<pre><code>cat /etc/passwd</code></pre>
-
-    <p>
-        برای پیدا کردن یک User خاص:
-    </p>
-
-<pre><code>grep username /etc/passwd</code></pre>
-
-    <div class="warning-box">
-
-        <strong>نکته امنیتی:</strong>
-
-        <p>
-            بهتر است فایل‌های سیستمی مانند
-            <code>/etc/passwd</code>
-            را مستقیماً ویرایش نکنیم و برای مدیریت کاربران
-            از دستورات استاندارد Linux استفاده کنیم.
-        </p>
-
-    </div>
-
-</section>
-
-
-<section>
-
-    <h2>3. ایجاد User جدید</h2>
-
-    <p>
-        در Ubuntu می‌توانیم با دستور
-        <code>adduser</code>
-        یک User جدید ایجاد کنیم.
-    </p>
-
-<pre><code>sudo adduser devopsuser</code></pre>
-
-    <p>
-        سیستم از ما رمز عبور و اطلاعات دیگری درباره کاربر
-        خواهد پرسید.
-    </p>
-
-    <p>
-        بعد از ایجاد کاربر می‌توانیم آن را بررسی کنیم:
-    </p>
-
-<pre><code>id devopsuser</code></pre>
-
-    <p>
-        Home Directory کاربر نیز معمولاً در مسیر زیر قرار می‌گیرد:
-    </p>
-
-<pre><code>/home/devopsuser</code></pre>
-
-</section>
-
-
-<section>
-
-    <h2>4. جابه‌جایی بین کاربران</h2>
-
-    <p>
-        برای ورود به محیط یک User دیگر می‌توانیم از
-        <code>su</code>
-        استفاده کنیم:
-    </p>
-
-<pre><code>su - devopsuser</code></pre>
-
-    <p>
-        برای بازگشت به User قبلی:
-    </p>
-
-<pre><code>exit</code></pre>
-
-</section>
-
-
-<section>
-
-    <h2>5. Group چیست؟</h2>
-
-    <p>
-        Group در Linux راهی برای مدیریت مجموعه‌ای از کاربران است.
-    </p>
-
-    <p>
-        به جای اینکه Permission یک فایل را برای تک‌تک کاربران
-        تنظیم کنیم، می‌توانیم کاربران را در یک Group قرار دهیم
-        و Permission را برای Group تنظیم کنیم.
-    </p>
-
-    <p>
-        برای مشاهده گروه‌های کاربر فعلی:
-    </p>
-
-<pre><code>groups</code></pre>
-
-    <p>
-        یا:
-    </p>
-
-<pre><code>id</code></pre>
-
-</section>
-
-
-<section>
-
-    <h2>6. ایجاد Group</h2>
-
-    <p>
-        برای ایجاد یک Group جدید از
-        <code>groupadd</code>
-        استفاده می‌کنیم:
-    </p>
-
-<pre><code>sudo groupadd devops</code></pre>
-
-    <p>
-        برای بررسی Group:
-    </p>
-
-<pre><code>getent group devops</code></pre>
-
-</section>
-
-
-<section>
-
-    <h2>7. اضافه کردن User به Group</h2>
-
-    <p>
-        برای اضافه کردن یک User به Group:
-    </p>
-
-<pre><code>sudo usermod -aG devops devopsuser</code></pre>
-
-    <p>
-        قسمت
-        <code>-aG</code>
-        مهم است.
-    </p>
-
-    <p>
-        گزینه
-        <code>-a</code>
-        یعنی اضافه کردن بدون حذف عضویت‌های قبلی،
-        و
-        <code>-G</code>
-        گروه‌های تکمیلی User را مشخص می‌کند.
-    </p>
-
-    <p>
-        برای بررسی:
-    </p>
-
-<pre><code>id devopsuser</code></pre>
-
-    <div class="info-box">
-
-        <strong>نکته:</strong>
-
-        <p>
-            بعد از تغییر Groupهای یک User، ممکن است لازم باشد
-            User یک Login Session جدید ایجاد کند تا تغییرات
-            در Session جدید اعمال شوند.
-        </p>
-
-    </div>
-
-</section>
-
-
-<section>
-
-    <h2>8. sudo چیست؟</h2>
-
-    <p>
-        بعضی عملیات در Linux نیاز به دسترسی مدیریتی دارند.
-    </p>
-
-    <p>
-        دستور
-        <code>sudo</code>
-        به یک User مجاز اجازه می‌دهد یک دستور را با
-        دسترسی بالاتر اجرا کند.
-    </p>
-
-<pre><code>sudo apt update</code></pre>
-
-    <p>
-        مثال دیگر:
-    </p>
-
-<pre><code>sudo systemctl status ssh</code></pre>
-
-    <p>
-        در محیط‌های DevOps استفاده از
-        <code>sudo</code>
-        بسیار رایج است.
-    </p>
-
-</section>
-
-
-<section>
-
-    <h2>9. دستورات مهم مدیریت User و Group</h2>
-
-    <table>
-
-        <thead>
-
-            <tr>
-                <th>دستور</th>
-                <th>کاربرد</th>
-            </tr>
-
-        </thead>
-
-        <tbody>
-
-            <tr>
-                <td><code>whoami</code></td>
-                <td>نمایش User فعلی</td>
-            </tr>
-
-            <tr>
-                <td><code>id</code></td>
-                <td>نمایش UID، GID و Groupها</td>
-            </tr>
-
-            <tr>
-                <td><code>groups</code></td>
-                <td>نمایش Groupهای User</td>
-            </tr>
-
-            <tr>
-                <td><code>adduser</code></td>
-                <td>ایجاد User</td>
-            </tr>
-
-            <tr>
-                <td><code>groupadd</code></td>
-                <td>ایجاد Group</td>
-            </tr>
-
-            <tr>
-                <td><code>usermod</code></td>
-                <td>تغییر مشخصات User</td>
-            </tr>
-
-            <tr>
-                <td><code>passwd</code></td>
-                <td>تغییر Password</td>
-            </tr>
-
-            <tr>
-                <td><code>su</code></td>
-                <td>تغییر User</td>
-            </tr>
-
-            <tr>
-                <td><code>sudo</code></td>
-                <td>اجرای دستور با دسترسی مدیریتی</td>
-            </tr>
-
-        </tbody>
-
-    </table>
-
-</section>
-
-
-<section>
-
-    <h2>10. تمرین عملی</h2>
-
-    <p>
-        حالا یک User و Group آزمایشی ایجاد می‌کنیم.
-    </p>
-
-    <h3>مرحله اول — ایجاد Group</h3>
-
-<pre><code>sudo groupadd devops-lab</code></pre>
-
-
-    <h3>مرحله دوم — ایجاد User</h3>
-
-<pre><code>sudo adduser labuser</code></pre>
-
-
-    <h3>مرحله سوم — بررسی User</h3>
-
-<pre><code>id labuser</code></pre>
-
-
-    <h3>مرحله چهارم — اضافه کردن User به Group</h3>
-
-<pre><code>sudo usermod -aG devops-lab labuser</code></pre>
-
-
-    <h3>مرحله پنجم — بررسی Group</h3>
-
-<pre><code>id labuser</code></pre>
-
-
-    <p>
-        باید Group
-        <code>devops-lab</code>
-        را در خروجی مشاهده کنی.
-    </p>
-
-
-    <h3>مرحله ششم — ورود به User جدید</h3>
-
-<pre><code>su - labuser</code></pre>
-
-
-    <h3>مرحله هفتم — بررسی User فعلی</h3>
-
-<pre><code>whoami</code></pre>
-
-
-    <p>
-        خروجی باید:
-    </p>
-
-<pre><code>labuser</code></pre>
-
-
-    <h3>مرحله هشتم — خروج</h3>
-
-<pre><code>exit</code></pre>
-
-
-    <div class="success-box">
-
-        <strong>تمرین پیشنهادی:</strong>
-
-        <p>
-            بعد از انجام تمرین، دستورهای
-            <code>whoami</code>،
-            <code>id</code>
-            و
-            <code>groups</code>
-            را هم با User اصلی و هم با User آزمایشی اجرا کن
-            و تفاوت خروجی‌ها را بررسی کن.
-        </p>
-
-    </div>
-
-</section>
-
-
-<section>
-
-    <h2>11. چرا User و Group در DevOps مهم هستند؟</h2>
-
-    <p>
-        در یک Server واقعی ممکن است افراد و سرویس‌های مختلفی
-        به سیستم دسترسی داشته باشند.
-    </p>
-
-    <p>
-        برای مثال:
-    </p>
-
-    <ul>
-
-        <li>System Administrator</li>
-
-        <li>Developer</li>
-
-        <li>Deployment User</li>
-
-        <li>Monitoring Service</li>
-
-        <li>Application User</li>
-
-    </ul>
-
-    <p>
-        دادن دسترسی کامل به همه کاربران می‌تواند یک مشکل امنیتی
-        جدی ایجاد کند.
-    </p>
-
-    <p>
-        به همین دلیل در محیط‌های حرفه‌ای از مفهوم
-        <strong>Least Privilege</strong>
-        استفاده می‌کنیم؛ یعنی هر User یا Service فقط
-        به اندازه‌ای که نیاز دارد دسترسی داشته باشد.
-    </p>
-
-</section>
-
-
-<section>
-
-    <h2>چیزی که در این مقاله یاد گرفتم</h2>
-
-    <ul>
-
-        <li>مفهوم User در Linux</li>
-
-        <li>مشاهده User فعلی با <code>whoami</code></li>
-
-        <li>بررسی اطلاعات User با <code>id</code></li>
-
-        <li>ایجاد User با <code>adduser</code></li>
-
-        <li>مفهوم Group</li>
-
-        <li>ایجاد Group با <code>groupadd</code></li>
-
-        <li>اضافه کردن User به Group</li>
-
-        <li>استفاده از <code>sudo</code></li>
-
-        <li>مفهوم Least Privilege</li>
-
-    </ul>
-
-</section>
-
-
-<section>
-
-    <h2>مقاله بعدی</h2>
-
-    <p>
-        حالا که با فایل‌ها، Permissionها، Userها و Groupها
-        آشنا شدیم، وقت آن است که ببینیم برنامه‌ها در Linux
-        چگونه اجرا می‌شوند.
-    </p>
-
-    <h3>
-        Linux Processes
-    </h3>
-
-    <p>
-        در مقاله بعدی با Processها، مشاهده Processهای در حال اجرا،
-        مصرف منابع و مدیریت Processها آشنا می‌شویم.
-    </p>
-
-</section>
-
-
-<div class="article-navigation">
-
-    <a href="linux-permissions.html" class="btn">
-        مقاله قبلی
-    </a>
-
-    <a href="index.html" class="btn">
-        بازگشت به مقالات
-    </a>
-
-</div>
-
+<main><section><div class="container article-wrapper">
+<header class="article-header">
+<div class="badge">LINUX · DEVOPS</div>
+<h1>Linux <span>Users &amp; Groups</span></h1>
+<p class="article-subtitle">آموزش مدیریت Userها و Groupها در Linux و آشنایی با sudo، adduser و usermod.</p>
+<div class="article-meta">📅 September 2026 &nbsp; · &nbsp; ⏱ Beginner &nbsp; · &nbsp; 🐧 Ubuntu</div>
+</header>
+<div class="toc"><h3>📚 فهرست مطالب</h3><ol><li><a href="#intro">چرا User و Group مهم هستند؟</a></li>
+<li><a href="#identity">شناخت User فعلی</a></li>
+<li><a href="#passwd">فایل /etc/passwd</a></li>
+<li><a href="#adduser">ساخت User</a></li>
+<li><a href="#groups">Group چیست؟</a></li>
+<li><a href="#su">تغییر User با su</a></li>
+<li><a href="#sudo">sudo چیست؟</a></li>
+<li><a href="#lab">تمرین عملی</a></li>
+<li><a href="#permissions">ارتباط User و Permission</a></li>
+<li><a href="#least">اصل Least Privilege</a></li>
+<li><a href="#cheatsheet">Cheat Sheet</a></li>
+<li><a href="#learned">چیزی که یاد گرفتم</a></li>
+<li><a href="#next">مرحله بعد</a></li></ol></div>
+<article class="article-body">
+
+<h2 id="intro">چرا User و Group مهم هستند؟</h2>
+<p>در یک سیستم Linux معمولاً چند User و چند سرویس وجود دارند. هر User باید فقط به منابعی که برای کارش لازم است دسترسی داشته باشد. Groupها هم راهی برای مدیریت مجموعه‌ای از کاربران با Permissionهای مشترک هستند.</p>
+<div class="note">💡 یکی از اصول مهم امنیت در DevOps، <strong>Least Privilege</strong> است؛ یعنی هر User یا سرویس فقط به اندازه نیازش دسترسی داشته باشد.</div>
+
+<h2 id="identity">شناخت User فعلی</h2>
+<p>برای دیدن User فعلی از <strong>whoami</strong> استفاده می‌کنیم.</p>
+<div class="code-wrapper"><div class="code-label">Terminal</div><pre class="code-block"><code>whoami</code></pre></div>
+<p>برای دیدن اطلاعات کامل‌تر User و Groupهای او:</p>
+<div class="code-wrapper"><div class="code-label">Terminal</div><pre class="code-block"><code>id</code></pre></div>
+
+<h2 id="passwd">فایل /etc/passwd</h2>
+<p>اطلاعات پایه حساب‌های کاربری محلی در فایل <code>/etc/passwd</code> ثبت می‌شود. برای مشاهده آن می‌توانیم از دستور زیر استفاده کنیم:</p>
+<div class="code-wrapper"><div class="code-label">Terminal</div><pre class="code-block"><code>cat /etc/passwd</code></pre></div>
+<p>این فایل شامل اطلاعات متنی حساب‌هاست؛ اما به معنی این نیست که Passwordهای واقعی کاربران را باید در آن ببینیم.</p>
+
+<h2 id="adduser">ساخت User</h2>
+<p>در Ubuntu برای ساخت User جدید می‌توان از <strong>adduser</strong> استفاده کرد.</p>
+<div class="code-wrapper"><div class="code-label">Terminal</div><pre class="code-block"><code>sudo adduser labuser</code></pre></div>
+<p>پس از ساخت، می‌توانیم اطلاعات User را بررسی کنیم:</p>
+<div class="code-wrapper"><div class="code-label">Terminal</div><pre class="code-block"><code>id labuser</code></pre></div>
+
+<h2 id="groups">Group چیست؟</h2>
+<p>Group اجازه می‌دهد چند User را در یک مجموعه قرار دهیم و Permissionهای مشترکی برای آن‌ها تعریف کنیم.</p>
+<div class="code-wrapper"><div class="code-label">Terminal</div><pre class="code-block"><code>sudo groupadd devops-lab</code></pre></div>
+<p>برای اضافه کردن User به Group:</p>
+<div class="code-wrapper"><div class="code-label">Terminal</div><pre class="code-block"><code>sudo usermod -aG devops-lab labuser</code></pre></div>
+<p>حالا بررسی می‌کنیم:</p>
+<div class="code-wrapper"><div class="code-label">Terminal</div><pre class="code-block"><code>id labuser</code></pre></div>
+
+<div class="warning">⚠️ در دستور <code>usermod -aG</code> گزینه <code>-a</code> مهم است؛ حذف آن در بعضی سناریوها می‌تواند عضویت‌های قبلی User در Groupها را تحت تأثیر قرار دهد.</div>
+
+<h2 id="su">تغییر User با su</h2>
+<p>دستور <strong>su</strong> برای تغییر User در یک Shell استفاده می‌شود.</p>
+<div class="code-wrapper"><div class="code-label">Terminal</div><pre class="code-block"><code>su - labuser
+whoami
+exit</code></pre></div>
+
+<h2 id="sudo">sudo چیست؟</h2>
+<p><strong>sudo</strong> اجازه می‌دهد یک User مجاز، یک دستور را با سطح دسترسی بالاتر اجرا کند. برای بسیاری از کارهای مدیریتی Ubuntu به جای ورود دائمی به حساب root از sudo استفاده می‌کنیم.</p>
+<div class="code-wrapper"><div class="code-label">Terminal</div><pre class="code-block"><code>sudo whoami</code></pre></div>
+<p>اگر User فعلی مجوز sudo داشته باشد، خروجی این دستور معمولاً <code>root</code> خواهد بود.</p>
+
+<h2 id="lab">تمرین عملی: Users & Groups Lab</h2>
+<div class="exercise"><h3>🧪 تمرین</h3><p>این تمرین را مرحله‌به‌مرحله اجرا کن:</p>
+<div class="code-wrapper"><div class="code-label">Ubuntu Terminal</div><pre class="code-block"><code>sudo groupadd devops-lab
+sudo adduser labuser
+id labuser
+sudo usermod -aG devops-lab labuser
+id labuser
+su - labuser
+whoami
+exit</code></pre></div>
+<p>بعد از اضافه کردن User به Group، با <code>id labuser</code> بررسی کن که Group جدید در خروجی دیده می‌شود.</p></div>
+
+<h2 id="permissions">ارتباط User، Group و Permission</h2>
+<p>حالا ارتباط مباحث دو مقاله قبل مشخص‌تر می‌شود. Permissionهای یک فایل به Owner، Group و Others تقسیم می‌شوند؛ بنابراین User و Group مستقیماً روی دسترسی به فایل‌ها و Directoryها اثر دارند.</p>
+<div class="code-wrapper"><div class="code-label">Terminal</div><pre class="code-block"><code>ls -l notes.txt</code></pre></div>
+<p>اگر Group فایل <code>devops-lab</code> باشد، می‌توان Permissionهای Group را طوری تنظیم کرد که اعضای آن Group دسترسی مشخصی داشته باشند.</p>
+
+<h2 id="least">اصل Least Privilege</h2>
+<p>در محیط‌های واقعی DevOps بهتر است Userها و سرویس‌ها بیش از نیازشان دسترسی نداشته باشند. برای مثال یک سرویس وب نباید بدون دلیل به تمام فایل‌های سیستم دسترسی Write داشته باشد.</p>
+<div class="note">💡 وقتی Permission خطا می‌دهد، قبل از استفاده از دسترسی‌های بسیار باز، این سه مورد را بررسی کن: <strong>چه Userای؟ چه Groupای؟ چه Permissionای؟</strong></div>
+
+<h2 id="cheatsheet">Users & Groups Cheat Sheet</h2>
+<table class="command-table"><thead><tr><th>Command</th><th>کاربرد</th></tr></thead><tbody>
+<tr><td><code>whoami</code></td><td>نمایش User فعلی</td></tr>
+<tr><td><code>id</code></td><td>نمایش User ID و Groupها</td></tr>
+<tr><td><code>sudo adduser user</code></td><td>ساخت User</td></tr>
+<tr><td><code>sudo groupadd group</code></td><td>ساخت Group</td></tr>
+<tr><td><code>sudo usermod -aG group user</code></td><td>افزودن User به Group</td></tr>
+<tr><td><code>su - user</code></td><td>تغییر User در Shell</td></tr>
+<tr><td><code>sudo command</code></td><td>اجرای دستور با دسترسی مدیریتی</td></tr>
+</tbody></table>
+
+<h2 id="learned">چیزی که از این مرحله یاد گرفتم</h2>
+<ul><li>می‌توانم User فعلی و Groupهای آن را بررسی کنم.</li><li>با <code>adduser</code> User ایجاد می‌کنم.</li><li>با <code>groupadd</code> Group می‌سازم.</li><li>با <code>usermod -aG</code> User را به Group اضافه می‌کنم.</li><li>با <code>sudo</code> می‌توانم دستورات مدیریتی را در صورت داشتن مجوز اجرا کنم.</li><li>Permissionها، Userها و Groupها به‌صورت مستقیم به یکدیگر مرتبط هستند.</li></ul>
+
+<h2 id="next">مرحله بعدی چیست؟</h2>
+<div class="exercise"><h3>⚙️ Linux Processes</h3><p>در مقاله بعدی سراغ Processها می‌روم؛ یعنی برنامه‌هایی که در Linux در حال اجرا هستند و ابزارهایی مثل <code>ps</code>، <code>top</code>، <code>htop</code>، <code>kill</code> و مفهوم PID را بررسی می‌کنم.</p></div>
+<div class="note">🚀 از اینجا به بعد، کم‌کم Linux را از یک مجموعه دستور به یک محیط واقعی برای مدیریت سرویس‌ها و زیرساخت تبدیل می‌کنیم.</div>
 
 </article>
-
+<div class="article-footer">
+<a href="linux-permissions.html" class="btn btn-secondary">← مقاله قبلی</a>
+<a href="index.html" class="btn btn-secondary">بازگشت به مقالات</a>
+<a href="../index.html" class="btn btn-primary">صفحه اصلی →</a>
+<a href="linux-processes.html" class="btn btn-primary">مقاله بعدی →</a>
 </div>
-
-</section>
-
-</main>
-
-
-<footer>
-
-    <div class="container">
-
-        <p>
-            © 2026 Z.DevOps
-        </p>
-
-        <div class="social-links">
-
-            <a href="../index.html">
-                خانه
-            </a>
-
-        </div>
-
-    </div>
-
-</footer>
-
-
-</body>
-
-</html>
+</div></section></main>
+<footer><div class="container"><p>© 2026 Z.DevOps — Built while learning DevOps.</p><div class="social-links"><a href="../index.html">Home</a></div></div></footer>
+</body></html>
