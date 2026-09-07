@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fa" dir="rtl">
 
 <head>
 
@@ -9,9 +9,9 @@
           content="width=device-width, initial-scale=1.0">
 
     <meta name="description"
-          content="Learn how to create, copy, move, rename and delete files and directories in Linux.">
+          content="آموزش مدیریت فایل‌ها و دایرکتوری‌ها در Linux شامل ایجاد، کپی، جابه‌جایی، تغییر نام و حذف فایل‌ها.">
 
-    <title>Linux Files & Directories | Z.DevOps</title>
+    <title>مدیریت فایل‌ها و دایرکتوری‌ها در Linux | Z.DevOps</title>
 
     <link rel="stylesheet"
           href="../style.css">
@@ -34,23 +34,23 @@
             <ul class="nav-links">
 
                 <li>
-                    <a href="../index.html">Home</a>
+                    <a href="../index.html">خانه</a>
                 </li>
 
                 <li>
-                    <a href="index.html">Articles</a>
+                    <a href="index.html">مقالات</a>
                 </li>
 
                 <li>
-                    <a href="../index.html#projects">Projects</a>
+                    <a href="../index.html#projects">پروژه‌ها</a>
                 </li>
 
                 <li>
-                    <a href="../index.html#roadmap">Roadmap</a>
+                    <a href="../index.html#roadmap">مسیر یادگیری</a>
                 </li>
 
                 <li>
-                    <a href="../index.html#about">About</a>
+                    <a href="../index.html#about">درباره من</a>
                 </li>
 
             </ul>
@@ -78,96 +78,101 @@
     </div>
 
     <h1>
-        Linux Files & Directories
+        مدیریت فایل‌ها و دایرکتوری‌ها در Linux
     </h1>
 
     <p>
-        Learn how to create, copy, move, rename and delete
-        files and directories in Linux.
+        در این مقاله یاد می‌گیریم چگونه در Linux فایل‌ها و
+        دایرکتوری‌ها را ایجاد، کپی، جابه‌جا، تغییر نام و حذف کنیم.
     </p>
 
 </div>
 
 
-<!-- Introduction -->
-
 <section>
 
-    <h2>Introduction</h2>
+    <h2>مقدمه</h2>
 
     <p>
-        Working with files and directories is one of the most
-        important skills in Linux.
+        یکی از مهم‌ترین مهارت‌ها در کار با Linux، توانایی مدیریت
+        فایل‌ها و دایرکتوری‌ها از طریق Terminal است.
     </p>
 
     <p>
-        As a DevOps engineer, you will constantly work with
-        configuration files, logs, scripts, application files
-        and directories.
+        در محیط‌های DevOps دائماً با فایل‌های Configuration،
+        Logها، Scriptها، فایل‌های Application و دایرکتوری‌های مختلف
+        سروکار داریم.
     </p>
 
     <p>
-        In this article, we will learn how to manage files and
-        directories from the Linux terminal.
+        بنابراین قبل از اینکه وارد مباحث پیشرفته‌تر DevOps شویم،
+        باید کار با فایل‌ها و دایرکتوری‌ها را به‌خوبی یاد بگیریم.
     </p>
 
 </section>
 
 
-<!-- mkdir -->
-
 <section>
 
-    <h2>1. Creating Directories</h2>
+    <h2>1. ایجاد دایرکتوری با mkdir</h2>
 
     <p>
-        The <code>mkdir</code> command is used to create a directory.
+        برای ایجاد یک دایرکتوری در Linux از دستور
+        <code>mkdir</code>
+        استفاده می‌کنیم.
     </p>
 
 <pre><code>mkdir myfolder</code></pre>
 
     <p>
-        We can also create multiple directories at once:
+        با اجرای این دستور، دایرکتوری
+        <code>myfolder</code>
+        در مسیر فعلی ساخته می‌شود.
+    </p>
+
+    <p>
+        می‌توانیم چند دایرکتوری را هم‌زمان ایجاد کنیم:
     </p>
 
 <pre><code>mkdir folder1 folder2 folder3</code></pre>
 
     <p>
-        To create nested directories, we can use the
-        <code>-p</code> option:
+        اگر بخواهیم چند دایرکتوری تو در تو ایجاد کنیم،
+        می‌توانیم از گزینه
+        <code>-p</code>
+        استفاده کنیم:
     </p>
 
 <pre><code>mkdir -p projects/devops/linux</code></pre>
 
     <p>
-        The <code>-p</code> option creates parent directories
-        if they do not already exist.
+        در این حالت اگر دایرکتوری‌های والد وجود نداشته باشند،
+        Linux آن‌ها را نیز ایجاد می‌کند.
     </p>
 
 </section>
 
 
-<!-- touch -->
-
 <section>
 
-    <h2>2. Creating Files</h2>
+    <h2>2. ایجاد فایل با touch</h2>
 
     <p>
-        The <code>touch</code> command can be used to create
-        an empty file.
+        برای ایجاد یک فایل خالی می‌توانیم از دستور
+        <code>touch</code>
+        استفاده کنیم.
     </p>
 
 <pre><code>touch notes.txt</code></pre>
 
     <p>
-        We can create multiple files at once:
+        همچنین می‌توانیم چند فایل را هم‌زمان ایجاد کنیم:
     </p>
 
 <pre><code>touch file1.txt file2.txt file3.txt</code></pre>
 
     <p>
-        Check the files with:
+        برای مشاهده فایل‌های ایجادشده:
     </p>
 
 <pre><code>ls -la</code></pre>
@@ -175,62 +180,86 @@
 </section>
 
 
-<!-- cat -->
-
 <section>
 
-    <h2>3. Reading Files</h2>
+    <h2>3. مشاهده محتوای فایل با cat</h2>
 
     <p>
-        The <code>cat</code> command displays the contents
-        of a text file.
+        دستور
+        <code>cat</code>
+        برای نمایش محتوای فایل‌های متنی بسیار کاربردی است.
     </p>
 
 <pre><code>cat notes.txt</code></pre>
 
     <p>
-        We can create a file and write content into it using
-        the <code>echo</code> command:
+        برای نوشتن یک متن داخل فایل می‌توانیم از
+        <code>echo</code>
+        استفاده کنیم:
     </p>
 
 <pre><code>echo "Hello Linux" &gt; notes.txt</code></pre>
 
     <p>
-        The content can then be displayed:
+        حالا محتوای فایل را بررسی می‌کنیم:
     </p>
 
 <pre><code>cat notes.txt</code></pre>
 
+    <div class="info-box">
+
+        <strong>نکته:</strong>
+
+        <p>
+            علامت
+            <code>&gt;</code>
+            محتوای قبلی فایل را جایگزین می‌کند.
+        </p>
+
+        <p>
+            اما
+            <code>&gt;&gt;</code>
+            متن جدید را به انتهای فایل اضافه می‌کند.
+        </p>
+
+    </div>
+
+<pre><code>echo "Linux is important for DevOps" &gt;&gt; notes.txt</code></pre>
+
 </section>
 
 
-<!-- cp -->
-
 <section>
 
-    <h2>4. Copying Files</h2>
+    <h2>4. کپی کردن فایل با cp</h2>
 
     <p>
-        The <code>cp</code> command is used to copy files.
+        برای کپی کردن فایل از دستور
+        <code>cp</code>
+        استفاده می‌کنیم.
     </p>
 
 <pre><code>cp notes.txt backup.txt</code></pre>
 
     <p>
-        Now we have two files:
+        در این مثال، یک نسخه کپی‌شده از
+        <code>notes.txt</code>
+        با نام
+        <code>backup.txt</code>
+        ایجاد می‌شود.
     </p>
 
-<pre><code>ls -la</code></pre>
-
     <p>
-        To copy a file into another directory:
+        برای کپی کردن فایل داخل یک دایرکتوری:
     </p>
 
 <pre><code>cp notes.txt myfolder/</code></pre>
 
     <p>
-        To copy an entire directory, we use the
-        <code>-r</code> option:
+        برای کپی کردن یک دایرکتوری به همراه محتویات آن،
+        معمولاً از گزینه
+        <code>-r</code>
+        استفاده می‌کنیم:
     </p>
 
 <pre><code>cp -r myfolder backupfolder</code></pre>
@@ -238,65 +267,86 @@
 </section>
 
 
-<!-- mv -->
-
 <section>
 
-    <h2>5. Moving and Renaming Files</h2>
+    <h2>5. جابه‌جایی فایل با mv</h2>
 
     <p>
-        The <code>mv</code> command is used both for moving
-        and renaming files.
+        دستور
+        <code>mv</code>
+        برای جابه‌جایی فایل‌ها و دایرکتوری‌ها استفاده می‌شود.
     </p>
 
-    <h3>Rename a file</h3>
-
-<pre><code>mv notes.txt linux-notes.txt</code></pre>
-
-    <h3>Move a file</h3>
-
-<pre><code>mv linux-notes.txt myfolder/</code></pre>
+<pre><code>mv notes.txt myfolder/</code></pre>
 
     <p>
-        Linux does not have a separate command specifically
-        for renaming files. The <code>mv</code> command handles
-        both operations.
+        این دستور فایل
+        <code>notes.txt</code>
+        را به دایرکتوری
+        <code>myfolder</code>
+        منتقل می‌کند.
     </p>
 
 </section>
 
 
-<!-- rm -->
+<section>
+
+    <h2>6. تغییر نام فایل با mv</h2>
+
+    <p>
+        جالب است بدانیم که در Linux برای تغییر نام فایل
+        دستور جداگانه‌ای وجود ندارد.
+    </p>
+
+    <p>
+        از همان دستور
+        <code>mv</code>
+        استفاده می‌کنیم:
+    </p>
+
+<pre><code>mv notes.txt linux-notes.txt</code></pre>
+
+    <p>
+        در این حالت فایل تغییر مکان نداده است؛
+        فقط نام آن تغییر کرده است.
+    </p>
+
+</section>
+
 
 <section>
 
-    <h2>6. Deleting Files</h2>
+    <h2>7. حذف فایل با rm</h2>
 
     <p>
-        The <code>rm</code> command is used to delete files.
+        برای حذف فایل از دستور
+        <code>rm</code>
+        استفاده می‌کنیم.
     </p>
 
-<pre><code>rm file.txt</code></pre>
+<pre><code>rm notes.txt</code></pre>
 
     <p>
-        To remove a directory and its contents:
+        برای حذف یک دایرکتوری به همراه محتویات آن:
     </p>
 
 <pre><code>rm -r myfolder</code></pre>
 
     <div class="warning-box">
 
-        <strong>Important:</strong>
+        <strong>هشدار مهم:</strong>
 
         <p>
-            Be very careful with <code>rm</code>.
-            Linux normally does not provide a Recycle Bin
-            when using <code>rm</code> from the terminal.
+            در استفاده از
+            <code>rm</code>
+            بسیار دقت کنید.
         </p>
 
         <p>
-            Always check your current directory and the command
-            before deleting files.
+            فایل‌هایی که با این دستور حذف می‌شوند معمولاً
+            وارد Recycle Bin نمی‌شوند و ممکن است بازیابی آن‌ها
+            بسیار دشوار یا غیرممکن باشد.
         </p>
 
     </div>
@@ -304,26 +354,26 @@
 </section>
 
 
-<!-- find -->
-
 <section>
 
-    <h2>7. Finding Files</h2>
+    <h2>8. پیدا کردن فایل‌ها با find</h2>
 
     <p>
-        The <code>find</code> command is useful for searching
-        files and directories.
+        دستور
+        <code>find</code>
+        برای پیدا کردن فایل‌ها و دایرکتوری‌ها بسیار کاربردی است.
     </p>
 
 <pre><code>find . -name "notes.txt"</code></pre>
 
     <p>
-        The dot means that the search starts from the
-        current directory.
+        علامت
+        <code>.</code>
+        یعنی جستجو از دایرکتوری فعلی شروع شود.
     </p>
 
     <p>
-        We can also search for all text files:
+        برای پیدا کردن تمام فایل‌های متنی:
     </p>
 
 <pre><code>find . -name "*.txt"</code></pre>
@@ -331,68 +381,58 @@
 </section>
 
 
-<!-- file -->
-
 <section>
 
-    <h2>8. Identifying File Types</h2>
+    <h2>9. تشخیص نوع فایل با file</h2>
 
     <p>
-        Linux does not rely only on file extensions to determine
-        what a file actually contains.
-    </p>
-
-    <p>
-        The <code>file</code> command can help identify the
-        type of a file.
+        دستور
+        <code>file</code>
+        می‌تواند نوع واقعی یک فایل را بررسی کند.
     </p>
 
 <pre><code>file notes.txt</code></pre>
 
     <p>
-        This command is especially useful when troubleshooting
-        unknown files.
+        این دستور در زمان Troubleshooting و بررسی فایل‌هایی
+        که نوع آن‌ها مشخص نیست بسیار مفید است.
     </p>
 
 </section>
 
 
-<!-- Wildcards -->
-
 <section>
 
-    <h2>9. Wildcards</h2>
+    <h2>10. کار با چند فایل با Wildcard</h2>
 
     <p>
-        Wildcards allow us to work with multiple files at once.
+        در Linux می‌توانیم از Wildcardها برای کار با چند فایل
+        به‌صورت هم‌زمان استفاده کنیم.
     </p>
 
     <p>
-        The <code>*</code> character represents zero or more
-        characters.
+        یکی از مهم‌ترین Wildcardها علامت
+        <code>*</code>
+        است.
     </p>
 
 <pre><code>ls *.txt</code></pre>
 
     <p>
-        This command lists all files ending with
-        <code>.txt</code>.
+        این دستور تمام فایل‌هایی را که پسوند
+        <code>.txt</code>
+        دارند نمایش می‌دهد.
     </p>
-
-    <p>
-        Another example:
-    </p>
-
-<pre><code>rm *.tmp</code></pre>
 
     <div class="warning-box">
 
-        <strong>Be careful:</strong>
+        <strong>دقت کنید:</strong>
 
         <p>
-            Wildcards can match many files.
-            Always use <code>ls</code> first if you are not sure
-            what will be matched.
+            قبل از استفاده از دستورات حذف همراه با Wildcard،
+            بهتر است ابتدا با
+            <code>ls</code>
+            بررسی کنید که دقیقاً چه فایل‌هایی Match می‌شوند.
         </p>
 
     </div>
@@ -400,92 +440,98 @@
 </section>
 
 
-<!-- Practical Lab -->
-
 <section>
 
-    <h2>10. Practical Linux Lab</h2>
+    <h2>11. تمرین عملی</h2>
 
     <p>
-        Now let's build a small project structure for our
-        DevOps learning environment.
+        حالا می‌خواهیم یک محیط کوچک برای تمرین بسازیم.
     </p>
 
-    <h3>Step 1 — Create the project</h3>
+    <h3>مرحله اول — ساخت پروژه</h3>
 
 <pre><code>cd ~
 
 mkdir -p devops-lab/linux/files</code></pre>
 
 
-    <h3>Step 2 — Enter the directory</h3>
+    <h3>مرحله دوم — ورود به دایرکتوری</h3>
 
 <pre><code>cd ~/devops-lab/linux/files</code></pre>
 
 
-    <h3>Step 3 — Create some files</h3>
+    <h3>مرحله سوم — ایجاد فایل‌ها</h3>
 
 <pre><code>touch notes.txt
 touch commands.txt
 touch backup.txt</code></pre>
 
 
-    <h3>Step 4 — Add some content</h3>
+    <h3>مرحله چهارم — نوشتن اطلاعات</h3>
 
 <pre><code>echo "Linux File Management" &gt; notes.txt
+
 echo "mkdir" &gt; commands.txt
 echo "touch" &gt;&gt; commands.txt
 echo "cp" &gt;&gt; commands.txt
 echo "mv" &gt;&gt; commands.txt</code></pre>
 
 
-    <h3>Step 5 — Read the files</h3>
+    <h3>مرحله پنجم — مشاهده فایل‌ها</h3>
 
-<pre><code>cat notes.txt
+<pre><code>ls -la
+
+cat notes.txt
 cat commands.txt</code></pre>
 
 
-    <h3>Step 6 — Create a backup</h3>
+    <h3>مرحله ششم — ساخت نسخه پشتیبان</h3>
 
 <pre><code>cp notes.txt notes-backup.txt</code></pre>
 
 
-    <h3>Step 7 — Rename the backup</h3>
+    <h3>مرحله هفتم — تغییر نام</h3>
 
 <pre><code>mv notes-backup.txt backup-notes.txt</code></pre>
 
 
-    <h3>Step 8 — Inspect the directory</h3>
-
-<pre><code>ls -la</code></pre>
-
-
-    <h3>Step 9 — Find text files</h3>
+    <h3>مرحله هشتم — پیدا کردن فایل‌ها</h3>
 
 <pre><code>find . -name "*.txt"</code></pre>
 
 
-    <p>
-        At this point you have practiced creating,
-        reading, copying, moving, renaming and finding files.
-    </p>
+    <div class="success-box">
+
+        <strong>تمرین پیشنهادی:</strong>
+
+        <p>
+            قبل از رفتن به مقاله بعدی، تمام دستورات این بخش را
+            روی Ubuntu خودت اجرا کن.
+        </p>
+
+        <p>
+            سعی کن بعد از انجام تمرین، یک فایل جدید به نام
+            <code>devops-notes.txt</code>
+            ایجاد کنی و چند دستور Linux که یاد گرفته‌ای
+            داخل آن بنویسی.
+        </p>
+
+    </div>
 
 </section>
 
 
-<!-- Cheat Sheet -->
-
 <section>
 
-    <h2>Linux File Management Cheat Sheet</h2>
+    <h2>Cheat Sheet</h2>
 
     <table>
 
         <thead>
 
             <tr>
-                <th>Command</th>
-                <th>Purpose</th>
+                <th>دستور</th>
+                <th>کاربرد</th>
             </tr>
 
         </thead>
@@ -494,42 +540,42 @@ cat commands.txt</code></pre>
 
             <tr>
                 <td><code>mkdir</code></td>
-                <td>Create a directory</td>
+                <td>ایجاد دایرکتوری</td>
             </tr>
 
             <tr>
                 <td><code>touch</code></td>
-                <td>Create an empty file</td>
+                <td>ایجاد فایل خالی</td>
             </tr>
 
             <tr>
                 <td><code>cat</code></td>
-                <td>Display file contents</td>
+                <td>نمایش محتوای فایل</td>
             </tr>
 
             <tr>
                 <td><code>cp</code></td>
-                <td>Copy files or directories</td>
+                <td>کپی کردن</td>
             </tr>
 
             <tr>
                 <td><code>mv</code></td>
-                <td>Move or rename</td>
+                <td>جابه‌جایی یا تغییر نام</td>
             </tr>
 
             <tr>
                 <td><code>rm</code></td>
-                <td>Remove files</td>
+                <td>حذف فایل یا دایرکتوری</td>
             </tr>
 
             <tr>
                 <td><code>find</code></td>
-                <td>Search for files</td>
+                <td>جستجوی فایل و دایرکتوری</td>
             </tr>
 
             <tr>
                 <td><code>file</code></td>
-                <td>Identify file type</td>
+                <td>تشخیص نوع فایل</td>
             </tr>
 
         </tbody>
@@ -539,42 +585,40 @@ cat commands.txt</code></pre>
 </section>
 
 
-<!-- What I Learned -->
-
 <section>
 
-    <h2>What I Learned</h2>
+    <h2>چیزی که در این مقاله یاد گرفتم</h2>
 
     <ul>
 
-        <li>Create files and directories.</li>
+        <li>ایجاد دایرکتوری با <code>mkdir</code></li>
 
-        <li>Read file contents.</li>
+        <li>ایجاد فایل با <code>touch</code></li>
 
-        <li>Copy files and directories.</li>
+        <li>خواندن فایل با <code>cat</code></li>
 
-        <li>Move and rename files.</li>
+        <li>کپی فایل با <code>cp</code></li>
 
-        <li>Delete files and directories.</li>
+        <li>جابه‌جایی و تغییر نام با <code>mv</code></li>
 
-        <li>Search for files with <code>find</code>.</li>
+        <li>حذف فایل با <code>rm</code></li>
 
-        <li>Use wildcards to work with multiple files.</li>
+        <li>جستجوی فایل با <code>find</code></li>
+
+        <li>استفاده از Wildcardها</li>
 
     </ul>
 
 </section>
 
 
-<!-- Next -->
-
 <section>
 
-    <h2>Next Article</h2>
+    <h2>مقاله بعدی</h2>
 
     <p>
-        In the next article we will learn one of the most
-        important concepts in Linux:
+        حالا که با فایل‌ها و دایرکتوری‌ها آشنا شدیم،
+        در مقاله بعدی سراغ یکی از مهم‌ترین مفاهیم Linux می‌رویم:
     </p>
 
     <h3>
@@ -582,8 +626,12 @@ cat commands.txt</code></pre>
     </h3>
 
     <p>
-        We will learn how Linux controls access to files
-        using users, groups and permissions.
+        یاد می‌گیریم چه کسی اجازه خواندن، نوشتن و اجرای
+        فایل‌ها را دارد و دستورهای
+        <code>chmod</code>
+        و
+        <code>chown</code>
+        چگونه کار می‌کنند.
     </p>
 
 </section>
@@ -592,11 +640,11 @@ cat commands.txt</code></pre>
 <div class="article-navigation">
 
     <a href="linux-filesystem.html" class="btn">
-        Previous Article
+        مقاله قبلی
     </a>
 
     <a href="index.html" class="btn">
-        Back to Articles
+        بازگشت به مقالات
     </a>
 
 </div>
@@ -622,7 +670,7 @@ cat commands.txt</code></pre>
         <div class="social-links">
 
             <a href="../index.html">
-                Home
+                خانه
             </a>
 
         </div>
