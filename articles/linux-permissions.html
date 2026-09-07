@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fa" dir="rtl">
 
 <head>
 
@@ -9,9 +9,9 @@
           content="width=device-width, initial-scale=1.0">
 
     <meta name="description"
-          content="Learn Linux file permissions, chmod, chown and access control.">
+          content="آموزش مجوزهای فایل در Linux، آشنایی با chmod، chown، owner، group و permissions.">
 
-    <title>Linux Permissions | Z.DevOps</title>
+    <title>مجوزها در Linux | Z.DevOps</title>
 
     <link rel="stylesheet"
           href="../style.css">
@@ -33,25 +33,15 @@
 
             <ul class="nav-links">
 
-                <li>
-                    <a href="../index.html">Home</a>
-                </li>
+                <li><a href="../index.html">خانه</a></li>
 
-                <li>
-                    <a href="index.html">Articles</a>
-                </li>
+                <li><a href="index.html">مقالات</a></li>
 
-                <li>
-                    <a href="../index.html#projects">Projects</a>
-                </li>
+                <li><a href="../index.html#projects">پروژه‌ها</a></li>
 
-                <li>
-                    <a href="../index.html#roadmap">Roadmap</a>
-                </li>
+                <li><a href="../index.html#roadmap">مسیر یادگیری</a></li>
 
-                <li>
-                    <a href="../index.html#about">About</a>
-                </li>
+                <li><a href="../index.html#about">درباره من</a></li>
 
             </ul>
 
@@ -78,89 +68,81 @@
     </div>
 
     <h1>
-        Linux Permissions
+        مجوزها و Permissionها در Linux
     </h1>
 
     <p>
-        Understanding Linux file permissions,
-        chmod, chown and access control.
+        آشنایی با Owner، Group، Read، Write، Execute و
+        دستورهای chmod و chown.
     </p>
 
 </div>
 
 
-<!-- Introduction -->
-
 <section>
 
-    <h2>Introduction</h2>
+    <h2>مقدمه</h2>
 
     <p>
-        Linux is a multi-user operating system.
-        Multiple users and services can work on the same system.
+        Linux یک سیستم‌عامل چندکاربره است و کاربران مختلف
+        می‌توانند روی یک سیستم کار کنند.
     </p>
 
     <p>
-        Because of this, Linux needs a mechanism to control
-        who can read, modify or execute files.
+        بنابراین Linux باید مشخص کند چه کسی اجازه دارد
+        یک فایل را بخواند، تغییر دهد یا اجرا کند.
     </p>
 
     <p>
-        This mechanism is called
-        <strong>File Permissions</strong>.
+        این کنترل دسترسی با استفاده از
+        <strong>File Permissions</strong>
+        انجام می‌شود.
     </p>
 
 </section>
 
 
-<!-- ls -l -->
-
 <section>
 
-    <h2>1. Reading File Permissions</h2>
+    <h2>1. مشاهده Permissionها</h2>
 
     <p>
-        We can use <code>ls -l</code> to see file permissions.
+        برای مشاهده Permission و مالکیت فایل‌ها می‌توانیم
+        از دستور زیر استفاده کنیم:
     </p>
 
 <pre><code>ls -l</code></pre>
 
     <p>
-        A result might look like:
+        ممکن است خروجی چیزی شبیه این باشد:
     </p>
 
 <pre><code>-rw-r--r-- 1 user user 120 Sep 7 10:00 notes.txt</code></pre>
 
     <p>
-        The first part:
+        قسمت ابتدایی یعنی:
     </p>
 
 <pre><code>-rw-r--r--</code></pre>
 
     <p>
-        contains the permission information.
+        Permissionهای فایل را مشخص می‌کند.
     </p>
 
 </section>
 
 
-<!-- Permission structure -->
-
 <section>
 
-    <h2>2. Understanding rwx</h2>
-
-    <p>
-        Linux permissions are based on three basic permissions:
-    </p>
+    <h2>2. مفهوم r ،w و x</h2>
 
     <table>
 
         <thead>
 
             <tr>
-                <th>Symbol</th>
-                <th>Meaning</th>
+                <th>حرف</th>
+                <th>معنی</th>
             </tr>
 
         </thead>
@@ -169,17 +151,17 @@
 
             <tr>
                 <td><code>r</code></td>
-                <td>Read</td>
+                <td>Read - خواندن</td>
             </tr>
 
             <tr>
                 <td><code>w</code></td>
-                <td>Write</td>
+                <td>Write - نوشتن</td>
             </tr>
 
             <tr>
                 <td><code>x</code></td>
-                <td>Execute</td>
+                <td>Execute - اجرا</td>
             </tr>
 
         </tbody>
@@ -187,43 +169,41 @@
     </table>
 
     <p>
-        These permissions are applied to three categories:
+        این Permissionها برای سه گروه اصلی تعریف می‌شوند:
     </p>
 
     <ul>
 
-        <li>Owner</li>
+        <li>Owner — مالک فایل</li>
 
-        <li>Group</li>
+        <li>Group — گروه فایل</li>
 
-        <li>Others</li>
+        <li>Others — سایر کاربران</li>
 
     </ul>
 
     <p>
-        Therefore a permission such as:
+        بنابراین اگر Permission به شکل زیر باشد:
     </p>
 
 <pre><code>-rwxr-xr--</code></pre>
 
     <p>
-        can be divided like this:
+        می‌توانیم آن را به این شکل تقسیم کنیم:
     </p>
 
-<pre><code>Owner   Group   Others
-rwx     r-x     r--</code></pre>
+<pre><code>Owner     Group     Others
+rwx       r-x       r--</code></pre>
 
 </section>
 
 
-<!-- Numeric permissions -->
-
 <section>
 
-    <h2>3. Numeric Permissions</h2>
+    <h2>3. Permissionهای عددی</h2>
 
     <p>
-        Linux also allows us to represent permissions using numbers.
+        در Linux می‌توان Permissionها را با اعداد نیز مشخص کرد.
     </p>
 
     <table>
@@ -232,7 +212,7 @@ rwx     r-x     r--</code></pre>
 
             <tr>
                 <th>Permission</th>
-                <th>Value</th>
+                <th>مقدار</th>
             </tr>
 
         </thead>
@@ -259,144 +239,145 @@ rwx     r-x     r--</code></pre>
     </table>
 
     <p>
-        For example:
+        بنابراین:
     </p>
 
 <pre><code>rwx = 4 + 2 + 1 = 7
+
 rw- = 4 + 2 = 6
+
 r-x = 4 + 1 = 5
+
 r-- = 4</code></pre>
 
     <p>
-        Therefore:
+        مثلاً Permission زیر:
     </p>
 
 <pre><code>755</code></pre>
 
     <p>
-        means:
+        یعنی:
     </p>
 
-<pre><code>Owner   = 7 = rwx
-Group   = 5 = r-x
-Others  = 5 = r-x</code></pre>
+<pre><code>Owner  = 7 = rwx
+Group  = 5 = r-x
+Others = 5 = r-x</code></pre>
 
 </section>
 
 
-<!-- chmod -->
-
 <section>
 
-    <h2>4. chmod</h2>
+    <h2>4. تغییر Permission با chmod</h2>
 
     <p>
-        The <code>chmod</code> command changes file permissions.
+        برای تغییر Permission فایل‌ها از دستور
+        <code>chmod</code>
+        استفاده می‌کنیم.
     </p>
 
     <p>
-        For example:
+        برای مثال:
     </p>
 
 <pre><code>chmod 755 script.sh</code></pre>
 
     <p>
-        This gives the owner full permissions and gives
-        read and execute permissions to the group and others.
-    </p>
-
-    <p>
-        Another common example:
+        یا:
     </p>
 
 <pre><code>chmod 644 notes.txt</code></pre>
 
     <p>
-        This means:
+        Permission
+        <code>644</code>
+        یعنی:
     </p>
 
-<pre><code>Owner   = rw-
-Group   = r--
-Others  = r--</code></pre>
+<pre><code>Owner  = rw-
+Group  = r--
+Others = r--</code></pre>
 
 </section>
 
 
-<!-- Symbolic chmod -->
-
 <section>
 
-    <h2>5. Symbolic chmod</h2>
+    <h2>5. تغییر Permission به روش Symbolic</h2>
 
     <p>
-        Permissions can also be changed using symbolic notation.
+        علاوه بر روش عددی، می‌توانیم Permission را به شکل
+        Symbolic نیز تغییر دهیم.
     </p>
 
     <p>
-        Give the owner execute permission:
+        برای اضافه کردن Execute به Owner:
     </p>
 
 <pre><code>chmod u+x script.sh</code></pre>
 
     <p>
-        Remove write permission from others:
+        برای حذف Write از Others:
     </p>
 
 <pre><code>chmod o-w notes.txt</code></pre>
 
     <p>
-        Give the group write permission:
+        برای اضافه کردن Write به Group:
     </p>
 
-<pre><code>chmod g+w project.txt</code></pre>
+<pre><code>chmod g+w notes.txt</code></pre>
 
     <p>
-        The letters mean:
+        حروف مهم:
     </p>
 
-<pre><code>u = user / owner
-g = group
-o = others
-a = all</code></pre>
+<pre><code>u = Owner
+g = Group
+o = Others
+a = All</code></pre>
 
 </section>
 
 
-<!-- chown -->
-
 <section>
 
-    <h2>6. File Ownership</h2>
+    <h2>6. مالکیت فایل و chown</h2>
 
     <p>
-        Linux files also have an owner and a group.
+        فایل‌ها در Linux علاوه بر Permission، دارای Owner و Group
+        نیز هستند.
     </p>
 
     <p>
-        We can inspect ownership using:
+        برای مشاهده آن‌ها:
     </p>
 
 <pre><code>ls -l</code></pre>
 
     <p>
-        The <code>chown</code> command changes ownership.
+        برای تغییر Owner می‌توان از
+        <code>chown</code>
+        استفاده کرد:
     </p>
 
 <pre><code>sudo chown username file.txt</code></pre>
 
     <p>
-        We can change both owner and group:
+        برای تغییر Owner و Group:
     </p>
 
 <pre><code>sudo chown username:groupname file.txt</code></pre>
 
     <div class="warning-box">
 
-        <strong>Important:</strong>
+        <strong>هشدار:</strong>
 
         <p>
-            Be careful when using <code>sudo chown</code>
-            on system files.
+            هنگام استفاده از
+            <code>sudo chown</code>
+            روی فایل‌های سیستمی بسیار دقت کنید.
         </p>
 
     </div>
@@ -404,17 +385,15 @@ a = all</code></pre>
 </section>
 
 
-<!-- Practical Lab -->
-
 <section>
 
-    <h2>7. Practical Lab</h2>
+    <h2>7. تمرین عملی</h2>
 
     <p>
-        Let's create a small permission lab.
+        حالا یک محیط آزمایشی برای Permissionها ایجاد می‌کنیم.
     </p>
 
-    <h3>Step 1 — Create the directory</h3>
+    <h3>مرحله اول — ساخت دایرکتوری</h3>
 
 <pre><code>cd ~
 
@@ -423,30 +402,25 @@ mkdir -p devops-lab/permissions
 cd ~/devops-lab/permissions</code></pre>
 
 
-    <h3>Step 2 — Create a file</h3>
+    <h3>مرحله دوم — ساخت فایل</h3>
 
 <pre><code>echo "Linux Permissions Lab" &gt; notes.txt</code></pre>
 
 
-    <h3>Step 3 — Check permissions</h3>
+    <h3>مرحله سوم — مشاهده Permission</h3>
 
 <pre><code>ls -l notes.txt</code></pre>
 
 
-    <h3>Step 4 — Change permissions</h3>
+    <h3>مرحله چهارم — تغییر Permission</h3>
 
-<pre><code>chmod 600 notes.txt</code></pre>
+<pre><code>chmod 600 notes.txt
 
-
-    <p>
-        Check again:
-    </p>
-
-<pre><code>ls -l notes.txt</code></pre>
+ls -l notes.txt</code></pre>
 
 
     <p>
-        Now try:
+        سپس Permission را به حالت دیگری تغییر می‌دهیم:
     </p>
 
 <pre><code>chmod 644 notes.txt
@@ -454,94 +428,103 @@ cd ~/devops-lab/permissions</code></pre>
 ls -l notes.txt</code></pre>
 
 
-    <h3>Step 5 — Create a script</h3>
+    <h3>مرحله پنجم — ساخت یک Script</h3>
 
 <pre><code>echo '#!/bin/bash' &gt; hello.sh
+
 echo 'echo "Hello from Linux"' &gt;&gt; hello.sh</code></pre>
 
 
-    <h3>Step 6 — Try to execute it</h3>
+    <h3>مرحله ششم — اجرای Script</h3>
 
 <pre><code>./hello.sh</code></pre>
 
-
     <p>
-        Depending on the current permissions, you may receive
-        a permission denied error.
+        اگر Execute Permission نداشته باشد، ممکن است با خطای
+        Permission Denied مواجه شوید.
     </p>
 
 
-    <h3>Step 7 — Add execute permission</h3>
+    <h3>مرحله هفتم — اضافه کردن Execute</h3>
 
 <pre><code>chmod u+x hello.sh</code></pre>
 
 
     <p>
-        Now run:
+        حالا دوباره اجرا کنید:
     </p>
 
 <pre><code>./hello.sh</code></pre>
 
 
-    <p>
-        The script should now execute.
-    </p>
+    <div class="success-box">
+
+        <strong>تمرین پیشنهادی:</strong>
+
+        <p>
+            Permissionهای فایل
+            <code>hello.sh</code>
+            را با
+            <code>ls -l</code>
+            بررسی کن و ببین بعد از اجرای
+            <code>chmod u+x</code>
+            چه تغییری در Permission ایجاد شده است.
+        </p>
+
+    </div>
 
 </section>
 
 
-<!-- Security -->
-
 <section>
 
-    <h2>8. Why Permissions Matter in DevOps</h2>
+    <h2>8. چرا Permissionها در DevOps مهم هستند؟</h2>
 
     <p>
-        File permissions are extremely important in DevOps.
+        Permissionها یکی از مفاهیم بسیار مهم در مدیریت
+        Serverهای Linux هستند.
     </p>
 
     <p>
-        Applications, services and users should only have
-        the permissions they actually need.
+        اگر Permissionها اشتباه تنظیم شوند، ممکن است باعث
+        مشکلات امنیتی یا خطاهای Application شوند.
     </p>
 
     <p>
-        Incorrect permissions can cause:
+        برای مثال:
     </p>
 
     <ul>
 
-        <li>Security vulnerabilities</li>
+        <li>کاربر غیرمجاز بتواند فایل را تغییر دهد.</li>
 
-        <li>Application failures</li>
+        <li>یک Application نتواند فایل موردنیاز خود را بخواند.</li>
 
-        <li>Permission denied errors</li>
+        <li>یک Script اجازه اجرا نداشته باشد.</li>
 
-        <li>Unauthorized access</li>
+        <li>یک سرویس به فایل Configuration دسترسی نداشته باشد.</li>
 
     </ul>
 
     <p>
-        Understanding permissions will become especially important
-        when working with SSH, Docker, web servers and CI/CD pipelines.
+        در DevOps باید تا حد امکان فقط Permissionهای موردنیاز
+        را به کاربران و سرویس‌ها بدهیم.
     </p>
 
 </section>
 
 
-<!-- Cheat Sheet -->
-
 <section>
 
-    <h2>Permissions Cheat Sheet</h2>
+    <h2>Cheat Sheet</h2>
 
     <table>
 
         <thead>
 
             <tr>
-                <th>Command</th>
-                <th>Purpose</th>
+                <th>دستور</th>
+                <th>کاربرد</th>
             </tr>
 
         </thead>
@@ -550,32 +533,32 @@ echo 'echo "Hello from Linux"' &gt;&gt; hello.sh</code></pre>
 
             <tr>
                 <td><code>ls -l</code></td>
-                <td>View permissions and ownership</td>
+                <td>مشاهده Permission و مالکیت</td>
             </tr>
 
             <tr>
                 <td><code>chmod</code></td>
-                <td>Change permissions</td>
+                <td>تغییر Permission</td>
             </tr>
 
             <tr>
                 <td><code>chown</code></td>
-                <td>Change owner</td>
+                <td>تغییر Owner</td>
             </tr>
 
             <tr>
                 <td><code>r</code></td>
-                <td>Read</td>
+                <td>خواندن</td>
             </tr>
 
             <tr>
                 <td><code>w</code></td>
-                <td>Write</td>
+                <td>نوشتن</td>
             </tr>
 
             <tr>
                 <td><code>x</code></td>
-                <td>Execute</td>
+                <td>اجرا</td>
             </tr>
 
         </tbody>
@@ -585,50 +568,46 @@ echo 'echo "Hello from Linux"' &gt;&gt; hello.sh</code></pre>
 </section>
 
 
-<!-- What I Learned -->
-
 <section>
 
-    <h2>What I Learned</h2>
+    <h2>چیزی که در این مقاله یاد گرفتم</h2>
 
     <ul>
 
-        <li>Linux file permissions.</li>
+        <li>Permission در Linux چیست.</li>
 
-        <li>Owner, Group and Others.</li>
+        <li>Owner، Group و Others چه هستند.</li>
 
-        <li>Read, Write and Execute permissions.</li>
+        <li>مفهوم Read، Write و Execute.</li>
 
-        <li>Numeric permissions such as 644 and 755.</li>
+        <li>Permissionهای عددی مانند 644 و 755.</li>
 
-        <li>Using <code>chmod</code>.</li>
+        <li>کار با دستور <code>chmod</code>.</li>
 
-        <li>Using <code>chown</code>.</li>
+        <li>کار با دستور <code>chown</code>.</li>
 
-        <li>Why permissions matter in DevOps.</li>
+        <li>اهمیت Permissionها در امنیت و DevOps.</li>
 
     </ul>
 
 </section>
 
 
-<!-- Next -->
-
 <section>
 
-    <h2>Next Article</h2>
+    <h2>مقاله بعدی</h2>
 
     <p>
-        In the next article we will learn about:
+        در مقاله بعدی با یکی دیگر از مفاهیم مهم Linux آشنا می‌شویم:
     </p>
 
     <h3>
-        Linux Users & Groups
+        کاربران و گروه‌ها در Linux
     </h3>
 
     <p>
-        We will learn how Linux manages users and groups
-        and how they interact with file permissions.
+        یاد می‌گیریم Linux چگونه کاربران و گروه‌ها را مدیریت می‌کند
+        و چگونه این موضوع با Permissionها ارتباط دارد.
     </p>
 
 </section>
@@ -637,11 +616,11 @@ echo 'echo "Hello from Linux"' &gt;&gt; hello.sh</code></pre>
 <div class="article-navigation">
 
     <a href="linux-files-directories.html" class="btn">
-        Previous Article
+        مقاله قبلی
     </a>
 
     <a href="index.html" class="btn">
-        Back to Articles
+        بازگشت به مقالات
     </a>
 
 </div>
@@ -667,7 +646,7 @@ echo 'echo "Hello from Linux"' &gt;&gt; hello.sh</code></pre>
         <div class="social-links">
 
             <a href="../index.html">
-                Home
+                خانه
             </a>
 
         </div>
