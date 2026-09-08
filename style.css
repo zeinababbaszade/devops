@@ -582,3 +582,60 @@ footer {
 .article-card h3 a:hover {
     color: var(--primary);
 }
+/* =========================================
+   NETWORKING SUBCATEGORIES
+========================================= */
+
+.network-subcategory {
+    margin-top: 55px;
+    padding: 30px;
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    background: rgba(15, 23, 42, 0.35);
+}
+
+.network-subcategory-header {
+    margin-bottom: 30px;
+}
+
+.network-subcategory-header > div {
+    display: flex;
+    align-items: flex-start;
+    gap: 18px;
+}
+
+.network-number {
+    min-width: 48px;
+    height: 48px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 12px;
+
+    background: rgba(56, 189, 248, 0.1);
+    border: 1px solid rgba(56, 189, 248, 0.2);
+
+    color: var(--primary);
+
+    font-family: Consolas, monospace;
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.network-subcategory-header h3 {
+    margin: 0 0 7px;
+    font-size: 24px;
+}
+
+.network-subcategory-header p {
+    margin: 0;
+    color: var(--text-secondary);
+    font-size: 14px;
+    line-height: 1.8;
+}
+
+.network-subcategory .articles-grid {
+    margin-top: 0;
+}
