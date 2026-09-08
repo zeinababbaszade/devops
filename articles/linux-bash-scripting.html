@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <meta name="description"
+          content="آموزش Bash Scripting در Linux؛ Variables، Conditions، Loops، Functions و Automation">
+
+    <title>Linux Bash Scripting | Z.DevOps</title>
+
+    <link rel="stylesheet"
+          href="../style.css">
+
+</head>
+
+<body>
+
+
+<header class="navbar">
+
+    <div class="container navbar-inner">
+
+        <a href="../index.html" class="logo">
+            Z<span>.DevOps</span>
+        </a>
+
+        <nav>
+
+            <ul class="nav-links">
+
+                <li>
+                    <a href="../index.html">Home</a>
+                </li>
+
+                <li>
+                    <a href="index.html">Articles</a>
+                </li>
+
+                <li>
+                    <a href="../index.html#projects">Projects</a>
+                </li>
+
+                <li>
+                    <a href="../index.html#roadmap">Roadmap</a>
+                </li>
+
+                <li>
+                    <a href="../index.html#about">About</a>
+                </li>
+
+            </ul>
+
+        </nav>
+
+    </div>
+
+</header>
+
+
+<main>
+
+
+<section class="article-header">
+
+    <div class="container">
+
+        <div class="badge">
+            LINUX · BASH · AUTOMATION
+        </div>
+
+        <h1>
+            Linux Bash Scripting
+        </h1>
+
+        <p>
+            شروع اتوماسیون کارهای Linux با Bash
+        </p>
+
+        <div class="article-meta">
+            September 2026 · Beginner → Intermediate
+        </div>
+
+    </div>
+
+</section>
+
+
+<section class="article-section">
+
+    <div class="container">
+
+
+        <div class="article-toc">
+
+            <h3>
+                📚 فهرست مطالب
+            </h3>
+
+            <ul>
+
+                <li>
+                    <a href="#what">
+                        Bash چیست؟
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#first-script">
+                        اولین Script
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#variables">
+                        Variables
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#arguments">
+                        Arguments
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#conditions">
+                        شرط‌ها
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#loops">
+                        Loopها
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#functions">
+                        Functionها
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#exit">
+                        Exit Code
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#automation">
+                        Automation
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#practice">
+                        تمرین عملی
+                    </a>
+                </li>
+
+            </ul>
+
+        </div>
+
+
+        <article class="article-body">
+
+
+            <h2 id="what">
+                Bash چیست؟
+            </h2>
+
+            <p>
+                Bash یکی از Shellهای معروف در سیستم‌های Linux و Unix است.
+            </p>
+
+            <p>
+                Shell به ما اجازه می‌دهد با سیستم‌عامل از طریق
+                Command Line تعامل داشته باشیم.
+            </p>
+
+            <p>
+                اما Bash فقط برای اجرای دستی Commandها نیست.
+                می‌توانیم مجموعه‌ای از دستورات را داخل یک فایل قرار
+                دهیم و آن را به صورت خودکار اجرا کنیم.
+            </p>
+
+            <p>
+                به این فایل‌ها معمولاً Bash Script گفته می‌شود.
+            </p>
+
+
+            <h2 id="first-script">
+                اولین Bash Script
+            </h2>
+
+            <p>
+                یک فایل ایجاد کن:
+            </p>
+
+            <pre><code>nano hello.sh</code></pre>
+
+            <p>
+                داخل آن بنویس:
+            </p>
+
+            <pre><code>#!/bin/bash
+
+echo "Hello DevOps"</code></pre>
+
+            <p>
+                سپس Permission اجرا بده:
+            </p>
+
+            <pre><code>chmod +x hello.sh</code></pre>
+
+            <p>
+                و اجرا کن:
+            </p>
+
+            <pre><code>./hello.sh</code></pre>
+
+
+            <div class="article-note">
+
+                <strong>💡 نکته:</strong>
+
+                <p>
+                    خط اول Script یعنی
+                    <code>#!/bin/bash</code>
+                    مشخص می‌کند Script با Bash اجرا شود.
+                </p>
+
+            </div>
+
+
+            <h2 id="variables">
+                Variables
+            </h2>
+
+            <p>
+                برای ذخیره اطلاعات می‌توانیم از Variable استفاده کنیم.
+            </p>
+
+            <pre><code>name="Zeinab"</code></pre>
+
+            <p>
+                برای استفاده:
+            </p>
+
+            <pre><code>echo "$name"</code></pre>
+
+            <p>
+                یک مثال دیگر:
+            </p>
+
+            <pre><code>server="production"
+
+echo "Server: $server"</code></pre>
+
+
+            <h2 id="arguments">
+                Script Arguments
+            </h2>
+
+            <p>
+                می‌توانیم هنگام اجرای Script به آن Argument بدهیم.
+            </p>
+
+            <pre><code>./script.sh server01</code></pre>
+
+            <p>
+                مقدار اولین Argument در:
+            </p>
+
+            <pre><code>$1</code></pre>
+
+            <p>
+                قرار می‌گیرد.
+            </p>
+
+            <p>
+                مثال:
+            </p>
+
+            <pre><code>#!/bin/bash
+
+echo "Server: $1"</code></pre>
+
+
+            <h2 id="conditions">
+                شرط‌ها در Bash
+            </h2>
+
+            <p>
+                برای تصمیم‌گیری می‌توانیم از if استفاده کنیم.
+            </p>
+
+            <pre><code>#!/bin/bash
+
+if [ "$1" = "production" ]; then
+    echo "Production server"
+else
+    echo "Other environment"
+fi</code></pre>
+
+
+            <h3>
+                بررسی وجود فایل
+            </h3>
+
+            <pre><code>if [ -f "/etc/hosts" ]; then
+    echo "File exists"
+fi</code></pre>
+
+
+            <h3>
+                بررسی Directory
+            </h3>
+
+            <pre><code>if [ -d "/var/log" ]; then
+    echo "Directory exists"
+fi</code></pre>
+
+
+            <h2 id="loops">
+                Loopها
+            </h2>
+
+            <p>
+                Loop زمانی کاربرد دارد که بخواهیم یک کار را چند بار انجام دهیم.
+            </p>
+
+            <h3>
+                For Loop
+            </h3>
+
+            <pre><code>for server in server1 server2 server3
+do
+    echo "Checking $server"
+done</code></pre>
+
+
+            <h3>
+                مثال کاربردی
+            </h3>
+
+            <pre><code>for file in /var/log/*.log
+do
+    echo "$file"
+done</code></pre>
+
+
+            <h2 id="functions">
+                Functionها
+            </h2>
+
+            <p>
+                برای جلوگیری از تکرار کد می‌توانیم Function ایجاد کنیم.
+            </p>
+
+            <pre><code>check_disk() {
+    df -h
+}
+
+check_disk</code></pre>
+
+
+            <h2 id="exit">
+                Exit Code
+            </h2>
+
+            <p>
+                بسیاری از دستورات Linux یک Exit Code برمی‌گردانند.
+            </p>
+
+            <p>
+                معمولاً:
+            </p>
+
+            <pre><code>0</code></pre>
+
+            <p>
+                به معنی موفقیت است.
+            </p>
+
+            <p>
+                برای مشاهده Exit Code آخرین دستور:
+            </p>
+
+            <pre><code>echo $?</code></pre>
+
+
+            <h3>
+                مثال
+            </h3>
+
+            <pre><code>ls /tmp
+
+echo $?</code></pre>
+
+
+            <h2 id="automation">
+                Bash در Automation
+            </h2>
+
+            <p>
+                یکی از دلایل اهمیت Bash در DevOps این است که می‌توان
+                بسیاری از کارهای تکراری را Automate کرد.
+            </p>
+
+            <p>
+                برای مثال:
+            </p>
+
+            <ul>
+
+                <li>
+                    Backup گرفتن
+                </li>
+
+                <li>
+                    بررسی Disk
+                </li>
+
+                <li>
+                    بررسی Service
+                </li>
+
+                <li>
+                    پاک‌سازی فایل‌های قدیمی
+                </li>
+
+                <li>
+                    بررسی وضعیت Server
+                </li>
+
+                <li>
+                    اجرای چند Command پشت سر هم
+                </li>
+
+            </ul>
+
+
+            <h2>
+                یک Script ساده برای بررسی Server
+            </h2>
+
+            <pre><code>#!/bin/bash
+
+echo "===== Server Status ====="
+
+echo "Hostname:"
+hostname
+
+echo ""
+
+echo "Uptime:"
+uptime
+
+echo ""
+
+echo "Disk:"
+df -h
+
+echo ""
+
+echo "Memory:"
+free -h
+
+echo ""
+
+echo "Load:"
+cat /proc/loadavg</code></pre>
+
+
+            <p>
+                چنین Script ساده‌ای می‌تواند یک نقطه شروع خوب
+                برای یادگیری Automation باشد.
+            </p>
+
+
+            <h2 id="practice">
+                🧪 تمرین عملی
+            </h2>
+
+            <p>
+                یک فایل بساز:
+            </p>
+
+            <pre><code>nano server-check.sh</code></pre>
+
+            <p>
+                داخل آن یک Script بنویس که موارد زیر را نمایش دهد:
+            </p>
+
+            <ul>
+
+                <li>
+                    Hostname
+                </li>
+
+                <li>
+                    Uptime
+                </li>
+
+                <li>
+                    Disk Usage
+                </li>
+
+                <li>
+                    Memory Usage
+                </li>
+
+                <li>
+                    IP Address
+                </li>
+
+            </ul>
+
+            <p>
+                سپس:
+            </p>
+
+            <pre><code>chmod +x server-check.sh</code></pre>
+
+            <p>
+                و:
+            </p>
+
+            <pre><code>./server-check.sh</code></pre>
+
+
+            <h2>
+                📌 Cheat Sheet
+            </h2>
+
+            <div class="command-table">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+                            <th>
+                                Syntax
+                            </th>
+
+                            <th>
+                                کاربرد
+                            </th>
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        <tr>
+                            <td>
+                                <code>#!/bin/bash</code>
+                            </td>
+
+                            <td>
+                                مشخص کردن Bash
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <code>echo</code>
+                            </td>
+
+                            <td>
+                                چاپ خروجی
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <code>$1</code>
+                            </td>
+
+                            <td>
+                                اولین Argument
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <code>if</code>
+                            </td>
+
+                            <td>
+                                شرط
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <code>for</code>
+                            </td>
+
+                            <td>
+                                Loop
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <code>function</code>
+                            </td>
+
+                            <td>
+                                ساخت Function
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <code>$?</code>
+                            </td>
+
+                            <td>
+                                Exit Code
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <code>chmod +x script.sh</code>
+                            </td>
+
+                            <td>
+                                قابل اجرا کردن Script
+                            </td>
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+
+            <div class="article-note">
+
+                <strong>
+                    🚀 قدم بعدی
+                </strong>
+
+                <p>
+                    بعد از Bash، مسیر را به سمت Git و GitHub،
+                    سپس Docker و CI/CD ادامه می‌دهیم.
+                </p>
+
+            </div>
+
+
+        </article>
+
+
+        <div class="article-navigation">
+
+            <a href="linux-logs-troubleshooting.html">
+                ← مقاله قبلی
+                <span>
+                    Linux Logs & Troubleshooting
+                </span>
+            </a>
+
+            <a href="git-basics.html">
+                مقاله بعدی →
+                <span>
+                    Git Basics
+                </span>
+            </a>
+
+        </div>
+
+
+    </div>
+
+</section>
+
+</main>
+
+
+<footer>
+
+    <div class="container">
+
+        <p>
+            © 2026 Z.DevOps
+        </p>
+
+        <div class="social-links">
+
+            <a href="../index.html">
+                Home
+            </a>
+
+        </div>
+
+    </div>
+
+</footer>
+
+
+</body>
+
+</html>
