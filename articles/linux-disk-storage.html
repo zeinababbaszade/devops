@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <meta name="description"
+          content="آموزش Disk و Storage در Linux؛ df، du، lsblk، mount، fstab و مدیریت فضای دیسک">
+
+    <title>Linux Disk & Storage | Z.DevOps</title>
+
+    <link rel="stylesheet"
+          href="../style.css">
+
+</head>
+
+<body>
+
+
+<header class="navbar">
+
+    <div class="container navbar-inner">
+
+        <a href="../index.html" class="logo">
+            Z<span>.DevOps</span>
+        </a>
+
+        <nav>
+
+            <ul class="nav-links">
+
+                <li>
+                    <a href="../index.html">Home</a>
+                </li>
+
+                <li>
+                    <a href="index.html">Articles</a>
+                </li>
+
+                <li>
+                    <a href="../index.html#projects">Projects</a>
+                </li>
+
+                <li>
+                    <a href="../index.html#roadmap">Roadmap</a>
+                </li>
+
+                <li>
+                    <a href="../index.html#about">About</a>
+                </li>
+
+            </ul>
+
+        </nav>
+
+    </div>
+
+</header>
+
+
+<main>
+
+
+<section class="article-header">
+
+    <div class="container">
+
+        <div class="badge">
+            LINUX · STORAGE
+        </div>
+
+        <h1>
+            Linux Disk & Storage
+        </h1>
+
+        <p>
+            مدیریت دیسک، فضای ذخیره‌سازی، Partition و Mount در Linux
+        </p>
+
+        <div class="article-meta">
+            September 2026 · Beginner → Intermediate
+        </div>
+
+    </div>
+
+</section>
+
+
+<section class="article-section">
+
+    <div class="container">
+
+
+        <div class="article-toc">
+
+            <h3>
+                📚 فهرست مطالب
+            </h3>
+
+            <ul>
+
+                <li>
+                    <a href="#intro">
+                        Storage در Linux
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#df">
+                        دستور df
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#du">
+                        دستور du
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#lsblk">
+                        دستور lsblk
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#mount">
+                        Mount چیست؟
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#fstab">
+                        فایل fstab
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#inode">
+                        Inode چیست؟
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#troubleshooting">
+                        پیدا کردن دیسک پر
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#practice">
+                        تمرین عملی
+                    </a>
+                </li>
+
+            </ul>
+
+        </div>
+
+
+        <article class="article-body">
+
+
+            <p id="intro">
+                مدیریت Storage یکی از مهارت‌های مهم برای هر Linux
+                Administrator و DevOps Engineer است.
+            </p>
+
+            <p>
+                یکی از مشکلات رایج روی Serverها پر شدن فضای دیسک است.
+                اگر فضای دیسک یک سرور به 100 درصد برسد، ممکن است
+                سرویس‌های مختلف دچار مشکل شوند.
+            </p>
+
+            <p>
+                بنابراین باید بتوانیم وضعیت Disk، Partition،
+                Filesystem و فضای مصرف‌شده را بررسی کنیم.
+            </p>
+
+
+            <h2 id="df">
+                دستور df
+            </h2>
+
+            <p>
+                دستور <strong>df</strong> برای مشاهده فضای آزاد
+                و مصرف‌شده Filesystemها استفاده می‌شود.
+            </p>
+
+            <pre><code>df -h</code></pre>
+
+            <p>
+                گزینه <strong>-h</strong> خروجی را به صورت
+                Human Readable نمایش می‌دهد.
+            </p>
+
+            <p>
+                برای مثال ممکن است خروجی شامل ستون‌های زیر باشد:
+            </p>
+
+            <ul>
+
+                <li>
+                    Filesystem
+                </li>
+
+                <li>
+                    Size
+                </li>
+
+                <li>
+                    Used
+                </li>
+
+                <li>
+                    Avail
+                </li>
+
+                <li>
+                    Use%
+                </li>
+
+                <li>
+                    Mounted on
+                </li>
+
+            </ul>
+
+
+            <h2 id="du">
+                دستور du
+            </h2>
+
+            <p>
+                در حالی که df وضعیت Filesystem را نشان می‌دهد،
+                دستور du برای پیدا کردن حجم مصرف‌شده توسط فایل‌ها
+                و Directoryها بسیار کاربردی است.
+            </p>
+
+            <pre><code>du -sh /var/log</code></pre>
+
+            <p>
+                برای پیدا کردن حجم Directoryهای داخل مسیر فعلی:
+            </p>
+
+            <pre><code>du -sh *</code></pre>
+
+            <p>
+                برای پیدا کردن موارد حجیم‌تر می‌توانیم از:
+            </p>
+
+            <pre><code>du -h --max-depth=1 /var</code></pre>
+
+
+            <h2 id="lsblk">
+                دستور lsblk
+            </h2>
+
+            <p>
+                برای مشاهده Diskها و Partitionهای سیستم:
+            </p>
+
+            <pre><code>lsblk</code></pre>
+
+            <p>
+                خروجی خواناتر:
+            </p>
+
+            <pre><code>lsblk -f</code></pre>
+
+            <p>
+                گزینه -f اطلاعات Filesystem را نیز نمایش می‌دهد.
+            </p>
+
+
+            <div class="article-note">
+
+                <strong>💡 نکته:</strong>
+
+                <p>
+                    وقتی یک Disk جدید به Server اضافه می‌کنی،
+                    یکی از اولین دستورهایی که باید اجرا کنی
+                    <code>lsblk</code> است.
+                </p>
+
+            </div>
+
+
+            <h2 id="mount">
+                Mount چیست؟
+            </h2>
+
+            <p>
+                در Linux برای استفاده از یک Filesystem باید آن را
+                در یک مسیر مشخص Mount کنیم.
+            </p>
+
+            <p>
+                فرض کنیم یک Disk یا Partition داریم:
+            </p>
+
+            <pre><code>/dev/sdb1</code></pre>
+
+            <p>
+                ابتدا یک Directory ایجاد می‌کنیم:
+            </p>
+
+            <pre><code>sudo mkdir /data</code></pre>
+
+            <p>
+                سپس آن را Mount می‌کنیم:
+            </p>
+
+            <pre><code>sudo mount /dev/sdb1 /data</code></pre>
+
+            <p>
+                برای بررسی:
+            </p>
+
+            <pre><code>df -h</code></pre>
+
+
+            <h2 id="fstab">
+                فایل /etc/fstab
+            </h2>
+
+            <p>
+                Mount کردن به روش بالا معمولاً تا زمان Reboot باقی می‌ماند.
+            </p>
+
+            <p>
+                برای اینکه یک Filesystem بعد از Boot نیز به صورت
+                خودکار Mount شود، معمولاً از:
+            </p>
+
+            <pre><code>/etc/fstab</code></pre>
+
+            <p>
+                استفاده می‌کنیم.
+            </p>
+
+            <p>
+                قبل از تغییر fstab باید بسیار دقت کرد، زیرا یک
+                تنظیم اشتباه می‌تواند باعث مشکل در Boot سیستم شود.
+            </p>
+
+
+            <h2 id="inode">
+                Inode چیست؟
+            </h2>
+
+            <p>
+                در Linux فقط پر شدن فضای Disk مشکل‌ساز نیست.
+                ممکن است Inodeها نیز تمام شوند.
+            </p>
+
+            <p>
+                برای بررسی Inode:
+            </p>
+
+            <pre><code>df -i</code></pre>
+
+            <p>
+                اگر Inode به 100 درصد برسد، حتی اگر فضای Disk
+                هنوز آزاد باشد، ممکن است نتوانیم فایل جدید ایجاد کنیم.
+            </p>
+
+
+            <h2 id="troubleshooting">
+                وقتی Disk پر شد چه کار کنیم؟
+            </h2>
+
+            <p>
+                فرض کنیم دستور زیر نشان دهد:
+            </p>
+
+            <pre><code>df -h</code></pre>
+
+            <p>
+                و Partition مربوط به / تقریباً 100 درصد پر باشد.
+            </p>
+
+            <p>
+                اولین مرحله پیدا کردن Directoryهای بزرگ است.
+            </p>
+
+            <pre><code>sudo du -xh --max-depth=1 / | sort -h</code></pre>
+
+            <p>
+                سپس Directoryهای بزرگ‌تر را بررسی می‌کنیم.
+            </p>
+
+            <p>
+                برای مثال:
+            </p>
+
+            <pre><code>sudo du -xh --max-depth=1 /var | sort -h</code></pre>
+
+            <p>
+                یکی از مواردی که باید بررسی شود Logها هستند.
+            </p>
+
+            <pre><code>sudo du -sh /var/log/*</code></pre>
+
+
+            <div class="article-warning">
+
+                <strong>⚠️ هشدار:</strong>
+
+                <p>
+                    هیچ فایل یا Logای را صرفاً برای خالی کردن Disk
+                    بدون بررسی حذف نکن. بعضی فایل‌ها برای سرویس‌ها
+                    یا بررسی مشکلات سیستم ضروری هستند.
+                </p>
+
+            </div>
+
+
+            <h2 id="practice">
+                🧪 تمرین عملی
+            </h2>
+
+            <p>
+                روی Ubuntu خود این دستورات را اجرا کن:
+            </p>
+
+            <pre><code>df -h</code></pre>
+
+            <pre><code>df -i</code></pre>
+
+            <pre><code>lsblk</code></pre>
+
+            <pre><code>lsblk -f</code></pre>
+
+            <pre><code>du -sh /var/*</code></pre>
+
+            <pre><code>sudo du -xh --max-depth=1 / | sort -h</code></pre>
+
+
+            <h2>
+                📌 Cheat Sheet
+            </h2>
+
+            <div class="command-table">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+                            <th>
+                                دستور
+                            </th>
+
+                            <th>
+                                کاربرد
+                            </th>
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        <tr>
+                            <td>
+                                <code>df -h</code>
+                            </td>
+
+                            <td>
+                                فضای Disk
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <code>df -i</code>
+                            </td>
+
+                            <td>
+                                وضعیت Inode
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <code>du -sh</code>
+                            </td>
+
+                            <td>
+                                حجم Directory
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <code>lsblk</code>
+                            </td>
+
+                            <td>
+                                مشاهده Diskها
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <code>lsblk -f</code>
+                            </td>
+
+                            <td>
+                                مشاهده Filesystem
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <code>mount</code>
+                            </td>
+
+                            <td>
+                                Mount کردن Filesystem
+                            </td>
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+
+            <div class="article-note">
+
+                <strong>
+                    🚀 قدم بعدی
+                </strong>
+
+                <p>
+                    در مقاله بعدی سراغ Linux Logs و روش
+                    Troubleshooting سرورها می‌رویم.
+                </p>
+
+            </div>
+
+
+        </article>
+
+
+        <div class="article-navigation">
+
+            <a href="linux-ssh.html">
+                ← مقاله قبلی
+                <span>
+                    Linux SSH
+                </span>
+            </a>
+
+            <a href="linux-logs-troubleshooting.html">
+                مقاله بعدی →
+                <span>
+                    Linux Logs & Troubleshooting
+                </span>
+            </a>
+
+        </div>
+
+
+    </div>
+
+</section>
+
+</main>
+
+
+<footer>
+
+    <div class="container">
+
+        <p>
+            © 2026 Z.DevOps
+        </p>
+
+        <div class="social-links">
+
+            <a href="../index.html">
+                Home
+            </a>
+
+        </div>
+
+    </div>
+
+</footer>
+
+
+</body>
+
+</html>
