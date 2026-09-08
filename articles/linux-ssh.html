@@ -1,0 +1,1210 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="description"
+        content="آموزش SSH در لینوکس؛ اتصال به سرور، SSH Key، تنظیمات SSH، انتقال فایل و عیب‌یابی اتصال">
+
+    <meta name="keywords"
+        content="Linux SSH, SSH, لینوکس, Ubuntu, DevOps, SSH Key, Linux Server">
+
+    <title>Linux SSH | Z.DevOps</title>
+
+    <link rel="stylesheet" href="../style.css">
+</head>
+
+<body>
+
+    <!-- ================= HEADER ================= -->
+
+    <header class="site-header">
+
+        <div class="container">
+
+            <nav class="navbar">
+
+                <a href="../index.html" class="logo">
+                    Z<span>.DevOps</span>
+                </a>
+
+                <div class="nav-links">
+
+                    <a href="../index.html">
+                        Home
+                    </a>
+
+                    <a href="index.html">
+                        Articles
+                    </a>
+
+                    <a href="../index.html#projects">
+                        Projects
+                    </a>
+
+                    <a href="../index.html#roadmap">
+                        Roadmap
+                    </a>
+
+                    <a href="../index.html#about">
+                        About
+                    </a>
+
+                </div>
+
+            </nav>
+
+        </div>
+
+    </header>
+
+
+    <!-- ================= ARTICLE HEADER ================= -->
+
+    <main>
+
+        <section class="article-header">
+
+            <div class="container">
+
+                <div class="article-badge">
+                    LINUX · DEVOPS
+                </div>
+
+                <h1>
+                    Linux <span>SSH</span>
+                </h1>
+
+                <p class="article-subtitle">
+                    آشنایی با SSH و نحوه اتصال امن به سرورهای لینوکسی
+                </p>
+
+                <div class="article-meta">
+                    📅 September 2026
+                    ·
+                    ⏱ Beginner → Intermediate
+                    ·
+                    🐧 Ubuntu
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= ARTICLE CONTENT ================= -->
+
+        <section class="article-section">
+
+            <div class="container">
+
+                <!-- TABLE OF CONTENTS -->
+
+                <div class="article-toc">
+
+                    <h3>
+                        📚 فهرست مطالب
+                    </h3>
+
+                    <ul>
+
+                        <li>
+                            <a href="#what-is-ssh">
+                                SSH چیست؟
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="#why-ssh">
+                                چرا SSH مهم است؟
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="#client-server">
+                                SSH Client و SSH Server
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="#connect">
+                                اتصال به سرور
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="#port">
+                                اتصال به پورت مشخص
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="#ssh-key">
+                                SSH Key چیست؟
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="#generate-key">
+                                ساخت SSH Key
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="#authorized-keys">
+                                authorized_keys
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="#config">
+                                فایل SSH Config
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="#file-transfer">
+                                انتقال فایل با SSH
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="#troubleshooting">
+                                عیب‌یابی SSH
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="#security">
+                                نکات امنیتی
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="#lab">
+                                تمرین عملی
+                            </a>
+                        </li>
+
+                    </ul>
+
+                </div>
+
+
+                <!-- ================= ARTICLE BODY ================= -->
+
+                <article class="article-body">
+
+
+                    <!-- INTRO -->
+
+                    <p>
+                        یکی از اولین چیزهایی که هنگام کار با سرورهای لینوکسی
+                        باید یاد بگیریم، نحوه اتصال به سرور است.
+                    </p>
+
+                    <p>
+                        در محیط‌های واقعی DevOps معمولاً سرورها در یک دیتاسنتر،
+                        Cloud یا Virtual Machine قرار دارند و ما مستقیماً پشت
+                        سیستم آن‌ها نیستیم.
+                    </p>
+
+                    <p>
+                        بنابراین باید بتوانیم از طریق شبکه به سرور متصل شویم،
+                        دستورات خود را اجرا کنیم، سرویس‌ها را بررسی کنیم،
+                        لاگ‌ها را ببینیم و در صورت نیاز تنظیمات سرور را تغییر دهیم.
+                    </p>
+
+                    <p>
+                        یکی از مهم‌ترین ابزارهایی که برای این کار استفاده می‌شود
+                        <strong>SSH</strong> است.
+                    </p>
+
+
+                    <!-- WHAT IS SSH -->
+
+                    <h2 id="what-is-ssh">
+                        SSH چیست؟
+                    </h2>
+
+                    <p>
+                        SSH مخفف
+                        <strong>Secure Shell</strong>
+                        است.
+                    </p>
+
+                    <p>
+                        SSH یک پروتکل شبکه برای برقراری ارتباط امن با سیستم‌های
+                        دیگر است.
+                    </p>
+
+                    <p>
+                        در دنیای Linux و DevOps، SSH بیشتر برای اتصال به
+                        سرورها و مدیریت آن‌ها استفاده می‌شود.
+                    </p>
+
+                    <p>
+                        یکی از ویژگی‌های مهم SSH این است که اطلاعات ارتباطی
+                        به صورت رمزنگاری‌شده منتقل می‌شوند.
+                    </p>
+
+
+                    <div class="article-note">
+
+                        <strong>💡 نکته:</strong>
+
+                        <p>
+                            SSH فقط برای ورود به سرور نیست.
+                            از آن می‌توان برای انتقال فایل، اجرای دستورات
+                            از راه دور و ایجاد ارتباط امن بین سیستم‌ها نیز
+                            استفاده کرد.
+                        </p>
+
+                    </div>
+
+
+                    <!-- WHY SSH -->
+
+                    <h2 id="why-ssh">
+                        چرا SSH برای DevOps مهم است؟
+                    </h2>
+
+                    <p>
+                        تقریباً در تمام محیط‌های Linux Server با SSH
+                        مواجه خواهیم شد.
+                    </p>
+
+                    <p>
+                        برای مثال فرض کنید یک سرور Ubuntu داریم:
+                    </p>
+
+                    <pre><code>192.168.1.100</code></pre>
+
+                    <p>
+                        و روی آن سرویس‌هایی مانند Nginx، Docker یا Zabbix
+                        اجرا می‌شوند.
+                    </p>
+
+                    <p>
+                        به جای اینکه مستقیماً به سرور دسترسی فیزیکی داشته باشیم،
+                        می‌توانیم از سیستم خودمان با SSH به آن متصل شویم.
+                    </p>
+
+                    <p>
+                        بنابراین SSH یکی از ابزارهای پایه برای:
+                    </p>
+
+                    <ul>
+
+                        <li>مدیریت Linux Server</li>
+
+                        <li>مدیریت Cloud Server</li>
+
+                        <li>کار با Virtual Machine</li>
+
+                        <li>Deploy کردن برنامه‌ها</li>
+
+                        <li>بررسی Logها</li>
+
+                        <li>عیب‌یابی سرویس‌ها</li>
+
+                        <li>مدیریت Docker</li>
+
+                        <li>اتوماسیون DevOps</li>
+
+                    </ul>
+
+
+                    <!-- CLIENT SERVER -->
+
+                    <h2 id="client-server">
+                        SSH Client و SSH Server
+                    </h2>
+
+                    <p>
+                        برای برقراری ارتباط SSH معمولاً دو طرف داریم:
+                    </p>
+
+                    <h3>
+                        SSH Client
+                    </h3>
+
+                    <p>
+                        سیستمی است که از آن برای اتصال استفاده می‌کنیم.
+                    </p>
+
+                    <p>
+                        برای مثال لپ‌تاپ یا کامپیوتر ما می‌تواند SSH Client باشد.
+                    </p>
+
+                    <h3>
+                        SSH Server
+                    </h3>
+
+                    <p>
+                        سیستمی است که می‌خواهیم به آن متصل شویم.
+                    </p>
+
+                    <p>
+                        در Ubuntu معمولاً سرویس SSH توسط
+                        <strong>OpenSSH Server</strong>
+                        ارائه می‌شود.
+                    </p>
+
+
+                    <!-- CONNECT -->
+
+                    <h2 id="connect">
+                        اتصال به سرور با SSH
+                    </h2>
+
+                    <p>
+                        ساده‌ترین شکل دستور SSH به صورت زیر است:
+                    </p>
+
+                    <pre><code>ssh username@server-ip</code></pre>
+
+                    <p>
+                        برای مثال:
+                    </p>
+
+                    <pre><code>ssh admin@192.168.1.100</code></pre>
+
+                    <p>
+                        در این دستور:
+                    </p>
+
+                    <ul>
+
+                        <li>
+                            <strong>ssh</strong>
+                            نام دستور است.
+                        </li>
+
+                        <li>
+                            <strong>admin</strong>
+                            نام کاربر روی سرور است.
+                        </li>
+
+                        <li>
+                            <strong>192.168.1.100</strong>
+                            آدرس IP سرور است.
+                        </li>
+
+                    </ul>
+
+                    <p>
+                        بعد از اجرای دستور، اگر احراز هویت با Password باشد،
+                        سیستم از ما رمز عبور کاربر را درخواست می‌کند.
+                    </p>
+
+
+                    <div class="article-warning">
+
+                        <strong>⚠️ توجه:</strong>
+
+                        <p>
+                            هنگام وارد کردن Password در SSH معمولاً چیزی
+                            روی صفحه نمایش داده نمی‌شود؛ حتی ستاره هم نشان داده
+                            نمی‌شود. این رفتار طبیعی است.
+                        </p>
+
+                    </div>
+
+
+                    <!-- PORT -->
+
+                    <h2 id="port">
+                        اتصال به پورت مشخص
+                    </h2>
+
+                    <p>
+                        پورت پیش‌فرض SSH معمولاً:
+                    </p>
+
+                    <pre><code>22</code></pre>
+
+                    <p>
+                        است.
+                    </p>
+
+                    <p>
+                        اگر SSH روی پورت دیگری تنظیم شده باشد، می‌توانیم
+                        پورت را هنگام اتصال مشخص کنیم.
+                    </p>
+
+                    <pre><code>ssh -p 2222 admin@192.168.1.100</code></pre>
+
+                    <p>
+                        در اینجا SSH به جای پورت 22 از پورت 2222 استفاده می‌کند.
+                    </p>
+
+
+                    <!-- SSH KEY -->
+
+                    <h2 id="ssh-key">
+                        SSH Key چیست؟
+                    </h2>
+
+                    <p>
+                        یکی از روش‌های امن‌تر برای احراز هویت در SSH،
+                        استفاده از SSH Key است.
+                    </p>
+
+                    <p>
+                        در روش Key-based Authentication معمولاً دو کلید داریم:
+                    </p>
+
+                    <ul>
+
+                        <li>
+                            <strong>Private Key</strong>
+                        </li>
+
+                        <li>
+                            <strong>Public Key</strong>
+                        </li>
+
+                    </ul>
+
+                    <p>
+                        Private Key باید روی سیستم خودمان باقی بماند
+                        و نباید آن را در اختیار افراد دیگر قرار دهیم.
+                    </p>
+
+                    <p>
+                        Public Key را می‌توان روی سرور قرار داد.
+                    </p>
+
+
+                    <div class="article-note">
+
+                        <strong>🔐 قانون مهم:</strong>
+
+                        <p>
+                            Private Key را مثل Password در نظر بگیر.
+                            آن را برای کسی ارسال نکن و داخل Git Repository
+                            عمومی قرار نده.
+                        </p>
+
+                    </div>
+
+
+                    <!-- GENERATE KEY -->
+
+                    <h2 id="generate-key">
+                        ساخت SSH Key
+                    </h2>
+
+                    <p>
+                        برای ساخت یک SSH Key می‌توانیم از دستور زیر استفاده کنیم:
+                    </p>
+
+                    <pre><code>ssh-keygen -t ed25519</code></pre>
+
+                    <p>
+                        سیستم از ما محل ذخیره کلید و در صورت تمایل
+                        Passphrase را می‌پرسد.
+                    </p>
+
+                    <p>
+                        معمولاً کلیدها در مسیر زیر قرار می‌گیرند:
+                    </p>
+
+                    <pre><code>~/.ssh/</code></pre>
+
+                    <p>
+                        بعد از ساخت Key ممکن است فایل‌هایی شبیه این داشته باشیم:
+                    </p>
+
+                    <pre><code>id_ed25519
+id_ed25519.pub</code></pre>
+
+                    <p>
+                        فایل:
+                    </p>
+
+                    <pre><code>id_ed25519</code></pre>
+
+                    <p>
+                        کلید خصوصی است.
+                    </p>
+
+                    <p>
+                        و:
+                    </p>
+
+                    <pre><code>id_ed25519.pub</code></pre>
+
+                    <p>
+                        کلید عمومی است.
+                    </p>
+
+
+                    <!-- AUTHORIZED KEYS -->
+
+                    <h2 id="authorized-keys">
+                        authorized_keys چیست؟
+                    </h2>
+
+                    <p>
+                        در سمت سرور، Public Keyهای مجاز معمولاً در فایل:
+                    </p>
+
+                    <pre><code>~/.ssh/authorized_keys</code></pre>
+
+                    <p>
+                        ذخیره می‌شوند.
+                    </p>
+
+                    <p>
+                        اگر Public Key ما در این فایل قرار گرفته باشد،
+                        در صورت درست بودن تنظیمات SSH می‌توانیم بدون وارد
+                        کردن Password به سرور متصل شویم.
+                    </p>
+
+
+                    <h3>
+                        استفاده از ssh-copy-id
+                    </h3>
+
+                    <p>
+                        یکی از روش‌های ساده برای کپی کردن Public Key روی
+                        سرور استفاده از دستور زیر است:
+                    </p>
+
+                    <pre><code>ssh-copy-id username@server-ip</code></pre>
+
+                    <p>
+                        برای مثال:
+                    </p>
+
+                    <pre><code>ssh-copy-id admin@192.168.1.100</code></pre>
+
+
+                    <h3>
+                        Permissionهای مهم
+                    </h3>
+
+                    <p>
+                        Permissionهای نادرست در پوشه SSH می‌توانند باعث
+                        مشکل در احراز هویت شوند.
+                    </p>
+
+                    <pre><code>chmod 700 ~/.ssh
+chmod 600 ~/.ssh/authorized_keys</code></pre>
+
+
+                    <!-- CONFIG -->
+
+                    <h2 id="config">
+                        فایل SSH Config
+                    </h2>
+
+                    <p>
+                        اگر دائماً به چند سرور متصل شویم، نوشتن کامل دستور
+                        SSH هر بار می‌تواند خسته‌کننده باشد.
+                    </p>
+
+                    <p>
+                        برای حل این مشکل می‌توانیم از فایل:
+                    </p>
+
+                    <pre><code>~/.ssh/config</code></pre>
+
+                    <p>
+                        استفاده کنیم.
+                    </p>
+
+                    <p>
+                        برای مثال:
+                    </p>
+
+                    <pre><code>Host myserver
+    HostName 192.168.1.100
+    User admin
+    Port 22</code></pre>
+
+                    <p>
+                        حالا به جای:
+                    </p>
+
+                    <pre><code>ssh admin@192.168.1.100</code></pre>
+
+                    <p>
+                        می‌توانیم فقط بنویسیم:
+                    </p>
+
+                    <pre><code>ssh myserver</code></pre>
+
+
+                    <div class="article-note">
+
+                        <strong>💡 نکته:</strong>
+
+                        <p>
+                            فایل SSH Config مخصوصاً زمانی که با تعداد زیادی
+                            Server کار می‌کنیم بسیار کاربردی است.
+                        </p>
+
+                    </div>
+
+
+                    <!-- FILE TRANSFER -->
+
+                    <h2 id="file-transfer">
+                        انتقال فایل با SSH
+                    </h2>
+
+                    <p>
+                        SSH فقط برای اجرای دستورات نیست.
+                    </p>
+
+                    <p>
+                        یکی از ابزارهایی که از SSH استفاده می‌کند
+                        <strong>SCP</strong>
+                        است.
+                    </p>
+
+
+                    <h3>
+                        ارسال فایل به سرور
+                    </h3>
+
+                    <pre><code>scp backup.tar.gz admin@192.168.1.100:/home/admin/</code></pre>
+
+
+                    <h3>
+                        دریافت فایل از سرور
+                    </h3>
+
+                    <pre><code>scp admin@192.168.1.100:/home/admin/backup.tar.gz .</code></pre>
+
+                    <p>
+                        نقطه در انتهای دستور به معنی Current Directory
+                        است.
+                    </p>
+
+
+                    <!-- TROUBLESHOOTING -->
+
+                    <h2 id="troubleshooting">
+                        عیب‌یابی اتصال SSH
+                    </h2>
+
+                    <p>
+                        گاهی SSH کار نمی‌کند و باید مرحله‌به‌مرحله مشکل را
+                        پیدا کنیم.
+                    </p>
+
+                    <h3>
+                        1. بررسی دسترسی شبکه
+                    </h3>
+
+                    <pre><code>ping 192.168.1.100</code></pre>
+
+                    <p>
+                        این دستور فقط دسترسی ICMP را بررسی می‌کند و به‌تنهایی
+                        نشان نمی‌دهد که پورت SSH باز است.
+                    </p>
+
+
+                    <h3>
+                        2. بررسی پورت SSH
+                    </h3>
+
+                    <p>
+                        اگر ابزار netcat نصب باشد:
+                    </p>
+
+                    <pre><code>nc -zv 192.168.1.100 22</code></pre>
+
+
+                    <h3>
+                        3. اجرای SSH در حالت Debug
+                    </h3>
+
+                    <p>
+                        یکی از بهترین ابزارها برای پیدا کردن مشکل SSH:
+                    </p>
+
+                    <pre><code>ssh -v admin@192.168.1.100</code></pre>
+
+                    <p>
+                        در صورت نیاز می‌توان از Debug بیشتر نیز استفاده کرد:
+                    </p>
+
+                    <pre><code>ssh -vv admin@192.168.1.100</code></pre>
+
+                    <p>
+                        و:
+                    </p>
+
+                    <pre><code>ssh -vvv admin@192.168.1.100</code></pre>
+
+
+                    <h3>
+                        4. بررسی وضعیت SSH Server
+                    </h3>
+
+                    <p>
+                        روی Ubuntu می‌توان وضعیت سرویس SSH را بررسی کرد:
+                    </p>
+
+                    <pre><code>sudo systemctl status ssh</code></pre>
+
+                    <p>
+                        اگر سرویس اجرا نشده باشد، می‌توان آن را بررسی یا
+                        Start کرد:
+                    </p>
+
+                    <pre><code>sudo systemctl start ssh</code></pre>
+
+
+                    <h3>
+                        5. بررسی Logهای SSH
+                    </h3>
+
+                    <p>
+                        برای دیدن Logهای مربوط به سرویس SSH:
+                    </p>
+
+                    <pre><code>sudo journalctl -u ssh</code></pre>
+
+                    <p>
+                        برای دیدن آخرین Logها:
+                    </p>
+
+                    <pre><code>sudo journalctl -u ssh -n 50</code></pre>
+
+
+                    <!-- SECURITY -->
+
+                    <h2 id="security">
+                        نکات امنیتی SSH
+                    </h2>
+
+                    <p>
+                        SSH یکی از نقاط مهم امنیتی یک Linux Server است.
+                        بنابراین باید تنظیمات آن را با دقت انجام دهیم.
+                    </p>
+
+                    <h3>
+                        استفاده از SSH Key
+                    </h3>
+
+                    <p>
+                        در محیط‌های عملی بهتر است به جای تکیه صرف بر
+                        Password، از SSH Key و سیاست احراز هویت مناسب استفاده شود.
+                    </p>
+
+
+                    <h3>
+                        استفاده از Password قوی
+                    </h3>
+
+                    <p>
+                        اگر Password Authentication فعال است، استفاده از
+                        Password ضعیف می‌تواند ریسک حملات Brute Force را افزایش دهد.
+                    </p>
+
+
+                    <h3>
+                        محدود کردن دسترسی شبکه
+                    </h3>
+
+                    <p>
+                        بهتر است دسترسی SSH فقط از شبکه‌ها یا IPهایی که
+                        واقعاً نیاز دارند امکان‌پذیر باشد.
+                    </p>
+
+
+                    <h3>
+                        تغییر Port چه نقشی دارد؟
+                    </h3>
+
+                    <p>
+                        تغییر پورت SSH ممکن است تعداد برخی اسکن‌های خودکار
+                        را کاهش دهد، اما به‌تنهایی یک راهکار امنیتی اصلی محسوب
+                        نمی‌شود.
+                    </p>
+
+                    <p>
+                        امنیت واقعی باید با روش‌هایی مانند Authentication
+                        مناسب، Firewall، محدودسازی دسترسی و Monitoring
+                        انجام شود.
+                    </p>
+
+
+                    <!-- PRACTICAL LAB -->
+
+                    <h2 id="lab">
+                        🧪 تمرین عملی
+                    </h2>
+
+                    <p>
+                        حالا یک تمرین ساده انجام دهیم.
+                    </p>
+
+                    <p>
+                        فرض کنیم یک Ubuntu Server با IP زیر داریم:
+                    </p>
+
+                    <pre><code>192.168.1.100</code></pre>
+
+                    <p>
+                        ابتدا به آن متصل شو:
+                    </p>
+
+                    <pre><code>ssh admin@192.168.1.100</code></pre>
+
+                    <p>
+                        بعد از ورود، اطلاعات سیستم را بررسی کن:
+                    </p>
+
+                    <pre><code>hostname</code></pre>
+
+                    <pre><code>whoami</code></pre>
+
+                    <pre><code>uptime</code></pre>
+
+                    <pre><code>df -h</code></pre>
+
+                    <p>
+                        سپس وضعیت SSH را بررسی کن:
+                    </p>
+
+                    <pre><code>sudo systemctl status ssh</code></pre>
+
+                    <p>
+                        در مرحله بعد Logهای SSH را ببین:
+                    </p>
+
+                    <pre><code>sudo journalctl -u ssh -n 30</code></pre>
+
+
+                    <!-- DEVOPS CONNECTION -->
+
+                    <h2>
+                        SSH در دنیای DevOps
+                    </h2>
+
+                    <p>
+                        SSH یکی از ابزارهای پایه‌ای است که تقریباً در تمام
+                        مسیر یادگیری DevOps با آن برخورد خواهیم داشت.
+                    </p>
+
+                    <p>
+                        برای مثال هنگام کار با:
+                    </p>
+
+                    <ul>
+
+                        <li>
+                            Linux Server
+                        </li>
+
+                        <li>
+                            Docker
+                        </li>
+
+                        <li>
+                            Kubernetes
+                        </li>
+
+                        <li>
+                            Ansible
+                        </li>
+
+                        <li>
+                            CI/CD
+                        </li>
+
+                        <li>
+                            Cloud
+                        </li>
+
+                        <li>
+                            Monitoring
+                        </li>
+
+                        <li>
+                            Virtual Machines
+                        </li>
+
+                    </ul>
+
+                    <p>
+                        در بسیاری از سناریوها SSH نقش مهمی در مدیریت
+                        و دسترسی به سیستم‌ها دارد.
+                    </p>
+
+
+                    <!-- CHEAT SHEET -->
+
+                    <h2>
+                        📌 Cheat Sheet
+                    </h2>
+
+                    <div class="command-table">
+
+                        <table>
+
+                            <thead>
+
+                                <tr>
+                                    <th>
+                                        دستور
+                                    </th>
+
+                                    <th>
+                                        کاربرد
+                                    </th>
+                                </tr>
+
+                            </thead>
+
+                            <tbody>
+
+                                <tr>
+
+                                    <td>
+                                        <code>ssh user@host</code>
+                                    </td>
+
+                                    <td>
+                                        اتصال به سرور
+                                    </td>
+
+                                </tr>
+
+                                <tr>
+
+                                    <td>
+                                        <code>ssh -p 2222 user@host</code>
+                                    </td>
+
+                                    <td>
+                                        اتصال به پورت مشخص
+                                    </td>
+
+                                </tr>
+
+                                <tr>
+
+                                    <td>
+                                        <code>ssh-keygen -t ed25519</code>
+                                    </td>
+
+                                    <td>
+                                        ساخت SSH Key
+                                    </td>
+
+                                </tr>
+
+                                <tr>
+
+                                    <td>
+                                        <code>ssh-copy-id user@host</code>
+                                    </td>
+
+                                    <td>
+                                        کپی Public Key
+                                    </td>
+
+                                </tr>
+
+                                <tr>
+
+                                    <td>
+                                        <code>ssh -v user@host</code>
+                                    </td>
+
+                                    <td>
+                                        Debug اتصال
+                                    </td>
+
+                                </tr>
+
+                                <tr>
+
+                                    <td>
+                                        <code>scp file user@host:/path</code>
+                                    </td>
+
+                                    <td>
+                                        ارسال فایل
+                                    </td>
+
+                                </tr>
+
+                                <tr>
+
+                                    <td>
+                                        <code>systemctl status ssh</code>
+                                    </td>
+
+                                    <td>
+                                        بررسی وضعیت SSH
+                                    </td>
+
+                                </tr>
+
+                                <tr>
+
+                                    <td>
+                                        <code>journalctl -u ssh</code>
+                                    </td>
+
+                                    <td>
+                                        مشاهده Logهای SSH
+                                    </td>
+
+                                </tr>
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+
+                    <!-- WHAT I LEARNED -->
+
+                    <h2>
+                        🎯 چیزهایی که در این مقاله یاد گرفتم
+                    </h2>
+
+                    <ul>
+
+                        <li>
+                            SSH چیست و چه کاربردی دارد.
+                        </li>
+
+                        <li>
+                            تفاوت SSH Client و SSH Server.
+                        </li>
+
+                        <li>
+                            نحوه اتصال به Linux Server.
+                        </li>
+
+                        <li>
+                            نحوه اتصال به Port مشخص.
+                        </li>
+
+                        <li>
+                            مفهوم SSH Key.
+                        </li>
+
+                        <li>
+                            تفاوت Private Key و Public Key.
+                        </li>
+
+                        <li>
+                            کاربرد authorized_keys.
+                        </li>
+
+                        <li>
+                            ساخت SSH Config.
+                        </li>
+
+                        <li>
+                            انتقال فایل با SCP.
+                        </li>
+
+                        <li>
+                            عیب‌یابی SSH با Debug Mode.
+                        </li>
+
+                        <li>
+                            بررسی وضعیت سرویس SSH.
+                        </li>
+
+                        <li>
+                            مشاهده Logهای SSH.
+                        </li>
+
+                    </ul>
+
+
+                    <!-- FINAL -->
+
+                    <div class="article-note">
+
+                        <strong>
+                            🚀 قدم بعدی
+                        </strong>
+
+                        <p>
+                            بعد از یادگیری SSH، مرحله بعدی مدیریت
+                            Disk و Storage در Linux است.
+                        </p>
+
+                        <p>
+                            در مقاله بعدی سراغ دستورهایی مثل
+                            <code>df</code>،
+                            <code>du</code>،
+                            <code>lsblk</code>،
+                            <code>mount</code>
+                            و مفاهیم مهم Storage می‌رویم.
+                        </p>
+
+                    </div>
+
+
+                </article>
+
+
+                <!-- ================= ARTICLE NAVIGATION ================= -->
+
+                <div class="article-navigation">
+
+                    <a href="linux-networking.html">
+                        ← مقاله قبلی
+                        <span>
+                            Linux Networking
+                        </span>
+                    </a>
+
+                    <a href="linux-disk-storage.html">
+                        مقاله بعدی →
+                        <span>
+                            Linux Disk & Storage
+                        </span>
+                    </a>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- ================= FOOTER ================= -->
+
+    <footer class="site-footer">
+
+        <div class="container">
+
+            <p>
+                © 2026 Z.DevOps
+            </p>
+
+            <p>
+                Learning Linux · DevOps · Monitoring
+            </p>
+
+        </div>
+
+    </footer>
+
+
+</body>
+
+</html>
