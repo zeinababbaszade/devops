@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta name="description"
+content="ARP چیست؟ بررسی ARP Table، MAC و IP، دستور ip neigh و نحوه کار ARP در Linux.">
+
+<meta name="keywords"
+content="ARP, ARP Table, MAC, IP, Linux, Networking, DevOps">
+
+<title>ARP | Z.DevOps</title>
+
+<link rel="stylesheet" href="../style.css">
+
+<style>
+
+.article-wrapper{max-width:1100px;margin:auto}
+.article-header{margin-bottom:40px}
+.article-badge{display:inline-block;padding:7px 14px;border-radius:20px;background:rgba(0,150,255,.12);color:#4db8ff;font-size:13px}
+.article-header h1{font-size:42px}
+.article-header h1 span{color:#4db8ff}
+.article-subtitle{font-size:18px;line-height:2}
+.article-meta{margin-top:20px;opacity:.7}
+.article-toc{background:rgba(255,255,255,.04);padding:25px;border-radius:14px;margin:30px 0}
+.article-body{line-height:2;font-size:16px}
+.article-body h2{margin-top:55px}
+.code-wrapper{margin:25px 0}
+.code-label{padding:8px 15px;background:#151b23}
+.code-block{direction:ltr;text-align:left;overflow-x:auto;padding:20px;background:#0d1117;font-family:Consolas,monospace}
+.note,.warning,.exercise{padding:20px;margin:25px 0;border-radius:10px}
+.note{background:rgba(0,150,255,.08);border-right:4px solid #2196f3}
+.warning{background:rgba(255,170,0,.08);border-right:4px solid #ffb300}
+.exercise{background:rgba(0,200,120,.08);border-right:4px solid #00c878}
+.article-table{width:100%;border-collapse:collapse;margin:25px 0}
+.article-table th,.article-table td{border:1px solid rgba(255,255,255,.1);padding:12px}
+.article-footer{margin-top:60px;padding-top:30px;border-top:1px solid rgba(255,255,255,.1);display:flex;justify-content:space-between}
+
+</style>
+
+</head>
+
+<body>
+
+<nav class="navbar">
+
+<div class="logo">Z<span>.DevOps</span></div>
+
+<div class="nav-links">
+<a href="../index.html">Home</a>
+<a href="index.html">Articles</a>
+<a href="../projects.html">Projects</a>
+<a href="../roadmap.html">Roadmap</a>
+<a href="../about.html">About</a>
+</div>
+
+</nav>
+
+
+<main>
+
+<section>
+
+<div class="container article-wrapper">
+
+<header class="article-header">
+
+<div class="article-badge">
+NETWORKING · LAYER 2
+</div>
+
+<h1>
+<span>ARP</span> Explained
+</h1>
+
+<p class="article-subtitle">
+ARP چگونه IP Address را به MAC Address تبدیل می‌کند و چرا دانستن ARP برای Troubleshooting شبکه اهمیت دارد؟
+</p>
+
+<div class="article-meta">
+📅 September 2026 · ⏱ Beginner · 🐧 Linux
+</div>
+
+</header>
+
+
+<div class="article-toc">
+
+<h3>📚 فهرست مطالب</h3>
+
+<ul>
+
+<li><a href="#what">ARP چیست؟</a></li>
+
+<li><a href="#problem">مشکل ARP چه چیزی را حل می‌کند؟</a></li>
+
+<li><a href="#process">فرآیند ARP</a></li>
+
+<li><a href="#table">ARP Table</a></li>
+
+<li><a href="#linux">ARP در Linux</a></li>
+
+<li><a href="#gateway">ARP و Gateway</a></li>
+
+<li><a href="#troubleshooting">Troubleshooting</a></li>
+
+<li><a href="#exercise">تمرین</a></li>
+
+</ul>
+
+</div>
+
+
+<article class="article-body">
+
+
+<h2 id="what">
+ARP چیست؟
+</h2>
+
+<p>
+ARP مخفف
+<strong>Address Resolution Protocol</strong>
+است.
+</p>
+
+<p>
+وظیفه ARP پیدا کردن MAC Address مربوط به یک IPv4 Address در شبکه محلی است.
+</p>
+
+
+<h2 id="problem">
+ARP چه مشکلی را حل می‌کند؟
+</h2>
+
+<p>
+فرض کن Server A آدرس زیر را دارد:
+</p>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+Network
+</div>
+
+<pre class="code-block">IP: 192.168.1.10
+MAC: AA:AA:AA:AA:AA:AA</pre>
+
+<p>
+و می‌خواهد برای
+<code>192.168.1.20</code>
+Packet ارسال کند.
+</p>
+
+<p>
+IP مقصد را می‌داند، اما برای ارسال Frame در شبکه Ethernet به MAC مقصد نیاز دارد.
+</p>
+
+<p>
+ARP این ارتباط را پیدا می‌کند.
+</p>
+
+
+<h2 id="process">
+فرآیند ARP
+</h2>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+ARP Flow
+</div>
+
+<pre class="code-block">Who has 192.168.1.20?
+        ↓
+Broadcast
+        ↓
+192.168.1.20 replies:
+I am AA:BB:CC:DD:EE:FF
+        ↓
+Store in ARP Table
+        ↓
+Send Ethernet Frame</pre>
+
+</div>
+
+
+<h2 id="table">
+ARP Table
+</h2>
+
+<p>
+سیستم عامل نتیجه ARP را برای مدتی Cache می‌کند.
+این اطلاعات در Linux در Neighbor Table قابل مشاهده است.
+</p>
+
+
+<h2 id="linux">
+ARP در Linux
+</h2>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+Terminal
+</div>
+
+<pre class="code-block">ip neigh</pre>
+
+</div>
+
+<p>
+ممکن است خروجی شبیه این باشد:
+</p>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+Example
+</div>
+
+<pre class="code-block">192.168.1.1 dev ens160 lladdr 00:11:22:33:44:55 REACHABLE</pre>
+
+</div>
+
+
+<h2 id="gateway">
+ARP و Default Gateway
+</h2>
+
+<p>
+اگر مقصد خارج از شبکه محلی باشد، سیستم معمولاً Frame را به MAC Address مربوط به Default Gateway ارسال می‌کند.
+</p>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+Flow
+</div>
+
+<pre class="code-block">Application
+     ↓
+Destination IP
+     ↓
+Routing Table
+     ↓
+Default Gateway
+     ↓
+ARP → Gateway MAC
+     ↓
+Ethernet Frame</pre>
+
+</div>
+
+
+<h2 id="troubleshooting">
+Troubleshooting با ARP
+</h2>
+
+<p>
+اگر Host در شبکه محلی قابل دسترسی نیست،
+می‌توانیم Neighbor Table را بررسی کنیم.
+</p>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+Linux
+</div>
+
+<pre class="code-block">ip neigh
+ip route
+</pre>
+
+</div>
+
+
+<div class="warning">
+
+<strong>⚠️ نکته امنیتی:</strong>
+
+ARP در IPv4 ذاتاً مکانیزم Authentication قوی ندارد و حملاتی مانند ARP Spoofing می‌توانند از ضعف‌های آن سوءاستفاده کنند.
+
+</div>
+
+
+<h2 id="exercise">
+🧪 تمرین عملی
+</h2>
+
+<div class="exercise">
+
+اول Gateway سیستم را پیدا کن:
+
+</div>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+Terminal
+</div>
+
+<pre class="code-block">ip route</pre>
+
+</div>
+
+<p>
+سپس:
+</p>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+Terminal
+</div>
+
+<pre class="code-block">ip neigh</pre>
+
+</div>
+
+<p>
+MAC مربوط به Gateway را پیدا کن.
+</p>
+
+
+<h2>
+چیزی که یاد گرفتم
+</h2>
+
+<p>
+ARP پلی بین Layer 3 و Layer 2 در شبکه‌های IPv4 است.
+سیستم IP مقصد را دارد اما برای Ethernet به MAC Address نیاز دارد.
+</p>
+
+
+<h2>
+مرحله بعدی چیست؟
+</h2>
+
+<p>
+حالا که MAC و ARP را شناختیم، وقت آن است که خود IP Address و ساختار IPv4 را عمیق‌تر بررسی کنیم.
+</p>
+
+
+<footer class="article-footer">
+
+<a href="mac-ip-address.html">← MAC & IP</a>
+
+<a href="network-ip-address.html">مقاله بعدی →</a>
+
+</footer>
+
+</article>
+
+</div>
+
+</section>
+
+</main>
+
+
+<footer>
+© 2026 Z.DevOps — Built while learning DevOps.
+</footer>
+
+</body>
+
+</html>
