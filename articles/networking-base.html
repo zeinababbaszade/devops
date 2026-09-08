@@ -1,0 +1,1584 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
+<meta name="description"
+      content="آموزش کامل مبانی شبکه در Linux شامل Network Interface، IP، MAC، Gateway، DNS، Route و ابزارهای پایه شبکه در Ubuntu.">
+
+<meta name="keywords"
+      content="Linux Networking, Ubuntu Networking, IP, MAC, Gateway, DNS, Network Interface, DevOps">
+
+<title>Linux Networking | Z.DevOps</title>
+
+<link rel="stylesheet"
+      href="../style.css">
+
+<style>
+
+.article-wrapper{
+    max-width:900px;
+    margin:auto
+}
+
+.article-header{
+    text-align:center;
+    margin-bottom:70px
+}
+
+.article-header .badge{
+    margin-bottom:20px
+}
+
+.article-header h1{
+    font-size:clamp(38px,6vw,60px);
+    line-height:1.2;
+    margin-bottom:20px
+}
+
+.article-header h1 span{
+    color:var(--primary)
+}
+
+.article-subtitle{
+    color:var(--text-secondary);
+    font-size:18px;
+    max-width:750px;
+    margin:auto
+}
+
+.article-meta{
+    margin-top:20px;
+    color:#64748b;
+    font-size:13px
+}
+
+.toc{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:14px;
+    padding:25px 30px;
+    margin-bottom:55px
+}
+
+.toc h3{
+    margin-bottom:15px
+}
+
+.toc ol{
+    margin:0;
+    padding-right:22px
+}
+
+.toc li{
+    margin-bottom:8px
+}
+
+.toc a{
+    color:var(--text-secondary);
+    transition:.2s
+}
+
+.toc a:hover{
+    color:var(--primary)
+}
+
+.article-body{
+    text-align:right;
+    font-family:"Vazirmatn","Tahoma",sans-serif
+}
+
+.article-body h2{
+    font-size:30px;
+    margin-top:65px;
+    margin-bottom:20px;
+    padding-bottom:10px;
+    border-bottom:1px solid var(--border)
+}
+
+.article-body h3{
+    font-size:21px;
+    margin-top:35px;
+    margin-bottom:12px
+}
+
+.article-body p{
+    color:#cbd5e1;
+    font-size:16px;
+    line-height:2;
+    margin-bottom:20px
+}
+
+.article-body ul,
+.article-body ol{
+    color:#cbd5e1;
+    line-height:2;
+    margin-bottom:25px;
+    padding-right:25px
+}
+
+.article-body li{
+    margin-bottom:7px
+}
+
+.article-body strong{
+    color:#f8fafc
+}
+
+.code-wrapper{
+    position:relative;
+    margin:20px 0 28px
+}
+
+.code-label{
+    direction:ltr;
+    text-align:left;
+    background:#111827;
+    color:#64748b;
+    padding:7px 15px;
+    border-radius:8px 8px 0 0;
+    font-family:Consolas,monospace;
+    font-size:12px;
+    border:1px solid rgba(148,163,184,.15);
+    border-bottom:none
+}
+
+.code-block{
+    direction:ltr;
+    text-align:left;
+    background:#020617;
+    border:1px solid rgba(148,163,184,.15);
+    border-radius:0 0 8px 8px;
+    padding:20px;
+    overflow-x:auto;
+    margin:0
+}
+
+.code-block code{
+    font-family:Consolas,"Courier New",monospace;
+    font-size:14px;
+    line-height:1.8;
+    color:#e2e8f0
+}
+
+.note{
+    background:rgba(56,189,248,.07);
+    border-right:4px solid var(--primary);
+    padding:20px 22px;
+    border-radius:8px;
+    margin:30px 0;
+    color:#cbd5e1;
+    line-height:1.9
+}
+
+.warning{
+    background:rgba(251,191,36,.07);
+    border-right:4px solid #fbbf24;
+    padding:20px 22px;
+    border-radius:8px;
+    margin:30px 0;
+    color:#cbd5e1;
+    line-height:1.9
+}
+
+.command-table{
+    width:100%;
+    border-collapse:collapse;
+    margin:25px 0 35px;
+    border-radius:10px
+}
+
+.command-table th,
+.command-table td{
+    padding:13px 15px;
+    border-bottom:1px solid var(--border);
+    text-align:right
+}
+
+.command-table th{
+    background:var(--card);
+    color:var(--primary);
+    font-weight:600
+}
+
+.command-table td{
+    color:#cbd5e1
+}
+
+.command-table code{
+    direction:ltr;
+    display:inline-block;
+    background:rgba(148,163,184,.08);
+    padding:3px 7px;
+    border-radius:5px;
+    color:#e2e8f0;
+    font-family:Consolas,monospace
+}
+
+.exercise{
+    background:linear-gradient(
+        135deg,
+        rgba(56,189,248,.08),
+        rgba(14,165,233,.02)
+    );
+    border:1px solid rgba(56,189,248,.18);
+    border-radius:14px;
+    padding:28px;
+    margin:35px 0
+}
+
+.exercise h3{
+    margin-top:0;
+    color:var(--primary)
+}
+
+.article-footer{
+    margin-top:80px;
+    padding-top:30px;
+    border-top:1px solid var(--border);
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:15px;
+    flex-wrap:wrap
+}
+
+@media(max-width:650px){
+
+.article-header h1{
+    font-size:38px
+}
+
+.article-body h2{
+    font-size:25px
+}
+
+.article-body p{
+    font-size:15px
+}
+
+.command-table{
+    font-size:13px
+}
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<header class="navbar">
+
+<div class="container navbar-inner">
+
+<a href="../index.html"
+   class="logo">
+
+Z<span>.DevOps</span>
+
+</a>
+
+
+<nav>
+
+<ul class="nav-links">
+
+<li>
+<a href="../index.html">Home</a>
+</li>
+
+<li>
+<a href="index.html">Articles</a>
+</li>
+
+<li>
+<a href="../index.html#projects">Projects</a>
+</li>
+
+<li>
+<a href="../index.html#roadmap">Roadmap</a>
+</li>
+
+<li>
+<a href="../index.html#about">About</a>
+</li>
+
+</ul>
+
+</nav>
+
+</div>
+
+</header>
+
+
+
+<main>
+
+<section>
+
+<div class="container article-wrapper">
+
+
+<header class="article-header">
+
+<div class="badge">
+LINUX · NETWORKING
+</div>
+
+<h1>
+Linux <span>Networking</span>
+</h1>
+
+<p class="article-subtitle">
+آشنایی عمیق با مفاهیم پایه شبکه در Linux؛
+از Network Interface و IP Address گرفته تا MAC،
+Gateway، DNS، Route و ابزارهای بررسی و Troubleshooting.
+</p>
+
+<div class="article-meta">
+📅 September 2026 &nbsp; · &nbsp;
+⏱ Beginner → Intermediate &nbsp; · &nbsp;
+🐧 Ubuntu
+</div>
+
+</header>
+
+
+
+<div class="toc">
+
+<h3>📚 فهرست مطالب</h3>
+
+<ol>
+
+<li>
+<a href="#intro">
+شبکه چیست؟
+</a>
+</li>
+
+<li>
+<a href="#network-interface">
+Network Interface چیست؟
+</a>
+</li>
+
+<li>
+<a href="#mac">
+MAC Address چیست؟
+</a>
+</li>
+
+<li>
+<a href="#ip">
+IP Address چیست؟
+</a>
+</li>
+
+<li>
+<a href="#private-public">
+Private و Public IP
+</a>
+</li>
+
+<li>
+<a href="#gateway">
+Gateway چیست؟
+</a>
+</li>
+
+<li>
+<a href="#dns">
+DNS چیست؟
+</a>
+</li>
+
+<li>
+<a href="#route">
+Route چیست؟
+</a>
+</li>
+
+<li>
+<a href="#commands">
+دستورات مهم Networking
+</a>
+</li>
+
+<li>
+<a href="#ping">
+تست ارتباط با ping
+</a>
+</li>
+
+<li>
+<a href="#ss">
+بررسی Connectionها با ss
+</a>
+</li>
+
+<li>
+<a href="#troubleshooting">
+روش Troubleshooting
+</a>
+</li>
+
+<li>
+<a href="#practice">
+تمرین عملی
+</a>
+</li>
+
+<li>
+<a href="#cheatsheet">
+Cheat Sheet
+</a>
+</li>
+
+<li>
+<a href="#learned">
+چیزی که یاد گرفتم
+</a>
+</li>
+
+<li>
+<a href="#next">
+مرحله بعد
+</a>
+</li>
+
+</ol>
+
+</div>
+
+
+
+<article class="article-body">
+
+
+<h2 id="intro">
+شبکه چیست؟
+</h2>
+
+<p>
+شبکه یا <strong>Network</strong> مجموعه‌ای از سیستم‌ها، تجهیزات و سرویس‌هایی است که برای انتقال اطلاعات با یکدیگر ارتباط برقرار می‌کنند.
+این سیستم‌ها می‌توانند کامپیوتر، Server، Router، Switch، Firewall، Container یا حتی یک Virtual Machine باشند.
+</p>
+
+<p>
+در مسیر DevOps، شبکه یکی از پایه‌ای‌ترین مفاهیمی است که باید به‌خوبی یاد بگیریم.
+تقریباً هر سرویس DevOps به نوعی با Network سروکار دارد؛
+از SSH و Web Server گرفته تا Docker، Kubernetes، Zabbix، Grafana، Database و Cloud.
+</p>
+
+<div class="note">
+
+💡 اگر یک Application بالا باشد ولی Network بین Client و Server درست کار نکند،
+از دید کاربر آن Application عملاً در دسترس نیست.
+بنابراین یک DevOps Engineer باید بتواند مشکل Network را مرحله‌به‌مرحله بررسی کند.
+
+</div>
+
+
+
+<h2 id="network-interface">
+Network Interface چیست؟
+</h2>
+
+<p>
+برای اینکه یک Linux Server بتواند با شبکه ارتباط برقرار کند، به یک
+<strong>Network Interface</strong> نیاز دارد.
+این Interface می‌تواند یک کارت شبکه فیزیکی یا یک Interface مجازی باشد.
+</p>
+
+<p>
+در یک Server ممکن است Interfaceهایی مانند
+<code>eth0</code>،
+<code>ens33</code>،
+<code>ens160</code>
+یا نام‌های مشابه ببینیم.
+نام Interface به تنظیمات سیستم‌عامل و نوع سخت‌افزار یا Virtualization بستگی دارد.
+</p>
+
+<p>
+برای مشاهده Interfaceهای سیستم:
+</p>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+Ubuntu Terminal
+</div>
+
+<pre class="code-block"><code>ip link</code></pre>
+
+</div>
+
+<p>
+برای مشاهده اطلاعات کامل‌تر Interfaceها و IP:
+</p>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+Ubuntu Terminal
+</div>
+
+<pre class="code-block"><code>ip addr</code></pre>
+
+</div>
+
+<p>
+در خروجی ممکن است چیزی شبیه این ببینیم:
+</p>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+Example
+</div>
+
+<pre class="code-block"><code>2: ens160:
+    inet 192.168.1.20/24
+    link/ether 00:0c:29:12:34:56</code></pre>
+
+</div>
+
+<p>
+در این مثال Interface ما <strong>ens160</strong> است.
+این Interface دارای IP
+<strong>192.168.1.20</strong>
+و یک MAC Address است.
+</p>
+
+
+
+<h2 id="mac">
+MAC Address چیست؟
+</h2>
+
+<p>
+هر Network Interface معمولاً یک شناسه سخت‌افزاری یا اصطلاحاً
+<strong>MAC Address</strong>
+دارد.
+MAC معمولاً به شکل شش گروه hexadecimal نمایش داده می‌شود.
+</p>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+Example
+</div>
+
+<pre class="code-block"><code>00:0c:29:12:34:56</code></pre>
+
+</div>
+
+<p>
+MAC Address در سطح Data Link برای شناسایی Interfaceها در شبکه‌های محلی استفاده می‌شود.
+در مقابل، IP Address برای ارتباط منطقی و مسیریابی بین شبکه‌ها استفاده می‌شود.
+</p>
+
+<div class="note">
+
+💡 یک راه ساده برای تفکیک ذهنی:
+<strong>MAC = شناسایی Interface در شبکه محلی</strong>
+و
+<strong>IP = آدرس منطقی برای ارتباط و Routing</strong>.
+
+</div>
+
+
+
+<h2 id="ip">
+IP Address چیست؟
+</h2>
+
+<p>
+برای اینکه سیستم‌ها بتوانند یکدیگر را در شبکه پیدا کنند، از
+<strong>IP Address</strong>
+استفاده می‌شود.
+</p>
+
+<p>
+در IPv4 یک Address از چهار بخش تشکیل می‌شود که با نقطه از هم جدا شده‌اند:
+</p>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+IPv4 Example
+</div>
+
+<pre class="code-block"><code>192.168.1.20</code></pre>
+
+</div>
+
+<p>
+هر بخش IPv4 می‌تواند مقداری بین 0 تا 255 داشته باشد.
+اما فقط دانستن IP کافی نیست؛
+برای درک اینکه یک IP متعلق به چه Networkای است، باید
+<strong>Subnet Mask</strong>
+یا notation مربوط به آن را هم بدانیم.
+</p>
+
+<p>
+مثلاً:
+</p>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+Example
+</div>
+
+<pre class="code-block"><code>192.168.1.20/24</code></pre>
+
+</div>
+
+<p>
+عدد <code>/24</code> مشخص می‌کند چه تعداد بیت برای Network Portion در نظر گرفته شده است.
+مفهوم Subnet و CIDR را در مقاله بعدی به‌صورت کامل بررسی می‌کنیم.
+</p>
+
+
+
+<h2 id="private-public">
+Private و Public IP
+</h2>
+
+<p>
+همه IPها مستقیماً روی Internet قابل استفاده نیستند.
+بخشی از IPv4 Addressها برای شبکه‌های خصوصی در نظر گرفته شده‌اند.
+</p>
+
+<table class="command-table">
+
+<thead>
+
+<tr>
+<th>Range</th>
+<th>کاربرد</th>
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+<td>
+<code>10.0.0.0/8</code>
+</td>
+
+<td>
+Private Network
+</td>
+</tr>
+
+<tr>
+<td>
+<code>172.16.0.0/12</code>
+</td>
+
+<td>
+Private Network
+</td>
+</tr>
+
+<tr>
+<td>
+<code>192.168.0.0/16</code>
+</td>
+
+<td>
+Private Network
+</td>
+</tr>
+
+</tbody>
+
+</table>
+
+<p>
+مثلاً IP زیر یک Private IP است:
+</p>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+Example
+</div>
+
+<pre class="code-block"><code>192.168.1.20</code></pre>
+
+</div>
+
+<p>
+سیستم‌های داخل شبکه داخلی می‌توانند از این IPها استفاده کنند،
+ولی برای ارتباط با Internet معمولاً به NAT و یک Public IP در سمت شبکه نیاز داریم.
+</p>
+
+
+
+<h2 id="gateway">
+Gateway چیست؟
+</h2>
+
+<p>
+فرض کن Server ما می‌خواهد با سیستمی در یک Network دیگر ارتباط برقرار کند.
+در این حالت معمولاً Packet باید به یک Router یا Gateway ارسال شود.
+</p>
+
+<p>
+به زبان ساده:
+<strong>Gateway در بسیاری از شبکه‌ها مسیر خروج سیستم از Network محلی به شبکه‌های دیگر است.</strong>
+</p>
+
+<p>
+برای مشاهده Gateway و Routeهای سیستم:
+</p>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+Ubuntu Terminal
+</div>
+
+<pre class="code-block"><code>ip route</code></pre>
+
+</div>
+
+<p>
+ممکن است خروجی شبیه این باشد:
+</p>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+Example
+</div>
+
+<pre class="code-block"><code>default via 192.168.1.1 dev ens160
+192.168.1.0/24 dev ens160 proto kernel scope link src 192.168.1.20</code></pre>
+
+</div>
+
+<p>
+خط اول یعنی برای مقصدهایی که Route مشخص‌تری ندارند،
+سیستم Packet را به Gateway
+<strong>192.168.1.1</strong>
+ارسال می‌کند.
+</p>
+
+
+
+<h2 id="dns">
+DNS چیست؟
+</h2>
+
+<p>
+DNS مخفف
+<strong>Domain Name System</strong>
+است.
+کار DNS تبدیل نام‌هایی مثل
+<code>example.com</code>
+به IP Address است.
+</p>
+
+<p>
+کامپیوترها برای ارتباط شبکه‌ای به Address نیاز دارند،
+ولی انسان‌ها کار کردن با نام‌ها را راحت‌تر می‌دانند.
+DNS این فاصله را پر می‌کند.
+</p>
+
+<p>
+مثلاً وقتی یک Application می‌خواهد به:
+</p>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+Example
+</div>
+
+<pre class="code-block"><code>example.com</code></pre>
+
+</div>
+
+<p>
+متصل شود، ابتدا باید مشخص شود این نام به چه IP Addressای اشاره می‌کند.
+</p>
+
+<p>
+برای تست DNS در Linux می‌توانیم از ابزارهایی مانند
+<code>dig</code>
+استفاده کنیم.
+</p>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+Ubuntu Terminal
+</div>
+
+<pre class="code-block"><code>dig example.com</code></pre>
+
+</div>
+
+<p>
+یا:
+</p>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+Ubuntu Terminal
+</div>
+
+<pre class="code-block"><code>nslookup example.com</code></pre>
+
+</div>
+
+<div class="warning">
+
+⚠️ اگر IP را Ping کنیم و پاسخ بگیریم ولی نام Domain کار نکند،
+ممکن است مشکل از DNS باشد؛
+بنابراین باید Network Connectivity و Name Resolution را جداگانه بررسی کنیم.
+
+</div>
+
+
+
+<h2 id="route">
+Route چیست؟
+</h2>
+
+<p>
+هر Linux Server یک
+<strong>Routing Table</strong>
+دارد که مشخص می‌کند Packetها برای رسیدن به مقصدهای مختلف از چه مسیری ارسال شوند.
+</p>
+
+<p>
+برای مشاهده Routing Table:
+</p>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+Ubuntu Terminal
+</div>
+
+<pre class="code-block"><code>ip route</code></pre>
+
+</div>
+
+<p>
+یک Route معمولاً مشخص می‌کند:
+</p>
+
+<ul>
+
+<li>
+Destination Network
+</li>
+
+<li>
+Gateway
+</li>
+
+<li>
+Network Interface
+</li>
+
+<li>
+Source Address
+</li>
+
+</ul>
+
+<p>
+مثلاً:
+</p>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+Example
+</div>
+
+<pre class="code-block"><code>default via 192.168.1.1 dev ens160</code></pre>
+
+</div>
+
+<p>
+یعنی Route پیش‌فرض از Gateway
+<code>192.168.1.1</code>
+و Interface
+<code>ens160</code>
+استفاده می‌کند.
+</p>
+
+
+
+<h2 id="commands">
+دستورات مهم Networking
+</h2>
+
+<table class="command-table">
+
+<thead>
+
+<tr>
+<th>Command</th>
+<th>کاربرد</th>
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+<td>
+<code>ip addr</code>
+</td>
+
+<td>
+مشاهده IP و Interfaceها
+</td>
+</tr>
+
+<tr>
+<td>
+<code>ip link</code>
+</td>
+
+<td>
+مشاهده وضعیت Interfaceها
+</td>
+</tr>
+
+<tr>
+<td>
+<code>ip route</code>
+</td>
+
+<td>
+مشاهده Routing Table
+</td>
+</tr>
+
+<tr>
+<td>
+<code>ping</code>
+</td>
+
+<td>
+بررسی Connectivity
+</td>
+</tr>
+
+<tr>
+<td>
+<code>ss</code>
+</td>
+
+<td>
+بررسی Socketها و Connectionها
+</td>
+</tr>
+
+<tr>
+<td>
+<code>dig</code>
+</td>
+
+<td>
+بررسی DNS
+</td>
+</tr>
+
+<tr>
+<td>
+<code>curl</code>
+</td>
+
+<td>
+تست HTTP و سرویس‌ها
+</td>
+</tr>
+
+<tr>
+<td>
+<code>ip neigh</code>
+</td>
+
+<td>
+مشاهده Neighbor/ARP information
+</td>
+</tr>
+
+</tbody>
+
+</table>
+
+
+
+<h2 id="ping">
+تست ارتباط با ping
+</h2>
+
+<p>
+یکی از ساده‌ترین ابزارهای بررسی Network،
+دستور
+<strong>ping</strong>
+است.
+</p>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+Ubuntu Terminal
+</div>
+
+<pre class="code-block"><code>ping 8.8.8.8</code></pre>
+
+</div>
+
+<p>
+اگر پاسخ دریافت شود، حداقل نشان می‌دهد که مسیر ارتباطی تا مقصد در سطحی از Network Connectivity برقرار است.
+</p>
+
+<p>
+اما یک نکته بسیار مهم وجود دارد:
+<strong>موفق بودن ping به معنی سالم بودن تمام سرویس‌های مقصد نیست.</strong>
+</p>
+
+<p>
+مثلاً ممکن است Web Server روی Port 443 مشکل داشته باشد ولی ICMP و در نتیجه ping همچنان پاسخ بدهد.
+</p>
+
+<p>
+برای تست یک Host با تعداد محدود Packet:
+</p>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+Ubuntu Terminal
+</div>
+
+<pre class="code-block"><code>ping -c 4 8.8.8.8</code></pre>
+
+</div>
+
+
+
+<h2 id="ss">
+بررسی Connectionها با ss
+</h2>
+
+<p>
+ابزار
+<strong>ss</strong>
+برای مشاهده Socketها و Connectionهای شبکه در Linux بسیار کاربردی است.
+</p>
+
+<p>
+برای مشاهده Connectionهای TCP:
+</p>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+Ubuntu Terminal
+</div>
+
+<pre class="code-block"><code>ss -t</code></pre>
+
+</div>
+
+<p>
+برای مشاهده Listening Portها:
+</p>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+Ubuntu Terminal
+</div>
+
+<pre class="code-block"><code>ss -lnt</code></pre>
+
+</div>
+
+<p>
+برای دیدن Process مرتبط با Socketها نیز می‌توان از:
+</p>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+Ubuntu Terminal
+</div>
+
+<pre class="code-block"><code>sudo ss -lntp</code></pre>
+
+</div>
+
+<p>
+این دستور برای Troubleshooting بسیار مفید است.
+مثلاً اگر انتظار داریم یک Web Server روی Port 8080 گوش دهد،
+می‌توانیم بررسی کنیم آیا واقعاً Port موردنظر Listening است یا خیر.
+</p>
+
+
+
+<h2 id="troubleshooting">
+روش Troubleshooting شبکه
+</h2>
+
+<p>
+یکی از مهم‌ترین مهارت‌ها در DevOps این نیست که صدها Command را حفظ کنیم؛
+بلکه باید بتوانیم مشکل را
+<strong>مرحله‌به‌مرحله محدود کنیم.</strong>
+</p>
+
+<p>
+فرض کنیم Server به Internet دسترسی ندارد.
+نباید بلافاصله سراغ DNS برویم.
+ابتدا باید مشخص کنیم مشکل دقیقاً در کدام لایه قرار دارد.
+</p>
+
+<h3>
+مرحله 1 — Interface
+</h3>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+Terminal
+</div>
+
+<pre class="code-block"><code>ip link</code></pre>
+
+</div>
+
+<p>
+بررسی می‌کنیم Interface موردنظر فعال است یا خیر.
+</p>
+
+
+<h3>
+مرحله 2 — IP Address
+</h3>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+Terminal
+</div>
+
+<pre class="code-block"><code>ip addr</code></pre>
+
+</div>
+
+<p>
+بررسی می‌کنیم Server یک IP مناسب دارد یا خیر.
+</p>
+
+
+<h3>
+مرحله 3 — Routing
+</h3>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+Terminal
+</div>
+
+<pre class="code-block"><code>ip route</code></pre>
+
+</div>
+
+<p>
+بررسی می‌کنیم Default Route وجود دارد یا خیر.
+</p>
+
+
+<h3>
+مرحله 4 — Gateway
+</h3>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+Terminal
+</div>
+
+<pre class="code-block"><code>ping -c 4 192.168.1.1</code></pre>
+
+</div>
+
+<p>
+اگر Gateway قابل دسترسی نباشد، باید قبل از بررسی Internet مشکل شبکه محلی را بررسی کنیم.
+</p>
+
+
+<h3>
+مرحله 5 — IP خارجی
+</h3>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+Terminal
+</div>
+
+<pre class="code-block"><code>ping -c 4 8.8.8.8</code></pre>
+
+</div>
+
+<p>
+اگر Gateway پاسخ می‌دهد ولی IP خارجی نه،
+مشکل می‌تواند در Routing، Firewall، NAT یا مسیر بالادستی باشد.
+</p>
+
+
+<h3>
+مرحله 6 — DNS
+</h3>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+Terminal
+</div>
+
+<pre class="code-block"><code>ping -c 4 example.com</code></pre>
+
+</div>
+
+<p>
+اگر IP خارجی کار می‌کند ولی Domain نه،
+DNS را بررسی می‌کنیم.
+</p>
+
+
+
+<h2 id="practice">
+تمرین عملی: Linux Network Lab
+</h2>
+
+<div class="exercise">
+
+<h3>
+🧪 تمرین
+</h3>
+
+<p>
+روی Ubuntu خودت دستورات زیر را به ترتیب اجرا کن:
+</p>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+Ubuntu Terminal
+</div>
+
+<pre class="code-block"><code>ip link
+
+ip addr
+
+ip route
+
+ip neigh
+
+ping -c 4 127.0.0.1
+
+ping -c 4 8.8.8.8
+
+ping -c 4 example.com
+
+ss -lnt
+
+sudo ss -lntp</code></pre>
+
+</div>
+
+<p>
+برای هر دستور سعی کن قبل از اجرای آن حدس بزنی چه اطلاعاتی قرار است ببینی.
+</p>
+
+<p>
+بعد از اجرای دستورات، این موارد را برای خودت یادداشت کن:
+</p>
+
+<ul>
+
+<li>
+نام Network Interface
+</li>
+
+<li>
+IPv4 Address
+</li>
+
+<li>
+Subnet/CIDR
+</li>
+
+<li>
+Default Gateway
+</li>
+
+<li>
+DNS Server
+</li>
+
+<li>
+Listening Ports
+</li>
+
+</ul>
+
+</div>
+
+
+
+<h2 id="cheatsheet">
+Networking Cheat Sheet
+</h2>
+
+<table class="command-table">
+
+<thead>
+
+<tr>
+<th>Command</th>
+<th>کاربرد</th>
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+<td>
+<code>ip link</code>
+</td>
+
+<td>
+مشاهده Interfaceها
+</td>
+</tr>
+
+<tr>
+<td>
+<code>ip addr</code>
+</td>
+
+<td>
+مشاهده IPها
+</td>
+</tr>
+
+<tr>
+<td>
+<code>ip route</code>
+</td>
+
+<td>
+مشاهده Routeها
+</td>
+</tr>
+
+<tr>
+<td>
+<code>ip neigh</code>
+</td>
+
+<td>
+مشاهده Neighborها
+</td>
+</tr>
+
+<tr>
+<td>
+<code>ping</code>
+</td>
+
+<td>
+تست Connectivity
+</td>
+
+<tr>
+<td>
+<code>ss -lnt</code>
+</td>
+
+<td>
+مشاهده Listening TCP Ports
+</td>
+
+<tr>
+<td>
+<code>dig</code>
+</td>
+
+<td>
+بررسی DNS
+</td>
+
+<tr>
+<td>
+<code>curl</code>
+</td>
+
+<td>
+تست سرویس HTTP
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+
+
+<h2 id="learned">
+چیزی که از این مرحله یاد گرفتم
+</h2>
+
+<ul>
+
+<li>
+Network Interface نقطه اتصال Linux به شبکه است.
+</li>
+
+<li>
+هر Interface می‌تواند IP و MAC Address داشته باشد.
+</li>
+
+<li>
+IP برای Addressing و ارتباط منطقی استفاده می‌شود.
+</li>
+
+<li>
+Gateway برای رسیدن به شبکه‌های دیگر اهمیت دارد.
+</li>
+
+<li>
+Routing Table مشخص می‌کند Packetها به کجا ارسال شوند.
+</li>
+
+<li>
+DNS نام Domain را به IP تبدیل می‌کند.
+</li>
+
+<li>
+Ping برای بررسی Connectivity مفید است ولی سلامت یک سرویس را به‌تنهایی ثابت نمی‌کند.
+</li>
+
+<li>
+با ss می‌توان Listening Portها و Connectionها را بررسی کرد.
+</li>
+
+<li>
+در Troubleshooting باید مشکل را مرحله‌به‌مرحله محدود کنیم.
+</li>
+
+</ul>
+
+
+
+<h2 id="next">
+مرحله بعدی چیست؟
+</h2>
+
+<div class="exercise">
+
+<h3>
+🌐 IP Address & Subnetting
+</h3>
+
+<p>
+در مقاله بعدی وارد یکی از مهم‌ترین مفاهیم Networking می‌شویم:
+<strong>IP Address، Subnet Mask، CIDR، Network Address، Broadcast Address، Host Range و Subnetting.</strong>
+</p>
+
+<p>
+این مفاهیم برای کار با Serverها، Docker، Kubernetes، Cloud و Routing بسیار مهم هستند.
+</p>
+
+</div>
+
+
+</article>
+
+
+
+<div class="article-footer">
+
+<a href="linux-bash-scripting.html"
+   class="btn btn-secondary">
+← مقاله قبلی
+</a>
+
+<a href="index.html"
+   class="btn btn-secondary">
+بازگشت به مقالات
+</a>
+
+<a href="linux-ip-subnetting.html"
+   class="btn btn-primary">
+مقاله بعدی →
+</a>
+
+</div>
+
+
+</div>
+
+</section>
+
+</main>
+
+
+
+<footer>
+
+<div class="container">
+
+<p>
+© 2026 Z.DevOps — Built while learning DevOps.
+</p>
+
+<div class="social-links">
+
+<a href="../index.html">
+Home
+</a>
+
+</div>
+
+</div>
+
+</footer>
+
+
+</body>
+
+</html>
