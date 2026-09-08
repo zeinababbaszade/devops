@@ -9,48 +9,254 @@
           content="width=device-width, initial-scale=1.0">
 
     <meta name="description"
-          content="DevOps articles, tutorials and technical notes.">
+          content="Z.DevOps Articles - Linux, Docker, Monitoring and DevOps tutorials.">
+
+    <meta name="keywords"
+          content="DevOps, Linux, Docker, Zabbix, Grafana, Ubuntu">
 
     <title>Articles | Z.DevOps</title>
 
     <link rel="stylesheet"
           href="../style.css">
 
+    <style>
+
+        /* =========================================
+           ARTICLE CATEGORIES
+        ========================================= */
+
+        .article-category {
+            margin-bottom: 90px;
+        }
+
+
+        .category-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            gap: 20px;
+
+            margin-bottom: 30px;
+
+            padding-bottom: 20px;
+
+            border-bottom: 1px solid var(--border);
+        }
+
+
+        .category-title {
+            display: flex;
+            align-items: center;
+
+            gap: 15px;
+        }
+
+
+        .category-icon {
+            width: 48px;
+            height: 48px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background: rgba(56, 189, 248, 0.08);
+
+            border: 1px solid
+                rgba(56, 189, 248, 0.15);
+
+            border-radius: 12px;
+
+            font-size: 24px;
+        }
+
+
+        .category-title h2 {
+            margin: 0;
+
+            font-size: 30px;
+        }
+
+
+        .category-description {
+            color: var(--text-secondary);
+
+            font-size: 14px;
+
+            margin: 5px 0 0;
+        }
+
+
+        .category-count {
+            color: var(--text-secondary);
+
+            font-size: 13px;
+
+            white-space: nowrap;
+        }
+
+
+        /* =========================================
+           ARTICLES GRID
+        ========================================= */
+
+        .article-category .articles-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, minmax(0, 1fr));
+
+            gap: 20px;
+
+        }
+
+
+        /* =========================================
+           ARTICLE CARD
+        ========================================= */
+
+        .article-card {
+
+            transition:
+                transform 0.2s ease,
+                border-color 0.2s ease;
+
+        }
+
+
+        .article-card:hover {
+
+            transform: translateY(-4px);
+
+            border-color:
+                rgba(56, 189, 248, 0.35);
+
+        }
+
+
+        .article-card h3 a {
+
+            color: var(--text);
+
+            transition: 0.2s;
+
+        }
+
+
+        .article-card h3 a:hover {
+
+            color: var(--primary);
+
+        }
+
+
+        /* =========================================
+           MOBILE
+        ========================================= */
+
+        @media (max-width: 900px) {
+
+            .article-category .articles-grid {
+
+                grid-template-columns:
+                    repeat(2, minmax(0, 1fr));
+
+            }
+
+        }
+
+
+        @media (max-width: 600px) {
+
+            .category-header {
+
+                align-items: flex-start;
+
+                flex-direction: column;
+
+            }
+
+
+            .category-title h2 {
+
+                font-size: 25px;
+
+            }
+
+
+            .article-category .articles-grid {
+
+                grid-template-columns: 1fr;
+
+            }
+
+
+            .category-count {
+
+                display: none;
+
+            }
+
+        }
+
+    </style>
+
 </head>
+
 
 <body>
 
+
+<!-- =========================================
+     NAVBAR
+========================================= -->
 
 <header class="navbar">
 
     <div class="container navbar-inner">
 
-        <a href="../index.html" class="logo">
+        <a href="../index.html"
+           class="logo">
+
             Z<span>.DevOps</span>
+
         </a>
+
 
         <nav>
 
             <ul class="nav-links">
 
                 <li>
-                    <a href="../index.html">Home</a>
+                    <a href="../index.html">
+                        Home
+                    </a>
                 </li>
 
                 <li>
-                    <a href="index.html">Articles</a>
+                    <a href="index.html">
+                        Articles
+                    </a>
                 </li>
 
                 <li>
-                    <a href="../index.html#projects">Projects</a>
+                    <a href="../index.html#projects">
+                        Projects
+                    </a>
                 </li>
 
                 <li>
-                    <a href="../index.html#roadmap">Roadmap</a>
+                    <a href="../index.html#roadmap">
+                        Roadmap
+                    </a>
                 </li>
 
                 <li>
-                    <a href="../index.html#about">About</a>
+                    <a href="../index.html#about">
+                        About
+                    </a>
                 </li>
 
             </ul>
@@ -62,34 +268,88 @@
 </header>
 
 
+<!-- =========================================
+     MAIN
+========================================= -->
+
 <main>
 
 <section>
 
-    <div class="container">
+<div class="container">
 
-        <div class="section-title">
 
-            <div class="badge">
-                Knowledge Base
+    <!-- =====================================
+         PAGE HEADER
+    ====================================== -->
+
+    <div class="section-title">
+
+        <div class="badge">
+            Knowledge Base
+        </div>
+
+
+        <h1>
+            DevOps Articles
+        </h1>
+
+
+        <p>
+            یادداشت‌ها، آموزش‌ها، تجربه‌های عملی
+            و Troubleshooting در مسیر یادگیری DevOps.
+        </p>
+
+    </div>
+
+
+
+    <!-- =========================================
+         LINUX
+    ========================================= -->
+
+    <section class="article-category">
+
+
+        <div class="category-header">
+
+            <div>
+
+                <div class="category-title">
+
+                    <div class="category-icon">
+                        🐧
+                    </div>
+
+                    <div>
+
+                        <h2>
+                            Linux
+                        </h2>
+
+                        <p class="category-description">
+                            Linux Administration & DevOps Fundamentals
+                        </p>
+
+                    </div>
+
+                </div>
+
             </div>
 
-            <h1>
-                DevOps Articles
-            </h1>
 
-            <p>
-                Notes, tutorials, experiments and
-                real-world troubleshooting.
-            </p>
+            <div class="category-count">
+                Linux Articles
+            </div>
 
         </div>
+
 
 
         <div class="articles-grid">
 
 
-            <!-- Linux -->
+            <!-- Linux Basics -->
 
             <article class="article-card">
 
@@ -99,16 +359,23 @@
                         LINUX
                     </div>
 
+
                     <h3>
+
                         <a href="linux-basics.html">
+
                             Linux Basics
+
                         </a>
+
                     </h3>
 
+
                     <p>
-                        My notes while learning Linux,
-                        Bash and system administration.
+                        شروع مسیر یادگیری Linux،
+                        Terminal، Commandها و مفاهیم پایه.
                     </p>
+
 
                     <div class="article-date">
                         September 2026
@@ -118,347 +385,513 @@
 
             </article>
 
+
+
             <!-- Linux File System -->
 
             <article class="article-card">
 
                 <div class="article-content">
 
-                <div class="category">
-                    LINUX
+                    <div class="category">
+                        LINUX
+                    </div>
+
+
+                    <h3>
+
+                        <a href="linux-filesystem.html">
+
+                            Linux File System
+
+                        </a>
+
+                    </h3>
+
+
+                    <p>
+                        آشنایی با File System لینوکس
+                        و مسیرهایی مانند /etc، /var، /home و /usr.
+                    </p>
+
+
+                    <div class="article-date">
+                        September 2026
+                    </div>
+
                 </div>
 
-                <h3>
-                    <a href="linux-filesystem.html">
-                        Linux File System
-                    </a>
-                </h3>
+            </article>
 
-                <p>
-                Understanding the Linux file system
-                and important directories such as /home,
-                /etc, /var and /usr.
-                </p>
 
-                <div class="article-date">
-            September 2026
-        </div>
 
-    </div>
-
-</article>
             <!-- Linux Files & Directories -->
 
-<article class="article-card">
+            <article class="article-card">
 
-    <div class="article-content">
+                <div class="article-content">
 
-        <div class="category">
-            LINUX
-        </div>
-
-        <h3>
-            <a href="linux-files-directories.html">
-                Linux Files & Directories
-            </a>
-        </h3>
-
-        <p>
-            Learn how to create, copy, move, rename
-            and delete files and directories in Linux.
-        </p>
-
-        <div class="article-date">
-            September 2026
-        </div>
-
-    </div>
-
-</article>
+                    <div class="category">
+                        LINUX
+                    </div>
 
 
-<!-- Linux Permissions -->
+                    <h3>
 
-<article class="article-card">
+                        <a href="linux-files-directories.html">
 
-    <div class="article-content">
+                            Linux Files & Directories
 
-        <div class="category">
-            LINUX
-        </div>
+                        </a>
 
-        <h3>
-            <a href="linux-permissions.html">
-                Linux Permissions
-            </a>
-        </h3>
-
-        <p>
-            Understanding Linux permissions,
-            chmod, chown and access control.
-        </p>
-
-        <div class="article-date">
-            September 2026
-        </div>
-
-    </div>
-
-</article>
+                    </h3>
 
 
-<!-- Linux Users & Groups -->
-
-<article class="article-card">
-
-    <div class="article-content">
-
-        <div class="category">
-            LINUX
-        </div>
-
-        <h3>
-            <a href="linux-users-groups.html">
-                Linux Users & Groups
-            </a>
-        </h3>
-
-        <p>
-            Learn about Linux users, groups,
-            user management and sudo privileges.
-        </p>
-
-        <div class="article-date">
-            September 2026
-        </div>
-
-    </div>
-
-</article>
+                    <p>
+                        ایجاد، کپی، انتقال، تغییر نام
+                        و حذف فایل‌ها و Directoryها در Linux.
+                    </p>
 
 
-<!-- Linux Processes -->
+                    <div class="article-date">
+                        September 2026
+                    </div>
 
-<article class="article-card">
+                </div>
 
-    <div class="article-content">
-
-        <div class="category">
-            LINUX
-        </div>
-
-        <h3>
-            <a href="linux-files-directories.html">
-                Linux Processes
-            </a>
-        </h3>
-
-        <p>
-Introduction to Processes, PID, ps, top, htop, and Process Management in Linux
-        </p>
-
-        <div class="article-date">
-            September 2026
-        </div>
-
-    </div>
-
-</article>
-
-
-            <!-- Linux Services & systemd -->
-
-<article class="article-card">
-
-    <div class="article-content">
-
-        <div class="category">
-            LINUX
-        </div>
-
-        <h3>
-            <a href="linux-files-directories.html">
-                Linux Services & systemd
-            </a>
-        </h3>
-
-        <p>
-Introduction to Services and Managing Them with systemd and systemctl in Ubuntu        </p>
-
-        <div class="article-date">
-            September 2026
-        </div>
-
-    </div>
-
-</article>
+            </article>
 
 
 
-            <!-- Linux Package Management -->
+            <!-- Linux Permissions -->
 
-<article class="article-card">
+            <article class="article-card">
 
-    <div class="article-content">
+                <div class="article-content">
 
-        <div class="category">
-            LINUX
-        </div>
-
-        <h3>
-            <a href="linux-files-directories.html">
-                Linux Package Management
-            </a>
-        </h3>
-
-        <p>
-A Guide to Managing Packages in Ubuntu with APT: From Update and Install to Search and Remove.
+                    <div class="category">
+                        LINUX
+                    </div>
 
 
-        </p>
+                    <h3>
 
-        <div class="article-date">
-            September 2026
-        </div>
+                        <a href="linux-permissions.html">
 
-    </div>
+                            Linux Permissions
 
-</article>
+                        </a>
+
+                    </h3>
+
+
+                    <p>
+                        آشنایی با Permissionها،
+                        chmod، chown و سطح دسترسی کاربران.
+                    </p>
+
+
+                    <div class="article-date">
+                        September 2026
+                    </div>
+
+                </div>
+
+            </article>
+
+
+
+            <!-- Linux Users & Groups -->
+
+            <article class="article-card">
+
+                <div class="article-content">
+
+                    <div class="category">
+                        LINUX
+                    </div>
+
+
+                    <h3>
+
+                        <a href="linux-users-groups.html">
+
+                            Linux Users & Groups
+
+                        </a>
+
+                    </h3>
+
+
+                    <p>
+                        مدیریت Userها و Groupها،
+                        sudo و سطح دسترسی در Linux.
+                    </p>
+
+
+                    <div class="article-date">
+                        September 2026
+                    </div>
+
+                </div>
+
+            </article>
+
+
+
+            <!-- Linux Processes -->
+
+            <article class="article-card">
+
+                <div class="article-content">
+
+                    <div class="category">
+                        LINUX
+                    </div>
+
+
+                    <h3>
+
+                        <a href="linux-processes.html">
+
+                            Linux Processes
+
+                        </a>
+
+                    </h3>
+
+
+                    <p>
+                        آشنایی با Process، PID،
+                        ps، top، htop و مدیریت Processها.
+                    </p>
+
+
+                    <div class="article-date">
+                        September 2026
+                    </div>
+
+                </div>
+
+            </article>
+
+
+
+            <!-- Linux Services -->
+
+            <article class="article-card">
+
+                <div class="article-content">
+
+                    <div class="category">
+                        LINUX
+                    </div>
+
+
+                    <h3>
+
+                        <a href="linux-services-systemd.html">
+
+                            Linux Services & systemd
+
+                        </a>
+
+                    </h3>
+
+
+                    <p>
+                        مدیریت سرویس‌ها با systemd و systemctl
+                        در Ubuntu و Linux.
+                    </p>
+
+
+                    <div class="article-date">
+                        September 2026
+                    </div>
+
+                </div>
+
+            </article>
+
+
+
+            <!-- Package Management -->
+
+            <article class="article-card">
+
+                <div class="article-content">
+
+                    <div class="category">
+                        LINUX
+                    </div>
+
+
+                    <h3>
+
+                        <a href="linux-package-management.html">
+
+                            Linux Package Management
+
+                        </a>
+
+                    </h3>
+
+
+                    <p>
+                        مدیریت Packageها در Ubuntu با APT؛
+                        نصب، حذف، جستجو و Update.
+                    </p>
+
+
+                    <div class="article-date">
+                        September 2026
+                    </div>
+
+                </div>
+
+            </article>
 
 
 
             <!-- Linux Networking -->
 
-<article class="article-card">
-
-    <div class="article-content">
-
-        <div class="category">
-            LINUX
-        </div>
-
-        <h3>
-            <a href="linux-files-directories.html">
-                Linux Networking
-            </a>
-        </h3>
-
-        <p>
-A Practical Introduction to IP, Interfaces, Routes, DNS, Ports, and Basic Networking Tools in Ubuntu        </p>
-
-        <div class="article-date">
-            September 2026
-        </div>
-
-    </div>
-<!-- Linux SSH -->
-
-</article>
             <article class="article-card">
-    <div class="article-content">
-        <div class="category">LINUX</div>
 
-        <h3>
-            <a href="linux-ssh.html">
-                Linux SSH
-            </a>
-        </h3>
+                <div class="article-content">
 
-        <p> Learn about SSH, secure connections to servers, SSH keys, configuration, and troubleshooting connections to Linux servers.
-        </p>
+                    <div class="category">
+                        LINUX
+                    </div>
 
-        <div class="article-date">
-            September 2026
+
+                    <h3>
+
+                        <a href="linux-networking.html">
+
+                            Linux Networking
+
+                        </a>
+
+                    </h3>
+
+
+                    <p>
+                        آشنایی با IP، Interface، Route،
+                        DNS، Port و ابزارهای Networking.
+                    </p>
+
+
+                    <div class="article-date">
+                        September 2026
+                    </div>
+
+                </div>
+
+            </article>
+
+
+
+            <!-- Linux SSH -->
+
+            <article class="article-card">
+
+                <div class="article-content">
+
+                    <div class="category">
+                        LINUX
+                    </div>
+
+
+                    <h3>
+
+                        <a href="linux-ssh.html">
+
+                            Linux SSH
+
+                        </a>
+
+                    </h3>
+
+
+                    <p>
+                        اتصال امن به Serverها،
+                        SSH Key، تنظیمات و Troubleshooting.
+                    </p>
+
+
+                    <div class="article-date">
+                        September 2026
+                    </div>
+
+                </div>
+
+            </article>
+
+
+
+            <!-- Linux Disk -->
+
+            <article class="article-card">
+
+                <div class="article-content">
+
+                    <div class="category">
+                        LINUX
+                    </div>
+
+
+                    <h3>
+
+                        <a href="linux-disk-storage.html">
+
+                            Linux Disk & Storage
+
+                        </a>
+
+                    </h3>
+
+
+                    <p>
+                        مدیریت Disk، Partition، File System،
+                        Mount و بررسی فضای Storage.
+                    </p>
+
+
+                    <div class="article-date">
+                        September 2026
+                    </div>
+
+                </div>
+
+            </article>
+
+
+
+            <!-- Linux Logs -->
+
+            <article class="article-card">
+
+                <div class="article-content">
+
+                    <div class="category">
+                        LINUX
+                    </div>
+
+
+                    <h3>
+
+                        <a href="linux-logs-troubleshooting.html">
+
+                            Linux Logs & Troubleshooting
+
+                        </a>
+
+                    </h3>
+
+
+                    <p>
+                        بررسی Logها، journalctl، syslog
+                        و روش Troubleshooting در Linux.
+                    </p>
+
+
+                    <div class="article-date">
+                        September 2026
+                    </div>
+
+                </div>
+
+            </article>
+
+
+
+            <!-- Bash -->
+
+            <article class="article-card">
+
+                <div class="article-content">
+
+                    <div class="category">
+                        LINUX
+                    </div>
+
+
+                    <h3>
+
+                        <a href="linux-bash-scripting.html">
+
+                            Linux Bash Scripting
+
+                        </a>
+
+                    </h3>
+
+
+                    <p>
+                        شروع Bash Scripting،
+                        Variableها، شرط‌ها، Loopها و Automation.
+                    </p>
+
+
+                    <div class="article-date">
+                        September 2026
+                    </div>
+
+                </div>
+
+            </article>
+
+
         </div>
-    </div>
-</article>
 
-            <!-- Linux Disk & Storage -->
+    </section>
 
-<article class="article-card">
 
-    <div class="article-content">
 
-        <div class="category">
-            LINUX
+    <!-- =========================================
+         DOCKER
+    ========================================= -->
+
+    <section class="article-category">
+
+
+        <div class="category-header">
+
+            <div class="category-title">
+
+                <div class="category-icon">
+                    🐳
+                </div>
+
+
+                <div>
+
+                    <h2>
+                        Docker
+                    </h2>
+
+
+                    <p class="category-description">
+                        Containers, Images, Networking & Compose
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="category-count">
+                Docker Articles
+            </div>
+
         </div>
 
-        <h3>
-            <a href="linux-disk-storage.html">
-                Linux Disk & Storage
-            </a>
-        </h3>
-
-        <p>Managing disks, partitions, filesystems, mounting, and checking storage space.
-
-        </p>
-
-        <div class="article-date">
-            September 2026
-        </div>
-
-    </div>
-
-</article>
 
 
-<!-- Linux Logs & Troubleshooting -->
-
-<article class="article-card">
-
-    <div class="article-content">
-
-        <div class="category">
-            LINUX
-        </div>
-
-        <h3>
-            <a href="linux-logs-troubleshooting.html">
-                Linux Logs & Troubleshooting
-            </a>
-        </h3>
-
-        <p>Learning about logs, journalctl, syslog, and the proper approach to troubleshooting a Linux server.
-        </p>
-
-        <div class="article-date">
-            September 2026
-        </div>
-
-    </div>
-
-</article>
+        <div class="articles-grid">
 
 
-<!-- Linux Bash Scripting -->
-
-<article class="article-card">
-
-    <div class="article-content">
-
-        <div class="category">
-            LINUX
-        </div>
-
-        <h3>
-            <a href="linux-bash-scripting.html">
-                Linux Bash Scripting
-            </a>
-        </h3>
-
-        <p>Getting started with Bash scripting, variables, conditions, loops, and automation in Linux.
-
-        </p>
-
-        <div class="article-date">
-            September 2026
-        </div>
-
-    </div>
-
-</article>
-            
-            <!-- Docker -->
+            <!-- Docker Networking -->
 
             <article class="article-card">
 
@@ -468,14 +901,23 @@ A Practical Introduction to IP, Interfaces, Routes, DNS, Ports, and Basic Networ
                         DOCKER
                     </div>
 
+
                     <h3>
-                        Docker Networking Explained
+
+                        <a href="docker-networking.html">
+
+                            Docker Networking Explained
+
+                        </a>
+
                     </h3>
 
+
                     <p>
-                        Understanding Docker networks,
-                        containers and communication.
+                        آشنایی با Docker Network،
+                        Containerها و نحوه ارتباط آن‌ها.
                     </p>
+
 
                     <div class="article-date">
                         Coming soon
@@ -484,6 +926,119 @@ A Practical Introduction to IP, Interfaces, Routes, DNS, Ports, and Basic Networ
                 </div>
 
             </article>
+
+
+
+            <!-- Docker Basics -->
+
+            <article class="article-card">
+
+                <div class="article-content">
+
+                    <div class="category">
+                        DOCKER
+                    </div>
+
+
+                    <h3>
+                        Docker Basics
+                    </h3>
+
+
+                    <p>
+                        آشنایی با Container،
+                        Image، Dockerfile و دستورات پایه Docker.
+                    </p>
+
+
+                    <div class="article-date">
+                        Coming soon
+                    </div>
+
+                </div>
+
+            </article>
+
+
+
+            <!-- Docker Compose -->
+
+            <article class="article-card">
+
+                <div class="article-content">
+
+                    <div class="category">
+                        DOCKER
+                    </div>
+
+
+                    <h3>
+                        Docker Compose
+                    </h3>
+
+
+                    <p>
+                        اجرای چند Container با Docker Compose
+                        و مدیریت سرویس‌های یک Application.
+                    </p>
+
+
+                    <div class="article-date">
+                        Coming soon
+                    </div>
+
+                </div>
+
+            </article>
+
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =========================================
+         MONITORING
+    ========================================= -->
+
+    <section class="article-category">
+
+
+        <div class="category-header">
+
+            <div class="category-title">
+
+                <div class="category-icon">
+                    📊
+                </div>
+
+
+                <div>
+
+                    <h2>
+                        Monitoring
+                    </h2>
+
+
+                    <p class="category-description">
+                        Infrastructure Monitoring & Observability
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="category-count">
+                Monitoring Articles
+            </div>
+
+        </div>
+
+
+
+        <div class="articles-grid">
 
 
             <!-- Zabbix -->
@@ -496,14 +1051,23 @@ A Practical Introduction to IP, Interfaces, Routes, DNS, Ports, and Basic Networ
                         MONITORING
                     </div>
 
+
                     <h3>
-                        Zabbix Monitoring
+
+                        <a href="zabbix-monitoring.html">
+
+                            Zabbix Monitoring
+
+                        </a>
+
                     </h3>
 
+
                     <p>
-                        Practical notes about monitoring
-                        infrastructure with Zabbix.
+                        مانیتورینگ زیرساخت،
+                        Hostها، Templateها، Triggerها و Alertها با Zabbix.
                     </p>
+
 
                     <div class="article-date">
                         Coming soon
@@ -512,6 +1076,7 @@ A Practical Introduction to IP, Interfaces, Routes, DNS, Ports, and Basic Networ
                 </div>
 
             </article>
+
 
 
             <!-- Grafana -->
@@ -524,14 +1089,55 @@ A Practical Introduction to IP, Interfaces, Routes, DNS, Ports, and Basic Networ
                         MONITORING
                     </div>
 
+
                     <h3>
-                        Grafana Dashboards
+
+                        <a href="grafana-dashboards.html">
+
+                            Grafana Dashboards
+
+                        </a>
+
                     </h3>
 
+
                     <p>
-                        Building useful monitoring dashboards
-                        with Grafana.
+                        ساخت Dashboardهای کاربردی
+                        برای نمایش و تحلیل اطلاعات Monitoring.
                     </p>
+
+
+                    <div class="article-date">
+                        Coming soon
+                    </div>
+
+                </div>
+
+            </article>
+
+
+
+            <!-- Zabbix + Grafana -->
+
+            <article class="article-card">
+
+                <div class="article-content">
+
+                    <div class="category">
+                        MONITORING
+                    </div>
+
+
+                    <h3>
+                        Zabbix + Grafana
+                    </h3>
+
+
+                    <p>
+                        اتصال Zabbix به Grafana
+                        و ساخت Dashboardهای Monitoring.
+                    </p>
+
 
                     <div class="article-date">
                         Coming soon
@@ -544,20 +1150,29 @@ A Practical Introduction to IP, Interfaces, Routes, DNS, Ports, and Basic Networ
 
         </div>
 
-    </div>
+    </section>
+
+
+</div>
 
 </section>
 
 </main>
 
 
+
+<!-- =========================================
+     FOOTER
+========================================= -->
+
 <footer>
 
     <div class="container">
 
         <p>
-            © 2026 Z.DevOps
+            © 2026 Z.DevOps — Built while learning DevOps.
         </p>
+
 
         <div class="social-links">
 
