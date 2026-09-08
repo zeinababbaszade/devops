@@ -1,364 +1,166 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
-
 <head>
-
 <meta charset="UTF-8">
-
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<meta name="description"
-content="آشنایی کامل با IP Address، IPv4، IPv6، Network Address، Host Address، Subnet Mask و IP در Linux.">
-
-<meta name="keywords"
-content="IP Address, IPv4, IPv6, Subnet Mask, Network, Host, Linux, DevOps">
-
+<meta name="description" content="آشنایی کامل با IP Address، IPv4، IPv6، Network Address، Host Address، Subnet Mask و IP در Linux.">
+<meta name="keywords" content="IP Address, IPv4, IPv6, Subnet Mask, Network, Host, Linux, DevOps">
 <title>IP Address | Z.DevOps</title>
-
 <link rel="stylesheet" href="../style.css">
 
 <style>
-
-.article-wrapper{max-width:1100px;margin:auto}
-.article-header{margin-bottom:40px}
-.article-badge{display:inline-block;padding:7px 14px;border-radius:20px;background:rgba(0,150,255,.12);color:#4db8ff;font-size:13px}
-.article-header h1{font-size:42px}
-.article-header h1 span{color:#4db8ff}
-.article-subtitle{font-size:18px;line-height:2}
-.article-meta{margin-top:20px;opacity:.7}
-.article-toc{background:rgba(255,255,255,.04);padding:25px;border-radius:14px;margin:30px 0}
-.article-body{line-height:2;font-size:16px}
-.article-body h2{margin-top:55px}
-.code-wrapper{margin:25px 0}
-.code-label{padding:8px 15px;background:#151b23}
-.code-block{direction:ltr;text-align:left;overflow-x:auto;padding:20px;background:#0d1117;font-family:Consolas,monospace}
-.note,.exercise{padding:20px;margin:25px 0;border-radius:10px}
-.note{background:rgba(0,150,255,.08);border-right:4px solid #2196f3}
-.exercise{background:rgba(0,200,120,.08);border-right:4px solid #00c878}
-.article-table{width:100%;border-collapse:collapse;margin:25px 0}
-.article-table th,.article-table td{border:1px solid rgba(255,255,255,.1);padding:12px}
-.article-footer{margin-top:60px;padding-top:30px;border-top:1px solid rgba(255,255,255,.1);display:flex;justify-content:space-between}
-
+.article-wrapper{max-width:900px;margin:auto}
+.article-header{text-align:center;margin-bottom:70px}
+.article-header .badge{margin-bottom:20px}
+.article-header h1{font-size:clamp(38px,6vw,60px);line-height:1.2;margin-bottom:20px}
+.article-header h1 span{color:var(--primary)}
+.article-subtitle{color:var(--text-secondary);font-size:18px;max-width:700px;margin:auto}
+.article-meta{margin-top:20px;color:#64748b;font-size:13px}
+.toc{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:25px 30px;margin-bottom:55px}
+.toc h3{margin-bottom:15px}.toc ol{margin:0;padding-right:22px}.toc li{margin-bottom:8px}
+.toc a{color:var(--text-secondary);transition:.2s}.toc a:hover{color:var(--primary)}
+.article-body{text-align:right;font-family:"Vazirmatn","Tahoma",sans-serif}
+.article-body h2{font-size:30px;margin-top:65px;margin-bottom:20px;padding-bottom:10px;border-bottom:1px solid var(--border)}
+.article-body h3{font-size:21px;margin-top:35px;margin-bottom:12px}
+.article-body p{color:#cbd5e1;font-size:16px;line-height:2;margin-bottom:20px}
+.article-body ul,.article-body ol{color:#cbd5e1;line-height:2;margin-bottom:25px;padding-right:25px}
+.article-body li{margin-bottom:7px}.article-body strong{color:#f8fafc}
+.code-wrapper{position:relative;margin:20px 0 28px}
+.code-label{direction:ltr;text-align:left;background:#111827;color:#64748b;padding:7px 15px;border-radius:8px 8px 0 0;font-family:Consolas,monospace;font-size:12px;border:1px solid rgba(148,163,184,.15);border-bottom:none}
+.code-block{direction:ltr;text-align:left;background:#020617;border:1px solid rgba(148,163,184,.15);border-radius:0 0 8px 8px;padding:20px;overflow-x:auto;margin:0}
+.code-block code{font-family:Consolas,"Courier New",monospace;font-size:14px;line-height:1.8;color:#e2e8f0}
+.note{background:rgba(56,189,248,.07);border-right:4px solid var(--primary);padding:20px 22px;border-radius:8px;margin:30px 0;color:#cbd5e1;line-height:1.9}
+.warning{background:rgba(251,191,36,.07);border-right:4px solid #fbbf24;padding:20px 22px;border-radius:8px;margin:30px 0;color:#cbd5e1;line-height:1.9}
+.command-table{width:100%;border-collapse:collapse;margin:25px 0 35px;border-radius:10px}
+.command-table th,.command-table td{padding:13px 15px;border-bottom:1px solid var(--border);text-align:right}
+.command-table th{background:var(--card);color:var(--primary);font-weight:600}
+.command-table td{color:#cbd5e1}.command-table code{direction:ltr;display:inline-block;background:rgba(148,163,184,.08);padding:3px 7px;border-radius:5px;color:#e2e8f0;font-family:Consolas,monospace}
+.exercise{background:linear-gradient(135deg,rgba(56,189,248,.08),rgba(14,165,233,.02));border:1px solid rgba(56,189,248,.18);border-radius:14px;padding:28px;margin:35px 0}
+.exercise h3{margin-top:0;color:var(--primary)}
+.article-footer{margin-top:80px;padding-top:30px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;gap:15px;flex-wrap:wrap}
+@media(max-width:650px){.article-header h1{font-size:38px}.article-body h2{font-size:25px}.article-body p{font-size:15px}.command-table{font-size:13px}}
 </style>
 
 </head>
-
 <body>
-
-<nav class="navbar">
-
-<div class="logo">Z<span>.DevOps</span></div>
-
-<div class="nav-links">
-<a href="../index.html">Home</a>
-<a href="index.html">Articles</a>
-<a href="../projects.html">Projects</a>
-<a href="../roadmap.html">Roadmap</a>
-<a href="../about.html">About</a>
+<header class="navbar">
+<div class="container navbar-inner">
+<a href="../index.html" class="logo">Z<span>.DevOps</span></a>
+<nav><ul class="nav-links">
+<li><a href="../index.html">Home</a></li>
+<li><a href="index.html">Articles</a></li>
+<li><a href="../index.html#projects">Projects</a></li>
+<li><a href="../index.html#roadmap">Roadmap</a></li>
+<li><a href="../index.html#about">About</a></li>
+</ul></nav>
 </div>
-
-</nav>
-
-
-<main>
-
-<section>
-
-<div class="container article-wrapper">
-
-<header class="article-header">
-
-<div class="article-badge">
-NETWORKING · IP
-</div>
-
-<h1>
-IP <span>Address</span>
-</h1>
-
-<p class="article-subtitle">
-IP Address چیست، IPv4 چگونه ساخته شده، Network و Host چه مفهومی دارند و Linux چگونه IPهای سیستم را مدیریت می‌کند؟
-</p>
-
-<div class="article-meta">
-📅 September 2026 · ⏱ Beginner · 🐧 Linux
-</div>
-
 </header>
-
-
-<div class="article-toc">
-
-<h3>📚 فهرست مطالب</h3>
-
-<ul>
-
-<li><a href="#what">IP Address چیست؟</a></li>
-
+<main><section><div class="container article-wrapper">
+<header class="article-header">
+<div class="badge">NETWORKING · IP</div>
+<h1>IP <span>Address</span></h1>
+<p class="article-subtitle">IP Address چیست، IPv4 چگونه ساخته شده، Network و Host چه مفهومی دارند و Linux چگونه IPهای سیستم را مدیریت می‌کند؟</p>
+<div class="article-meta">📅 September 2026 &nbsp; · &nbsp; ⏱ Beginner &nbsp; · &nbsp; 🐧 Linux</div>
+</header>
+<div class="toc"><h3>📚 فهرست مطالب</h3><ol><li><a href="#what">IP Address چیست؟</a></li>
 <li><a href="#ipv4">IPv4</a></li>
-
 <li><a href="#binary">IPv4 و Binary</a></li>
-
 <li><a href="#network-host">Network و Host</a></li>
-
 <li><a href="#mask">Subnet Mask</a></li>
-
 <li><a href="#ipv6">IPv6</a></li>
-
 <li><a href="#linux">IP در Linux</a></li>
-
-<li><a href="#exercise">تمرین</a></li>
-
-</ul>
-
-</div>
-
-
+<li><a href="#devops">یک نکته مهم برای DevOps</a></li>
+<li><a href="#exercise">تمرین عملی</a></li>
+<li><a href="#cheatsheet">Cheat Sheet</a></li>
+<li><a href="#learned">چیزی که یاد گرفتم</a></li>
+<li><a href="#next">مرحله بعد</a></li></ol></div>
 <article class="article-body">
 
+<h2 id="what">IP Address چیست؟</h2>
+<p>IP Address یک آدرس منطقی برای شناسایی یک Interface یا Host در شبکه است.</p>
+<p>IP به سیستم‌ها اجازه می‌دهد بدانند Packet باید از کجا ارسال شود و به کجا برسد.</p>
 
-<h2 id="what">
-IP Address چیست؟
-</h2>
+<h2 id="ipv4">IPv4</h2>
+<p>IPv4 دارای 32 بیت است و معمولاً به چهار Octet نمایش داده می‌شود.</p>
+<div class="code-wrapper"><div class="code-label">Example</div><pre class="code-block"><code>192.168.10.25</code></pre></div>
+<p>هر بخش می‌تواند عددی بین 0 تا 255 باشد.</p>
 
-<p>
-IP Address یک آدرس منطقی برای شناسایی یک Interface یا Host در شبکه است.
-</p>
-
-<p>
-IP به سیستم‌ها اجازه می‌دهد بدانند Packet باید از کجا ارسال شود و به کجا برسد.
-</p>
-
-
-<h2 id="ipv4">
-IPv4
-</h2>
-
-<p>
-IPv4 دارای 32 بیت است و معمولاً به چهار Octet نمایش داده می‌شود.
-</p>
-
-<div class="code-wrapper">
-
-<div class="code-label">
-Example
-</div>
-
-<pre class="code-block">192.168.10.25</pre>
-
-</div>
-
-<p>
-هر بخش می‌تواند عددی بین 0 تا 255 باشد.
-</p>
-
-
-<h2 id="binary">
-IPv4 و Binary
-</h2>
-
-<p>
-در سطح کامپیوتر IP به صورت Binary ذخیره و پردازش می‌شود.
-</p>
-
-<div class="code-wrapper">
-
-<div class="code-label">
-Example
-</div>
-
-<pre class="code-block">192 = 11000000
+<h2 id="binary">IPv4 و Binary</h2>
+<p>در سطح کامپیوتر IP به‌صورت Binary ذخیره و پردازش می‌شود.</p>
+<div class="code-wrapper"><div class="code-label">Example</div><pre class="code-block"><code>192 = 11000000
 168 = 10101000
 10  = 00001010
-25  = 00011001</pre>
+25  = 00011001</code></pre></div>
 
-</div>
-
-
-<h2 id="network-host">
-Network و Host
-</h2>
-
-<p>
-یک IP معمولاً از دو بخش مفهومی تشکیل می‌شود:
-</p>
-
+<h2 id="network-host">Network و Host</h2>
+<p>یک IP معمولاً از دو بخش مفهومی تشکیل می‌شود:</p>
 <ul>
-
 <li>Network Portion</li>
-
 <li>Host Portion</li>
-
 </ul>
+<p>Subnet Mask مشخص می‌کند کدام قسمت مربوط به Network و کدام قسمت مربوط به Host است.</p>
 
-<p>
-Subnet Mask مشخص می‌کند کدام قسمت مربوط به Network و کدام قسمت مربوط به Host است.
-</p>
-
-
-<h2 id="mask">
-Subnet Mask
-</h2>
-
-<p>
-مثلاً:
-</p>
-
-<div class="code-wrapper">
-
-<div class="code-label">
-Example
-</div>
-
-<pre class="code-block">IP:
+<h2 id="mask">Subnet Mask</h2>
+<p>مثلاً:</p>
+<div class="code-wrapper"><div class="code-label">Example</div><pre class="code-block"><code>IP:
 192.168.1.20
 
 Mask:
-255.255.255.0</pre>
+255.255.255.0</code></pre></div>
+<p>در این حالت Network معمولاً <code>192.168.1.0</code> است.</p>
 
-</div>
+<h2 id="ipv6">IPv6</h2>
+<p>IPv6 برای حل محدودیت فضای IPv4 طراحی شده و از آدرس‌های 128 بیتی استفاده می‌کند.</p>
+<div class="code-wrapper"><div class="code-label">Example</div><pre class="code-block"><code>2001:db8::1</code></pre></div>
 
-<p>
-در این حالت Network معمولاً
-<code>192.168.1.0</code>
-است.
-</p>
+<h2 id="linux">IP در Linux</h2>
+<div class="code-wrapper"><div class="code-label">Terminal</div><pre class="code-block"><code>ip addr
+ip -br addr</code></pre></div>
+<p>برای دیدن IP یک Interface خاص:</p>
+<div class="code-wrapper"><div class="code-label">Terminal</div><pre class="code-block"><code>ip addr show ens160</code></pre></div>
 
+<h2 id="devops">یک نکته مهم برای DevOps</h2>
+<div class="note">💡 وقتی با Docker، Kubernetes، VMware یا Cloud کار می‌کنی، تقریباً دائماً با IP Address سروکار خواهی داشت.</div>
 
-<h2 id="ipv6">
-IPv6
-</h2>
-
-<p>
-IPv6 برای حل محدودیت فضای IPv4 طراحی شده و از آدرس‌های 128 بیتی استفاده می‌کند.
-</p>
-
-<div class="code-wrapper">
-
-<div class="code-label">
-Example
-</div>
-
-<pre class="code-block">2001:db8::1</pre>
-
-</div>
-
-
-<h2 id="linux">
-IP در Linux
-</h2>
-
-<div class="code-wrapper">
-
-<div class="code-label">
-Terminal
-</div>
-
-<pre class="code-block">ip addr
-ip -br addr</pre>
-
-</div>
-
-<p>
-برای دیدن IP یک Interface خاص:
-</p>
-
-<div class="code-wrapper">
-
-<div class="code-label">
-Terminal
-</div>
-
-<pre class="code-block">ip addr show ens160</pre>
-
-</div>
-
-
-<h2>
-یک نکته مهم برای DevOps
-</h2>
-
-<p>
-وقتی با Docker، Kubernetes، VMware یا Cloud کار می‌کنی،
-تقریباً دائماً با IP Address سروکار خواهی داشت.
-</p>
-
-
-<h2 id="exercise">
-🧪 تمرین
-</h2>
-
-<div class="exercise">
-
-IP سیستم Ubuntu خودت را پیدا کن و موارد زیر را مشخص کن:
-
+<h2 id="exercise">تمرین عملی: IP Address Lab</h2>
+<div class="exercise"><h3>🧪 تمرین</h3><p>IP سیستم Ubuntu خودت را پیدا کن و موارد زیر را مشخص کن:</p>
 <ul>
-
 <li>IP Address</li>
-
 <li>Subnet Mask یا Prefix</li>
-
 <li>Interface</li>
-
 <li>Network</li>
-
 <li>Gateway</li>
+</ul>
+<div class="code-wrapper"><div class="code-label">Ubuntu Terminal</div><pre class="code-block"><code>ip -br addr
+ip route</code></pre></div></div>
 
+<h2 id="cheatsheet">IP Address Cheat Sheet</h2>
+<table class="command-table"><thead><tr><th>Command</th><th>کاربرد</th></tr></thead><tbody>
+<tr><td><code>ip addr</code></td><td>نمایش کامل IPهای سیستم</td></tr>
+<tr><td><code>ip -br addr</code></td><td>نمایش خلاصه و مرتب IPها</td></tr>
+<tr><td><code>ip addr show &lt;iface&gt;</code></td><td>نمایش IP یک Interface خاص</td></tr>
+<tr><td><code>ip route</code></td><td>نمایش Routing Table و Gateway</td></tr>
+</tbody></table>
+
+<h2 id="learned">چیزی که از این مرحله یاد گرفتم</h2>
+<ul>
+<li>IP آدرس منطقی سیستم در شبکه است.</li>
+<li>IPv4 از 32 بیت و چهار Octet تشکیل شده است.</li>
+<li>Subnet Mask یا Prefix مشخص می‌کند کدام قسمت IP متعلق به Network است.</li>
+<li>IPv6 با آدرس‌های 128 بیتی، محدودیت فضای IPv4 را حل می‌کند.</li>
+<li>با <code>ip addr</code> و <code>ip route</code> می‌توانم IP و Gateway سیستم را در Linux پیدا کنم.</li>
 </ul>
 
-</div>
-
-<div class="code-wrapper">
-
-<div class="code-label">
-Commands
-</div>
-
-<pre class="code-block">ip -br addr
-ip route</pre>
-
-</div>
-
-
-<h2>
-چیزی که یاد گرفتم
-</h2>
-
-<p>
-IP آدرس منطقی سیستم در شبکه است و IPv4 از 32 بیت تشکیل شده است.
-Subnet Mask یا Prefix مشخص می‌کند کدام قسمت IP متعلق به Network است.
-</p>
-
-
-<h2>
-مرحله بعدی چیست؟
-</h2>
-
-<p>
-حالا باید تفاوت Private IP و Public IP را یاد بگیریم؛ مفهومی که در Server، Cloud و Internet بسیار مهم است.
-</p>
-
-
-<footer class="article-footer">
-
-<a href="network-arp.html">← ARP</a>
-
-<a href="network-private-public-ip.html">مقاله بعدی →</a>
-
-</footer>
+<h2 id="next">مرحله بعدی چیست؟</h2>
+<div class="exercise"><h3>🔒 Private IP vs Public IP</h3><p>حالا باید تفاوت Private IP و Public IP را یاد بگیرم؛ مفهومی که در Server، Cloud و Internet بسیار مهم است.</p></div>
 
 </article>
-
+<div class="article-footer">
+<a href="arp.html" class="btn btn-secondary">← مقاله قبلی</a>
+<a href="index.html" class="btn btn-secondary">بازگشت به مقالات</a>
+<a href="../index.html" class="btn btn-primary">صفحه اصلی →</a>
+<a href="network-private-public-ip.html" class="btn btn-primary">مقاله بعدی →</a>
 </div>
-
-</section>
-
-</main>
-
-<footer>
-© 2026 Z.DevOps — Built while learning DevOps.
-</footer>
-
-</body>
-
-</html>
+</div></section></main>
+<footer><div class="container"><p>© 2026 Z.DevOps — Built while learning DevOps.</p><div class="social-links"><a href="../index.html">Home</a></div></div></footer>
+</body></html>
