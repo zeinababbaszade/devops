@@ -1,716 +1,598 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
-
 <head>
 
-    <meta charset="UTF-8">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
+<meta name="description"
+content="آموزش Bash Scripting در Linux، Variable، شرط، Loop، Function و ساخت Scriptهای ساده برای Automation.">
 
-    <meta name="description"
-          content="آموزش Bash Scripting در Linux؛ Variables، Conditions، Loops، Functions و Automation">
+<meta name="keywords"
+content="Linux, Ubuntu, DevOps, Bash, Bash Script, Shell Script, Automation">
 
-    <title>Linux Bash Scripting | Z.DevOps</title>
+<title>Linux Bash Scripting | Z.DevOps</title>
 
-    <link rel="stylesheet"
-          href="../style.css">
+<link rel="stylesheet" href="../style.css">
+
+<style>
+.article-wrapper{max-width:900px;margin:auto}
+.article-header{text-align:center;margin-bottom:70px}
+.article-header .badge{margin-bottom:20px}
+.article-header h1{font-size:clamp(38px,6vw,60px);line-height:1.2;margin-bottom:20px}
+.article-header h1 span{color:var(--primary)}
+.article-subtitle{color:var(--text-secondary);font-size:18px;max-width:700px;margin:auto}
+.article-meta{margin-top:20px;color:#64748b;font-size:13px}
+.toc{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:25px 30px;margin-bottom:55px}
+.toc h3{margin-bottom:15px}
+.toc ol{margin:0;padding-right:22px}
+.toc li{margin-bottom:8px}
+.toc a{color:var(--text-secondary);transition:.2s}
+.toc a:hover{color:var(--primary)}
+.article-body{text-align:right;font-family:"Vazirmatn","Tahoma",sans-serif}
+.article-body h2{font-size:30px;margin-top:65px;margin-bottom:20px;padding-bottom:10px;border-bottom:1px solid var(--border)}
+.article-body h3{font-size:21px;margin-top:35px;margin-bottom:12px}
+.article-body p{color:#cbd5e1;font-size:16px;line-height:2;margin-bottom:20px}
+.article-body ul,.article-body ol{color:#cbd5e1;line-height:2;margin-bottom:25px;padding-right:25px}
+.article-body li{margin-bottom:7px}
+.article-body strong{color:#f8fafc}
+.code-wrapper{position:relative;margin:20px 0 28px}
+.code-label{direction:ltr;text-align:left;background:#111827;color:#64748b;padding:7px 15px;border-radius:8px 8px 0 0;font-family:Consolas,monospace;font-size:12px;border:1px solid rgba(148,163,184,.15);border-bottom:none}
+.code-block{direction:ltr;text-align:left;background:#020617;border:1px solid rgba(148,163,184,.15);border-radius:0 0 8px 8px;padding:20px;overflow-x:auto;margin:0}
+.code-block code{font-family:Consolas,"Courier New",monospace;font-size:14px;line-height:1.8;color:#e2e8f0}
+.note{background:rgba(56,189,248,.07);border-right:4px solid var(--primary);padding:20px 22px;border-radius:8px;margin:30px 0;color:#cbd5e1;line-height:1.9}
+.warning{background:rgba(251,191,36,.07);border-right:4px solid #fbbf24;padding:20px 22px;border-radius:8px;margin:30px 0;color:#cbd5e1;line-height:1.9}
+.command-table{width:100%;border-collapse:collapse;margin:25px 0 35px;border-radius:10px}
+.command-table th,.command-table td{padding:13px 15px;border-bottom:1px solid var(--border);text-align:right}
+.command-table th{background:var(--card);color:var(--primary);font-weight:600}
+.command-table td{color:#cbd5e1}
+.command-table code{direction:ltr;display:inline-block;background:rgba(148,163,184,.08);padding:3px 7px;border-radius:5px;color:#e2e8f0;font-family:Consolas,monospace}
+.exercise{background:linear-gradient(135deg,rgba(56,189,248,.08),rgba(14,165,233,.02));border:1px solid rgba(56,189,248,.18);border-radius:14px;padding:28px;margin:35px 0}
+.exercise h3{margin-top:0;color:var(--primary)}
+.article-footer{margin-top:80px;padding-top:30px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;gap:15px;flex-wrap:wrap}
+@media(max-width:650px){
+.article-header h1{font-size:38px}
+.article-body h2{font-size:25px}
+.article-body p{font-size:15px}
+.command-table{font-size:13px}
+}
+</style>
 
 </head>
 
 <body>
 
-
 <header class="navbar">
+<div class="container navbar-inner">
 
-    <div class="container navbar-inner">
+<a href="../index.html" class="logo">
+Z<span>.DevOps</span>
+</a>
 
-        <a href="../index.html" class="logo">
-            Z<span>.DevOps</span>
-        </a>
+<nav>
+<ul class="nav-links">
 
-        <nav>
+<li><a href="../index.html">Home</a></li>
+<li><a href="index.html">Articles</a></li>
+<li><a href="../index.html#projects">Projects</a></li>
+<li><a href="../index.html#roadmap">Roadmap</a></li>
+<li><a href="../index.html#about">About</a></li>
 
-            <ul class="nav-links">
+</ul>
+</nav>
 
-                <li>
-                    <a href="../index.html">Home</a>
-                </li>
-
-                <li>
-                    <a href="index.html">Articles</a>
-                </li>
-
-                <li>
-                    <a href="../index.html#projects">Projects</a>
-                </li>
-
-                <li>
-                    <a href="../index.html#roadmap">Roadmap</a>
-                </li>
-
-                <li>
-                    <a href="../index.html#about">About</a>
-                </li>
-
-            </ul>
-
-        </nav>
-
-    </div>
-
+</div>
 </header>
 
 
 <main>
+<section>
+
+<div class="container article-wrapper">
+
+<header class="article-header">
+
+<div class="badge">
+LINUX · BASH · DEVOPS
+</div>
+
+<h1>
+Linux <span>Bash Scripting</span>
+</h1>
+
+<p class="article-subtitle">
+شروع Automation با Bash؛ از Variable و شرط‌ها تا Loop، Function و ساخت Scriptهای کاربردی.
+</p>
+
+<div class="article-meta">
+📅 September 2026 &nbsp; · &nbsp; ⏱ Beginner &nbsp; · &nbsp; 🐧 Ubuntu
+</div>
+
+</header>
 
 
-<section class="article-header">
+<div class="toc">
 
-    <div class="container">
+<h3>📚 فهرست مطالب</h3>
 
-        <div class="badge">
-            LINUX · BASH · AUTOMATION
-        </div>
+<ol>
 
-        <h1>
-            Linux Bash Scripting
-        </h1>
+<li><a href="#intro">Bash چیست؟</a></li>
+<li><a href="#script">اولین Bash Script</a></li>
+<li><a href="#variables">Variableها</a></li>
+<li><a href="#input">گرفتن Input</a></li>
+<li><a href="#conditions">شرط‌ها</a></li>
+<li><a href="#loops">Loopها</a></li>
+<li><a href="#functions">Functionها</a></li>
+<li><a href="#automation">Automation ساده</a></li>
+<li><a href="#practice">تمرین عملی</a></li>
+<li><a href="#cheatsheet">Cheat Sheet</a></li>
+<li><a href="#learned">چیزی که یاد گرفتم</a></li>
+<li><a href="#next">مرحله بعد</a></li>
 
-        <p>
-            شروع اتوماسیون کارهای Linux با Bash
-        </p>
+</ol>
 
-        <div class="article-meta">
-            September 2026 · Beginner → Intermediate
-        </div>
-
-    </div>
-
-</section>
-
-
-<section class="article-section">
-
-    <div class="container">
+</div>
 
 
-        <div class="article-toc">
-
-            <h3>
-                📚 فهرست مطالب
-            </h3>
-
-            <ul>
-
-                <li>
-                    <a href="#what">
-                        Bash چیست؟
-                    </a>
-                </li>
-
-                <li>
-                    <a href="#first-script">
-                        اولین Script
-                    </a>
-                </li>
-
-                <li>
-                    <a href="#variables">
-                        Variables
-                    </a>
-                </li>
-
-                <li>
-                    <a href="#arguments">
-                        Arguments
-                    </a>
-                </li>
-
-                <li>
-                    <a href="#conditions">
-                        شرط‌ها
-                    </a>
-                </li>
-
-                <li>
-                    <a href="#loops">
-                        Loopها
-                    </a>
-                </li>
-
-                <li>
-                    <a href="#functions">
-                        Functionها
-                    </a>
-                </li>
-
-                <li>
-                    <a href="#exit">
-                        Exit Code
-                    </a>
-                </li>
-
-                <li>
-                    <a href="#automation">
-                        Automation
-                    </a>
-                </li>
-
-                <li>
-                    <a href="#practice">
-                        تمرین عملی
-                    </a>
-                </li>
-
-            </ul>
-
-        </div>
+<article class="article-body">
 
 
-        <article class="article-body">
+<h2 id="intro">Bash چیست؟</h2>
+
+<p>
+<strong>Bash</strong> یکی از Shellهای معروف در Linux است.
+Shell محیطی است که به ما اجازه می‌دهد Commandهای سیستم را اجرا کنیم و با سیستم‌عامل تعامل داشته باشیم.
+</p>
+
+<p>
+وقتی چند Command را پشت سر هم اجرا می‌کنیم، می‌توانیم آن‌ها را داخل یک فایل قرار دهیم و یک <strong>Script</strong> بسازیم.
+</p>
+
+<div class="note">
+💡 Bash Scripting یکی از اولین قدم‌ها برای ورود به Automation در DevOps است.
+</div>
 
 
-            <h2 id="what">
-                Bash چیست؟
-            </h2>
+<h2 id="script">اولین Bash Script</h2>
 
-            <p>
-                Bash یکی از Shellهای معروف در سیستم‌های Linux و Unix است.
-            </p>
+<p>
+یک فایل با پسوند <code>.sh</code> ایجاد کن:
+</p>
 
-            <p>
-                Shell به ما اجازه می‌دهد با سیستم‌عامل از طریق
-                Command Line تعامل داشته باشیم.
-            </p>
+<div class="code-wrapper">
+<div class="code-label">Terminal</div>
+<pre class="code-block"><code>nano hello.sh</code></pre>
+</div>
 
-            <p>
-                اما Bash فقط برای اجرای دستی Commandها نیست.
-                می‌توانیم مجموعه‌ای از دستورات را داخل یک فایل قرار
-                دهیم و آن را به صورت خودکار اجرا کنیم.
-            </p>
+<p>
+داخل فایل بنویس:
+</p>
 
-            <p>
-                به این فایل‌ها معمولاً Bash Script گفته می‌شود.
-            </p>
-
-
-            <h2 id="first-script">
-                اولین Bash Script
-            </h2>
-
-            <p>
-                یک فایل ایجاد کن:
-            </p>
-
-            <pre><code>nano hello.sh</code></pre>
-
-            <p>
-                داخل آن بنویس:
-            </p>
-
-            <pre><code>#!/bin/bash
+<div class="code-wrapper">
+<div class="code-label">hello.sh</div>
+<pre class="code-block"><code>#!/bin/bash
 
 echo "Hello DevOps"</code></pre>
+</div>
 
-            <p>
-                سپس Permission اجرا بده:
-            </p>
+<p>
+حالا فایل را قابل اجرا کن:
+</p>
 
-            <pre><code>chmod +x hello.sh</code></pre>
+<div class="code-wrapper">
+<div class="code-label">Terminal</div>
+<pre class="code-block"><code>chmod +x hello.sh</code></pre>
+</div>
 
-            <p>
-                و اجرا کن:
-            </p>
+<p>
+و آن را اجرا کن:
+</p>
 
-            <pre><code>./hello.sh</code></pre>
-
-
-            <div class="article-note">
-
-                <strong>💡 نکته:</strong>
-
-                <p>
-                    خط اول Script یعنی
-                    <code>#!/bin/bash</code>
-                    مشخص می‌کند Script با Bash اجرا شود.
-                </p>
-
-            </div>
+<div class="code-wrapper">
+<div class="code-label">Terminal</div>
+<pre class="code-block"><code>./hello.sh</code></pre>
+</div>
 
 
-            <h2 id="variables">
-                Variables
-            </h2>
+<h2 id="variables">Variableها</h2>
 
-            <p>
-                برای ذخیره اطلاعات می‌توانیم از Variable استفاده کنیم.
-            </p>
+<p>
+Variable برای ذخیره مقدار استفاده می‌شود.
+</p>
 
-            <pre><code>name="Zeinab"</code></pre>
+<div class="code-wrapper">
+<div class="code-label">Bash</div>
+<pre class="code-block"><code>#!/bin/bash
 
-            <p>
-                برای استفاده:
-            </p>
+name="Zeinab"
 
-            <pre><code>echo "$name"</code></pre>
+echo "Hello $name"</code></pre>
+</div>
 
-            <p>
-                یک مثال دیگر:
-            </p>
-
-            <pre><code>server="production"
-
-echo "Server: $server"</code></pre>
+<div class="warning">
+⚠️ در Bash هنگام Assignment نباید قبل یا بعد از <code>=</code> فاصله قرار بگیرد.
+</div>
 
 
-            <h2 id="arguments">
-                Script Arguments
-            </h2>
+<h2 id="input">گرفتن Input</h2>
 
-            <p>
-                می‌توانیم هنگام اجرای Script به آن Argument بدهیم.
-            </p>
+<p>
+با <code>read</code> می‌توانیم از کاربر Input بگیریم.
+</p>
 
-            <pre><code>./script.sh server01</code></pre>
+<div class="code-wrapper">
+<div class="code-label">Bash</div>
+<pre class="code-block"><code>#!/bin/bash
 
-            <p>
-                مقدار اولین Argument در:
-            </p>
+read -p "Enter your name: " name
 
-            <pre><code>$1</code></pre>
-
-            <p>
-                قرار می‌گیرد.
-            </p>
-
-            <p>
-                مثال:
-            </p>
-
-            <pre><code>#!/bin/bash
-
-echo "Server: $1"</code></pre>
+echo "Hello $name"</code></pre>
+</div>
 
 
-            <h2 id="conditions">
-                شرط‌ها در Bash
-            </h2>
+<h2 id="conditions">شرط‌ها</h2>
 
-            <p>
-                برای تصمیم‌گیری می‌توانیم از if استفاده کنیم.
-            </p>
+<p>
+برای تصمیم‌گیری در Script از شرط <strong>if</strong> استفاده می‌کنیم.
+</p>
 
-            <pre><code>#!/bin/bash
+<div class="code-wrapper">
+<div class="code-label">Bash</div>
+<pre class="code-block"><code>#!/bin/bash
 
-if [ "$1" = "production" ]; then
-    echo "Production server"
+read -p "Enter a number: " number
+
+if [ "$number" -gt 10 ]; then
+    echo "Number is greater than 10"
 else
-    echo "Other environment"
+    echo "Number is 10 or less"
 fi</code></pre>
+</div>
+
+<p>
+در Bash عملگرهای مختلفی برای مقایسه وجود دارند.
+</p>
+
+<table class="command-table">
+
+<thead>
+<tr>
+<th>Operator</th>
+<th>کاربرد</th>
+</tr>
+</thead>
+
+<tbody>
+
+<tr>
+<td><code>-eq</code></td>
+<td>برابر</td>
+</tr>
+
+<tr>
+<td><code>-ne</code></td>
+<td>نابرابر</td>
+</tr>
+
+<tr>
+<td><code>-gt</code></td>
+<td>بزرگ‌تر</td>
+</tr>
+
+<tr>
+<td><code>-lt</code></td>
+<td>کوچک‌تر</td>
+</tr>
+
+<tr>
+<td><code>-ge</code></td>
+<td>بزرگ‌تر یا مساوی</td>
+</tr>
+
+<tr>
+<td><code>-le</code></td>
+<td>کوچک‌تر یا مساوی</td>
+</tr>
+
+</tbody>
+
+</table>
 
 
-            <h3>
-                بررسی وجود فایل
-            </h3>
+<h2 id="loops">Loopها</h2>
 
-            <pre><code>if [ -f "/etc/hosts" ]; then
-    echo "File exists"
-fi</code></pre>
+<p>
+وقتی لازم است یک عملیات چند بار تکرار شود، از Loop استفاده می‌کنیم.
+</p>
 
+<p>
+یک نمونه ساده از <code>for</code>:
+</p>
 
-            <h3>
-                بررسی Directory
-            </h3>
+<div class="code-wrapper">
+<div class="code-label">Bash</div>
+<pre class="code-block"><code>#!/bin/bash
 
-            <pre><code>if [ -d "/var/log" ]; then
-    echo "Directory exists"
-fi</code></pre>
-
-
-            <h2 id="loops">
-                Loopها
-            </h2>
-
-            <p>
-                Loop زمانی کاربرد دارد که بخواهیم یک کار را چند بار انجام دهیم.
-            </p>
-
-            <h3>
-                For Loop
-            </h3>
-
-            <pre><code>for server in server1 server2 server3
+for i in 1 2 3 4 5
 do
-    echo "Checking $server"
+    echo "Number: $i"
 done</code></pre>
+</div>
 
+<p>
+نمونه‌ای که فایل‌ها را بررسی می‌کند:
+</p>
 
-            <h3>
-                مثال کاربردی
-            </h3>
+<div class="code-wrapper">
+<div class="code-label">Bash</div>
+<pre class="code-block"><code>#!/bin/bash
 
-            <pre><code>for file in /var/log/*.log
+for file in *.log
 do
-    echo "$file"
+    echo "Log file: $file"
 done</code></pre>
+</div>
 
 
-            <h2 id="functions">
-                Functionها
-            </h2>
+<h2 id="functions">Functionها</h2>
 
-            <p>
-                برای جلوگیری از تکرار کد می‌توانیم Function ایجاد کنیم.
-            </p>
+<p>
+برای جلوگیری از تکرار Code می‌توانیم Function تعریف کنیم.
+</p>
 
-            <pre><code>check_disk() {
-    df -h
+<div class="code-wrapper">
+<div class="code-label">Bash</div>
+<pre class="code-block"><code>#!/bin/bash
+
+show_info() {
+    echo "Linux DevOps Lab"
+    hostname
+    uptime
 }
 
-check_disk</code></pre>
+show_info</code></pre>
+</div>
 
 
-            <h2 id="exit">
-                Exit Code
-            </h2>
+<h2 id="automation">Automation ساده</h2>
 
-            <p>
-                بسیاری از دستورات Linux یک Exit Code برمی‌گردانند.
-            </p>
+<p>
+حالا می‌توانیم مفاهیمی که یاد گرفتیم را کنار هم قرار دهیم.
+مثلاً Scriptی بسازیم که وضعیت Disk و Memory را نمایش دهد.
+</p>
 
-            <p>
-                معمولاً:
-            </p>
+<div class="code-wrapper">
+<div class="code-label">system-info.sh</div>
+<pre class="code-block"><code>#!/bin/bash
 
-            <pre><code>0</code></pre>
+echo "===== SYSTEM INFORMATION ====="
 
-            <p>
-                به معنی موفقیت است.
-            </p>
-
-            <p>
-                برای مشاهده Exit Code آخرین دستور:
-            </p>
-
-            <pre><code>echo $?</code></pre>
-
-
-            <h3>
-                مثال
-            </h3>
-
-            <pre><code>ls /tmp
-
-echo $?</code></pre>
-
-
-            <h2 id="automation">
-                Bash در Automation
-            </h2>
-
-            <p>
-                یکی از دلایل اهمیت Bash در DevOps این است که می‌توان
-                بسیاری از کارهای تکراری را Automate کرد.
-            </p>
-
-            <p>
-                برای مثال:
-            </p>
-
-            <ul>
-
-                <li>
-                    Backup گرفتن
-                </li>
-
-                <li>
-                    بررسی Disk
-                </li>
-
-                <li>
-                    بررسی Service
-                </li>
-
-                <li>
-                    پاک‌سازی فایل‌های قدیمی
-                </li>
-
-                <li>
-                    بررسی وضعیت Server
-                </li>
-
-                <li>
-                    اجرای چند Command پشت سر هم
-                </li>
-
-            </ul>
-
-
-            <h2>
-                یک Script ساده برای بررسی Server
-            </h2>
-
-            <pre><code>#!/bin/bash
-
-echo "===== Server Status ====="
-
+echo ""
 echo "Hostname:"
 hostname
 
 echo ""
-
 echo "Uptime:"
 uptime
 
 echo ""
-
-echo "Disk:"
-df -h
+echo "Disk Usage:"
+df -h /
 
 echo ""
-
 echo "Memory:"
 free -h
 
 echo ""
+echo "===== END ====="</code></pre>
+</div>
 
-echo "Load:"
-cat /proc/loadavg</code></pre>
-
-
-            <p>
-                چنین Script ساده‌ای می‌تواند یک نقطه شروع خوب
-                برای یادگیری Automation باشد.
-            </p>
+<p>
+این مثال ساده است، اما دقیقاً همان ایده‌ای را نشان می‌دهد که بعداً در Automationهای بزرگ‌تر استفاده می‌کنیم:
+<strong>اجرای چند عملیات به صورت خودکار و تکرارپذیر.</strong>
+</p>
 
 
-            <h2 id="practice">
-                🧪 تمرین عملی
-            </h2>
+<h2 id="practice">تمرین عملی: Bash Automation Lab</h2>
 
-            <p>
-                یک فایل بساز:
-            </p>
+<div class="exercise">
 
-            <pre><code>nano server-check.sh</code></pre>
+<h3>🧪 تمرین</h3>
 
-            <p>
-                داخل آن یک Script بنویس که موارد زیر را نمایش دهد:
-            </p>
+<p>
+یک Script به نام <code>system-check.sh</code> ایجاد کن:
+</p>
 
-            <ul>
+<div class="code-wrapper">
+<div class="code-label">Terminal</div>
+<pre class="code-block"><code>nano system-check.sh</code></pre>
+</div>
 
-                <li>
-                    Hostname
-                </li>
+<p>
+داخل آن Scriptی بنویس که موارد زیر را نمایش دهد:
+</p>
 
-                <li>
-                    Uptime
-                </li>
+<ul>
 
-                <li>
-                    Disk Usage
-                </li>
+<li>Hostname</li>
+<li>Current User</li>
+<li>Uptime</li>
+<li>Disk Usage</li>
+<li>Memory Usage</li>
 
-                <li>
-                    Memory Usage
-                </li>
+</ul>
 
-                <li>
-                    IP Address
-                </li>
+<p>
+برای مثال:
+</p>
 
-            </ul>
+<div class="code-wrapper">
+<div class="code-label">system-check.sh</div>
+<pre class="code-block"><code>#!/bin/bash
 
-            <p>
-                سپس:
-            </p>
+echo "===== SYSTEM CHECK ====="
 
-            <pre><code>chmod +x server-check.sh</code></pre>
+echo "User:"
+whoami
 
-            <p>
-                و:
-            </p>
+echo "Hostname:"
+hostname
 
-            <pre><code>./server-check.sh</code></pre>
+echo "Uptime:"
+uptime
 
+echo "Disk:"
+df -h /
 
-            <h2>
-                📌 Cheat Sheet
-            </h2>
+echo "Memory:"
+free -h
 
-            <div class="command-table">
+echo "===== DONE ====="</code></pre>
+</div>
 
-                <table>
+<p>
+بعد Script را اجرا کن:
+</p>
 
-                    <thead>
+<div class="code-wrapper">
+<div class="code-label">Terminal</div>
+<pre class="code-block"><code>chmod +x system-check.sh
+./system-check.sh</code></pre>
+</div>
 
-                        <tr>
-                            <th>
-                                Syntax
-                            </th>
-
-                            <th>
-                                کاربرد
-                            </th>
-                        </tr>
-
-                    </thead>
-
-                    <tbody>
-
-                        <tr>
-                            <td>
-                                <code>#!/bin/bash</code>
-                            </td>
-
-                            <td>
-                                مشخص کردن Bash
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td>
-                                <code>echo</code>
-                            </td>
-
-                            <td>
-                                چاپ خروجی
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td>
-                                <code>$1</code>
-                            </td>
-
-                            <td>
-                                اولین Argument
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td>
-                                <code>if</code>
-                            </td>
-
-                            <td>
-                                شرط
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td>
-                                <code>for</code>
-                            </td>
-
-                            <td>
-                                Loop
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td>
-                                <code>function</code>
-                            </td>
-
-                            <td>
-                                ساخت Function
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td>
-                                <code>$?</code>
-                            </td>
-
-                            <td>
-                                Exit Code
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td>
-                                <code>chmod +x script.sh</code>
-                            </td>
-
-                            <td>
-                                قابل اجرا کردن Script
-                            </td>
-                        </tr>
-
-                    </tbody>
-
-                </table>
-
-            </div>
+</div>
 
 
-            <div class="article-note">
+<h2 id="cheatsheet">Bash Cheat Sheet</h2>
 
-                <strong>
-                    🚀 قدم بعدی
-                </strong>
+<table class="command-table">
 
-                <p>
-                    بعد از Bash، مسیر را به سمت Git و GitHub،
-                    سپس Docker و CI/CD ادامه می‌دهیم.
-                </p>
+<thead>
+<tr>
+<th>Command / Syntax</th>
+<th>کاربرد</th>
+</tr>
+</thead>
 
-            </div>
+<tbody>
+
+<tr>
+<td><code>#!/bin/bash</code></td>
+<td>مشخص کردن Interpreter</td>
+</tr>
+
+<tr>
+<td><code>echo</code></td>
+<td>نمایش متن</td>
+</tr>
+
+<tr>
+<td><code>read</code></td>
+<td>گرفتن Input</td>
+</tr>
+
+<tr>
+<td><code>if</code></td>
+<td>شرط</td>
+</tr>
+
+<tr>
+<td><code>for</code></td>
+<td>Loop</td>
+</tr>
+
+<tr>
+<td><code>function()</code></td>
+<td>ساخت Function</td>
+</tr>
+
+<tr>
+<td><code>chmod +x</code></td>
+<td>قابل اجرا کردن Script</td>
+</tr>
+
+<tr>
+<td><code>./script.sh</code></td>
+<td>اجرای Script</td>
+</tr>
+
+</tbody>
+
+</table>
 
 
-        </article>
+<h2 id="learned">چیزی که از این مرحله یاد گرفتم</h2>
+
+<ul>
+
+<li>Bash برای اجرای Commandها و Automation بسیار کاربردی است.</li>
+<li>می‌توانم Commandها را داخل Script قرار دهم.</li>
+<li>با Variable می‌توانم اطلاعات را ذخیره کنم.</li>
+<li>با <code>if</code> تصمیم‌گیری کنم.</li>
+<li>با Loop عملیات تکراری را خودکار کنم.</li>
+<li>با Function کدها را مرتب‌تر و قابل استفاده مجدد کنم.</li>
+<li>با Bash می‌توانم Automationهای ساده سیستم را شروع کنم.</li>
+
+</ul>
 
 
-        <div class="article-navigation">
+<h2 id="next">مرحله بعدی چیست؟</h2>
 
-            <a href="linux-logs-troubleshooting.html">
-                ← مقاله قبلی
-                <span>
-                    Linux Logs & Troubleshooting
-                </span>
-            </a>
+<div class="exercise">
 
-            <a href="git-basics.html">
-                مقاله بعدی →
-                <span>
-                    Git Basics
-                </span>
-            </a>
+<h3>🌐 Linux Networking Basics</h3>
 
-        </div>
+<p>
+در مرحله بعد سراغ Networking در Linux می‌رویم؛
+با IP، Interface، Route، DNS، Ping، Curl، SS و ابزارهای مهم Network Troubleshooting کار می‌کنیم.
+</p>
+
+</div>
+
+</article>
 
 
-    </div>
+<div class="article-footer">
 
+<a href="linux-logs-troubleshooting.html" class="btn btn-secondary">
+← مقاله قبلی
+</a>
+
+<a href="index.html" class="btn btn-secondary">
+بازگشت به مقالات
+</a>
+
+<a href="../index.html" class="btn btn-primary">
+صفحه اصلی →
+</a>
+
+<a href="linux-networking-basics.html" class="btn btn-primary">
+مقاله بعدی →
+</a>
+
+</div>
+
+</div>
 </section>
-
 </main>
 
 
 <footer>
 
-    <div class="container">
+<div class="container">
 
-        <p>
-            © 2026 Z.DevOps
-        </p>
+<p>
+© 2026 Z.DevOps — Built while learning DevOps.
+</p>
 
-        <div class="social-links">
+<div class="social-links">
+<a href="../index.html">Home</a>
+</div>
 
-            <a href="../index.html">
-                Home
-            </a>
-
-        </div>
-
-    </div>
+</div>
 
 </footer>
 
-
 </body>
-
 </html>
