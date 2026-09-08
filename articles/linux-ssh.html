@@ -1,705 +1,547 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
-
 <head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <meta charset="UTF-8">
+<meta name="description"
+content="آموزش SSH در Linux، اتصال به سرور، مدیریت SSH، انتقال فایل با SCP و بررسی تنظیمات SSH.">
 
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
+<meta name="keywords"
+content="Linux, Ubuntu, DevOps, SSH, Linux SSH, SCP, Remote Server">
 
-    <meta name="description"
-          content="آموزش کامل SSH در لینوکس؛ اتصال به سرور، SSH Key، SCP، SSH Config و عیب‌یابی">
+<title>Linux SSH | Z.DevOps</title>
 
-    <title>Linux SSH | Z.DevOps</title>
+<link rel="stylesheet" href="../style.css">
 
-    <link rel="stylesheet"
-          href="../style.css">
+<style>
+.article-wrapper{max-width:900px;margin:auto}
+.article-header{text-align:center;margin-bottom:70px}
+.article-header .badge{margin-bottom:20px}
+.article-header h1{font-size:clamp(38px,6vw,60px);line-height:1.2;margin-bottom:20px}
+.article-header h1 span{color:var(--primary)}
+.article-subtitle{color:var(--text-secondary);font-size:18px;max-width:700px;margin:auto}
+.article-meta{margin-top:20px;color:#64748b;font-size:13px}
 
+.toc{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:25px 30px;margin-bottom:55px}
+.toc h3{margin-bottom:15px}
+.toc ol{margin:0;padding-right:22px}
+.toc li{margin-bottom:8px}
+.toc a{color:var(--text-secondary);transition:.2s}
+.toc a:hover{color:var(--primary)}
+
+.article-body{text-align:right;font-family:"Vazirmatn","Tahoma",sans-serif}
+.article-body h2{font-size:30px;margin-top:65px;margin-bottom:20px;padding-bottom:10px;border-bottom:1px solid var(--border)}
+.article-body h3{font-size:21px;margin-top:35px;margin-bottom:12px}
+.article-body p{color:#cbd5e1;font-size:16px;line-height:2;margin-bottom:20px}
+.article-body ul,.article-body ol{color:#cbd5e1;line-height:2;margin-bottom:25px;padding-right:25px}
+.article-body li{margin-bottom:7px}
+.article-body strong{color:#f8fafc}
+
+.code-wrapper{position:relative;margin:20px 0 28px}
+.code-label{direction:ltr;text-align:left;background:#111827;color:#64748b;padding:7px 15px;border-radius:8px 8px 0 0;font-family:Consolas,monospace;font-size:12px;border:1px solid rgba(148,163,184,.15);border-bottom:none}
+.code-block{direction:ltr;text-align:left;background:#020617;border:1px solid rgba(148,163,184,.15);border-radius:0 0 8px 8px;padding:20px;overflow-x:auto;margin:0}
+.code-block code{font-family:Consolas,"Courier New",monospace;font-size:14px;line-height:1.8;color:#e2e8f0}
+
+.note{background:rgba(56,189,248,.07);border-right:4px solid var(--primary);padding:20px 22px;border-radius:8px;margin:30px 0;color:#cbd5e1;line-height:1.9}
+.warning{background:rgba(251,191,36,.07);border-right:4px solid #fbbf24;padding:20px 22px;border-radius:8px;margin:30px 0;color:#cbd5e1;line-height:1.9}
+
+.command-table{width:100%;border-collapse:collapse;margin:25px 0 35px;border-radius:10px}
+.command-table th,.command-table td{padding:13px 15px;border-bottom:1px solid var(--border);text-align:right}
+.command-table th{background:var(--card);color:var(--primary);font-weight:600}
+.command-table td{color:#cbd5e1}
+.command-table code{direction:ltr;display:inline-block;background:rgba(148,163,184,.08);padding:3px 7px;border-radius:5px;color:#e2e8f0;font-family:Consolas,monospace}
+
+.exercise{background:linear-gradient(135deg,rgba(56,189,248,.08),rgba(14,165,233,.02));border:1px solid rgba(56,189,248,.18);border-radius:14px;padding:28px;margin:35px 0}
+.exercise h3{margin-top:0;color:var(--primary)}
+
+.article-footer{margin-top:80px;padding-top:30px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;gap:15px;flex-wrap:wrap}
+
+@media(max-width:650px){
+.article-header h1{font-size:38px}
+.article-body h2{font-size:25px}
+.article-body p{font-size:15px}
+.command-table{font-size:13px}
+}
+</style>
 </head>
 
 <body>
 
-
 <header class="navbar">
+<div class="container navbar-inner">
 
-    <div class="container navbar-inner">
+<a href="../index.html" class="logo">
+Z<span>.DevOps</span>
+</a>
 
-        <a href="../index.html" class="logo">
-            Z<span>.DevOps</span>
-        </a>
+<nav>
+<ul class="nav-links">
 
-        <nav>
+<li><a href="../index.html">Home</a></li>
+<li><a href="index.html">Articles</a></li>
+<li><a href="../index.html#projects">Projects</a></li>
+<li><a href="../index.html#roadmap">Roadmap</a></li>
+<li><a href="../index.html#about">About</a></li>
 
-            <ul class="nav-links">
+</ul>
+</nav>
 
-                <li>
-                    <a href="../index.html">Home</a>
-                </li>
-
-                <li>
-                    <a href="index.html">Articles</a>
-                </li>
-
-                <li>
-                    <a href="../index.html#projects">Projects</a>
-                </li>
-
-                <li>
-                    <a href="../index.html#roadmap">Roadmap</a>
-                </li>
-
-                <li>
-                    <a href="../index.html#about">About</a>
-                </li>
-
-            </ul>
-
-        </nav>
-
-    </div>
-
+</div>
 </header>
 
 
 <main>
+<section>
+
+<div class="container article-wrapper">
+
+<header class="article-header">
+
+<div class="badge">
+LINUX · DEVOPS
+</div>
+
+<h1>
+Linux <span>SSH</span>
+</h1>
+
+<p class="article-subtitle">
+آشنایی با SSH، اتصال امن به سرورهای Linux، مدیریت Sessionها و انتقال فایل بین سیستم‌ها.
+</p>
+
+<div class="article-meta">
+📅 September 2026 &nbsp; · &nbsp; ⏱ Beginner &nbsp; · &nbsp; 🐧 Ubuntu
+</div>
+
+</header>
 
 
-<section class="article-header">
+<div class="toc">
 
-    <div class="container">
+<h3>📚 فهرست مطالب</h3>
 
-        <div class="badge">
-            LINUX · DEVOPS
-        </div>
+<ol>
 
-        <h1>
-            Linux SSH
-        </h1>
+<li><a href="#intro">SSH چیست؟</a></li>
+<li><a href="#install">نصب و بررسی SSH</a></li>
+<li><a href="#connect">اتصال به سرور</a></li>
+<li><a href="#port">پورت SSH</a></li>
+<li><a href="#commands">دستورات مهم SSH</a></li>
+<li><a href="#scp">انتقال فایل با SCP</a></li>
+<li><a href="#keys">SSH Key چیست؟</a></li>
+<li><a href="#security">نکات امنیتی SSH</a></li>
+<li><a href="#practice">تمرین عملی</a></li>
+<li><a href="#cheatsheet">Cheat Sheet</a></li>
+<li><a href="#learned">چیزی که یاد گرفتم</a></li>
+<li><a href="#next">مرحله بعد</a></li>
 
-        <p>
-            اتصال امن به سرورهای لینوکسی و مدیریت Remote Server
-        </p>
+</ol>
 
-        <div class="article-meta">
-            September 2026 · Beginner → Intermediate
-        </div>
+</div>
 
-    </div>
 
+<article class="article-body">
+
+
+<h2 id="intro">SSH چیست؟</h2>
+
+<p>
+<strong>SSH</strong> یا Secure Shell یکی از مهم‌ترین ابزارهایی است که در مدیریت سرورها و محیط‌های DevOps استفاده می‌شود.
+با SSH می‌توانیم از یک سیستم به سیستم دیگری متصل شویم و دستورات Linux را روی سیستم مقصد اجرا کنیم.
+</p>
+
+<p>
+فرض کن یک Ubuntu Server در دیتاسنتر داریم و سیستم شخصی ما فقط از طریق شبکه به آن دسترسی دارد.
+به جای اینکه مستقیماً پشت سرور بنشینیم، می‌توانیم با SSH به آن متصل شویم.
+</p>
+
+<div class="note">
+💡 تقریباً هر DevOps Engineer باید بتواند با SSH به سرور Linux متصل شود و Session خود را مدیریت کند.
+</div>
+
+
+<h2 id="install">نصب و بررسی SSH</h2>
+
+<p>
+در Ubuntu معمولاً سمت سرور به بسته‌ای به نام <strong>OpenSSH Server</strong> نیاز داریم.
+ابتدا وضعیت سرویس SSH را بررسی می‌کنیم:
+</p>
+
+<div class="code-wrapper">
+<div class="code-label">Ubuntu Terminal</div>
+<pre class="code-block"><code>sudo systemctl status ssh</code></pre>
+</div>
+
+<p>
+اگر SSH نصب نشده باشد، می‌توانیم آن را نصب کنیم:
+</p>
+
+<div class="code-wrapper">
+<div class="code-label">Ubuntu Terminal</div>
+<pre class="code-block"><code>sudo apt update
+sudo apt install openssh-server</code></pre>
+</div>
+
+<p>
+بعد از نصب، سرویس SSH را بررسی می‌کنیم:
+</p>
+
+<div class="code-wrapper">
+<div class="code-label">Terminal</div>
+<pre class="code-block"><code>sudo systemctl enable --now ssh</code></pre>
+</div>
+
+
+<h2 id="connect">اتصال به سرور</h2>
+
+<p>
+فرمت اصلی اتصال SSH به شکل زیر است:
+</p>
+
+<div class="code-wrapper">
+<div class="code-label">Terminal</div>
+<pre class="code-block"><code>ssh username@server-ip</code></pre>
+</div>
+
+<p>
+برای مثال اگر Username ما <code>zeinab</code> و IP سرور <code>192.168.1.100</code> باشد:
+</p>
+
+<div class="code-wrapper">
+<div class="code-label">Example</div>
+<pre class="code-block"><code>ssh zeinab@192.168.1.100</code></pre>
+</div>
+
+<p>
+در اولین اتصال ممکن است SSH درباره Fingerprint سرور سؤال کند.
+پس از تأیید، معمولاً رمز عبور User از ما درخواست می‌شود.
+</p>
+
+
+<h2 id="port">پورت SSH</h2>
+
+<p>
+پورت پیش‌فرض SSH معمولاً <strong>22</strong> است.
+اگر SSH روی پورت دیگری اجرا شود، باید پورت را هنگام اتصال مشخص کنیم.
+</p>
+
+<div class="code-wrapper">
+<div class="code-label">Terminal</div>
+<pre class="code-block"><code>ssh -p 2222 username@192.168.1.100</code></pre>
+</div>
+
+<p>
+برای مشاهده Listening Portها می‌توانیم از ابزارهایی مانند <code>ss</code> استفاده کنیم:
+</p>
+
+<div class="code-wrapper">
+<div class="code-label">Terminal</div>
+<pre class="code-block"><code>sudo ss -tulpn | grep ssh</code></pre>
+</div>
+
+
+<h2 id="commands">دستورات مهم SSH</h2>
+
+<p>
+SSH فقط برای برقراری اتصال نیست. چند Option مهم آن را باید بشناسیم.
+</p>
+
+<table class="command-table">
+
+<thead>
+<tr>
+<th>Command</th>
+<th>کاربرد</th>
+</tr>
+</thead>
+
+<tbody>
+
+<tr>
+<td><code>ssh user@host</code></td>
+<td>اتصال به سرور</td>
+</tr>
+
+<tr>
+<td><code>ssh -p 2222 user@host</code></td>
+<td>اتصال با پورت مشخص</td>
+</tr>
+
+<tr>
+<td><code>ssh -v user@host</code></td>
+<td>نمایش اطلاعات بیشتر هنگام اتصال</td>
+</tr>
+
+<tr>
+<td><code>exit</code></td>
+<td>خروج از Session</td>
+</tr>
+
+</tbody>
+
+</table>
+
+
+<h2 id="scp">انتقال فایل با SCP</h2>
+
+<p>
+یکی از ابزارهای کاربردی در کنار SSH، دستور <strong>scp</strong> است.
+با SCP می‌توانیم فایل‌ها را از یک سیستم به سیستم دیگر منتقل کنیم.
+</p>
+
+<p>
+برای ارسال فایل از سیستم خودمان به سرور:
+</p>
+
+<div class="code-wrapper">
+<div class="code-label">Terminal</div>
+<pre class="code-block"><code>scp test.txt username@192.168.1.100:/home/username/</code></pre>
+</div>
+
+<p>
+برای دریافت فایل از سرور:
+</p>
+
+<div class="code-wrapper">
+<div class="code-label">Terminal</div>
+<pre class="code-block"><code>scp username@192.168.1.100:/home/username/test.txt .</code></pre>
+</div>
+
+
+<h2 id="keys">SSH Key چیست؟</h2>
+
+<p>
+در محیط‌های واقعی DevOps بهتر است برای Authentication از <strong>SSH Key</strong> استفاده کنیم.
+در این روش به جای ارسال Password، از یک جفت کلید استفاده می‌شود.
+</p>
+
+<p>
+این جفت کلید شامل موارد زیر است:
+</p>
+
+<ul>
+
+<li><strong>Private Key</strong> که باید محرمانه باقی بماند.</li>
+
+<li><strong>Public Key</strong> که می‌تواند روی سرور قرار بگیرد.</li>
+
+</ul>
+
+<p>
+برای ساخت SSH Key:
+</p>
+
+<div class="code-wrapper">
+<div class="code-label">Terminal</div>
+<pre class="code-block"><code>ssh-keygen -t ed25519</code></pre>
+</div>
+
+<p>
+برای کپی کردن Public Key روی سرور:
+</p>
+
+<div class="code-wrapper">
+<div class="code-label">Terminal</div>
+<pre class="code-block"><code>ssh-copy-id username@192.168.1.100</code></pre>
+</div>
+
+
+<div class="warning">
+⚠️ فایل Private Key را در اختیار دیگران قرار نده و آن را داخل Git Repository عمومی قرار نده.
+</div>
+
+
+<h2 id="security">نکات امنیتی SSH</h2>
+
+<p>
+SSH یک سرویس بسیار مهم است و در سرورهای واقعی باید با دقت پیکربندی شود.
+</p>
+
+<ul>
+
+<li>از Password قوی استفاده کن.</li>
+<li>ترجیحاً از SSH Key استفاده کن.</li>
+<li>دسترسی Root را تا حد امکان محدود کن.</li>
+<li>پورت SSH را در صورت نیاز تغییر بده، اما آن را جایگزین کنترل‌های امنیتی اصلی ندان.</li>
+<li>Firewall را به شکل مناسب تنظیم کن.</li>
+<li>لاگ‌های SSH را بررسی کن.</li>
+
+</ul>
+
+
+<h2 id="practice">تمرین عملی: SSH Lab</h2>
+
+<div class="exercise">
+
+<h3>🧪 تمرین</h3>
+
+<p>
+اگر دو ماشین Ubuntu داری، یکی را به عنوان Client و دیگری را به عنوان Server در نظر بگیر.
+ابتدا IP سرور را پیدا کن:
+</p>
+
+<div class="code-wrapper">
+<div class="code-label">Server</div>
+<pre class="code-block"><code>ip addr</code></pre>
+</div>
+
+<p>
+سپس از Client به Server متصل شو:
+</p>
+
+<div class="code-wrapper">
+<div class="code-label">Client</div>
+<pre class="code-block"><code>ssh username@SERVER_IP</code></pre>
+</div>
+
+<p>
+بعد از ورود چند دستور ساده اجرا کن:
+</p>
+
+<div class="code-wrapper">
+<div class="code-label">SSH Session</div>
+<pre class="code-block"><code>whoami
+hostname
+pwd
+ip addr
+exit</code></pre>
+</div>
+
+<p>
+هدف تمرین این است که چرخه
+<strong>اتصال → اجرای Command → بررسی Server → خروج</strong>
+را تجربه کنی.
+</p>
+
+</div>
+
+
+<h2 id="cheatsheet">SSH Cheat Sheet</h2>
+
+<table class="command-table">
+
+<thead>
+<tr>
+<th>Command</th>
+<th>کاربرد</th>
+</tr>
+</thead>
+
+<tbody>
+
+<tr>
+<td><code>ssh user@host</code></td>
+<td>اتصال به سرور</td>
+</tr>
+
+<tr>
+<td><code>ssh -p PORT user@host</code></td>
+<td>اتصال با پورت مشخص</td>
+</tr>
+
+<tr>
+<td><code>ssh -v user@host</code></td>
+<td>Debug اتصال SSH</td>
+</tr>
+
+<tr>
+<td><code>scp file user@host:/path</code></td>
+<td>ارسال فایل</td>
+</tr>
+
+<tr>
+<td><code>ssh-keygen</code></td>
+<td>ساخت SSH Key</td>
+</tr>
+
+<tr>
+<td><code>ssh-copy-id</code></td>
+<td>کپی Public Key روی سرور</td>
+</tr>
+
+<tr>
+<td><code>exit</code></td>
+<td>خروج از SSH</td>
+</tr>
+
+</tbody>
+
+</table>
+
+
+<h2 id="learned">چیزی که از این مرحله یاد گرفتم</h2>
+
+<ul>
+
+<li>SSH ابزار اصلی مدیریت Remote Server است.</li>
+<li>با SSH می‌توانم به سرور Linux متصل شوم.</li>
+<li>پورت پیش‌فرض SSH معمولاً 22 است.</li>
+<li>با SCP می‌توانم فایل منتقل کنم.</li>
+<li>SSH Key برای Authentication بسیار مهم است.</li>
+<li>Private Key باید کاملاً محرمانه باقی بماند.</li>
+
+</ul>
+
+
+<h2 id="next">مرحله بعدی چیست؟</h2>
+
+<div class="exercise">
+
+<h3>💾 Linux Disk & Storage</h3>
+
+<p>
+در مقاله بعدی سراغ مدیریت دیسک و Storage در Linux می‌رویم؛
+با دستورهای <code>df</code>، <code>du</code>، <code>lsblk</code>،
+Mount و بررسی فضای دیسک کار خواهیم کرد.
+</p>
+
+</div>
+
+
+</article>
+
+
+<div class="article-footer">
+
+<a href="linux-processes.html" class="btn btn-secondary">
+← مقاله قبلی
+</a>
+
+<a href="index.html" class="btn btn-secondary">
+بازگشت به مقالات
+</a>
+
+<a href="../index.html" class="btn btn-primary">
+صفحه اصلی →
+</a>
+
+<a href="linux-disk-storage.html" class="btn btn-primary">
+مقاله بعدی →
+</a>
+
+</div>
+
+</div>
 </section>
-
-
-<section class="article-section">
-
-    <div class="container">
-
-
-        <div class="article-toc">
-
-            <h3>
-                📚 فهرست مطالب
-            </h3>
-
-            <ul>
-
-                <li>
-                    <a href="#what-is-ssh">
-                        SSH چیست؟
-                    </a>
-                </li>
-
-                <li>
-                    <a href="#client-server">
-                        SSH Client و Server
-                    </a>
-                </li>
-
-                <li>
-                    <a href="#connect">
-                        اتصال به سرور
-                    </a>
-                </li>
-
-                <li>
-                    <a href="#port">
-                        پورت SSH
-                    </a>
-                </li>
-
-                <li>
-                    <a href="#keys">
-                        SSH Key
-                    </a>
-                </li>
-
-                <li>
-                    <a href="#config">
-                        SSH Config
-                    </a>
-                </li>
-
-                <li>
-                    <a href="#scp">
-                        انتقال فایل با SCP
-                    </a>
-                </li>
-
-                <li>
-                    <a href="#troubleshooting">
-                        عیب‌یابی SSH
-                    </a>
-                </li>
-
-                <li>
-                    <a href="#security">
-                        امنیت SSH
-                    </a>
-                </li>
-
-                <li>
-                    <a href="#practice">
-                        تمرین عملی
-                    </a>
-                </li>
-
-            </ul>
-
-        </div>
-
-
-        <article class="article-body">
-
-
-            <p>
-                وقتی وارد دنیای DevOps و مدیریت سرور می‌شویم،
-                یکی از اولین ابزارهایی که باید یاد بگیریم SSH است.
-            </p>
-
-            <p>
-                در محیط واقعی معمولاً سرورها در دیتاسنتر، Cloud
-                یا Virtual Machine قرار دارند و ما مستقیماً
-                به آن‌ها دسترسی فیزیکی نداریم.
-            </p>
-
-            <p>
-                SSH به ما اجازه می‌دهد از طریق شبکه به سرور
-                متصل شویم و دستورات لینوکس را روی آن اجرا کنیم.
-            </p>
-
-
-            <h2 id="what-is-ssh">
-                SSH چیست؟
-            </h2>
-
-            <p>
-                SSH مخفف
-                <strong>Secure Shell</strong>
-                است.
-            </p>
-
-            <p>
-                SSH یک پروتکل برای برقراری ارتباط امن و رمزنگاری‌شده
-                بین دو سیستم است.
-            </p>
-
-            <p>
-                رایج‌ترین استفاده SSH در DevOps، اتصال به
-                Linux Server و مدیریت آن از راه دور است.
-            </p>
-
-
-            <div class="article-note">
-
-                <strong>💡 نکته:</strong>
-
-                <p>
-                    SSH فقط برای Login کردن نیست.
-                    می‌توان با استفاده از آن فایل منتقل کرد،
-                    دستورات Remote اجرا کرد و سیستم‌های مختلف را
-                    به شکل امن مدیریت کرد.
-                </p>
-
-            </div>
-
-
-            <h2 id="client-server">
-                SSH Client و SSH Server
-            </h2>
-
-            <p>
-                در یک ارتباط SSH دو طرف وجود دارند.
-            </p>
-
-            <h3>
-                SSH Client
-            </h3>
-
-            <p>
-                سیستمی که از آن برای برقراری اتصال استفاده می‌کنیم.
-                مثلاً لپ‌تاپ یا کامپیوتر شخصی ما.
-            </p>
-
-            <h3>
-                SSH Server
-            </h3>
-
-            <p>
-                سیستمی که می‌خواهیم به آن متصل شویم.
-                برای مثال یک Ubuntu Server.
-            </p>
-
-
-            <h2 id="connect">
-                اتصال به Linux Server
-            </h2>
-
-            <p>
-                ساختار اصلی دستور SSH به صورت زیر است:
-            </p>
-
-            <pre><code>ssh username@server-ip</code></pre>
-
-            <p>
-                برای مثال:
-            </p>
-
-            <pre><code>ssh admin@192.168.1.100</code></pre>
-
-            <p>
-                در این مثال:
-            </p>
-
-            <ul>
-
-                <li>
-                    <strong>admin</strong>
-                    نام کاربر است.
-                </li>
-
-                <li>
-                    <strong>192.168.1.100</strong>
-                    آدرس IP سرور است.
-                </li>
-
-            </ul>
-
-
-            <h2 id="port">
-                پورت SSH
-            </h2>
-
-            <p>
-                پورت پیش‌فرض SSH معمولاً 22 است.
-            </p>
-
-            <pre><code>ssh -p 22 admin@192.168.1.100</code></pre>
-
-            <p>
-                اگر SSH روی پورت دیگری اجرا شود، می‌توان آن را
-                مشخص کرد:
-            </p>
-
-            <pre><code>ssh -p 2222 admin@192.168.1.100</code></pre>
-
-
-            <h2 id="keys">
-                SSH Key چیست؟
-            </h2>
-
-            <p>
-                یکی از روش‌های رایج احراز هویت در SSH استفاده
-                از Key Pair است.
-            </p>
-
-            <p>
-                این Key Pair شامل دو بخش است:
-            </p>
-
-            <ul>
-
-                <li>
-                    <strong>Private Key</strong>
-                </li>
-
-                <li>
-                    <strong>Public Key</strong>
-                </li>
-
-            </ul>
-
-            <p>
-                Private Key باید روی سیستم خودمان باقی بماند
-                و نباید در اختیار دیگران قرار گیرد.
-            </p>
-
-            <p>
-                Public Key را می‌توان روی سرور قرار داد.
-            </p>
-
-
-            <div class="article-warning">
-
-                <strong>⚠️ هشدار امنیتی</strong>
-
-                <p>
-                    Private Key را داخل GitHub، سایت عمومی،
-                    Telegram یا هیچ محل عمومی دیگری قرار نده.
-                </p>
-
-            </div>
-
-
-            <h3>
-                ساخت SSH Key
-            </h3>
-
-            <pre><code>ssh-keygen -t ed25519</code></pre>
-
-            <p>
-                فایل‌های Key معمولاً در مسیر زیر ایجاد می‌شوند:
-            </p>
-
-            <pre><code>~/.ssh/</code></pre>
-
-            <p>
-                برای مثال:
-            </p>
-
-            <pre><code>id_ed25519
-id_ed25519.pub</code></pre>
-
-
-            <h3>
-                کپی Public Key روی Server
-            </h3>
-
-            <pre><code>ssh-copy-id admin@192.168.1.100</code></pre>
-
-
-            <h2 id="config">
-                SSH Config
-            </h2>
-
-            <p>
-                اگر با چندین Server کار کنیم، نوشتن IP و Username
-                در هر بار اتصال خسته‌کننده می‌شود.
-            </p>
-
-            <p>
-                برای این کار می‌توانیم از فایل:
-            </p>
-
-            <pre><code>~/.ssh/config</code></pre>
-
-            <p>
-                استفاده کنیم.
-            </p>
-
-            <pre><code>Host myserver
-    HostName 192.168.1.100
-    User admin
-    Port 22</code></pre>
-
-            <p>
-                حالا فقط کافی است بنویسیم:
-            </p>
-
-            <pre><code>ssh myserver</code></pre>
-
-
-            <h2 id="scp">
-                انتقال فایل با SCP
-            </h2>
-
-            <p>
-                SCP برای انتقال فایل بین سیستم‌ها از طریق SSH
-                استفاده می‌شود.
-            </p>
-
-            <h3>
-                ارسال فایل
-            </h3>
-
-            <pre><code>scp backup.tar.gz admin@192.168.1.100:/home/admin/</code></pre>
-
-            <h3>
-                دریافت فایل
-            </h3>
-
-            <pre><code>scp admin@192.168.1.100:/home/admin/backup.tar.gz .</code></pre>
-
-
-            <h2 id="troubleshooting">
-                عیب‌یابی SSH
-            </h2>
-
-            <p>
-                اگر اتصال SSH برقرار نمی‌شود، باید مرحله‌به‌مرحله
-                مشکل را بررسی کنیم.
-            </p>
-
-            <h3>
-                بررسی شبکه
-            </h3>
-
-            <pre><code>ping 192.168.1.100</code></pre>
-
-            <h3>
-                بررسی پورت
-            </h3>
-
-            <pre><code>nc -zv 192.168.1.100 22</code></pre>
-
-            <h3>
-                SSH Debug
-            </h3>
-
-            <pre><code>ssh -v admin@192.168.1.100</code></pre>
-
-            <p>
-                برای Debug بیشتر:
-            </p>
-
-            <pre><code>ssh -vvv admin@192.168.1.100</code></pre>
-
-            <h3>
-                بررسی سرویس SSH
-            </h3>
-
-            <pre><code>sudo systemctl status ssh</code></pre>
-
-            <h3>
-                مشاهده Log
-            </h3>
-
-            <pre><code>sudo journalctl -u ssh</code></pre>
-
-
-            <h2 id="security">
-                نکات امنیتی SSH
-            </h2>
-
-            <ul>
-
-                <li>
-                    استفاده از SSH Key
-                </li>
-
-                <li>
-                    استفاده از Password قوی
-                </li>
-
-                <li>
-                    محدود کردن دسترسی شبکه
-                </li>
-
-                <li>
-                    استفاده صحیح از Firewall
-                </li>
-
-                <li>
-                    بررسی Logهای Login
-                </li>
-
-                <li>
-                    جلوگیری از قرار دادن Private Key در Repository عمومی
-                </li>
-
-            </ul>
-
-
-            <h2 id="practice">
-                🧪 تمرین عملی
-            </h2>
-
-            <p>
-                اگر یک Ubuntu Server در اختیار داری، ابتدا به آن
-                متصل شو:
-            </p>
-
-            <pre><code>ssh username@SERVER_IP</code></pre>
-
-            <p>
-                سپس دستورات زیر را اجرا کن:
-            </p>
-
-            <pre><code>whoami</code></pre>
-
-            <pre><code>hostname</code></pre>
-
-            <pre><code>uptime</code></pre>
-
-            <pre><code>df -h</code></pre>
-
-            <pre><code>sudo systemctl status ssh</code></pre>
-
-
-            <h2>
-                📌 Cheat Sheet
-            </h2>
-
-            <div class="command-table">
-
-                <table>
-
-                    <thead>
-
-                        <tr>
-                            <th>
-                                دستور
-                            </th>
-
-                            <th>
-                                کاربرد
-                            </th>
-                        </tr>
-
-                    </thead>
-
-                    <tbody>
-
-                        <tr>
-                            <td>
-                                <code>ssh user@host</code>
-                            </td>
-
-                            <td>
-                                اتصال به سرور
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td>
-                                <code>ssh -p 2222 user@host</code>
-                            </td>
-
-                            <td>
-                                اتصال به پورت مشخص
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td>
-                                <code>ssh-keygen -t ed25519</code>
-                            </td>
-
-                            <td>
-                                ساخت SSH Key
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td>
-                                <code>ssh-copy-id user@host</code>
-                            </td>
-
-                            <td>
-                                کپی Public Key
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td>
-                                <code>ssh -vvv user@host</code>
-                            </td>
-
-                            <td>
-                                Debug اتصال
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td>
-                                <code>scp file user@host:/path</code>
-                            </td>
-
-                            <td>
-                                انتقال فایل
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td>
-                                <code>journalctl -u ssh</code>
-                            </td>
-
-                            <td>
-                                مشاهده Log
-                            </td>
-                        </tr>
-
-                    </tbody>
-
-                </table>
-
-            </div>
-
-
-            <div class="article-note">
-
-                <strong>
-                    🚀 قدم بعدی
-                </strong>
-
-                <p>
-                    در مقاله بعدی سراغ Disk و Storage در Linux
-                    می‌رویم و با df، du، lsblk، mount و fstab کار می‌کنیم.
-                </p>
-
-            </div>
-
-
-        </article>
-
-
-        <div class="article-navigation">
-
-            <a href="linux-networking.html">
-                ← مقاله قبلی
-                <span>
-                    Linux Networking
-                </span>
-            </a>
-
-            <a href="linux-disk-storage.html">
-                مقاله بعدی →
-                <span>
-                    Linux Disk & Storage
-                </span>
-            </a>
-
-        </div>
-
-
-    </div>
-
-</section>
-
 </main>
 
 
 <footer>
 
-    <div class="container">
+<div class="container">
 
-        <p>
-            © 2026 Z.DevOps
-        </p>
+<p>
+© 2026 Z.DevOps — Built while learning DevOps.
+</p>
 
-        <div class="social-links">
+<div class="social-links">
+<a href="../index.html">Home</a>
+</div>
 
-            <a href="../index.html">
-                Home
-            </a>
-
-        </div>
-
-    </div>
+</div>
 
 </footer>
 
-
 </body>
-
 </html>
