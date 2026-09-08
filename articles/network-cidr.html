@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta name="description"
+content="CIDR چیست؟ آموزش کامل CIDR، Prefix Length، /24، /25، /26، محاسبه Network و Host و کاربرد CIDR در DevOps.">
+
+<meta name="keywords"
+content="CIDR, Prefix, Subnet, IPv4, /24, /25, /26, Networking, DevOps">
+
+<title>CIDR | Z.DevOps</title>
+
+<link rel="stylesheet" href="../style.css">
+
+<style>
+
+.article-wrapper{max-width:1100px;margin:auto}
+.article-header{margin-bottom:40px}
+.article-badge{display:inline-block;padding:7px 14px;border-radius:20px;background:rgba(0,150,255,.12);color:#4db8ff;font-size:13px}
+.article-header h1{font-size:42px}
+.article-header h1 span{color:#4db8ff}
+.article-subtitle{font-size:18px;line-height:2}
+.article-meta{margin-top:20px;opacity:.7}
+.article-toc{background:rgba(255,255,255,.04);padding:25px;border-radius:14px;margin:30px 0}
+.article-body{line-height:2;font-size:16px}
+.article-body h2{margin-top:55px}
+.code-wrapper{margin:25px 0}
+.code-label{padding:8px 15px;background:#151b23}
+.code-block{direction:ltr;text-align:left;overflow-x:auto;padding:20px;background:#0d1117;font-family:Consolas,monospace}
+.note,.exercise{padding:20px;margin:25px 0;border-radius:10px}
+.note{background:rgba(0,150,255,.08);border-right:4px solid #2196f3}
+.exercise{background:rgba(0,200,120,.08);border-right:4px solid #00c878}
+.article-table{width:100%;border-collapse:collapse;margin:25px 0}
+.article-table th,.article-table td{border:1px solid rgba(255,255,255,.1);padding:12px}
+.article-footer{margin-top:60px;padding-top:30px;border-top:1px solid rgba(255,255,255,.1);display:flex;justify-content:space-between}
+
+</style>
+
+</head>
+
+<body>
+
+<nav class="navbar">
+
+<div class="logo">Z<span>.DevOps</span></div>
+
+<div class="nav-links">
+<a href="../index.html">Home</a>
+<a href="index.html">Articles</a>
+<a href="../projects.html">Projects</a>
+<a href="../roadmap.html">Roadmap</a>
+<a href="../about.html">About</a>
+</div>
+
+</nav>
+
+
+<main>
+
+<section>
+
+<div class="container article-wrapper">
+
+<header class="article-header">
+
+<div class="article-badge">
+NETWORKING · CIDR
+</div>
+
+<h1>
+Understanding <span>CIDR</span>
+</h1>
+
+<p class="article-subtitle">
+CIDR چیست و /24، /25، /26 و سایر Prefixها دقیقاً چه مفهومی دارند؟ در این مقاله CIDR را به صورت عملی یاد می‌گیریم.
+</p>
+
+<div class="article-meta">
+📅 September 2026 · ⏱ Beginner → Intermediate · 🌐 Networking
+</div>
+
+</header>
+
+
+<div class="article-toc">
+
+<h3>📚 فهرست مطالب</h3>
+
+<ul>
+
+<li><a href="#what">CIDR چیست؟</a></li>
+
+<li><a href="#prefix">Prefix Length</a></li>
+
+<li><a href="#24">/24</a></li>
+
+<li><a href="#25">/25</a></li>
+
+<li><a href="#26">/26</a></li>
+
+<li><a href="#table">جدول Prefixها</a></li>
+
+<li><a href="#devops">CIDR در DevOps</a></li>
+
+<li><a href="#exercise">تمرین</a></li>
+
+</ul>
+
+</div>
+
+
+<article class="article-body">
+
+
+<h2 id="what">
+CIDR چیست؟
+</h2>
+
+<p>
+CIDR مخفف
+<strong>Classless Inter-Domain Routing</strong>
+است.
+</p>
+
+<p>
+CIDR روشی برای نمایش IP Network با استفاده از Prefix Length است.
+</p>
+
+<p>
+مثلاً:
+</p>
+
+<div class="code-wrapper">
+
+<pre class="code-block">192.168.1.0/24</pre>
+
+</div>
+
+
+<h2 id="prefix">
+Prefix Length
+</h2>
+
+<p>
+عدد بعد از
+<code>/</code>
+تعداد بیت‌هایی را نشان می‌دهد که برای Network Portion استفاده شده‌اند.
+</p>
+
+<p>
+مثلاً:
+</p>
+
+<div class="code-wrapper">
+
+<pre class="code-block">/24</pre>
+
+</div>
+
+<p>
+یعنی 24 بیت از 32 بیت IPv4 مربوط به Network Prefix است.
+</p>
+
+
+<h2 id="24">
+/24
+</h2>
+
+<div class="code-wrapper">
+
+<pre class="code-block">192.168.1.0/24</pre>
+
+</div>
+
+<p>
+Subnet Mask:
+</p>
+
+<div class="code-wrapper">
+
+<pre class="code-block">255.255.255.0</pre>
+
+</div>
+
+<p>
+تعداد کل Addressها:
+</p>
+
+<div class="code-wrapper">
+
+<pre class="code-block">2^(32-24) = 256</pre>
+
+</div>
+
+<p>
+و در حالت معمول 254 Host قابل استفاده داریم.
+</p>
+
+
+<h2 id="25">
+/25
+</h2>
+
+<p>
+در /25 تعداد بیت‌های Network برابر 25 است.
+</p>
+
+<div class="code-wrapper">
+
+<pre class="code-block">2^(32-25) = 128</pre>
+
+</div>
+
+<p>
+یعنی هر Subnet دارای 128 Address است و معمولاً 126 Host قابل استفاده دارد.
+</p>
+
+
+<h2 id="26">
+/26
+</h2>
+
+<div class="code-wrapper">
+
+<pre class="code-block">2^(32-26) = 64</pre>
+
+</div>
+
+<p>
+در /26 معمولاً 62 Host قابل استفاده داریم.
+</p>
+
+
+<h2 id="table">
+جدول مهم CIDR
+</h2>
+
+<table class="article-table">
+
+<tr>
+<th>CIDR</th>
+<th>Total IP</th>
+<th>Usable Host</th>
+<th>Subnet Mask</th>
+</tr>
+
+<tr>
+<td>/24</td>
+<td>256</td>
+<td>254</td>
+<td>255.255.255.0</td>
+</tr>
+
+<tr>
+<td>/25</td>
+<td>128</td>
+<td>126</td>
+<td>255.255.255.128</td>
+</tr>
+
+<tr>
+<td>/26</td>
+<td>64</td>
+<td>62</td>
+<td>255.255.255.192</td>
+</tr>
+
+<tr>
+<td>/27</td>
+<td>32</td>
+<td>30</td>
+<td>255.255.255.224</td>
+</tr>
+
+<tr>
+<td>/28</td>
+<td>16</td>
+<td>14</td>
+<td>255.255.255.240</td>
+</tr>
+
+<tr>
+<td>/29</td>
+<td>8</td>
+<td>6</td>
+<td>255.255.255.248</td>
+</tr>
+
+<tr>
+<td>/30</td>
+<td>4</td>
+<td>2</td>
+<td>255.255.255.252</td>
+</tr>
+
+</table>
+
+
+<h2 id="devops">
+CIDR در DevOps
+</h2>
+
+<p>
+CIDR یکی از مفاهیمی است که در محیط‌های واقعی DevOps دائماً می‌بینی.
+</p>
+
+<p>
+برای مثال در Cloud ممکن است یک VPC یا Virtual Network به صورت زیر تعریف شود:
+</p>
+
+<div class="code-wrapper">
+
+<pre class="code-block">10.0.0.0/16</pre>
+
+</div>
+
+<p>
+و بعد Subnetهای مختلفی داخل آن ساخته شوند:
+</p>
+
+<div class="code-wrapper">
+
+<pre class="code-block">10.0.1.0/24
+10.0.2.0/24
+10.0.3.0/24</pre>
+
+</div>
+
+<p>
+در Docker و Kubernetes نیز مفاهیم CIDR و Network Range اهمیت زیادی دارند.
+</p>
+
+
+<h2 id="exercise">
+🧪 تمرین
+</h2>
+
+<div class="exercise">
+
+برای Network زیر موارد زیر را محاسبه کن:
+
+</div>
+
+<div class="code-wrapper">
+
+<pre class="code-block">10.10.20.0/27</pre>
+
+</div>
+
+<ul>
+
+<li>تعداد کل IPها</li>
+
+<li>تعداد Hostهای قابل استفاده</li>
+
+<li>Subnet Mask</li>
+
+<li>Network Address</li>
+
+<li>Broadcast Address</li>
+
+</ul>
+
+
+<h2>
+چیزی که یاد گرفتم
+</h2>
+
+<p>
+CIDR روش استاندارد و بسیار رایج برای نمایش Network Prefix است.
+عدد بعد از Slash مشخص می‌کند چند بیت برای Network استفاده شده است.
+</p>
+
+
+<h2>
+مرحله بعدی چیست؟
+</h2>
+
+<p>
+حالا که مبانی IP و Subnet را بلدیم، می‌توانیم وارد TCP و UDP شویم و بفهمیم ارتباط بین Applicationها واقعاً چگونه برقرار می‌شود.
+</p>
+
+
+<footer class="article-footer">
+
+<a href="network-subnetting.html">← Subnetting</a>
+
+<a href="network-tcp-udp.html">مقاله بعدی →</a>
+
+</footer>
+
+</article>
+
+</div>
+
+</section>
+
+</main>
+
+<footer>
+© 2026 Z.DevOps — Built while learning DevOps.
+</footer>
+
+</body>
+
+</html>
