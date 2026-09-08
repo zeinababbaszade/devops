@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta name="description"
+content="Private IP و Public IP چیست؟ بررسی محدوده‌های Private IPv4، NAT، Internet و کاربرد آن‌ها در DevOps و Serverها.">
+
+<meta name="keywords"
+content="Private IP, Public IP, NAT, Internet, IPv4, Networking, DevOps">
+
+<title>Private IP & Public IP | Z.DevOps</title>
+
+<link rel="stylesheet" href="../style.css">
+
+<style>
+
+.article-wrapper{max-width:1100px;margin:auto}
+.article-header{margin-bottom:40px}
+.article-badge{display:inline-block;padding:7px 14px;border-radius:20px;background:rgba(0,150,255,.12);color:#4db8ff;font-size:13px}
+.article-header h1{font-size:42px}
+.article-header h1 span{color:#4db8ff}
+.article-subtitle{font-size:18px;line-height:2}
+.article-meta{margin-top:20px;opacity:.7}
+.article-toc{background:rgba(255,255,255,.04);padding:25px;border-radius:14px;margin:30px 0}
+.article-body{line-height:2;font-size:16px}
+.article-body h2{margin-top:55px}
+.code-wrapper{margin:25px 0}
+.code-label{padding:8px 15px;background:#151b23}
+.code-block{direction:ltr;text-align:left;overflow-x:auto;padding:20px;background:#0d1117;font-family:Consolas,monospace}
+.note,.warning,.exercise{padding:20px;margin:25px 0;border-radius:10px}
+.note{background:rgba(0,150,255,.08);border-right:4px solid #2196f3}
+.warning{background:rgba(255,170,0,.08);border-right:4px solid #ffb300}
+.exercise{background:rgba(0,200,120,.08);border-right:4px solid #00c878}
+.article-table{width:100%;border-collapse:collapse;margin:25px 0}
+.article-table th,.article-table td{border:1px solid rgba(255,255,255,.1);padding:12px}
+.article-footer{margin-top:60px;padding-top:30px;border-top:1px solid rgba(255,255,255,.1);display:flex;justify-content:space-between}
+
+</style>
+
+</head>
+
+<body>
+
+<nav class="navbar">
+
+<div class="logo">Z<span>.DevOps</span></div>
+
+<div class="nav-links">
+<a href="../index.html">Home</a>
+<a href="index.html">Articles</a>
+<a href="../projects.html">Projects</a>
+<a href="../roadmap.html">Roadmap</a>
+<a href="../about.html">About</a>
+</div>
+
+</nav>
+
+
+<main>
+
+<section>
+
+<div class="container article-wrapper">
+
+<header class="article-header">
+
+<div class="article-badge">
+NETWORKING · IP
+</div>
+
+<h1>
+Private IP <span>& Public IP</span>
+</h1>
+
+<p class="article-subtitle">
+تفاوت Private و Public IP، محدوده‌های Private، NAT و نحوه استفاده از آن‌ها در شبکه‌های Server و DevOps.
+</p>
+
+<div class="article-meta">
+📅 September 2026 · ⏱ Beginner · 🌐 Networking
+</div>
+
+</header>
+
+
+<div class="article-toc">
+
+<h3>📚 فهرست مطالب</h3>
+
+<ul>
+
+<li><a href="#private">Private IP چیست؟</a></li>
+
+<li><a href="#ranges">محدوده‌های Private IPv4</a></li>
+
+<li><a href="#public">Public IP</a></li>
+
+<li><a href="#nat">NAT</a></li>
+
+<li><a href="#server">مثال Server</a></li>
+
+<li><a href="#devops">اهمیت در DevOps</a></li>
+
+<li><a href="#exercise">تمرین</a></li>
+
+</ul>
+
+</div>
+
+
+<article class="article-body">
+
+
+<h2 id="private">
+Private IP چیست؟
+</h2>
+
+<p>
+Private IP برای استفاده در شبکه‌های داخلی طراحی شده و مستقیماً برای ارتباط عمومی روی Internet استفاده نمی‌شود.
+</p>
+
+
+<h2 id="ranges">
+محدوده‌های Private IPv4
+</h2>
+
+<table class="article-table">
+
+<tr>
+<th>Range</th>
+<th>Subnet</th>
+</tr>
+
+<tr>
+<td>10.0.0.0 – 10.255.255.255</td>
+<td>10.0.0.0/8</td>
+</tr>
+
+<tr>
+<td>172.16.0.0 – 172.31.255.255</td>
+<td>172.16.0.0/12</td>
+</tr>
+
+<tr>
+<td>192.168.0.0 – 192.168.255.255</td>
+<td>192.168.0.0/16</td>
+</tr>
+
+</table>
+
+
+<h2 id="public">
+Public IP چیست؟
+</h2>
+
+<p>
+Public IP آدرسی است که می‌تواند در Internet Routing عمومی استفاده شود.
+</p>
+
+<p>
+Serverهایی که مستقیماً از Internet قابل دسترسی هستند ممکن است Public IP داشته باشند.
+</p>
+
+
+<h2 id="nat">
+NAT چیست؟
+</h2>
+
+<p>
+NAT مخفف
+<strong>Network Address Translation</strong>
+است.
+</p>
+
+<p>
+NAT به شبکه‌های Private اجازه می‌دهد از طریق یک یا چند Public IP با Internet ارتباط برقرار کنند.
+</p>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+Example
+</div>
+
+<pre class="code-block">Private Network
+
+192.168.1.10
+192.168.1.11
+192.168.1.12
+       ↓
+      NAT
+       ↓
+Public IP
+       ↓
+   Internet</pre>
+
+</div>
+
+
+<h2 id="server">
+مثال Server
+</h2>
+
+<p>
+فرض کن یک Web Server داخل شبکه شرکت داری:
+</p>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+Internal Network
+</div>
+
+<pre class="code-block">Server:
+10.10.10.20
+
+Database:
+10.10.10.30
+
+Monitoring:
+10.10.10.40</pre>
+
+</div>
+
+<p>
+این Serverها می‌توانند با Private IP با یکدیگر ارتباط داشته باشند.
+</p>
+
+
+<h2 id="devops">
+چرا برای DevOps مهم است؟
+</h2>
+
+<p>
+در VMware، Docker، Kubernetes و Cloud دائماً با Private Networkها مواجه می‌شوی.
+</p>
+
+<p>
+مثلاً در یک معماری معمول:
+</p>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+Architecture
+</div>
+
+<pre class="code-block">Internet
+   ↓
+Load Balancer
+   ↓
+Private Network
+   ↓
+Application Servers
+   ↓
+Database</pre>
+
+</div>
+
+<p>
+معمولاً Database نباید مستقیماً روی Public Internet قرار داشته باشد.
+</p>
+
+
+<div class="warning">
+
+<strong>⚠️ نکته امنیتی:</strong>
+
+Public بودن یک IP به خودی خود به معنی ناامن بودن Server نیست،
+اما سطح دسترسی و Attack Surface را افزایش می‌دهد و باید Firewall و Access Control مناسب وجود داشته باشد.
+
+</div>
+
+
+<h2 id="exercise">
+🧪 تمرین
+</h2>
+
+<div class="exercise">
+
+IP سیستم خودت را پیدا کن:
+
+</div>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+Linux
+</div>
+
+<pre class="code-block">ip -br addr</pre>
+
+</div>
+
+<p>
+مشخص کن IP سیستم Private است یا Public.
+</p>
+
+
+<h2>
+چیزی که یاد گرفتم
+</h2>
+
+<p>
+Private IP برای شبکه‌های داخلی و Public IP برای ارتباطات قابل Route در Internet استفاده می‌شود.
+NAT یکی از روش‌های اصلی ارتباط شبکه‌های Private با Internet است.
+</p>
+
+
+<h2>
+مرحله بعدی چیست؟
+</h2>
+
+<p>
+حالا باید یاد بگیریم چطور یک شبکه بزرگ را به شبکه‌های کوچک‌تر تقسیم کنیم.
+اینجا Subnetting وارد می‌شود.
+</p>
+
+
+<footer class="article-footer">
+
+<a href="network-ip-address.html">← IP Address</a>
+
+<a href="network-subnetting.html">مقاله بعدی →</a>
+
+</footer>
+
+</article>
+
+</div>
+
+</section>
+
+</main>
+
+<footer>
+© 2026 Z.DevOps — Built while learning DevOps.
+</footer>
+
+</body>
+
+</html>
