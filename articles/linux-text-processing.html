@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <meta name="description"
+          content="آموزش پردازش متن در Linux با grep، sed، awk، cut، sort و uniq؛ به‌همراه آشنایی مقدماتی با Regex.">
+
+    <title>Linux Text Processing | Z.DevOps</title>
+
+    <link rel="stylesheet"
+          href="../style.css">
+
+</head>
+
+<body>
+
+
+<header class="navbar">
+
+    <div class="container navbar-inner">
+
+        <a href="../index.html" class="logo">
+            Z<span>.DevOps</span>
+        </a>
+
+        <nav>
+
+            <ul class="nav-links">
+
+                <li>
+                    <a href="../index.html">خانه</a>
+                </li>
+
+                <li>
+                    <a href="index.html">مقالات</a>
+                </li>
+
+                <li>
+                    <a href="../index.html#projects">پروژه‌ها</a>
+                </li>
+
+                <li>
+                    <a href="../index.html#roadmap">مسیر یادگیری</a>
+                </li>
+
+                <li>
+                    <a href="../index.html#about">درباره من</a>
+                </li>
+
+            </ul>
+
+        </nav>
+
+    </div>
+
+</header>
+
+
+<main>
+
+<section>
+
+<div class="container">
+
+<article class="article-page">
+
+
+<div class="section-title">
+
+    <div class="badge">
+        LINUX
+    </div>
+
+    <h1>
+        Text Processing در Linux
+    </h1>
+
+    <p>
+        آشنایی با grep، sed، awk، cut، sort و uniq برای جستجو،
+        پردازش و تحلیل متن و خروجی دستورات در Linux.
+    </p>
+
+</div>
+
+
+<section>
+
+    <h2>چرا Text Processing مهم است؟</h2>
+
+    <p>
+        در Linux بسیاری از خروجی‌ها، Configهای سرویس‌ها و
+        Logها به‌صورت متنی ذخیره می‌شوند. برای اینکه بتوانیم
+        اطلاعات مفید را از دل این متن‌ها پیدا کنیم، به ابزارهایی
+        نیاز داریم که بتوانند متن را جستجو، فیلتر و پردازش کنند.
+    </p>
+
+    <p>
+        در محیط‌های DevOps، این مهارت یکی از پرکاربردترین
+        مهارت‌هاست؛ چه هنگام بررسی Logهای یک سرویس، چه هنگام
+        استخراج اطلاعات از خروجی دستوراتی مثل
+        <code>ps</code>
+        یا
+        <code>df</code>.
+    </p>
+
+    <div class="info-box">
+
+        <strong>نکته:</strong>
+
+        <p>
+            هدف این مقاله یادگیری کامل Regex یا سینتکس پیشرفته
+            sed و awk نیست؛ هدف این است که با کاربردهای روزمره‌ی
+            این ابزارها در کار با سرور آشنا شوم.
+        </p>
+
+    </div>
+
+</section>
+
+
+<section>
+
+    <h2>1. جستجو در متن با grep</h2>
+
+    <p>
+        دستور
+        <code>grep</code>
+        برای پیدا کردن خط‌هایی از یک فایل یا خروجی که با یک
+        الگوی خاص Match می‌شوند استفاده می‌شود.
+    </p>
+
+    <p>
+        Terminal
+    </p>
+
+<pre><code>grep "error" app.log</code></pre>
+
+    <p>
+        این دستور تمام خط‌هایی از فایل
+        <code>app.log</code>
+        را که شامل کلمه
+        <code>error</code>
+        هستند نمایش می‌دهد.
+    </p>
+
+    <p>
+        برای جستجو بدون حساسیت به بزرگ و کوچک بودن حروف:
+    </p>
+
+<pre><code>grep -i "error" app.log</code></pre>
+
+    <p>
+        برای نمایش شماره خط در کنار نتیجه:
+    </p>
+
+<pre><code>grep -n "error" app.log</code></pre>
+
+    <p>
+        و برای جستجوی بازگشتی داخل چند فایل و پوشه:
+    </p>
+
+<pre><code>grep -rn "error" /var/log/</code></pre>
+
+    <p>
+        همچنین می‌توانیم grep را با Pipe به خروجی دستورات دیگر
+        وصل کنیم؛ مثلاً برای پیدا کردن یک Process خاص:
+    </p>
+
+<pre><code>ps aux | grep nginx</code></pre>
+
+</section>
+
+
+<section>
+
+    <h2>2. کار با ستون‌ها با cut</h2>
+
+    <p>
+        دستور
+        <code>cut</code>
+        برای جدا کردن بخشی از هر خط، معمولاً بر اساس یک
+        جداکننده (Delimiter) استفاده می‌شود.
+    </p>
+
+    <p>
+        فرض کنیم فایل
+        <code>users.txt</code>
+        این‌طور است:
+    </p>
+
+<pre><code>ali:1001:/home/ali
+sara:1002:/home/sara</code></pre>
+
+    <p>
+        برای گرفتن فقط ستون اول (نام کاربر):
+    </p>
+
+<pre><code>cut -d ":" -f 1 users.txt</code></pre>
+
+    <p>
+        گزینه
+        <code>-d</code>
+        جداکننده و
+        <code>-f</code>
+        شماره ستون موردنظر را مشخص می‌کند.
+    </p>
+
+</section>
+
+
+<section>
+
+    <h2>3. مرتب‌سازی با sort</h2>
+
+    <p>
+        دستور
+        <code>sort</code>
+        خطوط ورودی را به‌صورت مرتب‌شده نمایش می‌دهد.
+    </p>
+
+<pre><code>sort users.txt</code></pre>
+
+    <p>
+        برای مرتب‌سازی عددی:
+    </p>
+
+<pre><code>sort -n numbers.txt</code></pre>
+
+    <p>
+        و برای مرتب‌سازی معکوس (نزولی):
+    </p>
+
+<pre><code>sort -r users.txt</code></pre>
+
+</section>
+
+
+<section>
+
+    <h2>4. حذف موارد تکراری با uniq</h2>
+
+    <p>
+        دستور
+        <code>uniq</code>
+        خطوط تکراری متوالی را حذف می‌کند. معمولاً قبل از آن
+        باید از
+        <code>sort</code>
+        استفاده کرد، چون
+        <code>uniq</code>
+        فقط تکرارهای پشت‌سرهم را تشخیص می‌دهد.
+    </p>
+
+<pre><code>sort access.log | uniq</code></pre>
+
+    <p>
+        برای دیدن تعداد تکرار هر خط:
+    </p>
+
+<pre><code>sort access.log | uniq -c</code></pre>
+
+    <div class="info-box">
+
+        <strong>کاربرد رایج:</strong>
+
+        <p>
+            ترکیب
+            <code>sort | uniq -c | sort -nr</code>
+            یکی از پرکاربردترین الگوها برای پیدا کردن
+            پرتکرارترین خطوط یک Log است؛ مثلاً پیدا کردن
+            پرتکرارترین IPهایی که به سرور درخواست زده‌اند.
+        </p>
+
+    </div>
+
+</section>
+
+
+<section>
+
+    <h2>5. ویرایش متن با sed</h2>
+
+    <p>
+        دستور
+        <code>sed</code>
+        (Stream Editor) برای جستجو و جایگزینی متن استفاده
+        می‌شود؛ بدون اینکه لازم باشد فایل را در یک ویرایشگر باز
+        کنیم.
+    </p>
+
+    <p>
+        برای جایگزینی اولین Match در هر خط:
+    </p>
+
+<pre><code>sed 's/error/ERROR/' app.log</code></pre>
+
+    <p>
+        برای جایگزینی همه Matchها در هر خط، از گزینه
+        <code>g</code>
+        (Global) استفاده می‌کنیم:
+    </p>
+
+<pre><code>sed 's/error/ERROR/g' app.log</code></pre>
+
+    <p>
+        به‌طور پیش‌فرض،
+        <code>sed</code>
+        فایل اصلی را تغییر نمی‌دهد و فقط نتیجه را در خروجی
+        نشان می‌دهد. برای ویرایش مستقیم فایل از گزینه
+        <code>-i</code>
+        استفاده می‌شود:
+    </p>
+
+<pre><code>sed -i 's/error/ERROR/g' app.log</code></pre>
+
+    <div class="warning-box">
+
+        <strong>هشدار مهم:</strong>
+
+        <p>
+            گزینه
+            <code>-i</code>
+            فایل را مستقیماً تغییر می‌دهد و این تغییر
+            برگشت‌پذیر نیست. قبل از استفاده از آن روی فایل‌های
+            مهم، حتماً یک نسخه Backup تهیه کن.
+        </p>
+
+    </div>
+
+</section>
+
+
+<section>
+
+    <h2>6. پردازش ستونی با awk</h2>
+
+    <p>
+        <code>awk</code>
+        یک ابزار قدرتمند برای پردازش متن بر اساس ستون‌هاست و
+        از <code>cut</code> انعطاف‌پذیرتر است، چون می‌تواند
+        شرط، محاسبه و قالب‌بندی هم انجام دهد.
+    </p>
+
+    <p>
+        برای چاپ ستون اول هر خط:
+    </p>
+
+<pre><code>awk '{print $1}' access.log</code></pre>
+
+    <p>
+        awk به‌طور پیش‌فرض هر خط را بر اساس فاصله (Space) به
+        ستون‌های
+        <code>$1</code>
+        ،
+        <code>$2</code>
+        و... تقسیم می‌کند.
+    </p>
+
+    <p>
+        برای مشخص کردن جداکننده دلخواه (مثلاً برای فایل با
+        جداکننده
+        <code>:</code>
+        ):
+    </p>
+
+<pre><code>awk -F ":" '{print $1}' users.txt</code></pre>
+
+    <p>
+        و برای اضافه کردن شرط، مثلاً فقط خط‌هایی که ستون سوم
+        آن‌ها بزرگ‌تر از 100 است:
+    </p>
+
+<pre><code>awk '$3 > 100 {print $0}' report.txt</code></pre>
+
+</section>
+
+
+<section>
+
+    <h2>7. آشنایی مقدماتی با Regex</h2>
+
+    <p>
+        Regex (Regular Expression) یک روش نوشتن الگو برای
+        جستجوی متن است. اکثر ابزارهایی که تا اینجا دیدیم
+        (grep، sed و awk) از Regex پشتیبانی می‌کنند.
+    </p>
+
+    <table>
+
+        <thead>
+
+            <tr>
+                <th>نماد</th>
+                <th>معنی</th>
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+            <tr>
+                <td><code>.</code></td>
+                <td>هر یک کاراکتر دلخواه</td>
+            </tr>
+
+            <tr>
+                <td><code>*</code></td>
+                <td>صفر یا بیشتر از کاراکتر قبلی</td>
+            </tr>
+
+            <tr>
+                <td><code>^</code></td>
+                <td>ابتدای خط</td>
+            </tr>
+
+            <tr>
+                <td><code>$</code></td>
+                <td>انتهای خط</td>
+            </tr>
+
+            <tr>
+                <td><code>[abc]</code></td>
+                <td>یکی از کاراکترهای داخل براکت</td>
+            </tr>
+
+        </tbody>
+
+    </table>
+
+    <p>
+        مثال: پیدا کردن خط‌هایی که با
+        <code>Error</code>
+        شروع می‌شوند:
+    </p>
+
+<pre><code>grep "^Error" app.log</code></pre>
+
+    <div class="info-box">
+
+        <strong>نکته:</strong>
+
+        <p>
+            برای شروع کار روزمره، نیازی نیست همه قوانین Regex
+            را حفظ باشیم. همین چند نماد پایه برای بیشتر کارهای
+            روزمره کافی است و بقیه را در عمل و بر اساس نیاز یاد
+            می‌گیریم.
+        </p>
+
+    </div>
+
+</section>
+
+
+<section>
+
+    <h2>8. ترکیب ابزارها با Pipe</h2>
+
+    <p>
+        قدرت واقعی این ابزارها زمانی مشخص می‌شود که آن‌ها را
+        با
+        <code>|</code>
+        (Pipe) به هم وصل کنیم. مثلاً برای پیدا کردن
+        پرتکرارترین IPهایی که به یک سرور وب درخواست زده‌اند:
+    </p>
+
+<pre><code>cat access.log | awk '{print $1}' | sort | uniq -c | sort -nr | head</code></pre>
+
+    <p>
+        این دستور به ترتیب:
+    </p>
+
+    <ul>
+
+        <li>ستون اول (IP) هر خط را استخراج می‌کند</li>
+
+        <li>خروجی را مرتب می‌کند</li>
+
+        <li>تعداد تکرار هر IP را می‌شمارد</li>
+
+        <li>بر اساس بیشترین تکرار مرتب می‌کند</li>
+
+        <li>فقط چند نتیجه اول را نمایش می‌دهد</li>
+
+    </ul>
+
+</section>
+
+
+<section>
+
+    <h2>تمرین عملی: Text Processing Lab</h2>
+
+    <p>
+        یک فایل Log نمونه بساز و روی آن تمرین کن:
+    </p>
+
+    <p>
+        Ubuntu Terminal
+    </p>
+
+<pre><code>cd ~/devops-lab
+mkdir -p linux/textproc
+cd linux/textproc
+
+echo "192.168.1.1 - - GET /index.html 200" &gt; access.log
+echo "192.168.1.2 - - GET /login.html 200" &gt;&gt; access.log
+echo "192.168.1.1 - - GET /index.html 404" &gt;&gt; access.log
+echo "192.168.1.3 - - GET /index.html 500" &gt;&gt; access.log
+
+grep "404" access.log
+
+awk '{print $1}' access.log | sort | uniq -c | sort -nr
+
+sed 's/200/OK/' access.log</code></pre>
+
+    <p>
+        سعی کن قبل از اجرای هر دستور حدس بزنی خروجی چه چیزی
+        خواهد بود، سپس نتیجه واقعی را با حدس خودت مقایسه کن.
+    </p>
+
+</section>
+
+
+<section>
+
+    <h2>Text Processing Cheat Sheet</h2>
+
+    <table>
+
+        <thead>
+
+            <tr>
+                <th>دستور</th>
+                <th>کاربرد</th>
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+            <tr>
+                <td><code>grep "pattern" file</code></td>
+                <td>جستجوی یک الگو در فایل</td>
+            </tr>
+
+            <tr>
+                <td><code>grep -rn "pattern" dir/</code></td>
+                <td>جستجوی بازگشتی با شماره خط</td>
+            </tr>
+
+            <tr>
+                <td><code>cut -d ":" -f 1</code></td>
+                <td>گرفتن یک ستون بر اساس جداکننده</td>
+            </tr>
+
+            <tr>
+                <td><code>sort</code></td>
+                <td>مرتب‌سازی خطوط</td>
+            </tr>
+
+            <tr>
+                <td><code>uniq -c</code></td>
+                <td>شمارش تکرار خطوط</td>
+            </tr>
+
+            <tr>
+                <td><code>sed 's/a/b/g'</code></td>
+                <td>جایگزینی متن</td>
+            </tr>
+
+            <tr>
+                <td><code>awk '{print $1}'</code></td>
+                <td>چاپ یک ستون از متن</td>
+            </tr>
+
+        </tbody>
+
+    </table>
+
+</section>
+
+
+<section>
+
+    <h2>چیزی که در این مقاله یاد گرفتم</h2>
+
+    <ul>
+
+        <li>جستجوی متن با <code>grep</code></li>
+
+        <li>جدا کردن ستون‌ها با <code>cut</code></li>
+
+        <li>مرتب‌سازی با <code>sort</code></li>
+
+        <li>حذف موارد تکراری با <code>uniq</code></li>
+
+        <li>جایگزینی متن با <code>sed</code></li>
+
+        <li>پردازش ستونی و شرطی با <code>awk</code></li>
+
+        <li>آشنایی مقدماتی با Regex</li>
+
+        <li>ترکیب ابزارها با Pipe برای تحلیل واقعی Log</li>
+
+    </ul>
+
+</section>
+
+
+<section>
+
+    <h2>مرحله بعد</h2>
+
+    <p>
+        قدم بعدی که قصد دارم به این مسیر اضافه کنم،
+        <strong>Cron و Task Scheduling</strong>
+        است؛ یعنی یاد بگیرم چطور کارها و اسکریپت‌ها را در
+        Linux به‌صورت خودکار و زمان‌بندی‌شده اجرا کنم.
+    </p>
+
+</section>
+
+
+<div class="article-navigation">
+
+    <a href="linux-bash-scripting.html" class="btn">
+        مقاله قبلی
+    </a>
+
+    <a href="index.html" class="btn">
+        بازگشت به مقالات
+    </a>
+
+</div>
+
+
+</article>
+
+</div>
+
+</section>
+
+</main>
+
+
+<footer>
+
+    <div class="container">
+
+        <p>
+            © 2026 Z.DevOps
+        </p>
+
+        <div class="social-links">
+
+            <a href="../index.html">
+                خانه
+            </a>
+
+        </div>
+
+    </div>
+
+</footer>
+
+
+</body>
+
+</html>
