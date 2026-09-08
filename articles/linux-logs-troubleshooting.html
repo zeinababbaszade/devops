@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <meta name="description"
+          content="آموزش Linux Logs و Troubleshooting؛ journalctl، syslog، auth.log و بررسی خطاهای سرور">
+
+    <title>Linux Logs & Troubleshooting | Z.DevOps</title>
+
+    <link rel="stylesheet"
+          href="../style.css">
+
+</head>
+
+<body>
+
+
+<header class="navbar">
+
+    <div class="container navbar-inner">
+
+        <a href="../index.html" class="logo">
+            Z<span>.DevOps</span>
+        </a>
+
+        <nav>
+
+            <ul class="nav-links">
+
+                <li>
+                    <a href="../index.html">Home</a>
+                </li>
+
+                <li>
+                    <a href="index.html">Articles</a>
+                </li>
+
+                <li>
+                    <a href="../index.html#projects">Projects</a>
+                </li>
+
+                <li>
+                    <a href="../index.html#roadmap">Roadmap</a>
+                </li>
+
+                <li>
+                    <a href="../index.html#about">About</a>
+                </li>
+
+            </ul>
+
+        </nav>
+
+    </div>
+
+</header>
+
+
+<main>
+
+
+<section class="article-header">
+
+    <div class="container">
+
+        <div class="badge">
+            LINUX · TROUBLESHOOTING
+        </div>
+
+        <h1>
+            Linux Logs & Troubleshooting
+        </h1>
+
+        <p>
+            پیدا کردن خطاها و عیب‌یابی Server با استفاده از Logها
+        </p>
+
+        <div class="article-meta">
+            September 2026 · Beginner → Intermediate
+        </div>
+
+    </div>
+
+</section>
+
+
+<section class="article-section">
+
+    <div class="container">
+
+
+        <div class="article-toc">
+
+            <h3>
+                📚 فهرست مطالب
+            </h3>
+
+            <ul>
+
+                <li>
+                    <a href="#logs">
+                        Log چیست؟
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#journalctl">
+                        journalctl
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#syslog">
+                        Syslog
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#auth">
+                        Authentication Logs
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#service">
+                        بررسی سرویس
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#grep">
+                        جستجو در Log
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#workflow">
+                        روش اصولی Troubleshooting
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#practice">
+                        تمرین عملی
+                    </a>
+                </li>
+
+            </ul>
+
+        </div>
+
+
+        <article class="article-body">
+
+
+            <h2 id="logs">
+                Log چیست؟
+            </h2>
+
+            <p>
+                Logها اطلاعاتی هستند که سیستم‌عامل و سرویس‌ها
+                درباره اتفاقاتی که در سیستم رخ می‌دهد ثبت می‌کنند.
+            </p>
+
+            <p>
+                در محیط DevOps، Logها یکی از مهم‌ترین منابع برای
+                پیدا کردن علت خطا هستند.
+            </p>
+
+            <p>
+                برای مثال اگر یک سرویس بالا نمی‌آید، به جای حدس زدن
+                می‌توانیم ابتدا Log آن سرویس را بررسی کنیم.
+            </p>
+
+
+            <div class="article-note">
+
+                <strong>💡 قانون مهم Troubleshooting:</strong>
+
+                <p>
+                    قبل از تغییر دادن تنظیمات، اول ببین سیستم
+                    چه خطایی گزارش کرده است.
+                </p>
+
+            </div>
+
+
+            <h2 id="journalctl">
+                journalctl
+            </h2>
+
+            <p>
+                در سیستم‌هایی که از systemd استفاده می‌کنند،
+                دستور journalctl یکی از ابزارهای اصلی مشاهده Log است.
+            </p>
+
+            <pre><code>journalctl</code></pre>
+
+            <p>
+                برای مشاهده آخرین Logها:
+            </p>
+
+            <pre><code>journalctl -n 50</code></pre>
+
+            <p>
+                برای مشاهده Log یک Service:
+            </p>
+
+            <pre><code>journalctl -u nginx</code></pre>
+
+            <p>
+                یا:
+            </p>
+
+            <pre><code>journalctl -u ssh</code></pre>
+
+            <p>
+                برای مشاهده Logهای جدید به صورت زنده:
+            </p>
+
+            <pre><code>journalctl -f</code></pre>
+
+
+            <h2 id="syslog">
+                Syslog
+            </h2>
+
+            <p>
+                در بسیاری از سیستم‌های Linux فایل‌هایی مانند:
+            </p>
+
+            <pre><code>/var/log/syslog</code></pre>
+
+            <p>
+                برای ثبت رویدادهای سیستم استفاده می‌شوند.
+            </p>
+
+            <p>
+                برای مشاهده:
+            </p>
+
+            <pre><code>sudo tail -f /var/log/syslog</code></pre>
+
+
+            <h2 id="auth">
+                Authentication Logs
+            </h2>
+
+            <p>
+                یکی از Logهای مهم در Ubuntu:
+            </p>
+
+            <pre><code>/var/log/auth.log</code></pre>
+
+            <p>
+                این Log می‌تواند اطلاعاتی درباره Authentication
+                و فعالیت‌های مرتبط با Login ارائه دهد.
+            </p>
+
+            <pre><code>sudo tail -f /var/log/auth.log</code></pre>
+
+            <p>
+                برای پیدا کردن تلاش‌های ناموفق Login:
+            </p>
+
+            <pre><code>sudo grep "Failed password" /var/log/auth.log</code></pre>
+
+
+            <h2 id="service">
+                بررسی وضعیت Service
+            </h2>
+
+            <p>
+                اگر یک سرویس کار نمی‌کند، اولین مرحله بررسی
+                وضعیت آن است.
+            </p>
+
+            <pre><code>systemctl status nginx</code></pre>
+
+            <p>
+                اگر Service اجرا نشده باشد:
+            </p>
+
+            <pre><code>sudo systemctl start nginx</code></pre>
+
+            <p>
+                برای Restart:
+            </p>
+
+            <pre><code>sudo systemctl restart nginx</code></pre>
+
+            <p>
+                بعد از Restart دوباره Log را بررسی کن.
+            </p>
+
+
+            <h2 id="grep">
+                جستجو در Logها با grep
+            </h2>
+
+            <p>
+                Logها ممکن است بسیار بزرگ باشند. بنابراین باید
+                بتوانیم داخل آن‌ها جستجو کنیم.
+            </p>
+
+            <pre><code>grep "error" /var/log/syslog</code></pre>
+
+            <p>
+                جستجوی بدون حساسیت به حروف:
+            </p>
+
+            <pre><code>grep -i "error" /var/log/syslog</code></pre>
+
+            <p>
+                نمایش شماره خط:
+            </p>
+
+            <pre><code>grep -n "error" /var/log/syslog</code></pre>
+
+
+            <h2>
+                tail و head
+            </h2>
+
+            <p>
+                برای مشاهده انتهای فایل:
+            </p>
+
+            <pre><code>tail /var/log/syslog</code></pre>
+
+            <p>
+                مشاهده 50 خط آخر:
+            </p>
+
+            <pre><code>tail -n 50 /var/log/syslog</code></pre>
+
+            <p>
+                برای مشاهده ابتدای فایل:
+            </p>
+
+            <pre><code>head /var/log/syslog</code></pre>
+
+
+            <h2 id="workflow">
+                روش اصولی Troubleshooting
+            </h2>
+
+            <p>
+                وقتی با یک مشکل مواجه می‌شویم، بهتر است به جای
+                اجرای تصادفی دستورات یک Workflow مشخص داشته باشیم.
+            </p>
+
+            <h3>
+                مرحله ۱ — مشکل را دقیق تعریف کن
+            </h3>
+
+            <p>
+                مثلاً:
+                Nginx اجرا نمی‌شود.
+            </p>
+
+            <h3>
+                مرحله ۲ — وضعیت سرویس را بررسی کن
+            </h3>
+
+            <pre><code>systemctl status nginx</code></pre>
+
+            <h3>
+                مرحله ۳ — Log را بررسی کن
+            </h3>
+
+            <pre><code>journalctl -u nginx -n 100</code></pre>
+
+            <h3>
+                مرحله ۴ — منابع سیستم را بررسی کن
+            </h3>
+
+            <pre><code>df -h</code></pre>
+
+            <pre><code>free -h</code></pre>
+
+            <pre><code>uptime</code></pre>
+
+            <h3>
+                مرحله ۵ — تغییرات اخیر را بررسی کن
+            </h3>
+
+            <p>
+                بررسی کن آیا قبل از ایجاد مشکل Configuration،
+                Package یا Service جدیدی تغییر کرده است.
+            </p>
+
+            <h3>
+                مرحله ۶ — بعد از اصلاح دوباره تست کن
+            </h3>
+
+            <p>
+                بعد از تغییر، Service را تست و Logها را دوباره بررسی کن.
+            </p>
+
+
+            <h2>
+                مثال واقعی
+            </h2>
+
+            <p>
+                فرض کنیم Nginx بالا نمی‌آید.
+            </p>
+
+            <p>
+                ابتدا:
+            </p>
+
+            <pre><code>sudo systemctl status nginx</code></pre>
+
+            <p>
+                سپس:
+            </p>
+
+            <pre><code>sudo journalctl -u nginx -n 100</code></pre>
+
+            <p>
+                اگر خطایی مربوط به Port دیدیم، بررسی می‌کنیم
+                چه Process دیگری از آن Port استفاده می‌کند.
+            </p>
+
+            <pre><code>sudo ss -tulpn</code></pre>
+
+
+            <h2 id="practice">
+                🧪 تمرین عملی
+            </h2>
+
+            <p>
+                روی Ubuntu خود این دستورات را اجرا کن:
+            </p>
+
+            <pre><code>journalctl -n 50</code></pre>
+
+            <pre><code>journalctl -b</code></pre>
+
+            <pre><code>sudo systemctl status ssh</code></pre>
+
+            <pre><code>sudo journalctl -u ssh -n 30</code></pre>
+
+            <pre><code>df -h</code></pre>
+
+            <pre><code>free -h</code></pre>
+
+            <pre><code>uptime</code></pre>
+
+            <pre><code>ss -tulpn</code></pre>
+
+
+            <h2>
+                📌 Cheat Sheet
+            </h2>
+
+            <div class="command-table">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+                            <th>
+                                دستور
+                            </th>
+
+                            <th>
+                                کاربرد
+                            </th>
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        <tr>
+                            <td>
+                                <code>journalctl</code>
+                            </td>
+
+                            <td>
+                                مشاهده Journal
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <code>journalctl -u nginx</code>
+                            </td>
+
+                            <td>
+                                Log سرویس
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <code>journalctl -f</code>
+                            </td>
+
+                            <td>
+                                مشاهده Live Log
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <code>tail -f file</code>
+                            </td>
+
+                            <td>
+                                مشاهده زنده فایل
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <code>grep "error" file</code>
+                            </td>
+
+                            <td>
+                                جستجوی Error
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <code>systemctl status service</code>
+                            </td>
+
+                            <td>
+                                وضعیت Service
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <code>ss -tulpn</code>
+                            </td>
+
+                            <td>
+                                مشاهده Portها
+                            </td>
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+
+            <div class="article-note">
+
+                <strong>
+                    🚀 قدم بعدی
+                </strong>
+
+                <p>
+                    در مقاله بعدی وارد Bash Scripting می‌شویم
+                    و اولین Scriptهای واقعی برای اتوماسیون کارهای
+                    DevOps را می‌نویسیم.
+                </p>
+
+            </div>
+
+
+        </article>
+
+
+        <div class="article-navigation">
+
+            <a href="linux-disk-storage.html">
+                ← مقاله قبلی
+                <span>
+                    Linux Disk & Storage
+                </span>
+            </a>
+
+            <a href="linux-bash-scripting.html">
+                مقاله بعدی →
+                <span>
+                    Linux Bash Scripting
+                </span>
+            </a>
+
+        </div>
+
+
+    </div>
+
+</section>
+
+</main>
+
+
+<footer>
+
+    <div class="container">
+
+        <p>
+            © 2026 Z.DevOps
+        </p>
+
+        <div class="social-links">
+
+            <a href="../index.html">
+                Home
+            </a>
+
+        </div>
+
+    </div>
+
+</footer>
+
+
+</body>
+
+</html>
