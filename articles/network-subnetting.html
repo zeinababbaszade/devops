@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta name="description"
+content="Subnetting چیست؟ آموزش کامل تقسیم شبکه IPv4، Subnet Mask، Network Address، Broadcast و Hostها با مثال‌های عملی.">
+
+<meta name="keywords"
+content="Subnetting, Subnet Mask, IPv4, Network, Broadcast, Host, Networking, DevOps">
+
+<title>Subnetting | Z.DevOps</title>
+
+<link rel="stylesheet" href="../style.css">
+
+<style>
+
+.article-wrapper{max-width:1100px;margin:auto}
+.article-header{margin-bottom:40px}
+.article-badge{display:inline-block;padding:7px 14px;border-radius:20px;background:rgba(0,150,255,.12);color:#4db8ff;font-size:13px}
+.article-header h1{font-size:42px}
+.article-header h1 span{color:#4db8ff}
+.article-subtitle{font-size:18px;line-height:2}
+.article-meta{margin-top:20px;opacity:.7}
+.article-toc{background:rgba(255,255,255,.04);padding:25px;border-radius:14px;margin:30px 0}
+.article-body{line-height:2;font-size:16px}
+.article-body h2{margin-top:55px}
+.code-wrapper{margin:25px 0}
+.code-label{padding:8px 15px;background:#151b23}
+.code-block{direction:ltr;text-align:left;overflow-x:auto;padding:20px;background:#0d1117;font-family:Consolas,monospace}
+.note,.exercise{padding:20px;margin:25px 0;border-radius:10px}
+.note{background:rgba(0,150,255,.08);border-right:4px solid #2196f3}
+.exercise{background:rgba(0,200,120,.08);border-right:4px solid #00c878}
+.article-table{width:100%;border-collapse:collapse;margin:25px 0}
+.article-table th,.article-table td{border:1px solid rgba(255,255,255,.1);padding:12px}
+.article-footer{margin-top:60px;padding-top:30px;border-top:1px solid rgba(255,255,255,.1);display:flex;justify-content:space-between}
+
+</style>
+
+</head>
+
+<body>
+
+<nav class="navbar">
+
+<div class="logo">Z<span>.DevOps</span></div>
+
+<div class="nav-links">
+<a href="../index.html">Home</a>
+<a href="index.html">Articles</a>
+<a href="../projects.html">Projects</a>
+<a href="../roadmap.html">Roadmap</a>
+<a href="../about.html">About</a>
+</div>
+
+</nav>
+
+
+<main>
+
+<section>
+
+<div class="container article-wrapper">
+
+<header class="article-header">
+
+<div class="article-badge">
+NETWORKING · SUBNETTING
+</div>
+
+<h1>
+Network <span>Subnetting</span>
+</h1>
+
+<p class="article-subtitle">
+یادگیری عملی Subnetting در IPv4؛ از Subnet Mask تا محاسبه Network، Broadcast و Hostهای قابل استفاده.
+</p>
+
+<div class="article-meta">
+📅 September 2026 · ⏱ Beginner → Intermediate · 🌐 Networking
+</div>
+
+</header>
+
+
+<div class="article-toc">
+
+<h3>📚 فهرست مطالب</h3>
+
+<ul>
+
+<li><a href="#what">Subnetting چیست؟</a></li>
+
+<li><a href="#why">چرا Subnetting؟</a></li>
+
+<li><a href="#mask">Subnet Mask</a></li>
+
+<li><a href="#network">Network Address</a></li>
+
+<li><a href="#broadcast">Broadcast Address</a></li>
+
+<li><a href="#hosts">Hostها</a></li>
+
+<li><a href="#example">مثال عملی</a></li>
+
+<li><a href="#exercise">تمرین</a></li>
+
+</ul>
+
+</div>
+
+
+<article class="article-body">
+
+
+<h2 id="what">
+Subnetting چیست؟
+</h2>
+
+<p>
+Subnetting یعنی تقسیم یک Network بزرگ‌تر به چند Network کوچک‌تر.
+</p>
+
+<p>
+این کار باعث می‌شود Address Space بهتر مدیریت شود و بتوانیم Network را منطقی‌تر تقسیم کنیم.
+</p>
+
+
+<h2 id="why">
+چرا Subnetting مهم است؟
+</h2>
+
+<p>
+در یک سازمان ممکن است Networkهای مختلفی برای Server، User، Management و Monitoring داشته باشیم.
+</p>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+Example
+</div>
+
+<pre class="code-block">Network
+│
+├── Servers
+├── Users
+├── Management
+└── Monitoring</pre>
+
+</div>
+
+
+<h2 id="mask">
+Subnet Mask
+</h2>
+
+<p>
+Subnet Mask مشخص می‌کند چند بیت برای Network و چند بیت برای Host استفاده می‌شود.
+</p>
+
+<p>
+مثلاً:
+</p>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+Example
+</div>
+
+<pre class="code-block">255.255.255.0</pre>
+
+</div>
+
+<p>
+این Mask معادل
+<code>/24</code>
+است.
+</p>
+
+
+<h2 id="network">
+Network Address
+</h2>
+
+<p>
+Network Address اولین Address یک Subnet است و برای شناسایی خود شبکه استفاده می‌شود.
+</p>
+
+<p>
+برای:
+</p>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+Example
+</div>
+
+<pre class="code-block">192.168.1.0/24</pre>
+
+</div>
+
+<p>
+Network Address برابر:
+</p>
+
+<div class="code-wrapper">
+
+<pre class="code-block">192.168.1.0</pre>
+
+</div>
+
+
+<h2 id="broadcast">
+Broadcast Address
+</h2>
+
+<p>
+آخرین Address در Subnet معمولاً Broadcast Address است.
+</p>
+
+<p>
+در:
+<code>192.168.1.0/24</code>
+</p>
+
+<p>
+Broadcast:
+</p>
+
+<div class="code-wrapper">
+
+<pre class="code-block">192.168.1.255</pre>
+
+</div>
+
+
+<h2 id="hosts">
+Hostها
+</h2>
+
+<p>
+در یک /24 تعداد کل Addressها برابر 256 است.
+</p>
+
+<p>
+در حالت معمول دو Address برای Network و Broadcast کنار گذاشته می‌شوند.
+</p>
+
+<div class="code-wrapper">
+
+<pre class="code-block">256 total
+- 1 network
+- 1 broadcast
+= 254 usable hosts</pre>
+
+</div>
+
+
+<h2 id="example">
+مثال عملی
+</h2>
+
+<p>
+فرض کن Network زیر را داریم:
+</p>
+
+<div class="code-wrapper">
+
+<pre class="code-block">192.168.10.0/24</pre>
+
+</div>
+
+<p>
+و می‌خواهیم آن را به دو Subnet تقسیم کنیم.
+</p>
+
+<p>
+با استفاده از /25:
+</p>
+
+<div class="code-wrapper">
+
+<pre class="code-block">192.168.10.0/25
+192.168.10.128/25</pre>
+
+</div>
+
+
+<table class="article-table">
+
+<tr>
+<th>Subnet</th>
+<th>Network</th>
+<th>Broadcast</th>
+<th>Usable</th>
+</tr>
+
+<tr>
+<td>1</td>
+<td>192.168.10.0</td>
+<td>192.168.10.127</td>
+<td>126</td>
+</tr>
+
+<tr>
+<td>2</td>
+<td>192.168.10.128</td>
+<td>192.168.10.255</td>
+<td>126</td>
+</tr>
+
+</table>
+
+
+<div class="note">
+
+<strong>💡 نکته:</strong>
+
+Subnetting یکی از مهم‌ترین مباحث Networking برای DevOps است،
+چون در Cloud، Kubernetes، Docker و دیتاسنترها دائماً با Subnet سروکار داری.
+
+</div>
+
+
+<h2 id="exercise">
+🧪 تمرین
+</h2>
+
+<div class="exercise">
+
+Network زیر را بررسی کن:
+
+</div>
+
+<div class="code-wrapper">
+
+<pre class="code-block">192.168.20.0/26</pre>
+
+</div>
+
+<p>
+موارد زیر را پیدا کن:
+</p>
+
+<ul>
+
+<li>Network Address</li>
+
+<li>Broadcast Address</li>
+
+<li>تعداد Hostهای قابل استفاده</li>
+
+<li>اولین Host</li>
+
+<li>آخرین Host</li>
+
+</ul>
+
+
+<h2>
+چیزی که یاد گرفتم
+</h2>
+
+<p>
+Subnetting یعنی تقسیم Network به Subnetهای کوچک‌تر.
+برای انجام این کار باید بتوانیم Subnet Mask، Network Address، Broadcast و Host Range را محاسبه کنیم.
+</p>
+
+
+<h2>
+مرحله بعدی چیست؟
+</h2>
+
+<p>
+در مقاله بعدی مفهوم CIDR را یاد می‌گیریم؛ روشی که امروزه تقریباً همه‌جا برای نمایش Network Prefix استفاده می‌شود.
+</p>
+
+
+<footer class="article-footer">
+
+<a href="network-private-public-ip.html">← Private & Public IP</a>
+
+<a href="network-cidr.html">مقاله بعدی →</a>
+
+</footer>
+
+</article>
+
+</div>
+
+</section>
+
+</main>
+
+<footer>
+© 2026 Z.DevOps — Built while learning DevOps.
+</footer>
+
+</body>
+
+</html>
