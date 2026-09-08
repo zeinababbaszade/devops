@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta name="description"
+content="آشنایی کامل با TCP/IP Model، تفاوت آن با OSI و بررسی Application، Transport، Internet و Network Access.">
+
+<meta name="keywords"
+content="TCP IP, TCP/IP Model, OSI, Networking, DevOps, Linux">
+
+<title>TCP/IP Model | Z.DevOps</title>
+
+<link rel="stylesheet" href="../style.css">
+
+<style>
+
+.article-wrapper {
+    max-width: 1100px;
+    margin: auto;
+}
+
+.article-header {
+    margin-bottom: 40px;
+}
+
+.article-badge {
+    display: inline-block;
+    padding: 7px 14px;
+    border-radius: 20px;
+    background: rgba(0,150,255,.12);
+    color: #4db8ff;
+    font-size: 13px;
+    margin-bottom: 15px;
+}
+
+.article-header h1 {
+    font-size: 42px;
+}
+
+.article-header h1 span {
+    color: #4db8ff;
+}
+
+.article-subtitle {
+    font-size: 18px;
+    line-height: 2;
+}
+
+.article-meta {
+    margin-top: 20px;
+    opacity: .7;
+}
+
+.article-toc {
+    background: rgba(255,255,255,.04);
+    padding: 25px;
+    border-radius: 14px;
+    margin: 30px 0;
+}
+
+.article-body {
+    line-height: 2;
+    font-size: 16px;
+}
+
+.article-body h2 {
+    margin-top: 55px;
+}
+
+.code-wrapper {
+    margin: 25px 0;
+}
+
+.code-label {
+    padding: 8px 15px;
+    background: #151b23;
+}
+
+.code-block {
+    direction: ltr;
+    text-align: left;
+    overflow-x: auto;
+    padding: 20px;
+    background: #0d1117;
+    font-family: Consolas, monospace;
+    line-height: 1.7;
+}
+
+.note,
+.warning,
+.exercise {
+    padding: 20px;
+    margin: 25px 0;
+    border-radius: 10px;
+}
+
+.note {
+    background: rgba(0,150,255,.08);
+    border-right: 4px solid #2196f3;
+}
+
+.warning {
+    background: rgba(255,170,0,.08);
+    border-right: 4px solid #ffb300;
+}
+
+.exercise {
+    background: rgba(0,200,120,.08);
+    border-right: 4px solid #00c878;
+}
+
+.article-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 25px 0;
+}
+
+.article-table th,
+.article-table td {
+    border: 1px solid rgba(255,255,255,.1);
+    padding: 12px;
+}
+
+.article-footer {
+    margin-top: 60px;
+    padding-top: 30px;
+    border-top: 1px solid rgba(255,255,255,.1);
+    display: flex;
+    justify-content: space-between;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<nav class="navbar">
+
+<div class="logo">
+Z<span>.DevOps</span>
+</div>
+
+<div class="nav-links">
+
+<a href="../index.html">Home</a>
+<a href="index.html">Articles</a>
+<a href="../projects.html">Projects</a>
+<a href="../roadmap.html">Roadmap</a>
+<a href="../about.html">About</a>
+
+</div>
+
+</nav>
+
+
+<main>
+
+<section>
+
+<div class="container article-wrapper">
+
+<header class="article-header">
+
+<div class="article-badge">
+NETWORKING · FUNDAMENTALS
+</div>
+
+<h1>
+TCP/IP <span>Model</span>
+</h1>
+
+<p class="article-subtitle">
+مدل TCP/IP پایه اصلی ارتباطات شبکه در اینترنت و سیستم‌های امروزی است.
+در این مقاله ساختار TCP/IP و ارتباط آن با OSI را بررسی می‌کنیم.
+</p>
+
+<div class="article-meta">
+📅 September 2026 · ⏱ Beginner · 🌐 Networking
+</div>
+
+</header>
+
+
+<div class="article-toc">
+
+<h3>📚 فهرست مطالب</h3>
+
+<ul>
+
+<li><a href="#intro">TCP/IP چیست؟</a></li>
+
+<li><a href="#layers">لایه‌های TCP/IP</a></li>
+
+<li><a href="#application">Application Layer</a></li>
+
+<li><a href="#transport">Transport Layer</a></li>
+
+<li><a href="#internet">Internet Layer</a></li>
+
+<li><a href="#network-access">Network Access</a></li>
+
+<li><a href="#osi">TCP/IP و OSI</a></li>
+
+<li><a href="#linux">TCP/IP در Linux</a></li>
+
+<li><a href="#exercise">تمرین</a></li>
+
+</ul>
+
+</div>
+
+
+<article class="article-body">
+
+
+<h2 id="intro">
+TCP/IP چیست؟
+</h2>
+
+<p>
+TCP/IP مجموعه‌ای از Protocolها و مفاهیمی است که ارتباطات شبکه و اینترنت بر اساس آن ساخته شده است.
+</p>
+
+<p>
+برخلاف OSI که بیشتر یک مدل مفهومی است،
+TCP/IP به Protocol Suite واقعی مورد استفاده در شبکه‌های امروزی اشاره می‌کند.
+</p>
+
+
+<h2 id="layers">
+چهار لایه TCP/IP
+</h2>
+
+<table class="article-table">
+
+<tr>
+<th>TCP/IP</th>
+<th>نمونه</th>
+</tr>
+
+<tr>
+<td>Application</td>
+<td>HTTP, DNS, SSH</td>
+</tr>
+
+<tr>
+<td>Transport</td>
+<td>TCP, UDP</td>
+</tr>
+
+<tr>
+<td>Internet</td>
+<td>IP, ICMP</td>
+</tr>
+
+<tr>
+<td>Network Access</td>
+<td>Ethernet, Wi-Fi</td>
+</tr>
+
+</table>
+
+
+<h2 id="application">
+Application Layer
+</h2>
+
+<p>
+Application Layer شامل Protocolهایی است که Applicationها مستقیماً با آن‌ها کار می‌کنند.
+</p>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+Examples
+</div>
+
+<pre class="code-block">HTTP
+HTTPS
+DNS
+SSH
+SMTP
+FTP</pre>
+
+</div>
+
+
+<h2 id="transport">
+Transport Layer
+</h2>
+
+<p>
+در این لایه دو Protocol مهم TCP و UDP قرار دارند.
+</p>
+
+<h3>TCP</h3>
+
+<p>
+TCP قابل اعتماد، Connection-oriented و دارای مکانیزم‌هایی برای Ordering و Retransmission است.
+</p>
+
+<h3>UDP</h3>
+
+<p>
+UDP بدون ایجاد Connection و با Overhead کمتر کار می‌کند.
+</p>
+
+
+<h2 id="internet">
+Internet Layer
+</h2>
+
+<p>
+وظیفه اصلی این لایه Addressing و Routing Packetها است.
+IP مهم‌ترین Protocol این لایه است.
+</p>
+
+<p>
+ICMP نیز برای پیام‌های کنترلی و ابزارهایی مانند ping اهمیت دارد.
+</p>
+
+
+<h2 id="network-access">
+Network Access Layer
+</h2>
+
+<p>
+این لایه مسئول ارتباط با شبکه محلی و انتقال Frameها روی Ethernet یا Wi-Fi است.
+</p>
+
+
+<h2 id="osi">
+TCP/IP در مقابل OSI
+</h2>
+
+<table class="article-table">
+
+<tr>
+<th>OSI</th>
+<th>TCP/IP</th>
+</tr>
+
+<tr>
+<td>Application</td>
+<td rowspan="3">Application</td>
+</tr>
+
+<tr>
+<td>Presentation</td>
+</tr>
+
+<tr>
+<td>Session</td>
+</tr>
+
+<tr>
+<td>Transport</td>
+<td>Transport</td>
+</tr>
+
+<tr>
+<td>Network</td>
+<td>Internet</td>
+</tr>
+
+<tr>
+<td>Data Link</td>
+<td rowspan="2">Network Access</td>
+</tr>
+
+<tr>
+<td>Physical</td>
+</tr>
+
+</table>
+
+
+<h2 id="linux">
+TCP/IP در Linux
+</h2>
+
+<p>
+Linux ابزارهای بسیار خوبی برای مشاهده وضعیت TCP/IP دارد.
+</p>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+Terminal
+</div>
+
+<pre class="code-block">ip addr
+ip route
+ss -tuln
+ping -c 4 8.8.8.8</pre>
+
+</div>
+
+
+<h2>
+مثال واقعی
+</h2>
+
+<p>
+وقتی دستور زیر را اجرا می‌کنیم:
+</p>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+Terminal
+</div>
+
+<pre class="code-block">curl https://example.com</pre>
+
+</div>
+
+<p>
+چند لایه درگیر می‌شوند:
+</p>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+Flow
+</div>
+
+<pre class="code-block">curl
+ ↓
+HTTPS
+ ↓
+TCP
+ ↓
+IP
+ ↓
+Ethernet
+ ↓
+Network</pre>
+
+</div>
+
+
+<h2 id="exercise">
+🧪 تمرین عملی
+</h2>
+
+<div class="exercise">
+
+این دستورات را اجرا کن و مشخص کن هرکدام به کدام لایه مربوط هستند:
+
+</div>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+Linux
+</div>
+
+<pre class="code-block">ip addr
+ip route
+ss -tuln
+ping -c 4 8.8.8.8
+curl -I https://example.com</pre>
+
+</div>
+
+
+<h2>
+چیزی که یاد گرفتم
+</h2>
+
+<p>
+TCP/IP مدل عملی‌تر و نزدیک‌تر به شبکه‌های واقعی است.
+برای DevOps باید بتوانم یک ارتباط را از Application تا Network دنبال کنم.
+</p>
+
+
+<h2>
+مرحله بعدی چیست؟
+</h2>
+
+<p>
+حالا باید با دو مفهوم بسیار مهم یعنی MAC Address و IP Address آشنا شویم.
+</p>
+
+
+<footer class="article-footer">
+
+<a href="network-osi-model.html">← OSI Model</a>
+
+<a href="mac-ip-address.html">مقاله بعدی →</a>
+
+</footer>
+
+</article>
+
+</div>
+
+</section>
+
+</main>
+
+
+<footer>
+© 2026 Z.DevOps — Built while learning DevOps.
+</footer>
+
+</body>
+
+</html>
