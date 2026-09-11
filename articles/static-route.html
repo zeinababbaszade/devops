@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="آموزش کامل Static Route برای مسیر DevOps و Networking.">
+<meta name="keywords" content="Static Route, Networking, Linux, DevOps">
+<title>Static Route | Z.DevOps</title>
+<link rel="stylesheet" href="../style.css">
+<style>.article-wrapper{max-width:900px;margin:auto}
+.article-header{text-align:center;margin-bottom:70px}
+.article-header .badge{margin-bottom:20px}
+.article-header h1{font-size:clamp(38px,6vw,60px);line-height:1.2;margin-bottom:20px}
+.article-header h1 span{color:var(--primary)}
+.article-subtitle{color:var(--text-secondary);font-size:18px;max-width:700px;margin:auto}
+.article-meta{margin-top:20px;color:#64748b;font-size:13px}
+.toc{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:25px 30px;margin-bottom:55px}
+.toc h3{margin-bottom:15px}.toc ol{margin:0;padding-right:22px}.toc li{margin-bottom:8px}
+.toc a{color:var(--text-secondary);transition:.2s}.toc a:hover{color:var(--primary)}
+.article-body{text-align:right;font-family:"Vazirmatn","Tahoma",sans-serif}
+.article-body h2{font-size:30px;margin-top:65px;margin-bottom:20px;padding-bottom:10px;border-bottom:1px solid var(--border)}
+.article-body h3{font-size:21px;margin-top:35px;margin-bottom:12px}
+.article-body p{color:#cbd5e1;font-size:16px;line-height:2;margin-bottom:20px}
+.article-body ul,.article-body ol{color:#cbd5e1;line-height:2;margin-bottom:25px;padding-right:25px}
+.article-body li{margin-bottom:7px}.article-body strong{color:#f8fafc}
+.code-wrapper{position:relative;margin:20px 0 28px}
+.code-label{direction:ltr;text-align:left;background:#111827;color:#64748b;padding:7px 15px;border-radius:8px 8px 0 0;font-family:Consolas,monospace;font-size:12px;border:1px solid rgba(148,163,184,.15);border-bottom:none}
+.code-block{direction:ltr;text-align:left;background:#020617;border:1px solid rgba(148,163,184,.15);border-radius:0 0 8px 8px;padding:20px;overflow-x:auto;margin:0}
+.code-block code{font-family:Consolas,"Courier New",monospace;font-size:14px;line-height:1.8;color:#e2e8f0}
+.note{background:rgba(56,189,248,.07);border-right:4px solid var(--primary);padding:20px 22px;border-radius:8px;margin:30px 0;color:#cbd5e1;line-height:1.9}
+.warning{background:rgba(251,191,36,.07);border-right:4px solid #fbbf24;padding:20px 22px;border-radius:8px;margin:30px 0;color:#cbd5e1;line-height:1.9}
+.command-table{width:100%;border-collapse:collapse;margin:25px 0 35px;border-radius:10px}
+.command-table th,.command-table td{padding:13px 15px;border-bottom:1px solid var(--border);text-align:right}
+.command-table th{background:var(--card);color:var(--primary);font-weight:600}
+.command-table td{color:#cbd5e1}.command-table code{direction:ltr;display:inline-block;background:rgba(148,163,184,.08);padding:3px 7px;border-radius:5px;color:#e2e8f0;font-family:Consolas,monospace}
+.exercise{background:linear-gradient(135deg,rgba(56,189,248,.08),rgba(14,165,233,.02));border:1px solid rgba(56,189,248,.18);border-radius:14px;padding:28px;margin:35px 0}
+.exercise h3{margin-top:0;color:var(--primary)}
+.article-footer{margin-top:80px;padding-top:30px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;gap:15px;flex-wrap:wrap}
+@media(max-width:650px){.article-header h1{font-size:38px}.article-body h2{font-size:25px}.article-body p{font-size:15px}.command-table{font-size:13px}}</style>
+</head>
+<body>
+<header class="navbar"><div class="container navbar-inner">
+<a href="../index.html" class="logo">Z<span>.DevOps</span></a>
+<nav><ul class="nav-links">
+<li><a href="../index.html">Home</a></li><li><a href="index.html">Articles</a></li>
+<li><a href="../index.html#projects">Projects</a></li><li><a href="../index.html#roadmap">Roadmap</a></li>
+<li><a href="../index.html#about">About</a></li>
+</ul></nav></div></header>
+<main><section><div class="container article-wrapper">
+<header class="article-header">
+<div class="badge">NETWORKING · DEVOPS</div>
+<h1>Static Route</h1>
+<p class="article-subtitle">آموزش عمیق و عملی Static Route با مثال‌های واقعی Linux، Troubleshooting و کاربردهای DevOps.</p>
+<div class="article-meta">📅 September 2026 &nbsp; · &nbsp; ⏱ Beginner → Intermediate &nbsp; · &nbsp; 🌐 Networking</div>
+</header>
+<div class="toc"><h3>📚 فهرست مطالب</h3><ol><li><a href="#s0">تعریف</a></li><li><a href="#s1">Add</a></li><li><a href="#s2">Delete</a></li><li><a href="#s3">Persistence</a></li><li><a href="#s4">Validation</a></li>
+<li><a href="#lab">Lab عملی</a></li><li><a href="#cheat">Cheat Sheet</a></li><li><a href="#learn">چه چیزی یاد گرفتیم؟</a></li></ol></div>
+<article class="article-body"><h2 id="s0">تعریف</h2><p>Static Route دستی است و از پروتکل Dynamic Routing یاد گرفته نمی‌شود.</p><h2 id="s1">Add</h2><p>نمونه: ip route add 10.20.30.0/24 via 192.168.1.1 dev eth0.</p><h2 id="s2">Delete</h2><p>ip route del برای حذف Route استفاده می‌شود.</p><h2 id="s3">Persistence</h2><p>Routeهای ساخته‌شده با ip route add ممکن است بعد از Reboot باقی نمانند؛ برای Ubuntu آن‌ها را در Netplan/NetworkManager پایدار کنید.</p><h2 id="s4">Validation</h2><p>بعد از تغییر، ip route get و تست Connectivity را انجام دهید.</p><h2 id="lab">🧪 Lab عملی</h2><div class="exercise"><h3>تمرین مرحله‌ای</h3><p>در Ubuntu این دستورات را اجرا کنید و برای هر خروجی یک جمله توضیح بنویسید. هدف، فهمیدن رابطه بین تئوری و وضعیت واقعی سیستم است.</p><div class="code-wrapper"><div class="code-label">Ubuntu</div><pre class="code-block"><code>ip addr
+ip route
+ss -lntup
+ping -c 4 1.1.1.1
+curl -I https://example.com</code></pre></div><p>اگر دستوری خطا داد، متن خطا را ثبت کنید و مشخص کنید مشکل احتمالاً در کدام بخش است: Interface/IP، Routing، DNS، Transport، TLS یا Application.</p></div><h2 id="cheat">📋 Cheat Sheet</h2><table class="command-table"><thead><tr><th>مفهوم</th><th>نکته</th></tr></thead><tbody><tr><td>ip addr</td><td>IP و Interface</td></tr><tr><td>ip route</td><td>Routing Table</td></tr><tr><td>ss -lntup</td><td>Listening Socketها</td></tr><tr><td>ping</td><td>ICMP Reachability</td></tr><tr><td>traceroute</td><td>مسیر تقریبی</td></tr><tr><td>dig</td><td>DNS Query</td></tr><tr><td>curl -v</td><td>HTTP/TLS Troubleshooting</td></tr><tr><td>tcpdump</td><td>Packet Capture</td></tr></tbody></table><h2 id="learn">🎯 چه چیزی یاد گرفتیم؟</h2><ul><li>مفهوم و اجزای اصلی این مبحث را شناختیم.</li><li>یک روش عملی برای مشاهده یا Troubleshooting آن در Linux یاد گرفتیم.</li><li>ارتباط آن با DevOps، Cloud، Server و Monitoring را درک کردیم.</li></ul><div class="note"><strong>نکته DevOps:</strong> این مبحث را فقط حفظ نکنید. در Lab خود خروجی واقعی Linux را با مدل ذهنی Networking مقایسه کنید؛ این کار بعدها در Docker، Kubernetes، Cloud و Incident Troubleshooting بسیار ارزشمند است.</div></article>
+<div class="article-footer">
+<a href="routing-table.html" class="btn btn-secondary">← مقاله قبلی</a>
+<a href="index.html" class="btn btn-secondary">بازگشت به مقالات</a>
+<a href="../index.html" class="btn btn-primary">صفحه اصلی →</a>
+<a href="ip-route.html" class="btn btn-primary">مقاله بعدی →</a>
+</div>
+</div></section></main>
+<footer><div class="container"><p>© 2026 Z.DevOps — Built while learning DevOps.</p><div class="social-links"><a href="../index.html">Home</a></div></div></footer>
+</body></html>
