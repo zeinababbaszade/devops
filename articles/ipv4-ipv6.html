@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta name="description" content="آشنایی کامل با IPv4 و IPv6، ساختار آدرس‌ها، تفاوت‌ها، انواع آدرس‌ها و کاربرد آن‌ها در شبکه و DevOps.">
+<meta name="keywords" content="IPv4, IPv6, IP Address, Network, DevOps, Networking, Linux">
+
+<title>IPv4 & IPv6 | Z.DevOps</title>
+
+<link rel="stylesheet" href="../style.css">
+
+<style>
+.article-wrapper{max-width:900px;margin:auto}
+
+.article-header{text-align:center;margin-bottom:70px}
+.article-header .badge{margin-bottom:20px}
+.article-header h1{font-size:clamp(38px,6vw,60px);line-height:1.2;margin-bottom:20px}
+.article-header h1 span{color:var(--primary)}
+.article-subtitle{color:var(--text-secondary);font-size:18px;max-width:700px;margin:auto}
+.article-meta{margin-top:20px;color:#64748b;font-size:13px}
+
+.toc{
+background:var(--card);
+border:1px solid var(--border);
+border-radius:14px;
+padding:25px 30px;
+margin-bottom:55px
+}
+
+.toc h3{margin-bottom:15px}
+.toc ol{margin:0;padding-right:22px}
+.toc li{margin-bottom:8px}
+.toc a{color:var(--text-secondary);transition:.2s}
+.toc a:hover{color:var(--primary)}
+
+.article-body{text-align:right;font-family:"Vazirmatn","Tahoma",sans-serif}
+
+.article-body h2{
+font-size:30px;
+margin-top:65px;
+margin-bottom:20px;
+padding-bottom:10px;
+border-bottom:1px solid var(--border)
+}
+
+.article-body h3{
+font-size:21px;
+margin-top:35px;
+margin-bottom:12px
+}
+
+.article-body p{
+color:#cbd5e1;
+font-size:16px;
+line-height:2;
+margin-bottom:20px
+}
+
+.article-body ul,
+.article-body ol{
+color:#cbd5e1;
+line-height:2;
+margin-bottom:25px;
+padding-right:25px
+}
+
+.article-body li{margin-bottom:7px}
+.article-body strong{color:#f8fafc}
+
+.code-wrapper{position:relative;margin:20px 0 28px}
+
+.code-label{
+direction:ltr;
+text-align:left;
+background:#111827;
+color:#64748b;
+padding:7px 15px;
+border-radius:8px 8px 0 0;
+font-family:Consolas,monospace;
+font-size:12px;
+border:1px solid rgba(148,163,184,.15);
+border-bottom:none
+}
+
+.code-block{
+direction:ltr;
+text-align:left;
+background:#020617;
+border:1px solid rgba(148,163,184,.15);
+border-radius:0 0 8px 8px;
+padding:20px;
+overflow-x:auto;
+margin:0
+}
+
+.code-block code{
+font-family:Consolas,"Courier New",monospace;
+font-size:14px;
+line-height:1.8;
+color:#e2e8f0
+}
+
+.note{
+background:rgba(56,189,248,.07);
+border-right:4px solid var(--primary);
+padding:20px 22px;
+border-radius:8px;
+margin:30px 0;
+color:#cbd5e1;
+line-height:1.9
+}
+
+.warning{
+background:rgba(251,191,36,.07);
+border-right:4px solid #fbbf24;
+padding:20px 22px;
+border-radius:8px;
+margin:30px 0;
+color:#cbd5e1;
+line-height:1.9
+}
+
+.command-table{
+width:100%;
+border-collapse:collapse;
+margin:25px 0 35px;
+border-radius:10px
+}
+
+.command-table th,
+.command-table td{
+padding:13px 15px;
+border-bottom:1px solid var(--border);
+text-align:right
+}
+
+.command-table th{
+background:var(--card);
+color:var(--primary);
+font-weight:600
+}
+
+.command-table td{color:#cbd5e1}
+
+.command-table code{
+direction:ltr;
+display:inline-block;
+background:rgba(148,163,184,.08);
+padding:3px 7px;
+border-radius:5px;
+color:#e2e8f0;
+font-family:Consolas,monospace
+}
+
+.exercise{
+background:linear-gradient(
+135deg,
+rgba(56,189,248,.08),
+rgba(14,165,233,.02)
+);
+border:1px solid rgba(56,189,248,.18);
+border-radius:14px;
+padding:28px;
+margin:35px 0
+}
+
+.exercise h3{
+margin-top:0;
+color:var(--primary)
+}
+
+.article-footer{
+margin-top:80px;
+padding-top:30px;
+border-top:1px solid var(--border);
+display:flex;
+justify-content:space-between;
+align-items:center;
+gap:15px;
+flex-wrap:wrap
+}
+
+@media(max-width:650px){
+.article-header h1{font-size:38px}
+.article-body h2{font-size:25px}
+.article-body p{font-size:15px}
+.command-table{font-size:13px}
+}
+</style>
+</head>
+
+<body>
+
+<header class="navbar">
+<div class="container navbar-inner">
+
+<a href="../index.html" class="logo">
+Z<span>.DevOps</span>
+</a>
+
+<nav>
+<ul class="nav-links">
+<li><a href="../index.html">Home</a></li>
+<li><a href="index.html">Articles</a></li>
+<li><a href="../index.html#projects">Projects</a></li>
+<li><a href="../index.html#roadmap">Roadmap</a></li>
+<li><a href="../index.html#about">About</a></li>
+</ul>
+</nav>
+
+</div>
+</header>
+
+<main>
+
+<section>
+
+<div class="container article-wrapper">
+
+<header class="article-header">
+
+<div class="badge">NETWORKING · DEVOPS</div>
+
+<h1>
+IPv4 <span>&</span> IPv6
+</h1>
+
+<p class="article-subtitle">
+آشنایی کامل با IPv4 و IPv6، ساختار آدرس‌ها، انواع IP، تفاوت‌ها و کاربرد آن‌ها در شبکه و DevOps.
+</p>
+
+<div class="article-meta">
+📅 September 2026 &nbsp; · &nbsp;
+⏱ Beginner &nbsp; · &nbsp;
+🌐 Networking
+</div>
+
+</header>
+
+
+<div class="toc">
+
+<h3>📚 فهرست مطالب</h3>
+
+<ol>
+
+<li><a href="#intro">IP Address چیست؟</a></li>
+
+<li><a href="#ipv4">IPv4 چیست؟</a></li>
+
+<li><a href="#ipv4-structure">ساختار IPv4</a></li>
+
+<li><a href="#ipv4-types">انواع IPv4</a></li>
+
+<li><a href="#ipv6">IPv6 چیست؟</a></li>
+
+<li><a href="#ipv6-structure">ساختار IPv6</a></li>
+
+<li><a href="#ipv6-types">انواع IPv6</a></li>
+
+<li><a href="#comparison">مقایسه IPv4 و IPv6</a></li>
+
+<li><a href="#linux">مشاهده IP در Linux</a></li>
+
+<li><a href="#devops">IPv4 و IPv6 در DevOps</a></li>
+
+<li><a href="#exercise">تمرین</a></li>
+
+<li><a href="#cheatsheet">Cheat Sheet</a></li>
+
+<li><a href="#learned">چه چیزی یاد گرفتیم؟</a></li>
+
+</ol>
+
+</div>
+
+
+<article class="article-body">
+
+
+<h2 id="intro">🌐 IP Address چیست؟</h2>
+
+<p>
+IP Address یا آدرس IP یک آدرس منطقی برای شناسایی یک Interface در شبکه است.
+</p>
+
+<p>
+وقتی یک کامپیوتر، سرور، VM یا Container می‌خواهد با سیستم دیگری در شبکه ارتباط برقرار کند،
+معمولاً از IP Address برای مشخص کردن مقصد استفاده می‌شود.
+</p>
+
+<div class="note">
+<strong>نکته:</strong>
+MAC Address بیشتر برای ارتباط در یک شبکه محلی استفاده می‌شود،
+در حالی که IP Address برای آدرس‌دهی منطقی و مسیریابی بین شبکه‌ها استفاده می‌شود.
+</div>
+
+
+<h2 id="ipv4">🔵 IPv4 چیست؟</h2>
+
+<p>
+IPv4 یا Internet Protocol version 4 یکی از اصلی‌ترین نسخه‌های پروتکل IP است.
+</p>
+
+<p>
+IPv4 از یک آدرس <strong>32 بیتی</strong> استفاده می‌کند.
+</p>
+
+<p>
+این 32 بیت معمولاً به چهار بخش 8 بیتی تقسیم می‌شوند.
+هر بخش عددی بین 0 تا 255 دارد.
+</p>
+
+<div class="code-wrapper">
+
+<div class="code-label">IPv4 Example</div>
+
+<pre class="code-block"><code>192.168.1.10</code></pre>
+
+</div>
+
+
+<h2 id="ipv4-structure">🧩 ساختار IPv4</h2>
+
+<p>
+یک IPv4 از 32 بیت تشکیل شده است:
+</p>
+
+<div class="code-wrapper">
+
+<div class="code-label">Binary</div>
+
+<pre class="code-block"><code>11000000.10101000.00000001.00001010</code></pre>
+
+</div>
+
+<p>
+این مقدار به شکل Decimal نمایش داده می‌شود:
+</p>
+
+<div class="code-wrapper">
+
+<div class="code-label">Decimal</div>
+
+<pre class="code-block"><code>192.168.1.10</code></pre>
+
+</div>
+
+<p>
+در شبکه، بخشی از IP مربوط به Network و بخشی مربوط به Host است.
+تعداد بیت‌های هر بخش توسط Prefix یا Subnet Mask مشخص می‌شود.
+</p>
+
+
+<h2 id="ipv4-types">📦 انواع مهم IPv4</h2>
+
+<table class="command-table">
+
+<tr>
+<th>نوع</th>
+<th>مثال</th>
+<th>توضیح</th>
+</tr>
+
+<tr>
+<td>Private</td>
+<td><code>192.168.1.10</code></td>
+<td>برای شبکه‌های داخلی</td>
+</tr>
+
+<tr>
+<td>Loopback</td>
+<td><code>127.0.0.1</code></td>
+<td>اشاره به سیستم خودش</td>
+</tr>
+
+<tr>
+<td>Unspecified</td>
+<td><code>0.0.0.0</code></td>
+<td>آدرس نامشخص / همه Interfaceها در برخی کاربردها</td>
+</tr>
+
+<tr>
+<td>Broadcast</td>
+<td><code>192.168.1.255</code></td>
+<td>ارسال به تمام Hostهای Subnet</td>
+</tr>
+
+</table>
+
+
+<h3>Private IPv4</h3>
+
+<p>
+سه محدوده اصلی Private IPv4 طبق RFC1918 عبارت‌اند از:
+</p>
+
+<table class="command-table">
+
+<tr>
+<th>Range</th>
+<th>CIDR</th>
+</tr>
+
+<tr>
+<td><code>10.0.0.0 - 10.255.255.255</code></td>
+<td><code>10.0.0.0/8</code></td>
+</tr>
+
+<tr>
+<td><code>172.16.0.0 - 172.31.255.255</code></td>
+<td><code>172.16.0.0/12</code></td>
+</tr>
+
+<tr>
+<td><code>192.168.0.0 - 192.168.255.255</code></td>
+<td><code>192.168.0.0/16</code></td>
+</tr>
+
+</table>
+
+
+<h2 id="ipv6">🟣 IPv6 چیست؟</h2>
+
+<p>
+IPv6 یا Internet Protocol version 6 نسل جدیدتر پروتکل IP است که برای حل مشکل محدودیت آدرس‌های IPv4 طراحی شد.
+</p>
+
+<p>
+IPv6 از آدرس <strong>128 بیتی</strong> استفاده می‌کند.
+بنابراین فضای آدرس بسیار بزرگ‌تری نسبت به IPv4 دارد.
+</p>
+
+<div class="code-wrapper">
+
+<div class="code-label">IPv6 Example</div>
+
+<pre class="code-block"><code>2001:db8:85a3:0000:0000:8a2e:0370:7334</code></pre>
+
+</div>
+
+
+<h2 id="ipv6-structure">🧩 ساختار IPv6</h2>
+
+<p>
+یک IPv6 از 128 بیت تشکیل شده که به هشت گروه 16 بیتی تقسیم می‌شود.
+هر گروه با Hexadecimal نمایش داده می‌شود.
+</p>
+
+<div class="code-wrapper">
+
+<div class="code-label">IPv6 Structure</div>
+
+<pre class="code-block"><code>2001 : 0db8 : 85a3 : 0000 : 0000 : 8a2e : 0370 : 7334</code></pre>
+
+</div>
+
+<h3>کوتاه کردن IPv6</h3>
+
+<p>
+در IPv6 می‌توان صفرهای ابتدایی هر گروه را حذف کرد.
+همچنین یک رشته متوالی از گروه‌های صفر را می‌توان با <code>::</code> جایگزین کرد.
+</p>
+
+<div class="code-wrapper">
+
+<div class="code-label">IPv6 Compression</div>
+
+<pre class="code-block"><code>2001:0db8:0000:0000:0000:0000:0000:0001
+
+2001:db8::1</code></pre>
+
+</div>
+
+<div class="warning">
+<strong>توجه:</strong>
+در یک IPv6، علامت <code>::</code> فقط یک بار می‌تواند برای فشرده‌سازی استفاده شود؛
+چون در غیر این صورت مشخص نیست چند گروه صفر حذف شده‌اند.
+</div>
+
+
+<h2 id="ipv6-types">📦 انواع مهم IPv6</h2>
+
+<table class="command-table">
+
+<tr>
+<th>نوع</th>
+<th>Prefix</th>
+<th>کاربرد</th>
+</tr>
+
+<tr>
+<td>Global Unicast</td>
+<td><code>2000::/3</code></td>
+<td>آدرس‌های قابل مسیریابی در اینترنت</td>
+</tr>
+
+<tr>
+<td>Link-Local</td>
+<td><code>fe80::/10</code></td>
+<td>ارتباط روی Local Link</td>
+</tr>
+
+<tr>
+<td>Unique Local</td>
+<td><code>fc00::/7</code></td>
+<td>شبکه‌های خصوصی IPv6</td>
+</tr>
+
+<tr>
+<td>Loopback</td>
+<td><code>::1</code></td>
+<td>خود سیستم</td>
+</tr>
+
+<tr>
+<td>Unspecified</td>
+<td><code>::</code></td>
+<td>آدرس نامشخص</td>
+</tr>
+
+</table>
+
+
+<h2 id="comparison">⚔️ IPv4 vs IPv6</h2>
+
+<table class="command-table">
+
+<tr>
+<th>ویژگی</th>
+<th>IPv4</th>
+<th>IPv6</th>
+</tr>
+
+<tr>
+<td>اندازه آدرس</td>
+<td>32 بیت</td>
+<td>128 بیت</td>
+</tr>
+
+<tr>
+<td>نمایش</td>
+<td>Decimal</td>
+<td>Hexadecimal</td>
+</tr>
+
+<tr>
+<td>مثال</td>
+<td><code>192.168.1.10</code></td>
+<td><code>2001:db8::10</code></td>
+</tr>
+
+<tr>
+<td>Broadcast</td>
+<td>دارد</td>
+<td>ندارد</td>
+</tr>
+
+<tr>
+<td>ARP</td>
+<td>استفاده می‌شود</td>
+<td>استفاده نمی‌شود</td>
+</tr>
+
+<tr>
+<td>Neighbor Discovery</td>
+<td>خیر</td>
+<td>بله</td>
+</tr>
+
+<tr>
+<td>فضای آدرس</td>
+<td>محدودتر</td>
+<td>بسیار بزرگ</td>
+</tr>
+
+</table>
+
+
+<h2 id="linux">🐧 مشاهده IP در Linux</h2>
+
+<p>
+در Linux مدرن بهترین ابزار برای مشاهده Interfaceها و IPها دستور <code>ip</code> است.
+</p>
+
+<div class="code-wrapper">
+
+<div class="code-label">Linux</div>
+
+<pre class="code-block"><code>ip addr</code></pre>
+
+</div>
+
+<p>
+یا:
+</p>
+
+<div class="code-wrapper">
+
+<div class="code-label">Linux</div>
+
+<pre class="code-block"><code>ip a</code></pre>
+
+</div>
+
+<p>
+برای مشاهده Route:
+</p>
+
+<div class="code-wrapper">
+
+<div class="code-label">Linux</div>
+
+<pre class="code-block"><code>ip route</code></pre>
+
+</div>
+
+<p>
+برای مشاهده IPv6:
+</p>
+
+<div class="code-wrapper">
+
+<div class="code-label">Linux</div>
+
+<pre class="code-block"><code>ip -6 addr
+ip -6 route</code></pre>
+
+</div>
+
+
+<h2 id="devops">🚀 IPv4 و IPv6 در DevOps</h2>
+
+<p>
+شناخت IPv4 و IPv6 برای DevOps بسیار مهم است.
+تقریباً در تمام بخش‌های زیر با IP سروکار داریم:
+</p>
+
+<ul>
+
+<li>Linux Server</li>
+
+<li>SSH</li>
+
+<li>Docker Networking</li>
+
+<li>Kubernetes</li>
+
+<li>Load Balancer</li>
+
+<li>Reverse Proxy</li>
+
+<li>Firewall</li>
+
+<li>Cloud Networking</li>
+
+<li>Monitoring</li>
+
+<li>DNS</li>
+
+</ul>
+
+<div class="note">
+
+<strong>مثال:</strong>
+
+فرض کنید یک Application روی این آدرس اجرا شده باشد:
+
+<br><br>
+
+<code>192.168.10.20:8080</code>
+
+<br><br>
+
+در اینجا:
+
+<br>
+
+IP = <code>192.168.10.20</code>
+
+<br>
+
+Port = <code>8080</code>
+
+</div>
+
+
+<h2 id="exercise">🧪 تمرین</h2>
+
+<div class="exercise">
+
+<h3>تمرین ۱</h3>
+
+<p>
+مشخص کنید آدرس زیر IPv4 است یا IPv6:
+</p>
+
+<pre class="code-block"><code>192.168.100.20</code></pre>
+
+<h3>تمرین ۲</h3>
+
+<p>
+آدرس زیر چه نوع آدرسی است؟
+</p>
+
+<pre class="code-block"><code>127.0.0.1</code></pre>
+
+<h3>تمرین ۳</h3>
+
+<p>
+IPv6 زیر را به شکل کوتاه بنویسید:
+</p>
+
+<pre class="code-block"><code>2001:0db8:0000:0000:0000:0000:0000:0001</code></pre>
+
+<h3>تمرین ۴</h3>
+
+<p>
+در Ubuntu خود دستور زیر را اجرا کنید و IPv4 و IPv6 Interface اصلی سیستم را پیدا کنید.
+</p>
+
+<pre class="code-block"><code>ip addr</code></pre>
+
+</div>
+
+
+<h2 id="cheatsheet">📋 Cheat Sheet</h2>
+
+<table class="command-table">
+
+<tr>
+<th>دستور</th>
+<th>کاربرد</th>
+</tr>
+
+<tr>
+<td><code>ip addr</code></td>
+<td>نمایش IP Interfaceها</td>
+</tr>
+
+<tr>
+<td><code>ip route</code></td>
+<td>نمایش Routing Table</td>
+</tr>
+
+<tr>
+<td><code>ip -6 addr</code></td>
+<td>نمایش IPv6</td>
+</tr>
+
+<tr>
+<td><code>ip -6 route</code></td>
+<td>نمایش IPv6 Routes</td>
+</tr>
+
+</table>
+
+
+<h2 id="learned">🎯 چه چیزی یاد گرفتیم؟</h2>
+
+<ul>
+
+<li>IP Address چیست.</li>
+
+<li>IPv4 از 32 بیت استفاده می‌کند.</li>
+
+<li>IPv6 از 128 بیت استفاده می‌کند.</li>
+
+<li>ساختار IPv4 و IPv6 را شناختیم.</li>
+
+<li>Private IPv4 را شناختیم.</li>
+
+<li>Global، Link-Local و Loopback در IPv6 را شناختیم.</li>
+
+<li>تفاوت IPv4 و IPv6 را بررسی کردیم.</li>
+
+<li>نحوه مشاهده IP در Linux را یاد گرفتیم.</li>
+
+</ul>
+
+
+<div class="note">
+
+<strong>مرحله بعد:</strong>
+
+حالا که IPv4 و IPv6 را می‌شناسیم،
+باید یاد بگیریم یک IP چگونه به بخش Network و Host تقسیم می‌شود.
+
+این دقیقاً جایی است که <strong>Subnet Mask</strong> وارد می‌شود.
+
+</div>
+
+
+</article>
+
+
+<div class="article-footer">
+
+<a href="mac-ip-address.html" class="btn btn-secondary">
+← مقاله قبلی
+</a>
+
+<a href="index.html" class="btn btn-secondary">
+بازگشت به مقالات
+</a>
+
+<a href="../index.html" class="btn btn-primary">
+صفحه اصلی →
+</a>
+
+<a href="subnet-mask.html" class="btn btn-primary">
+مقاله بعدی →
+</a>
+
+</div>
+
+</div>
+
+</section>
+
+</main>
+
+
+<footer>
+
+<div class="container">
+
+<p>
+© 2026 Z.DevOps — Built while learning DevOps.
+</p>
+
+<div class="social-links">
+<a href="../index.html">Home</a>
+</div>
+
+</div>
+
+</footer>
+
+</body>
+</html>
