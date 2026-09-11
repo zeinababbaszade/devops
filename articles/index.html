@@ -201,62 +201,107 @@
 
         }
 
-        /* =========================================
+       /* =========================================
    NETWORKING SUBCATEGORIES
 ========================================= */
 
 .network-subcategory {
     margin-top: 55px;
-    padding: 30px;
-    border: 1px solid var(--border);
-    border-radius: 18px;
-    background: rgba(15, 23, 42, 0.35);
 }
 
 .network-subcategory-header {
-    margin-bottom: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 20px;
+
+    margin-bottom: 25px;
+
+    padding-bottom: 15px;
+
+    border-bottom: 1px solid var(--border);
 }
 
-.network-subcategory-header > div {
+.network-subcategory-title {
     display: flex;
-    align-items: flex-start;
-    gap: 18px;
+    align-items: center;
+
+    gap: 14px;
 }
 
 .network-number {
-    min-width: 48px;
-    height: 48px;
+    width: 44px;
+    height: 44px;
 
     display: flex;
     align-items: center;
     justify-content: center;
 
-    border-radius: 12px;
+    flex-shrink: 0;
 
-    background: rgba(56, 189, 248, 0.1);
-    border: 1px solid rgba(56, 189, 248, 0.2);
+    border-radius: 10px;
+
+    background: rgba(56, 189, 248, 0.08);
+
+    border: 1px solid
+        rgba(56, 189, 248, 0.15);
 
     color: var(--primary);
 
     font-family: Consolas, monospace;
-    font-size: 16px;
+
+    font-size: 14px;
+
     font-weight: 700;
 }
 
 .network-subcategory-header h3 {
-    margin: 0 0 7px;
-    font-size: 24px;
+    margin: 0;
+
+    font-size: 22px;
 }
 
 .network-subcategory-header p {
-    margin: 0;
+    margin: 5px 0 0;
+
     color: var(--text-secondary);
-    font-size: 14px;
-    line-height: 1.8;
+
+    font-size: 13px;
 }
 
 .network-subcategory .articles-grid {
-    margin-top: 0;
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, minmax(0, 1fr));
+
+    gap: 20px;
+}
+
+
+@media (max-width: 900px) {
+
+    .network-subcategory .articles-grid {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+    }
+
+}
+
+
+@media (max-width: 600px) {
+
+    .network-subcategory-header {
+        align-items: flex-start;
+
+        flex-direction: column;
+    }
+
+    .network-subcategory .articles-grid {
+        grid-template-columns: 1fr;
+    }
+
 }
 
     </style>
@@ -972,227 +1017,7 @@
 
 <section class="article-category">
 
-    <div class="category-header">
-
-        <div class="category-title">
-
-            <div class="category-icon">
-                🌐
-            </div>
-
-            <div>
-
-                <h2>
-                    01. Network Fundamentals
-                </h2>
-
-                <p class="category-description">
-                    Networking, Linux & DevOps fundamentals
-                </p>
-
-            </div>
-
-        </div>
-
-        <div class="category-count">
-            6 Articles
-        </div>
-
-    </div>
-
-
-    <div class="articles-grid">
-
-        <!-- OSI Model -->
-
-        <article class="article-card">
-
-            <div class="article-content">
-
-                <div class="category">
-                    NETWORKING
-                </div>
-
-                <h3>
-                    <a href="network-osi-model.html">
-                        OSI Model — 7 Layers
-                    </a>
-                </h3>
-
-                <p>
-                    آموزش کامل OSI Model — 7 Layers با مثال عملی،
-                    Linux Lab و نکات مهم Troubleshooting.
-                </p>
-
-                <div class="article-date">
-                    September 2026
-                </div>
-
-            </div>
-
-        </article>
-
-
-        <!-- TCP/IP Model -->
-
-        <article class="article-card">
-
-            <div class="article-content">
-
-                <div class="category">
-                    NETWORKING
-                </div>
-
-                <h3>
-                    <a href="network-tcp-ip-model.html">
-                        TCP/IP Model
-                    </a>
-                </h3>
-
-                <p>
-                    آشنایی با TCP/IP Model، لایه‌های آن،
-                    ارتباط آن با OSI و کاربرد آن در شبکه.
-                </p>
-
-                <div class="article-date">
-                    September 2026
-                </div>
-
-            </div>
-
-        </article>
-
-
-        <!-- MAC Address -->
-
-        <article class="article-card">
-
-            <div class="article-content">
-
-                <div class="category">
-                    NETWORKING
-                </div>
-
-                <h3>
-                    <a href="mac-address.html">
-                        MAC Address
-                    </a>
-                </h3>
-
-                <p>
-                    MAC Address چیست، چه کاربردی دارد و چگونه
-                    آن را در Linux مشاهده و بررسی کنیم؟
-                </p>
-
-                <div class="article-date">
-                    September 2026
-                </div>
-
-            </div>
-
-        </article>
-
-
-        <!-- IP Address -->
-
-        <article class="article-card">
-
-            <div class="article-content">
-
-                <div class="category">
-                    NETWORKING
-                </div>
-
-                <h3>
-                    <a href="ip-address.html">
-                        IP Address
-                    </a>
-                </h3>
-
-                <p>
-                    آشنایی با IP Address، ساختار آن و نقش
-                    IP در ارتباط بین سیستم‌ها در شبکه.
-                </p>
-
-                <div class="article-date">
-                    September 2026
-                </div>
-
-            </div>
-
-        </article>
-
-
-        <!-- IPv4 & IPv6 -->
-
-        <article class="article-card">
-
-            <div class="article-content">
-
-                <div class="category">
-                    NETWORKING
-                </div>
-
-                <h3>
-                    <a href="ipv4-ipv6.html">
-                        IPv4 & IPv6
-                    </a>
-                </h3>
-
-                <p>
-                    بررسی IPv4 و IPv6، ساختار Addressها،
-                    تفاوت‌ها و کاربرد هرکدام در شبکه.
-                </p>
-
-                <div class="article-date">
-                    September 2026
-                </div>
-
-            </div>
-
-        </article>
-
-
-        <!-- ARP -->
-
-        <article class="article-card">
-
-            <div class="article-content">
-
-                <div class="category">
-                    NETWORKING
-                </div>
-
-                <h3>
-                    <a href="network-arp.html">
-                        ARP
-                    </a>
-                </h3>
-
-                <p>
-                    ARP چیست و چگونه IP Address را به
-                    MAC Address در شبکه محلی تبدیل می‌کند؟
-                </p>
-
-                <div class="article-date">
-                    September 2026
-                </div>
-
-            </div>
-
-        </article>
-
-    </div>
-
-</section>
-
-
-
-<!-- =========================================
-     02. IP & SUBNETTING
-========================================= -->
-
-<section class="article-category">
+    <!-- NETWORKING MAIN HEADER -->
 
     <div class="category-header">
 
@@ -1205,11 +1030,11 @@
             <div>
 
                 <h2>
-                    02. IP & Subnetting
+                    Networking
                 </h2>
 
                 <p class="category-description">
-                    IP addressing, subnet masks and CIDR
+                    Networking Fundamentals, Troubleshooting & Security
                 </p>
 
             </div>
@@ -1217,1272 +1042,1189 @@
         </div>
 
         <div class="category-count">
-            5 Articles
+            41 Articles
         </div>
 
     </div>
 
 
-    <div class="articles-grid">
+    <!-- =====================================
+         01. NETWORK FUNDAMENTALS
+    ====================================== -->
 
-        <article class="article-card">
+    <div class="network-subcategory">
 
-            <div class="article-content">
+        <div class="network-subcategory-header">
 
-                <div class="category">
-                    NETWORKING
+            <div class="network-subcategory-title">
+
+                <div class="network-number">
+                    01
                 </div>
 
-                <h3>
-                    <a href="network-private-public-ip.html">
-                        Public vs Private IP
-                    </a>
-                </h3>
+                <div>
 
-                <p>
-                    تفاوت IPهای Public و Private و آشنایی
-                    با کاربرد هرکدام در شبکه.
-                </p>
+                    <h3>
+                        Network Fundamentals
+                    </h3>
 
-                <div class="article-date">
-                    September 2026
+                    <p>
+                        Core concepts of computer networking
+                    </p>
+
                 </div>
-
-            </div>
-
-        </article>
-
-
-        <article class="article-card">
-
-            <div class="article-content">
-
-                <div class="category">
-                    NETWORKING
-                </div>
-
-                <h3>
-                    <a href="subnet-mask.html">
-                        Subnet Mask
-                    </a>
-                </h3>
-
-                <p>
-                    Subnet Mask چیست و چگونه بخش Network
-                    و Host یک IPv4 Address را مشخص می‌کند؟
-                </p>
-
-                <div class="article-date">
-                    September 2026
-                </div>
-
-            </div>
-
-        </article>
-
-
-        <article class="article-card">
-
-            <div class="article-content">
-
-                <div class="category">
-                    NETWORKING
-                </div>
-
-                <h3>
-                    <a href="network-cidr.html">
-                        CIDR
-                    </a>
-                </h3>
-
-                <p>
-                    آشنایی با CIDR، Prefix Length و نحوه
-                    نمایش شبکه‌ها با notationهایی مانند /24.
-                </p>
-
-                <div class="article-date">
-                    September 2026
-                </div>
-
-            </div>
-
-        </article>
-
-
-        <article class="article-card">
-
-            <div class="article-content">
-
-                <div class="category">
-                    NETWORKING
-                </div>
-
-                <h3>
-                    <a href="network-broadcast-host.html">
-                        Network / Broadcast / Host
-                    </a>
-                </h3>
-
-                <p>
-                    نحوه تشخیص Network Address، Broadcast Address
-                    و Host Address در یک IPv4 Network.
-                </p>
-
-                <div class="article-date">
-                    September 2026
-                </div>
-
-            </div>
-
-        </article>
-
-
-        <article class="article-card">
-
-            <div class="article-content">
-
-                <div class="category">
-                    NETWORKING
-                </div>
-
-                <h3>
-                    <a href="subnetting-practice.html">
-                        Subnetting Practice
-                    </a>
-                </h3>
-
-                <p>
-                    تمرین عملی Subnetting و محاسبه Network،
-                    Broadcast و تعداد Hostهای قابل استفاده.
-                </p>
-
-                <div class="article-date">
-                    September 2026
-                </div>
-
-            </div>
-
-        </article>
-
-    </div>
-
-</section>
-
-
-
-<!-- =========================================
-     03. TCP / UDP & PORTS
-========================================= -->
-
-<section class="article-category">
-
-    <div class="category-header">
-
-        <div class="category-title">
-
-            <div class="category-icon">
-                🌐
-            </div>
-
-            <div>
-
-                <h2>
-                    03. TCP / UDP & Ports
-                </h2>
-
-                <p class="category-description">
-                    Transport protocols, ports and network sockets
-                </p>
 
             </div>
 
         </div>
 
-        <div class="category-count">
-            4 Articles
+
+        <div class="articles-grid">
+
+
+            <article class="article-card">
+
+                <div class="article-content">
+
+                    <div class="category">
+                        NETWORKING
+                    </div>
+
+                    <h3>
+                        <a href="network-osi-model.html">
+                            OSI Model — 7 Layers
+                        </a>
+                    </h3>
+
+                    <p>
+                        آشنایی کامل با هفت لایه OSI Model،
+                        وظایف هر لایه و مثال‌های عملی.
+                    </p>
+
+                    <div class="article-date">
+                        September 2026
+                    </div>
+
+                </div>
+
+            </article>
+
+
+            <article class="article-card">
+
+                <div class="article-content">
+
+                    <div class="category">
+                        NETWORKING
+                    </div>
+
+                    <h3>
+                        <a href="network-tcp-ip-model.html">
+                            TCP/IP Model
+                        </a>
+                    </h3>
+
+                    <p>
+                        بررسی TCP/IP Model، لایه‌های آن
+                        و ارتباط آن با OSI Model.
+                    </p>
+
+                    <div class="article-date">
+                        September 2026
+                    </div>
+
+                </div>
+
+            </article>
+
+
+            <article class="article-card">
+
+                <div class="article-content">
+
+                    <div class="category">
+                        NETWORKING
+                    </div>
+
+                    <h3>
+                        <a href="mac-address.html">
+                            MAC Address
+                        </a>
+                    </h3>
+
+                    <p>
+                        MAC Address چیست و چه نقشی در
+                        ارتباط دستگاه‌ها در شبکه دارد؟
+                    </p>
+
+                    <div class="article-date">
+                        September 2026
+                    </div>
+
+                </div>
+
+            </article>
+
+
+            <article class="article-card">
+
+                <div class="article-content">
+
+                    <div class="category">
+                        NETWORKING
+                    </div>
+
+                    <h3>
+                        <a href="ip-address.html">
+                            IP Address
+                        </a>
+                    </h3>
+
+                    <p>
+                        آشنایی با IP Address و نقش آن
+                        در شناسایی و ارتباط سیستم‌ها.
+                    </p>
+
+                    <div class="article-date">
+                        September 2026
+                    </div>
+
+                </div>
+
+            </article>
+
+
+            <article class="article-card">
+
+                <div class="article-content">
+
+                    <div class="category">
+                        NETWORKING
+                    </div>
+
+                    <h3>
+                        <a href="ipv4-ipv6.html">
+                            IPv4 & IPv6
+                        </a>
+                    </h3>
+
+                    <p>
+                        بررسی IPv4 و IPv6، ساختار Addressها
+                        و تفاوت‌های اصلی آن‌ها.
+                    </p>
+
+                    <div class="article-date">
+                        September 2026
+                    </div>
+
+                </div>
+
+            </article>
+
+
+            <article class="article-card">
+
+                <div class="article-content">
+
+                    <div class="category">
+                        NETWORKING
+                    </div>
+
+                    <h3>
+                        <a href="network-arp.html">
+                            ARP
+                        </a>
+                    </h3>
+
+                    <p>
+                        آشنایی با ARP و نحوه پیدا کردن
+                        MAC Address مربوط به یک IPv4.
+                    </p>
+
+                    <div class="article-date">
+                        September 2026
+                    </div>
+
+                </div>
+
+            </article>
+
+
         </div>
 
     </div>
 
 
-    <div class="articles-grid">
+    <!-- =====================================
+         02. IP & SUBNETTING
+    ====================================== -->
 
-        <article class="article-card">
+    <div class="network-subcategory">
 
-            <div class="article-content">
+        <div class="network-subcategory-header">
 
-                <div class="category">
-                    NETWORKING
+            <div class="network-subcategory-title">
+
+                <div class="network-number">
+                    02
                 </div>
 
-                <h3>
-                    <a href="tcp-vs-udp.html">
-                        TCP vs UDP
-                    </a>
-                </h3>
+                <div>
 
-                <p>
-                    بررسی تفاوت TCP و UDP، Reliability،
-                    Connection و کاربرد هر پروتکل.
-                </p>
+                    <h3>
+                        IP & Subnetting
+                    </h3>
 
-                <div class="article-date">
-                    September 2026
+                    <p>
+                        IP addressing, subnet masks and subnetting
+                    </p>
+
                 </div>
-
-            </div>
-
-        </article>
-
-
-        <article class="article-card">
-
-            <div class="article-content">
-
-                <div class="category">
-                    NETWORKING
-                </div>
-
-                <h3>
-                    <a href="linux-ports.html">
-                        Linux Ports
-                    </a>
-                </h3>
-
-                <p>
-                    آشنایی با Portها در Linux و بررسی
-                    Portهای رایج مانند SSH، HTTP و HTTPS.
-                </p>
-
-                <div class="article-date">
-                    September 2026
-                </div>
-
-            </div>
-
-        </article>
-
-
-        <article class="article-card">
-
-            <div class="article-content">
-
-                <div class="category">
-                    NETWORKING
-                </div>
-
-                <h3>
-                    <a href="listening-ports.html">
-                        Listening Ports
-                    </a>
-                </h3>
-
-                <p>
-                    نحوه پیدا کردن سرویس‌هایی که روی Portهای
-                    مختلف Linux در حال Listen هستند.
-                </p>
-
-                <div class="article-date">
-                    September 2026
-                </div>
-
-            </div>
-
-        </article>
-
-
-        <article class="article-card">
-
-            <div class="article-content">
-
-                <div class="category">
-                    NETWORKING
-                </div>
-
-                <h3>
-                    <a href="ss-netstat-lsof-nc.html">
-                        ss / netstat / lsof / nc
-                    </a>
-                </h3>
-
-                <p>
-                    بررسی ابزارهای مهم Linux برای مشاهده
-                    Socketها، Portها و تست Connectivity.
-                </p>
-
-                <div class="article-date">
-                    September 2026
-                </div>
-
-            </div>
-
-        </article>
-
-    </div>
-
-</section>
-
-
-
-<!-- =========================================
-     04. ROUTING
-========================================= -->
-
-<section class="article-category">
-
-    <div class="category-header">
-
-        <div class="category-title">
-
-            <div class="category-icon">
-                🌐
-            </div>
-
-            <div>
-
-                <h2>
-                    04. Routing
-                </h2>
-
-                <p class="category-description">
-                    Gateways, routing tables and static routes
-                </p>
 
             </div>
 
         </div>
 
-        <div class="category-count">
-            4 Articles
+
+        <div class="articles-grid">
+
+
+            <article class="article-card">
+
+                <div class="article-content">
+
+                    <div class="category">
+                        NETWORKING
+                    </div>
+
+                    <h3>
+                        <a href="network-private-public-ip.html">
+                            Public vs Private IP
+                        </a>
+                    </h3>
+
+                    <p>
+                        تفاوت IPهای Public و Private و
+                        کاربرد هرکدام در شبکه.
+                    </p>
+
+                    <div class="article-date">
+                        September 2026
+                    </div>
+
+                </div>
+
+            </article>
+
+
+            <article class="article-card">
+
+                <div class="article-content">
+
+                    <div class="category">
+                        NETWORKING
+                    </div>
+
+                    <h3>
+                        <a href="subnet-mask.html">
+                            Subnet Mask
+                        </a>
+                    </h3>
+
+                    <p>
+                        Subnet Mask و نحوه تشخیص بخش
+                        Network و Host در IPv4.
+                    </p>
+
+                    <div class="article-date">
+                        September 2026
+                    </div>
+
+                </div>
+
+            </article>
+
+
+            <article class="article-card">
+
+                <div class="article-content">
+
+                    <div class="category">
+                        NETWORKING
+                    </div>
+
+                    <h3>
+                        <a href="network-cidr.html">
+                            CIDR
+                        </a>
+                    </h3>
+
+                    <p>
+                        آشنایی با CIDR و Prefix Length
+                        و نحوه نمایش Networkها.
+                    </p>
+
+                    <div class="article-date">
+                        September 2026
+                    </div>
+
+                </div>
+
+            </article>
+
+
+            <article class="article-card">
+
+                <div class="article-content">
+
+                    <div class="category">
+                        NETWORKING
+                    </div>
+
+                    <h3>
+                        <a href="network-broadcast-host.html">
+                            Network / Broadcast / Host
+                        </a>
+                    </h3>
+
+                    <p>
+                        نحوه محاسبه Network Address،
+                        Broadcast Address و Hostها.
+                    </p>
+
+                    <div class="article-date">
+                        September 2026
+                    </div>
+
+                </div>
+
+            </article>
+
+
+            <article class="article-card">
+
+                <div class="article-content">
+
+                    <div class="category">
+                        NETWORKING
+                    </div>
+
+                    <h3>
+                        <a href="subnetting-practice.html">
+                            Subnetting Practice
+                        </a>
+                    </h3>
+
+                    <p>
+                        تمرین عملی Subnetting و محاسبه
+                        Network، Broadcast و Hostها.
+                    </p>
+
+                    <div class="article-date">
+                        September 2026
+                    </div>
+
+                </div>
+
+            </article>
+
+
         </div>
 
     </div>
 
 
-    <div class="articles-grid">
+    <!-- =====================================
+         03. TCP / UDP & PORTS
+    ====================================== -->
 
-        <article class="article-card">
+    <div class="network-subcategory">
 
-            <div class="article-content">
+        <div class="network-subcategory-header">
 
-                <div class="category">
-                    NETWORKING
+            <div class="network-subcategory-title">
+
+                <div class="network-number">
+                    03
                 </div>
 
-                <h3>
-                    <a href="default-gateway.html">
-                        Default Gateway
-                    </a>
-                </h3>
+                <div>
 
-                <p>
-                    Default Gateway چیست و چگونه برای
-                    دسترسی به شبکه‌های خارج از Subnet استفاده می‌شود؟
-                </p>
+                    <h3>
+                        TCP / UDP & Ports
+                    </h3>
 
-                <div class="article-date">
-                    September 2026
+                    <p>
+                        Transport protocols, ports and sockets
+                    </p>
+
                 </div>
-
-            </div>
-
-        </article>
-
-
-        <article class="article-card">
-
-            <div class="article-content">
-
-                <div class="category">
-                    NETWORKING
-                </div>
-
-                <h3>
-                    <a href="routing-table.html">
-                        Routing Table
-                    </a>
-                </h3>
-
-                <p>
-                    آشنایی با Routing Table و نحوه تصمیم‌گیری
-                    Linux برای ارسال Packetها.
-                </p>
-
-                <div class="article-date">
-                    September 2026
-                </div>
-
-            </div>
-
-        </article>
-
-
-        <article class="article-card">
-
-            <div class="article-content">
-
-                <div class="category">
-                    NETWORKING
-                </div>
-
-                <h3>
-                    <a href="static-route.html">
-                        Static Route
-                    </a>
-                </h3>
-
-                <p>
-                    ایجاد و مدیریت Static Route در Linux
-                    برای ارتباط بین شبکه‌های مختلف.
-                </p>
-
-                <div class="article-date">
-                    September 2026
-                </div>
-
-            </div>
-
-        </article>
-
-
-        <article class="article-card">
-
-            <div class="article-content">
-
-                <div class="category">
-                    NETWORKING
-                </div>
-
-                <h3>
-                    <a href="ip-route.html">
-                        ip route
-                    </a>
-                </h3>
-
-                <p>
-                    کار با دستور ip route برای مشاهده،
-                    اضافه کردن و حذف Routeها در Linux.
-                </p>
-
-                <div class="article-date">
-                    September 2026
-                </div>
-
-            </div>
-
-        </article>
-
-    </div>
-
-</section>
-
-
-
-<!-- =========================================
-     05. DNS
-========================================= -->
-
-<section class="article-category">
-
-    <div class="category-header">
-
-        <div class="category-title">
-
-            <div class="category-icon">
-                🌐
-            </div>
-
-            <div>
-
-                <h2>
-                    05. DNS
-                </h2>
-
-                <p class="category-description">
-                    DNS, records, resolution and troubleshooting
-                </p>
 
             </div>
 
         </div>
 
-        <div class="category-count">
-            5 Articles
+
+        <div class="articles-grid">
+
+            <article class="article-card">
+                <div class="article-content">
+                    <div class="category">NETWORKING</div>
+                    <h3>
+                        <a href="tcp-vs-udp.html">
+                            TCP vs UDP
+                        </a>
+                    </h3>
+                    <p>
+                        تفاوت TCP و UDP و بررسی ویژگی‌ها
+                        و کاربردهای هر پروتکل.
+                    </p>
+                    <div class="article-date">
+                        September 2026
+                    </div>
+                </div>
+            </article>
+
+
+            <article class="article-card">
+                <div class="article-content">
+                    <div class="category">NETWORKING</div>
+                    <h3>
+                        <a href="linux-ports.html">
+                            Linux Ports
+                        </a>
+                    </h3>
+                    <p>
+                        آشنایی با Portها و Portهای رایج
+                        سرویس‌ها در Linux.
+                    </p>
+                    <div class="article-date">
+                        September 2026
+                    </div>
+                </div>
+            </article>
+
+
+            <article class="article-card">
+                <div class="article-content">
+                    <div class="category">NETWORKING</div>
+                    <h3>
+                        <a href="listening-ports.html">
+                            Listening Ports
+                        </a>
+                    </h3>
+                    <p>
+                        پیدا کردن سرویس‌هایی که روی
+                        Portهای مختلف Listen می‌کنند.
+                    </p>
+                    <div class="article-date">
+                        September 2026
+                    </div>
+                </div>
+            </article>
+
+
+            <article class="article-card">
+                <div class="article-content">
+                    <div class="category">NETWORKING</div>
+                    <h3>
+                        <a href="ss-netstat-lsof-nc.html">
+                            ss / netstat / lsof / nc
+                        </a>
+                    </h3>
+                    <p>
+                        ابزارهای مهم Linux برای بررسی
+                        Connection، Socket و Port.
+                    </p>
+                    <div class="article-date">
+                        September 2026
+                    </div>
+                </div>
+            </article>
+
         </div>
 
     </div>
 
 
-    <div class="articles-grid">
+    <!-- =====================================
+         04. ROUTING
+    ====================================== -->
 
-        <article class="article-card">
+    <div class="network-subcategory">
 
-            <div class="article-content">
+        <div class="network-subcategory-header">
 
-                <div class="category">
-                    NETWORKING
+            <div class="network-subcategory-title">
+
+                <div class="network-number">
+                    04
                 </div>
 
-                <h3>
-                    <a href="dns-overview.html">
-                        DNS چیست؟
-                    </a>
-                </h3>
+                <div>
 
-                <p>
-                    DNS چیست، چه کاری انجام می‌دهد و چگونه
-                    نام Domain را به IP Address تبدیل می‌کند؟
-                </p>
+                    <h3>
+                        Routing
+                    </h3>
 
-                <div class="article-date">
-                    September 2026
+                    <p>
+                        Gateways, routing tables and static routes
+                    </p>
+
                 </div>
-
-            </div>
-
-        </article>
-
-
-        <article class="article-card">
-
-            <div class="article-content">
-
-                <div class="category">
-                    NETWORKING
-                </div>
-
-                <h3>
-                    <a href="dns-records.html">
-                        A / AAAA / CNAME / MX
-                    </a>
-                </h3>
-
-                <p>
-                    آشنایی با مهم‌ترین DNS Recordها و کاربرد
-                    هرکدام در زیرساخت و سرویس‌های مختلف.
-                </p>
-
-                <div class="article-date">
-                    September 2026
-                </div>
-
-            </div>
-
-        </article>
-
-
-        <article class="article-card">
-
-            <div class="article-content">
-
-                <div class="category">
-                    NETWORKING
-                </div>
-
-                <h3>
-                    <a href="dns-resolution.html">
-                        DNS Resolution
-                    </a>
-                </h3>
-
-                <p>
-                    بررسی مراحل DNS Resolution از Client
-                    تا DNS Resolver و Authoritative Server.
-                </p>
-
-                <div class="article-date">
-                    September 2026
-                </div>
-
-            </div>
-
-        </article>
-
-
-        <article class="article-card">
-
-            <div class="article-content">
-
-                <div class="category">
-                    NETWORKING
-                </div>
-
-                <h3>
-                    <a href="resolvectl.html">
-                        resolvectl
-                    </a>
-                </h3>
-
-                <p>
-                    مدیریت و بررسی DNS configuration در Linux
-                    با ابزار resolvectl.
-                </p>
-
-                <div class="article-date">
-                    September 2026
-                </div>
-
-            </div>
-
-        </article>
-
-
-        <article class="article-card">
-
-            <div class="article-content">
-
-                <div class="category">
-                    NETWORKING
-                </div>
-
-                <h3>
-                    <a href="dig-nslookup.html">
-                        dig / nslookup
-                    </a>
-                </h3>
-
-                <p>
-                    استفاده از dig و nslookup برای بررسی
-                    DNS Recordها و عیب‌یابی DNS.
-                </p>
-
-                <div class="article-date">
-                    September 2026
-                </div>
-
-            </div>
-
-        </article>
-
-    </div>
-
-</section>
-
-
-
-<!-- =========================================
-     06. HTTP / HTTPS
-========================================= -->
-
-<section class="article-category">
-
-    <div class="category-header">
-
-        <div class="category-title">
-
-            <div class="category-icon">
-                🌐
-            </div>
-
-            <div>
-
-                <h2>
-                    06. HTTP / HTTPS
-                </h2>
-
-                <p class="category-description">
-                    Web protocols, requests, responses and TLS
-                </p>
 
             </div>
 
         </div>
 
-        <div class="category-count">
-            6 Articles
+
+        <div class="articles-grid">
+
+            <article class="article-card">
+                <div class="article-content">
+                    <div class="category">NETWORKING</div>
+                    <h3>
+                        <a href="default-gateway.html">
+                            Default Gateway
+                        </a>
+                    </h3>
+                    <p>
+                        Default Gateway و نقش آن در
+                        ارتباط با شبکه‌های دیگر.
+                    </p>
+                    <div class="article-date">
+                        September 2026
+                    </div>
+                </div>
+            </article>
+
+
+            <article class="article-card">
+                <div class="article-content">
+                    <div class="category">NETWORKING</div>
+                    <h3>
+                        <a href="routing-table.html">
+                            Routing Table
+                        </a>
+                    </h3>
+                    <p>
+                        بررسی Routing Table و نحوه انتخاب
+                        مسیر مناسب برای Packetها.
+                    </p>
+                    <div class="article-date">
+                        September 2026
+                    </div>
+                </div>
+            </article>
+
+
+            <article class="article-card">
+                <div class="article-content">
+                    <div class="category">NETWORKING</div>
+                    <h3>
+                        <a href="static-route.html">
+                            Static Route
+                        </a>
+                    </h3>
+                    <p>
+                        ایجاد و مدیریت Static Route
+                        در Linux.
+                    </p>
+                    <div class="article-date">
+                        September 2026
+                    </div>
+                </div>
+            </article>
+
+
+            <article class="article-card">
+                <div class="article-content">
+                    <div class="category">NETWORKING</div>
+                    <h3>
+                        <a href="ip-route.html">
+                            ip route
+                        </a>
+                    </h3>
+                    <p>
+                        مدیریت Routeها با دستور
+                        ip route در Linux.
+                    </p>
+                    <div class="article-date">
+                        September 2026
+                    </div>
+                </div>
+            </article>
+
         </div>
 
     </div>
 
 
-    <div class="articles-grid">
+    <!-- =====================================
+         05. DNS
+    ====================================== -->
 
-        <article class="article-card">
+    <div class="network-subcategory">
 
-            <div class="article-content">
+        <div class="network-subcategory-header">
 
-                <div class="category">
-                    NETWORKING
+            <div class="network-subcategory-title">
+
+                <div class="network-number">
+                    05
                 </div>
 
-                <h3>
-                    <a href="http-overview.html">
-                        HTTP چیست؟
-                    </a>
-                </h3>
+                <div>
 
-                <p>
-                    آشنایی با HTTP و نقش آن در ارتباط
-                    بین Client و Server.
-                </p>
+                    <h3>
+                        DNS
+                    </h3>
 
-                <div class="article-date">
-                    September 2026
+                    <p>
+                        DNS records, resolution and troubleshooting
+                    </p>
+
                 </div>
-
-            </div>
-
-        </article>
-
-
-        <article class="article-card">
-
-            <div class="article-content">
-
-                <div class="category">
-                    NETWORKING
-                </div>
-
-                <h3>
-                    <a href="http-request-response.html">
-                        Request / Response
-                    </a>
-                </h3>
-
-                <p>
-                    بررسی ساختار HTTP Request و Response
-                    و اجزای مهم آن‌ها.
-                </p>
-
-                <div class="article-date">
-                    September 2026
-                </div>
-
-            </div>
-
-        </article>
-
-
-        <article class="article-card">
-
-            <div class="article-content">
-
-                <div class="category">
-                    NETWORKING
-                </div>
-
-                <h3>
-                    <a href="http-methods.html">
-                        HTTP Methods
-                    </a>
-                </h3>
-
-                <p>
-                    آشنایی با GET، POST، PUT، PATCH،
-                    DELETE و سایر HTTP Methods.
-                </p>
-
-                <div class="article-date">
-                    September 2026
-                </div>
-
-            </div>
-
-        </article>
-
-
-        <article class="article-card">
-
-            <div class="article-content">
-
-                <div class="category">
-                    NETWORKING
-                </div>
-
-                <h3>
-                    <a href="http-status-codes.html">
-                        Status Codes
-                    </a>
-                </h3>
-
-                <p>
-                    بررسی HTTP Status Codeها مانند 200،
-                    301، 400، 401، 403، 404 و 500.
-                </p>
-
-                <div class="article-date">
-                    September 2026
-                </div>
-
-            </div>
-
-        </article>
-
-
-        <article class="article-card">
-
-            <div class="article-content">
-
-                <div class="category">
-                    NETWORKING
-                </div>
-
-                <h3>
-                    <a href="tls-ssl.html">
-                        TLS / SSL
-                    </a>
-                </h3>
-
-                <p>
-                    آشنایی با TLS، HTTPS، Encryption و
-                    نحوه امن شدن ارتباطات Web.
-                </p>
-
-                <div class="article-date">
-                    September 2026
-                </div>
-
-            </div>
-
-        </article>
-
-
-        <article class="article-card">
-
-            <div class="article-content">
-
-                <div class="category">
-                    NETWORKING
-                </div>
-
-                <h3>
-                    <a href="curl.html">
-                        curl
-                    </a>
-                </h3>
-
-                <p>
-                    استفاده از curl برای ارسال HTTP Request،
-                    تست سرویس‌ها و Troubleshooting.
-                </p>
-
-                <div class="article-date">
-                    September 2026
-                </div>
-
-            </div>
-
-        </article>
-
-    </div>
-
-</section>
-
-
-
-<!-- =========================================
-     07. NETWORK TROUBLESHOOTING
-========================================= -->
-
-<section class="article-category">
-
-    <div class="category-header">
-
-        <div class="category-title">
-
-            <div class="category-icon">
-                🌐
-            </div>
-
-            <div>
-
-                <h2>
-                    07. Network Troubleshooting
-                </h2>
-
-                <p class="category-description">
-                    Diagnosing connectivity and network problems
-                </p>
 
             </div>
 
         </div>
 
-        <div class="category-count">
-            7 Articles
+
+        <div class="articles-grid">
+
+            <article class="article-card">
+                <div class="article-content">
+                    <div class="category">NETWORKING</div>
+                    <h3>
+                        <a href="dns-overview.html">
+                            DNS چیست؟
+                        </a>
+                    </h3>
+                    <p>
+                        DNS چیست و چگونه Domain Name را
+                        به IP Address تبدیل می‌کند؟
+                    </p>
+                    <div class="article-date">
+                        September 2026
+                    </div>
+                </div>
+            </article>
+
+
+            <article class="article-card">
+                <div class="article-content">
+                    <div class="category">NETWORKING</div>
+                    <h3>
+                        <a href="dns-records.html">
+                            A / AAAA / CNAME / MX
+                        </a>
+                    </h3>
+                    <p>
+                        بررسی مهم‌ترین DNS Recordها
+                        و کاربرد هرکدام.
+                    </p>
+                    <div class="article-date">
+                        September 2026
+                    </div>
+                </div>
+            </article>
+
+
+            <article class="article-card">
+                <div class="article-content">
+                    <div class="category">NETWORKING</div>
+                    <h3>
+                        <a href="dns-resolution.html">
+                            DNS Resolution
+                        </a>
+                    </h3>
+                    <p>
+                        بررسی مراحل DNS Resolution
+                        از Client تا Authoritative Server.
+                    </p>
+                    <div class="article-date">
+                        September 2026
+                    </div>
+                </div>
+            </article>
+
+
+            <article class="article-card">
+                <div class="article-content">
+                    <div class="category">NETWORKING</div>
+                    <h3>
+                        <a href="resolvectl.html">
+                            resolvectl
+                        </a>
+                    </h3>
+                    <p>
+                        بررسی DNS Configuration در Linux
+                        با resolvectl.
+                    </p>
+                    <div class="article-date">
+                        September 2026
+                    </div>
+                </div>
+            </article>
+
+
+            <article class="article-card">
+                <div class="article-content">
+                    <div class="category">NETWORKING</div>
+                    <h3>
+                        <a href="dig-nslookup.html">
+                            dig / nslookup
+                        </a>
+                    </h3>
+                    <p>
+                        استفاده از dig و nslookup برای
+                        بررسی و Troubleshooting DNS.
+                    </p>
+                    <div class="article-date">
+                        September 2026
+                    </div>
+                </div>
+            </article>
+
         </div>
 
     </div>
 
 
-    <div class="articles-grid">
+    <!-- =====================================
+         06. HTTP / HTTPS
+    ====================================== -->
 
-        <article class="article-card">
+    <div class="network-subcategory">
 
-            <div class="article-content">
+        <div class="network-subcategory-header">
 
-                <div class="category">
-                    NETWORKING
+            <div class="network-subcategory-title">
+
+                <div class="network-number">
+                    06
                 </div>
 
-                <h3>
-                    <a href="ping.html">
-                        ping
-                    </a>
-                </h3>
+                <div>
 
-                <p>
-                    استفاده از ping برای بررسی Reachability
-                    و تأخیر ارتباطی بین سیستم‌ها.
-                </p>
+                    <h3>
+                        HTTP / HTTPS
+                    </h3>
 
-                <div class="article-date">
-                    September 2026
+                    <p>
+                        Web protocols, requests, responses and TLS
+                    </p>
+
                 </div>
-
-            </div>
-
-        </article>
-
-
-        <article class="article-card">
-
-            <div class="article-content">
-
-                <div class="category">
-                    NETWORKING
-                </div>
-
-                <h3>
-                    <a href="traceroute.html">
-                        traceroute
-                    </a>
-                </h3>
-
-                <p>
-                    بررسی مسیر عبور Packetها و پیدا کردن
-                    مشکلات احتمالی در مسیر شبکه.
-                </p>
-
-                <div class="article-date">
-                    September 2026
-                </div>
-
-            </div>
-
-        </article>
-
-
-        <article class="article-card">
-
-            <div class="article-content">
-
-                <div class="category">
-                    NETWORKING
-                </div>
-
-                <h3>
-                    <a href="ss.html">
-                        ss
-                    </a>
-                </h3>
-
-                <p>
-                    مشاهده Socketها، Connectionها و
-                    Listening Portها با ابزار ss.
-                </p>
-
-                <div class="article-date">
-                    September 2026
-                </div>
-
-            </div>
-
-        </article>
-
-
-        <article class="article-card">
-
-            <div class="article-content">
-
-                <div class="category">
-                    NETWORKING
-                </div>
-
-                <h3>
-                    <a href="tcpdump.html">
-                        tcpdump
-                    </a>
-                </h3>
-
-                <p>
-                    Capture و بررسی Packetهای شبکه
-                    برای Troubleshooting حرفه‌ای.
-                </p>
-
-                <div class="article-date">
-                    September 2026
-                </div>
-
-            </div>
-
-        </article>
-
-
-        <article class="article-card">
-
-            <div class="article-content">
-
-                <div class="category">
-                    NETWORKING
-                </div>
-
-                <h3>
-                    <a href="curl-troubleshooting.html">
-                        curl
-                    </a>
-                </h3>
-
-                <p>
-                    استفاده از curl برای بررسی HTTP،
-                    Connection و مشکلات سرویس‌های Web.
-                </p>
-
-                <div class="article-date">
-                    September 2026
-                </div>
-
-            </div>
-
-        </article>
-
-
-        <article class="article-card">
-
-            <div class="article-content">
-
-                <div class="category">
-                    NETWORKING
-                </div>
-
-                <h3>
-                    <a href="dns-troubleshooting.html">
-                        DNS Troubleshooting
-                    </a>
-                </h3>
-
-                <p>
-                    روش مرحله‌به‌مرحله برای پیدا کردن
-                    مشکلات DNS در Linux و شبکه.
-                </p>
-
-                <div class="article-date">
-                    September 2026
-                </div>
-
-            </div>
-
-        </article>
-
-
-        <article class="article-card">
-
-            <div class="article-content">
-
-                <div class="category">
-                    NETWORKING
-                </div>
-
-                <h3>
-                    <a href="connection-troubleshooting.html">
-                        Connection Troubleshooting
-                    </a>
-                </h3>
-
-                <p>
-                    یک روش عملی برای پیدا کردن علت
-                    Connection Failure در شبکه.
-                </p>
-
-                <div class="article-date">
-                    September 2026
-                </div>
-
-            </div>
-
-        </article>
-
-    </div>
-
-</section>
-
-
-
-<!-- =========================================
-     08. NETWORK SECURITY
-========================================= -->
-
-<section class="article-category">
-
-    <div class="category-header">
-
-        <div class="category-title">
-
-            <div class="category-icon">
-                🌐
-            </div>
-
-            <div>
-
-                <h2>
-                    08. Network Security
-                </h2>
-
-                <p class="category-description">
-                    Firewalls, security groups and network hardening
-                </p>
 
             </div>
 
         </div>
 
-        <div class="category-count">
-            5 Articles
+
+        <div class="articles-grid">
+
+            <article class="article-card">
+                <div class="article-content">
+                    <div class="category">NETWORKING</div>
+                    <h3>
+                        <a href="http-overview.html">
+                            HTTP چیست؟
+                        </a>
+                    </h3>
+                    <p>
+                        آشنایی با HTTP و ارتباط
+                        Client و Server.
+                    </p>
+                    <div class="article-date">
+                        September 2026
+                    </div>
+                </div>
+            </article>
+
+
+            <article class="article-card">
+                <div class="article-content">
+                    <div class="category">NETWORKING</div>
+                    <h3>
+                        <a href="http-request-response.html">
+                            Request / Response
+                        </a>
+                    </h3>
+                    <p>
+                        بررسی ساختار HTTP Request
+                        و HTTP Response.
+                    </p>
+                    <div class="article-date">
+                        September 2026
+                    </div>
+                </div>
+            </article>
+
+
+            <article class="article-card">
+                <div class="article-content">
+                    <div class="category">NETWORKING</div>
+                    <h3>
+                        <a href="http-methods.html">
+                            HTTP Methods
+                        </a>
+                    </h3>
+                    <p>
+                        بررسی GET، POST، PUT، PATCH
+                        و DELETE.
+                    </p>
+                    <div class="article-date">
+                        September 2026
+                    </div>
+                </div>
+            </article>
+
+
+            <article class="article-card">
+                <div class="article-content">
+                    <div class="category">NETWORKING</div>
+                    <h3>
+                        <a href="http-status-codes.html">
+                            Status Codes
+                        </a>
+                    </h3>
+                    <p>
+                        بررسی Status Codeهای مهم
+                        HTTP مانند 200، 404 و 500.
+                    </p>
+                    <div class="article-date">
+                        September 2026
+                    </div>
+                </div>
+            </article>
+
+
+            <article class="article-card">
+                <div class="article-content">
+                    <div class="category">NETWORKING</div>
+                    <h3>
+                        <a href="tls-ssl.html">
+                            TLS / SSL
+                        </a>
+                    </h3>
+                    <p>
+                        آشنایی با TLS و نحوه امن شدن
+                        ارتباطات HTTPS.
+                    </p>
+                    <div class="article-date">
+                        September 2026
+                    </div>
+                </div>
+            </article>
+
+
+            <article class="article-card">
+                <div class="article-content">
+                    <div class="category">NETWORKING</div>
+                    <h3>
+                        <a href="curl.html">
+                            curl
+                        </a>
+                    </h3>
+                    <p>
+                        استفاده از curl برای تست HTTP
+                        و سرویس‌های Web.
+                    </p>
+                    <div class="article-date">
+                        September 2026
+                    </div>
+                </div>
+            </article>
+
         </div>
 
     </div>
 
 
-    <div class="articles-grid">
+    <!-- =====================================
+         07. NETWORK TROUBLESHOOTING
+    ====================================== -->
 
-        <article class="article-card">
+    <div class="network-subcategory">
 
-            <div class="article-content">
+        <div class="network-subcategory-header">
 
-                <div class="category">
-                    NETWORKING
+            <div class="network-subcategory-title">
+
+                <div class="network-number">
+                    07
                 </div>
 
-                <h3>
-                    <a href="firewall.html">
-                        Firewall
-                    </a>
-                </h3>
+                <div>
 
-                <p>
-                    Firewall چیست و چگونه دسترسی‌های
-                    ورودی و خروجی شبکه را کنترل می‌کند؟
-                </p>
+                    <h3>
+                        Network Troubleshooting
+                    </h3>
 
-                <div class="article-date">
-                    September 2026
-                </div>
+                    <p>
+                        Diagnosing connectivity and network problems
+                    </p>
 
-            </div>
-
-        </article>
-
-
-        <article class="article-card">
-
-            <div class="article-content">
-
-                <div class="category">
-                    NETWORKING
-                </div>
-
-                <h3>
-                    <a href="ufw.html">
-                        UFW
-                    </a>
-                </h3>
-
-                <p>
-                    مدیریت Firewall در Ubuntu با استفاده
-                    از UFW و قوانین Allow و Deny.
-                </p>
-
-                <div class="article-date">
-                    September 2026
                 </div>
 
             </div>
 
-        </article>
+        </div>
 
 
-        <article class="article-card">
+        <div class="articles-grid">
 
-            <div class="article-content">
+            <article class="article-card">
+                <div class="article-content">
+                    <div class="category">NETWORKING</div>
+                    <h3><a href="ping.html">ping</a></h3>
+                    <p>
+                        بررسی Reachability و Latency
+                        با ابزار ping.
+                    </p>
+                    <div class="article-date">
+                        September 2026
+                    </div>
+                </div>
+            </article>
 
-                <div class="category">
-                    NETWORKING
+
+            <article class="article-card">
+                <div class="article-content">
+                    <div class="category">NETWORKING</div>
+                    <h3><a href="traceroute.html">traceroute</a></h3>
+                    <p>
+                        بررسی مسیر عبور Packetها
+                        با traceroute.
+                    </p>
+                    <div class="article-date">
+                        September 2026
+                    </div>
+                </div>
+            </article>
+
+
+            <article class="article-card">
+                <div class="article-content">
+                    <div class="category">NETWORKING</div>
+                    <h3><a href="ss.html">ss</a></h3>
+                    <p>
+                        مشاهده Socketها و Connectionها
+                        با ابزار ss.
+                    </p>
+                    <div class="article-date">
+                        September 2026
+                    </div>
+                </div>
+            </article>
+
+
+            <article class="article-card">
+                <div class="article-content">
+                    <div class="category">NETWORKING</div>
+                    <h3><a href="tcpdump.html">tcpdump</a></h3>
+                    <p>
+                        Capture و تحلیل Packetهای
+                        شبکه با tcpdump.
+                    </p>
+                    <div class="article-date">
+                        September 2026
+                    </div>
+                </div>
+            </article>
+
+
+            <article class="article-card">
+                <div class="article-content">
+                    <div class="category">NETWORKING</div>
+                    <h3>
+                        <a href="curl-troubleshooting.html">
+                            curl
+                        </a>
+                    </h3>
+                    <p>
+                        استفاده از curl برای بررسی
+                        مشکلات HTTP و Connection.
+                    </p>
+                    <div class="article-date">
+                        September 2026
+                    </div>
+                </div>
+            </article>
+
+
+            <article class="article-card">
+                <div class="article-content">
+                    <div class="category">NETWORKING</div>
+                    <h3>
+                        <a href="dns-troubleshooting.html">
+                            DNS Troubleshooting
+                        </a>
+                    </h3>
+                    <p>
+                        روش مرحله‌به‌مرحله برای
+                        Troubleshooting مشکلات DNS.
+                    </p>
+                    <div class="article-date">
+                        September 2026
+                    </div>
+                </div>
+            </article>
+
+
+            <article class="article-card">
+                <div class="article-content">
+                    <div class="category">NETWORKING</div>
+                    <h3>
+                        <a href="connection-troubleshooting.html">
+                            Connection Troubleshooting
+                        </a>
+                    </h3>
+                    <p>
+                        روش پیدا کردن علت Connection
+                        Failure در شبکه.
+                    </p>
+                    <div class="article-date">
+                        September 2026
+                    </div>
+                </div>
+            </article>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================
+         08. NETWORK SECURITY
+    ====================================== -->
+
+    <div class="network-subcategory">
+
+        <div class="network-subcategory-header">
+
+            <div class="network-subcategory-title">
+
+                <div class="network-number">
+                    08
                 </div>
 
-                <h3>
-                    <a href="iptables-nftables.html">
-                        iptables / nftables
-                    </a>
-                </h3>
+                <div>
 
-                <p>
-                    آشنایی با iptables و nftables و نقش
-                    آن‌ها در Packet Filtering در Linux.
-                </p>
+                    <h3>
+                        Network Security
+                    </h3>
 
-                <div class="article-date">
-                    September 2026
+                    <p>
+                        Firewalls, security groups and hardening
+                    </p>
+
                 </div>
 
             </div>
 
-        </article>
+        </div>
 
 
-        <article class="article-card">
+        <div class="articles-grid">
 
-            <div class="article-content">
-
-                <div class="category">
-                    NETWORKING
+            <article class="article-card">
+                <div class="article-content">
+                    <div class="category">NETWORKING</div>
+                    <h3>
+                        <a href="firewall.html">
+                            Firewall
+                        </a>
+                    </h3>
+                    <p>
+                        آشنایی با Firewall و کنترل
+                        ترافیک ورودی و خروجی.
+                    </p>
+                    <div class="article-date">
+                        September 2026
+                    </div>
                 </div>
+            </article>
 
-                <h3>
-                    <a href="security-groups.html">
-                        Security Groups
-                    </a>
-                </h3>
 
-                <p>
-                    آشنایی با Security Groupها در Cloud
-                    و کنترل دسترسی شبکه‌ای به منابع.
-                </p>
-
-                <div class="article-date">
-                    September 2026
+            <article class="article-card">
+                <div class="article-content">
+                    <div class="category">NETWORKING</div>
+                    <h3>
+                        <a href="ufw.html">
+                            UFW
+                        </a>
+                    </h3>
+                    <p>
+                        مدیریت Firewall در Ubuntu
+                        با استفاده از UFW.
+                    </p>
+                    <div class="article-date">
+                        September 2026
+                    </div>
                 </div>
-
-            </div>
-
-        </article>
+            </article>
 
 
-        <article class="article-card">
-
-            <div class="article-content">
-
-                <div class="category">
-                    NETWORKING
+            <article class="article-card">
+                <div class="article-content">
+                    <div class="category">NETWORKING</div>
+                    <h3>
+                        <a href="iptables-nftables.html">
+                            iptables / nftables
+                        </a>
+                    </h3>
+                    <p>
+                        آشنایی با Packet Filtering
+                        در Linux.
+                    </p>
+                    <div class="article-date">
+                        September 2026
+                    </div>
                 </div>
+            </article>
 
-                <h3>
-                    <a href="network-hardening.html">
-                        Network Hardening
-                    </a>
-                </h3>
 
-                <p>
-                    اصول Hardening شبکه و کاهش سطح حمله
-                    در سرورها و زیرساخت.
-                </p>
-
-                <div class="article-date">
-                    September 2026
+            <article class="article-card">
+                <div class="article-content">
+                    <div class="category">NETWORKING</div>
+                    <h3>
+                        <a href="security-groups.html">
+                            Security Groups
+                        </a>
+                    </h3>
+                    <p>
+                        آشنایی با Security Groupها
+                        در Cloud.
+                    </p>
+                    <div class="article-date">
+                        September 2026
+                    </div>
                 </div>
+            </article>
 
-            </div>
 
-        </article>
+            <article class="article-card">
+                <div class="article-content">
+                    <div class="category">NETWORKING</div>
+                    <h3>
+                        <a href="network-hardening.html">
+                            Network Hardening
+                        </a>
+                    </h3>
+                    <p>
+                        اصول Hardening شبکه و کاهش
+                        Attack Surface.
+                    </p>
+                    <div class="article-date">
+                        September 2026
+                    </div>
+                </div>
+            </article>
+
+        </div>
 
     </div>
 
