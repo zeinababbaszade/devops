@@ -3,71 +3,2742 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="آموزش کامل TCP/IP Model برای مسیر DevOps و Networking.">
-<meta name="keywords" content="TCP/IP Model, Networking, Linux, DevOps">
+
+<meta name="description" content="آموزش کامل و عمیق TCP/IP Model برای مسیر DevOps، Linux، Networking، Troubleshooting، Docker و Cloud.">
+
+<meta name="keywords" content="TCP/IP Model, TCP IP, Networking, Linux Networking, DevOps, Troubleshooting, TCP, UDP, IP, Ethernet, DNS, HTTP">
+
 <title>TCP/IP Model | Z.DevOps</title>
+
 <link rel="stylesheet" href="../../style.css">
-<style>.article-wrapper{max-width:900px;margin:auto}
-.article-header{text-align:center;margin-bottom:70px}
-.article-header .badge{margin-bottom:20px}
-.article-header h1{font-size:clamp(38px,6vw,60px);line-height:1.2;margin-bottom:20px}
-.article-header h1 span{color:var(--primary)}
-.article-subtitle{color:var(--text-secondary);font-size:18px;max-width:700px;margin:auto}
-.article-meta{margin-top:20px;color:#64748b;font-size:13px}
-.toc{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:25px 30px;margin-bottom:55px}
-.toc h3{margin-bottom:15px}.toc ol{margin:0;padding-right:22px}.toc li{margin-bottom:8px}
-.toc a{color:var(--text-secondary);transition:.2s}.toc a:hover{color:var(--primary)}
-.article-body{text-align:right;font-family:"Vazirmatn","Tahoma",sans-serif}
-.article-body h2{font-size:30px;margin-top:65px;margin-bottom:20px;padding-bottom:10px;border-bottom:1px solid var(--border)}
-.article-body h3{font-size:21px;margin-top:35px;margin-bottom:12px}
-.article-body p{color:#cbd5e1;font-size:16px;line-height:2;margin-bottom:20px}
-.article-body ul,.article-body ol{color:#cbd5e1;line-height:2;margin-bottom:25px;padding-right:25px}
-.article-body li{margin-bottom:7px}.article-body strong{color:#f8fafc}
-.code-wrapper{position:relative;margin:20px 0 28px}
-.code-label{direction:ltr;text-align:left;background:#111827;color:#64748b;padding:7px 15px;border-radius:8px 8px 0 0;font-family:Consolas,monospace;font-size:12px;border:1px solid rgba(148,163,184,.15);border-bottom:none}
-.code-block{direction:ltr;text-align:left;background:#020617;border:1px solid rgba(148,163,184,.15);border-radius:0 0 8px 8px;padding:20px;overflow-x:auto;margin:0}
-.code-block code{font-family:Consolas,"Courier New",monospace;font-size:14px;line-height:1.8;color:#e2e8f0}
-.note{background:rgba(56,189,248,.07);border-right:4px solid var(--primary);padding:20px 22px;border-radius:8px;margin:30px 0;color:#cbd5e1;line-height:1.9}
-.warning{background:rgba(251,191,36,.07);border-right:4px solid #fbbf24;padding:20px 22px;border-radius:8px;margin:30px 0;color:#cbd5e1;line-height:1.9}
-.command-table{width:100%;border-collapse:collapse;margin:25px 0 35px;border-radius:10px}
-.command-table th,.command-table td{padding:13px 15px;border-bottom:1px solid var(--border);text-align:right}
-.command-table th{background:var(--card);color:var(--primary);font-weight:600}
-.command-table td{color:#cbd5e1}.command-table code{direction:ltr;display:inline-block;background:rgba(148,163,184,.08);padding:3px 7px;border-radius:5px;color:#e2e8f0;font-family:Consolas,monospace}
-.exercise{background:linear-gradient(135deg,rgba(56,189,248,.08),rgba(14,165,233,.02));border:1px solid rgba(56,189,248,.18);border-radius:14px;padding:28px;margin:35px 0}
-.exercise h3{margin-top:0;color:var(--primary)}
-.article-footer{margin-top:80px;padding-top:30px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;gap:15px;flex-wrap:wrap}
-@media(max-width:650px){.article-header h1{font-size:38px}.article-body h2{font-size:25px}.article-body p{font-size:15px}.command-table{font-size:13px}}</style>
+
+<style>
+.article-wrapper{
+    max-width:900px;
+    margin:auto
+}
+
+.article-header{
+    text-align:center;
+    margin-bottom:70px
+}
+
+.article-header .badge{
+    margin-bottom:20px
+}
+
+.article-header h1{
+    font-size:clamp(38px,6vw,60px);
+    line-height:1.2;
+    margin-bottom:20px
+}
+
+.article-header h1 span{
+    color:var(--primary)
+}
+
+.article-subtitle{
+    color:var(--text-secondary);
+    font-size:18px;
+    max-width:750px;
+    margin:auto;
+    line-height:2
+}
+
+.article-meta{
+    margin-top:20px;
+    color:#64748b;
+    font-size:13px
+}
+
+.toc{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:14px;
+    padding:25px 30px;
+    margin-bottom:55px
+}
+
+.toc h3{
+    margin-bottom:15px
+}
+
+.toc ol{
+    margin:0;
+    padding-right:22px
+}
+
+.toc li{
+    margin-bottom:8px
+}
+
+.toc a{
+    color:var(--text-secondary);
+    transition:.2s
+}
+
+.toc a:hover{
+    color:var(--primary)
+}
+
+.article-body{
+    text-align:right;
+    font-family:"Vazirmatn","Tahoma",sans-serif
+}
+
+.article-body h2{
+    font-size:30px;
+    margin-top:65px;
+    margin-bottom:20px;
+    padding-bottom:10px;
+    border-bottom:1px solid var(--border)
+}
+
+.article-body h3{
+    font-size:21px;
+    margin-top:35px;
+    margin-bottom:12px
+}
+
+.article-body h4{
+    font-size:18px;
+    margin-top:28px;
+    margin-bottom:10px
+}
+
+.article-body p{
+    color:#cbd5e1;
+    font-size:16px;
+    line-height:2;
+    margin-bottom:20px
+}
+
+.article-body ul,
+.article-body ol{
+    color:#cbd5e1;
+    line-height:2;
+    margin-bottom:25px;
+    padding-right:25px
+}
+
+.article-body li{
+    margin-bottom:7px
+}
+
+.article-body strong{
+    color:#f8fafc
+}
+
+.article-body code{
+    direction:ltr;
+    display:inline-block;
+    background:rgba(148,163,184,.08);
+    padding:2px 7px;
+    border-radius:5px;
+    color:#e2e8f0;
+    font-family:Consolas,"Courier New",monospace
+}
+
+.code-wrapper{
+    position:relative;
+    margin:20px 0 28px
+}
+
+.code-label{
+    direction:ltr;
+    text-align:left;
+    background:#111827;
+    color:#64748b;
+    padding:7px 15px;
+    border-radius:8px 8px 0 0;
+    font-family:Consolas,monospace;
+    font-size:12px;
+    border:1px solid rgba(148,163,184,.15);
+    border-bottom:none
+}
+
+.code-block{
+    direction:ltr;
+    text-align:left;
+    background:#020617;
+    border:1px solid rgba(148,163,184,.15);
+    border-radius:0 0 8px 8px;
+    padding:20px;
+    overflow-x:auto;
+    margin:0
+}
+
+.code-block code{
+    font-family:Consolas,"Courier New",monospace;
+    font-size:14px;
+    line-height:1.8;
+    color:#e2e8f0;
+    background:none;
+    padding:0
+}
+
+.note{
+    background:rgba(56,189,248,.07);
+    border-right:4px solid var(--primary);
+    padding:20px 22px;
+    border-radius:8px;
+    margin:30px 0;
+    color:#cbd5e1;
+    line-height:1.9
+}
+
+.warning{
+    background:rgba(251,191,36,.07);
+    border-right:4px solid #fbbf24;
+    padding:20px 22px;
+    border-radius:8px;
+    margin:30px 0;
+    color:#cbd5e1;
+    line-height:1.9
+}
+
+.command-table{
+    width:100%;
+    border-collapse:collapse;
+    margin:25px 0 35px;
+    border-radius:10px
+}
+
+.command-table th,
+.command-table td{
+    padding:13px 15px;
+    border-bottom:1px solid var(--border);
+    text-align:right
+}
+
+.command-table th{
+    background:var(--card);
+    color:var(--primary);
+    font-weight:600
+}
+
+.command-table td{
+    color:#cbd5e1
+}
+
+.command-table code{
+    direction:ltr;
+    display:inline-block;
+    background:rgba(148,163,184,.08);
+    padding:3px 7px;
+    border-radius:5px;
+    color:#e2e8f0;
+    font-family:Consolas,monospace
+}
+
+.exercise{
+    background:linear-gradient(
+        135deg,
+        rgba(56,189,248,.08),
+        rgba(14,165,233,.02)
+    );
+    border:1px solid rgba(56,189,248,.18);
+    border-radius:14px;
+    padding:28px;
+    margin:35px 0
+}
+
+.exercise h3{
+    margin-top:0;
+    color:var(--primary)
+}
+
+.layer-card{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:12px;
+    padding:22px;
+    margin:20px 0
+}
+
+.layer-card h3{
+    margin-top:0;
+    color:var(--primary)
+}
+
+.article-footer{
+    margin-top:80px;
+    padding-top:30px;
+    border-top:1px solid var(--border);
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:15px;
+    flex-wrap:wrap
+}
+
+@media(max-width:650px){
+    .article-header h1{
+        font-size:38px
+    }
+
+    .article-body h2{
+        font-size:25px
+    }
+
+    .article-body p{
+        font-size:15px
+    }
+
+    .command-table{
+        font-size:13px
+    }
+}
+</style>
 </head>
+
 <body>
-<header class="navbar"><div class="container navbar-inner">
-<a href="../../index.html" class="logo">Z<span>.DevOps</span></a>
-<nav><ul class="nav-links">
-<li><a href="../../index.html">Home</a></li>
-<li><a href="../index.html">Articles</a></li>
-<li><a href="../../index.html#projects">Projects</a>
-</li><li><a href="../../index.html#roadmap">Roadmap</a></li>
-<li><a href="../../index.html#about">About</a></li>
-</ul></nav></div></header>
-<main><section><div class="container article-wrapper">
-<header class="article-header">
-<div class="badge">NETWORKING · DEVOPS</div>
-<h1>TCP/IP Model</h1>
-<p class="article-subtitle">آموزش عمیق و عملی TCP/IP Model با مثال‌های واقعی Linux، Troubleshooting و کاربردهای DevOps.</p>
-<div class="article-meta">📅 September 2026 &nbsp; · &nbsp; ⏱ Beginner → Intermediate &nbsp; · &nbsp; 🌐 Networking</div>
-</header>
-<div class="toc"><h3>📚 فهرست مطالب</h3><ol><li><a href="#s0">مدل TCP/IP چیست؟</a></li><li><a href="#s1">Link</a></li><li><a href="#s2">Internet</a></li><li><a href="#s3">Transport</a></li><li><a href="#s4">Application</a></li><li><a href="#s5">نگاشت با OSI</a></li><li><a href="#s6">مثال</a></li>
-<li><a href="#lab">Lab عملی</a></li><li><a href="#cheat">Cheat Sheet</a></li><li><a href="#learn">چه چیزی یاد گرفتیم؟</a></li></ol></div>
-<article class="article-body"><h2 id="s0">مدل TCP/IP چیست؟</h2><p>مدل TCP/IP به معماری واقعی Internet Protocol Suite نزدیک‌تر است. مدل رایج چهارلایه شامل Link، Internet، Transport و Application است.</p><h2 id="s1">Link</h2><p>Ethernet و Wi‑Fi و Addressing محلی در این بخش قرار می‌گیرند.</p><h2 id="s2">Internet</h2><p>IP و Routing وظیفه رساندن Packet بین شبکه‌ها را دارند.</p><h2 id="s3">Transport</h2><p>TCP/UDP ارتباط Process-to-Process را با Portها فراهم می‌کنند.</p><h2 id="s4">Application</h2><p>HTTP، DNS، SSH و دیگر پروتکل‌های Application در این لایه قرار می‌گیرند.</p><h2 id="s5">نگاشت با OSI</h2><p>OSI لایه‌های 1/2 را عمدتاً در Link، لایه 3 را در Internet، لایه 4 را در Transport و 5 تا 7 را در Application جمع می‌کند.</p><h2 id="s6">مثال</h2><p>در HTTPS، Application داده می‌سازد؛ TCP آن را حمل می‌کند؛ IP مقصد را مشخص می‌کند و Ethernet آن را روی Link منتقل می‌کند.</p><h2 id="lab">🧪 Lab عملی</h2><div class="exercise"><h3>تمرین مرحله‌ای</h3><p>در Ubuntu این دستورات را اجرا کنید و برای هر خروجی یک جمله توضیح بنویسید. هدف، فهمیدن رابطه بین تئوری و وضعیت واقعی سیستم است.</p><div class="code-wrapper"><div class="code-label">Ubuntu</div><pre class="code-block"><code>ip addr
-ip route
-ss -lntup
-ping -c 4 1.1.1.1
-curl -I https://example.com</code></pre></div><p>اگر دستوری خطا داد، متن خطا را ثبت کنید و مشخص کنید مشکل احتمالاً در کدام بخش است: Interface/IP، Routing، DNS، Transport، TLS یا Application.</p></div><h2 id="cheat">📋 Cheat Sheet</h2><table class="command-table"><thead><tr><th>مفهوم</th><th>نکته</th></tr></thead><tbody><tr><td>ip addr</td><td>IP و Interface</td></tr><tr><td>ip route</td><td>Routing Table</td></tr><tr><td>ss -lntup</td><td>Listening Socketها</td></tr><tr><td>ping</td><td>ICMP Reachability</td></tr><tr><td>traceroute</td><td>مسیر تقریبی</td></tr><tr><td>dig</td><td>DNS Query</td></tr><tr><td>curl -v</td><td>HTTP/TLS Troubleshooting</td></tr><tr><td>tcpdump</td><td>Packet Capture</td></tr></tbody></table><h2 id="learn">🎯 چه چیزی یاد گرفتیم؟</h2><ul><li>مفهوم و اجزای اصلی این مبحث را شناختیم.</li><li>یک روش عملی برای مشاهده یا Troubleshooting آن در Linux یاد گرفتیم.</li><li>ارتباط آن با DevOps، Cloud، Server و Monitoring را درک کردیم.</li></ul><div class="note"><strong>نکته DevOps:</strong> این مبحث را فقط حفظ نکنید. در Lab خود خروجی واقعی Linux را با مدل ذهنی Networking مقایسه کنید؛ این کار بعدها در Docker، Kubernetes، Cloud و Incident Troubleshooting بسیار ارزشمند است.</div></article>
-<div class="article-footer">
-<a href="network-osi-model.html" class="btn btn-secondary">← مقاله قبلی</a>
-<a href="../index.html" class="btn btn-secondary">بازگشت به مقالات</a>
-<a href="../../index.html" class="btn btn-primary">صفحه اصلی →</a>
-<a href="mac-address.html" class="btn btn-primary">مقاله بعدی →</a>
+
+<header class="navbar">
+<div class="container navbar-inner">
+
+<a href="../../index.html" class="logo">
+Z<span>.DevOps</span>
+</a>
+
+<nav>
+<ul class="nav-links">
+
+<li>
+<a href="../../index.html">Home</a>
+</li>
+
+<li>
+<a href="../index.html">Articles</a>
+</li>
+
+<li>
+<a href="../../index.html#projects">Projects</a>
+</li>
+
+<li>
+<a href="../../index.html#roadmap">Roadmap</a>
+</li>
+
+<li>
+<a href="../../index.html#about">About</a>
+</li>
+
+</ul>
+</nav>
+
 </div>
-</div></section></main>
-<footer><div class="container"><p>© 2026 Z.DevOps — Built while learning DevOps.</p><div class="social-links"><a href="../../index.html">Home</a></div></div></footer>
-</body></html>
+</header>
+
+
+<main>
+
+<section>
+
+<div class="container article-wrapper">
+
+
+<header class="article-header">
+
+<div class="badge">
+NETWORKING · DEVOPS
+</div>
+
+<h1>
+TCP/IP Model
+</h1>
+
+<p class="article-subtitle">
+آموزش عمیق و عملی TCP/IP Model؛ از ساختار چهارلایه‌ای شبکه و Encapsulation تا TCP، UDP، IP، Ethernet، DNS، HTTP، Linux Networking و روش واقعی Troubleshooting در محیط‌های DevOps.
+</p>
+
+<div class="article-meta">
+📅 September 2026
+&nbsp; · &nbsp;
+⏱ Beginner → Intermediate
+&nbsp; · &nbsp;
+🌐 Networking
+</div>
+
+</header>
+
+
+<div class="toc">
+
+<h3>📚 فهرست مطالب</h3>
+
+<ol>
+
+<li>
+<a href="#s0">
+TCP/IP Model چیست؟
+</a>
+</li>
+
+<li>
+<a href="#s1">
+TCP/IP Model در دنیای واقعی
+</a>
+</li>
+
+<li>
+<a href="#s2">
+Layer 1 — Link
+</a>
+</li>
+
+<li>
+<a href="#s3">
+Layer 2 — Internet
+</a>
+</li>
+
+<li>
+<a href="#s4">
+Layer 3 — Transport
+</a>
+</li>
+
+<li>
+<a href="#s5">
+Layer 4 — Application
+</a>
+</li>
+
+<li>
+<a href="#s6">
+Encapsulation و Decapsulation
+</a>
+</li>
+
+<li>
+<a href="#s7">
+IP، MAC و Port چه تفاوتی دارند؟
+</a>
+</li>
+
+<li>
+<a href="#s8">
+TCP/IP در یک درخواست واقعی HTTPS
+</a>
+</li>
+
+<li>
+<a href="#s9">
+TCP/IP در Linux
+</a>
+</li>
+
+<li>
+<a href="#s10">
+TCP/IP و DNS
+</a>
+</li>
+
+<li>
+<a href="#s11">
+TCP/IP و Docker
+</a>
+</li>
+
+<li>
+<a href="#s12">
+TCP/IP و Kubernetes
+</a>
+</li>
+
+<li>
+<a href="#s13">
+TCP/IP در Troubleshooting
+</a>
+</li>
+
+<li>
+<a href="#s14">
+سناریوی واقعی Troubleshooting
+</a>
+</li>
+
+<li>
+<a href="#lab">
+Lab عملی
+</a>
+</li>
+
+<li>
+<a href="#lab2">
+Lab پیشرفته
+</a>
+</li>
+
+<li>
+<a href="#cheat">
+Cheat Sheet
+</a>
+</li>
+
+<li>
+<a href="#learn">
+چه چیزی یاد گرفتیم؟
+</a>
+</li>
+
+</ol>
+
+</div>
+
+
+<article class="article-body">
+
+
+<h2 id="s0">
+TCP/IP Model چیست؟
+</h2>
+
+<p>
+TCP/IP Model مدلی برای درک نحوه ارتباط سیستم‌ها در شبکه است. برخلاف تصور رایج، TCP/IP فقط نام دو پروتکل TCP و IP نیست؛ بلکه مجموعه بزرگی از پروتکل‌ها و استانداردهایی است که در کنار یکدیگر ارتباطات شبکه‌ای را ایجاد می‌کنند.
+</p>
+
+<p>
+وقتی یک کامپیوتر Linux به یک Server متصل می‌شود، اتفاقات زیادی پشت سر هم رخ می‌دهد: سیستم باید Interface مناسب را پیدا کند، مقصد را مشخص کند، Routing را بررسی کند، Packet را بسازد، ارتباط Transport ایجاد کند و در نهایت Application بتواند داده موردنظر خود را دریافت کند.
+</p>
+
+<p>
+TCP/IP Model این فرآیند پیچیده را به چند بخش منطقی تقسیم می‌کند تا بتوانیم شبکه را راحت‌تر طراحی، پیاده‌سازی و Troubleshoot کنیم.
+</p>
+
+<div class="note">
+
+<strong>نکته مهم:</strong>
+
+TCP/IP را بهتر است فقط به عنوان یک مدل حفظ نکنید. هدف اصلی این است که وقتی مثلاً
+<code>curl https://example.com</code>
+شکست خورد، بتوانید تشخیص دهید مشکل در کدام بخش از مسیر ارتباط قرار دارد.
+
+</div>
+
+
+<h2 id="s1">
+TCP/IP Model در دنیای واقعی
+</h2>
+
+<p>
+مدل چهارلایه‌ای رایج TCP/IP شامل چهار بخش است:
+</p>
+
+<table class="command-table">
+
+<thead>
+
+<tr>
+
+<th>
+Layer
+</th>
+
+<th>
+نام
+</th>
+
+<th>
+وظیفه
+</th>
+
+<th>
+نمونه‌ها
+</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+
+<td>
+1
+</td>
+
+<td>
+Link
+</td>
+
+<td>
+ارتباط در شبکه محلی
+</td>
+
+<td>
+Ethernet, Wi-Fi, ARP
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+2
+</td>
+
+<td>
+Internet
+</td>
+
+<td>
+Addressing و Routing بین شبکه‌ها
+</td>
+
+<td>
+IPv4, IPv6, ICMP
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+3
+</td>
+
+<td>
+Transport
+</td>
+
+<td>
+ارتباط Process-to-Process
+</td>
+
+<td>
+TCP, UDP
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+4
+</td>
+
+<td>
+Application
+</td>
+
+<td>
+سرویس‌ها و پروتکل‌های کاربردی
+</td>
+
+<td>
+HTTP, DNS, SSH, SMTP
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+<p>
+عددگذاری بالا از 1 تا 4 است و نباید آن را با شماره‌گذاری OSI اشتباه گرفت. مهم‌تر از شماره لایه، وظیفه‌ای است که هر بخش انجام می‌دهد.
+</p>
+
+
+<h2 id="s2">
+Layer 1 — Link
+</h2>
+
+<p>
+در مدل چهارلایه‌ای TCP/IP، Link مسئول ارتباط روی شبکه محلی یا Local Network است.
+</p>
+
+<p>
+برای مثال وقتی یک Linux Server از طریق Ethernet به Switch متصل است، انتقال Frameها در همین محدوده انجام می‌شود.
+</p>
+
+<h3>
+مفاهیم مهم Link Layer
+</h3>
+
+<ul>
+
+<li>
+Ethernet
+</li>
+
+<li>
+Wi-Fi
+</li>
+
+<li>
+MAC Address
+</li>
+
+<li>
+Ethernet Frame
+</li>
+
+<li>
+Network Interface
+</li>
+
+<li>
+Switch
+</li>
+
+<li>
+ARP در ارتباط IPv4 و شبکه محلی
+</li>
+
+</ul>
+
+<h3>
+MAC Address چیست؟
+</h3>
+
+<p>
+MAC Address شناسه‌ای است که در ارتباطات Link Layer برای شناسایی Interface در شبکه محلی استفاده می‌شود.
+</p>
+
+<p>
+در Linux می‌توانید Interfaceها و MAC Addressهای آن‌ها را مشاهده کنید:
+</p>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+Ubuntu
+</div>
+
+<pre class="code-block"><code>ip link</code></pre>
+
+</div>
+
+<p>
+برای مشاهده جزئیات Interface:
+</p>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+Ubuntu
+</div>
+
+<pre class="code-block"><code>ip addr show</code></pre>
+
+</div>
+
+<h3>
+اگر Link Layer مشکل داشته باشد چه می‌شود؟
+</h3>
+
+<p>
+اگر Interface شما Down باشد یا اتصال فیزیکی برقرار نباشد، حتی اگر IP و DNS کاملاً درست باشند، ارتباط شبکه‌ای انجام نمی‌شود.
+</p>
+
+<p>
+برای بررسی وضعیت Interface:
+</p>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+Ubuntu
+</div>
+
+<pre class="code-block"><code>ip link show</code></pre>
+
+</div>
+
+<div class="warning">
+
+<strong>در Troubleshooting:</strong>
+
+اگر Interface اصلاً UP نیست، بررسی DNS یا HTTP معمولاً زود است. ابتدا باید مطمئن شوید Interface و Link وضعیت مناسبی دارند.
+
+</div>
+
+
+<h2 id="s3">
+Layer 2 — Internet
+</h2>
+
+<p>
+Internet Layer مسئول Addressing منطقی و انتقال Packet بین شبکه‌های مختلف است.
+</p>
+
+<p>
+مهم‌ترین مفهوم این بخش IP است.
+</p>
+
+<h3>
+IPv4
+</h3>
+
+<p>
+IPv4 از Addressهای 32 بیتی استفاده می‌کند؛ مانند:
+</p>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+Example
+</div>
+
+<pre class="code-block"><code>192.168.1.10</code></pre>
+
+</div>
+
+<h3>
+IPv6
+</h3>
+
+<p>
+IPv6 برای فضای بسیار بزرگ‌تر Addressing طراحی شده و از Addressهای 128 بیتی استفاده می‌کند.
+</p>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+Example
+</div>
+
+<pre class="code-block"><code>2001:db8::10</code></pre>
+
+</div>
+
+<h3>
+Routing چه نقشی دارد؟
+</h3>
+
+<p>
+اگر مقصد در همان شبکه محلی نباشد، سیستم باید تصمیم بگیرد Packet را به کجا ارسال کند. این تصمیم از طریق Routing Table انجام می‌شود.
+</p>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+Ubuntu
+</div>
+
+<pre class="code-block"><code>ip route</code></pre>
+
+</div>
+
+<p>
+یک Routing Table ممکن است چیزی شبیه این باشد:
+</p>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+Example
+</div>
+
+<pre class="code-block"><code>default via 192.168.1.1 dev ens33
+192.168.1.0/24 dev ens33 proto kernel scope link src 192.168.1.20</code></pre>
+
+</div>
+
+<p>
+خط اول Default Route را نشان می‌دهد. یعنی برای مقصدهایی که Route مشخص‌تری وجود ندارد، Packet به Gateway ارسال می‌شود.
+</p>
+
+<h3>
+ICMP
+</h3>
+
+<p>
+ICMP نیز در Internet Layer استفاده می‌شود و ابزارهایی مانند
+<code>ping</code>
+برای تست Reachability از آن استفاده می‌کنند.
+</p>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+Ubuntu
+</div>
+
+<pre class="code-block"><code>ping -c 4 8.8.8.8</code></pre>
+
+</div>
+
+<div class="note">
+
+<strong>نکته:</strong>
+
+موفق بودن Ping به این معنی نیست که تمام سرویس‌ها سالم هستند. ممکن است ICMP مجاز باشد اما TCP روی Port موردنظر توسط Firewall مسدود شده باشد.
+
+</div>
+
+
+<h2 id="s4">
+Layer 3 — Transport
+</h2>
+
+<p>
+Transport Layer ارتباط را بین Processها برقرار می‌کند. دو پروتکل مهم این بخش TCP و UDP هستند.
+</p>
+
+<h3>
+TCP
+</h3>
+
+<p>
+TCP یک پروتکل Connection-Oriented است. قبل از انتقال معمول داده، دو طرف یک ارتباط منطقی برقرار می‌کنند.
+</p>
+
+<p>
+TCP قابلیت‌هایی مانند موارد زیر را فراهم می‌کند:
+</p>
+
+<ul>
+
+<li>
+Reliable Delivery
+</li>
+
+<li>
+Ordering
+</li>
+
+<li>
+Retransmission
+</li>
+
+<li>
+Flow Control
+</li>
+
+<li>
+Congestion Control
+</li>
+
+</ul>
+
+<h3>
+TCP Three-Way Handshake
+</h3>
+
+<p>
+برقراری اتصال TCP معمولاً با یک Handshake سه‌مرحله‌ای انجام می‌شود:
+</p>
+
+<ol>
+
+<li>
+Client یک SYN ارسال می‌کند.
+</li>
+
+<li>
+Server یک SYN-ACK ارسال می‌کند.
+</li>
+
+<li>
+Client یک ACK ارسال می‌کند.
+</li>
+
+</ol>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+Concept
+</div>
+
+<pre class="code-block"><code>Client                 Server
+
+   SYN ------------------>
+
+       <------------------ SYN-ACK
+
+   ACK ------------------>
+
+       Connection Established</code></pre>
+
+</div>
+
+<h3>
+UDP
+</h3>
+
+<p>
+UDP برخلاف TCP اتصال و Reliability داخلی مشابه TCP ارائه نمی‌کند و Header ساده‌تری دارد.
+</p>
+
+<p>
+UDP در سناریوهایی که سربار کمتر یا رفتار Datagram-based مناسب است کاربرد دارد؛ برای مثال DNS و بسیاری از پروتکل‌های Real-Time می‌توانند از UDP استفاده کنند.
+</p>
+
+<h3>
+Port چیست؟
+</h3>
+
+<p>
+IP مشخص می‌کند Packet به کدام Host برسد، اما Port مشخص می‌کند داده برای کدام Service یا Process در آن Host است.
+</p>
+
+<p>
+برای مثال:
+</p>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+Example
+</div>
+
+<pre class="code-block"><code>192.168.1.20:22
+192.168.1.20:80
+192.168.1.20:443</code></pre>
+
+</div>
+
+<p>
+در این مثال Host یکی است اما Service می‌تواند متفاوت باشد.
+</p>
+
+
+<h2 id="s5">
+Layer 4 — Application
+</h2>
+
+<p>
+Application Layer جایی است که پروتکل‌هایی قرار می‌گیرند که سرویس‌های واقعی شبکه را در اختیار Applicationها قرار می‌دهند.
+</p>
+
+<table class="command-table">
+
+<thead>
+
+<tr>
+
+<th>
+Protocol
+</th>
+
+<th>
+کاربرد
+</th>
+
+<th>
+Port رایج
+</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+
+<td>
+HTTP
+</td>
+
+<td>
+Web
+</td>
+
+<td>
+80
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+HTTPS
+</td>
+
+<td>
+Secure Web
+</td>
+
+<td>
+443
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+SSH
+</td>
+
+<td>
+Remote Administration
+</td>
+
+<td>
+22
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+DNS
+</td>
+
+<td>
+Name Resolution
+</td>
+
+<td>
+53
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+SMTP
+</td>
+
+<td>
+Email
+</td>
+
+<td>
+25 / 587
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+<h3>
+HTTP
+</h3>
+
+<p>
+HTTP پروتکلی است که Client و Web Server از طریق آن Request و Response ردوبدل می‌کنند.
+</p>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+Ubuntu
+</div>
+
+<pre class="code-block"><code>curl -I https://example.com</code></pre>
+
+</div>
+
+<h3>
+DNS
+</h3>
+
+<p>
+DNS نام‌هایی مانند
+<code>example.com</code>
+را به Addressهای IP تبدیل می‌کند.
+</p>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+Ubuntu
+</div>
+
+<pre class="code-block"><code>dig example.com</code></pre>
+
+</div>
+
+<h3>
+SSH
+</h3>
+
+<p>
+SSH یک پروتکل مهم برای مدیریت Remote Serverها است و در کار روزمره DevOps نقش بسیار مهمی دارد.
+</p>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+Ubuntu
+</div>
+
+<pre class="code-block"><code>ssh user@192.168.1.20</code></pre>
+
+</div>
+
+
+<h2 id="s6">
+Encapsulation و Decapsulation
+</h2>
+
+<p>
+یکی از مهم‌ترین مفاهیم TCP/IP، Encapsulation است.
+</p>
+
+<p>
+وقتی Application داده‌ای ایجاد می‌کند، داده در مسیر عبور از لایه‌ها اطلاعات مربوط به همان لایه را دریافت می‌کند.
+</p>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+Concept
+</div>
+
+<pre class="code-block"><code>Application Data
+       ↓
+Transport Segment
+       ↓
+IP Packet
+       ↓
+Ethernet Frame
+       ↓
+Bits on the Network</code></pre>
+
+</div>
+
+<p>
+در مقصد این فرآیند برعکس می‌شود و سیستم اطلاعات مربوط به هر لایه را باز می‌کند. این فرآیند Decapsulation نام دارد.
+</p>
+
+<h3>
+نام Data در هر مرحله
+</h3>
+
+<table class="command-table">
+
+<thead>
+
+<tr>
+
+<th>
+Layer
+</th>
+
+<th>
+واحد رایج داده
+</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+
+<td>
+Application
+</td>
+
+<td>
+Data / Message
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+Transport
+</td>
+
+<td>
+TCP Segment / UDP Datagram
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+Internet
+</td>
+
+<td>
+IP Packet
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+Link
+</td>
+
+<td>
+Frame
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+
+<h2 id="s7">
+IP، MAC و Port چه تفاوتی دارند؟
+</h2>
+
+<p>
+این سه مفهوم را باید کاملاً از هم جدا کنید؛ زیرا در Troubleshooting دائماً با آن‌ها مواجه خواهید شد.
+</p>
+
+<table class="command-table">
+
+<thead>
+
+<tr>
+
+<th>
+مفهوم
+</th>
+
+<th>
+مثال
+</th>
+
+<th>
+نقش
+</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+
+<td>
+MAC
+</td>
+
+<td>
+00:11:22:33:44:55
+</td>
+
+<td>
+شناسایی Interface در شبکه محلی
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+IP
+</td>
+
+<td>
+192.168.1.20
+</td>
+
+<td>
+شناسایی منطقی Host و Routing
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+Port
+</td>
+
+<td>
+443
+</td>
+
+<td>
+شناسایی Service/Process
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+<p>
+بنابراین وقتی می‌گوییم:
+</p>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+Example
+</div>
+
+<pre class="code-block"><code>192.168.1.20:443</code></pre>
+
+</div>
+
+<p>
+قسمت اول IP Address مربوط به Host است و قسمت دوم Port مربوط به Service است.
+</p>
+
+<div class="note">
+
+<strong>مدل ذهنی ساده:</strong>
+
+MAC را برای ارتباط محلی، IP را برای پیدا کردن Host و Port را برای پیدا کردن Service در نظر بگیرید.
+
+</div>
+
+
+<h2 id="s8">
+TCP/IP در یک درخواست واقعی HTTPS
+</h2>
+
+<p>
+حالا فرض کنید روی Linux این دستور را اجرا می‌کنیم:
+</p>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+Ubuntu
+</div>
+
+<pre class="code-block"><code>curl https://example.com</code></pre>
+
+</div>
+
+<p>
+برای انجام این درخواست چند مرحله پشت سر هم اتفاق می‌افتد.
+</p>
+
+<h3>
+مرحله 1 — DNS
+</h3>
+
+<p>
+سیستم باید بفهمد
+<code>example.com</code>
+به چه IP Addressهایی Resolve می‌شود.
+</p>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+Ubuntu
+</div>
+
+<pre class="code-block"><code>dig example.com</code></pre>
+
+</div>
+
+<h3>
+مرحله 2 — Routing
+</h3>
+
+<p>
+سیستم بررسی می‌کند Packet برای رسیدن به مقصد باید از کدام Interface و Gateway عبور کند.
+</p>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+Ubuntu
+</div>
+
+<pre class="code-block"><code>ip route get 93.184.216.34</code></pre>
+
+</div>
+
+<h3>
+مرحله 3 — TCP
+</h3>
+
+<p>
+برای HTTPS معمولاً یک TCP Connection به Port 443 ایجاد می‌شود.
+</p>
+
+<h3>
+مرحله 4 — TLS
+</h3>
+
+<p>
+در HTTPS، بعد از ایجاد Transport Connection، TLS برای ایجاد ارتباط رمزنگاری‌شده استفاده می‌شود.
+</p>
+
+<h3>
+مرحله 5 — HTTP
+</h3>
+
+<p>
+در نهایت HTTP Request ارسال می‌شود و Server Response برمی‌گرداند.
+</p>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+Concept
+</div>
+
+<pre class="code-block"><code>DNS
+ ↓
+IP / Routing
+ ↓
+TCP Connection
+ ↓
+TLS
+ ↓
+HTTP Request
+ ↓
+HTTP Response</code></pre>
+
+</div>
+
+<p>
+این زنجیره یکی از مهم‌ترین مدل‌های ذهنی برای Troubleshooting سرویس‌های Web است.
+</p>
+
+
+<h2 id="s9">
+TCP/IP در Linux
+</h2>
+
+<p>
+Linux ابزارهای بسیار قدرتمندی برای مشاهده وضعیت شبکه در اختیار ما قرار می‌دهد.
+</p>
+
+<h3>
+مشاهده Interface
+</h3>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+Ubuntu
+</div>
+
+<pre class="code-block"><code>ip addr
+ip link</code></pre>
+
+</div>
+
+<h3>
+مشاهده Routing
+</h3>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+Ubuntu
+</div>
+
+<pre class="code-block"><code>ip route
+ip route get 8.8.8.8</code></pre>
+
+</div>
+
+<h3>
+مشاهده Socketها
+</h3>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+Ubuntu
+</div>
+
+<pre class="code-block"><code>ss -lntup</code></pre>
+
+</div>
+
+<p>
+این دستور به شما کمک می‌کند بفهمید چه Serviceهایی در حال Listening هستند.
+</p>
+
+<h3>
+بررسی Connectivity
+</h3>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+Ubuntu
+</div>
+
+<pre class="code-block"><code>ping -c 4 8.8.8.8</code></pre>
+
+</div>
+
+<h3>
+بررسی DNS
+</h3>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+Ubuntu
+</div>
+
+<pre class="code-block"><code>dig example.com</code></pre>
+
+</div>
+
+<h3>
+بررسی HTTP/TLS
+</h3>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+Ubuntu
+</div>
+
+<pre class="code-block"><code>curl -v https://example.com</code></pre>
+
+</div>
+
+
+<h2 id="s10">
+TCP/IP و DNS
+</h2>
+
+<p>
+DNS یکی از بخش‌هایی است که در Troubleshooting شبکه بسیار مهم است؛ زیرا بسیاری از خطاهایی که کاربر به صورت «سایت باز نمی‌شود» می‌بیند، ممکن است در واقع مربوط به Name Resolution باشند.
+</p>
+
+<p>
+برای مثال:
+</p>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+Ubuntu
+</div>
+
+<pre class="code-block"><code>curl https://example.com</code></pre>
+
+</div>
+
+<p>
+اگر DNS کار نکند ممکن است سیستم اصلاً نتواند نام Domain را به IP تبدیل کند.
+</p>
+
+<p>
+برای تفکیک DNS از Connectivity می‌توانیم مستقیماً IP را تست کنیم:
+</p>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+Ubuntu
+</div>
+
+<pre class="code-block"><code>ping -c 4 8.8.8.8
+ping -c 4 example.com</code></pre>
+
+</div>
+
+<p>
+این دو تست دقیقاً یکسان نیستند و تفاوت نتیجه آن‌ها می‌تواند سرنخ مهمی برای Troubleshooting ایجاد کند.
+</p>
+
+
+<h2 id="s11">
+TCP/IP و Docker
+</h2>
+
+<p>
+در DevOps، Networking فقط مربوط به Serverهای فیزیکی یا Virtual Machineها نیست. Docker نیز از مفاهیم TCP/IP به‌شدت استفاده می‌کند.
+</p>
+
+<p>
+هر Container می‌تواند Network Interface و IP Address مخصوص خود را داشته باشد و Docker برای ارتباط Containerها از Networkهای مختلف استفاده می‌کند.
+</p>
+
+<h3>
+مشاهده Networkهای Docker
+</h3>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+Linux
+</div>
+
+<pre class="code-block"><code>docker network ls</code></pre>
+
+</div>
+
+<h3>
+بررسی یک Network
+</h3>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+Linux
+</div>
+
+<pre class="code-block"><code>docker network inspect bridge</code></pre>
+
+</div>
+
+<p>
+وقتی یک Application داخل Container روی Port خاصی Listening است، باید تفاوت بین Container Port و Host Port را نیز درک کنید.
+</p>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+Example
+</div>
+
+<pre class="code-block"><code>docker run -p 8080:80 nginx</code></pre>
+
+</div>
+
+<p>
+در این مثال، Port 80 داخل Container به Port 8080 روی Host Map شده است.
+</p>
+
+
+<h2 id="s12">
+TCP/IP و Kubernetes
+</h2>
+
+<p>
+در Kubernetes نیز مفاهیم Networking اهمیت بسیار زیادی دارند.
+</p>
+
+<p>
+Podها، Services، Cluster IP، DNS و Ingress همگی به Networking وابسته‌اند.
+</p>
+
+<p>
+برای مثال اگر یک Pod بتواند به یک Service دسترسی نداشته باشد، باید بتوانیم بررسی کنیم مشکل در کدام قسمت قرار دارد:
+</p>
+
+<ul>
+
+<li>
+Pod Network
+</li>
+
+<li>
+IP Address
+</li>
+
+<li>
+Routing
+</li>
+
+<li>
+Service
+</li>
+
+<li>
+DNS
+</li>
+
+<li>
+Port
+</li>
+
+<li>
+Network Policy
+</li>
+
+<li>
+Application
+</li>
+
+</ul>
+
+<p>
+بنابراین یادگیری TCP/IP پایه‌ای برای فهم Networking در Kubernetes است.
+</p>
+
+
+<h2 id="s13">
+TCP/IP در Troubleshooting
+</h2>
+
+<p>
+یکی از کاربردهای اصلی TCP/IP Model برای DevOps، ایجاد یک روش منظم برای Troubleshooting است.
+</p>
+
+<p>
+به جای اینکه بدون ترتیب چندین دستور اجرا کنیم، بهتر است ارتباط را مرحله‌به‌مرحله بررسی کنیم.
+</p>
+
+<table class="command-table">
+
+<thead>
+
+<tr>
+
+<th>
+مرحله
+</th>
+
+<th>
+سؤال
+</th>
+
+<th>
+ابزار
+</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+
+<td>
+Interface
+</td>
+
+<td>
+Interface فعال است؟
+</td>
+
+<td>
+<code>ip link</code>
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+IP
+</td>
+
+<td>
+سیستم IP دارد؟
+</td>
+
+<td>
+<code>ip addr</code>
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+Route
+</td>
+
+<td>
+مسیر مقصد مشخص است؟
+</td>
+
+<td>
+<code>ip route</code>
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+Connectivity
+</td>
+
+<td>
+مقصد Reachable است؟
+</td>
+
+<td>
+<code>ping</code>
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+DNS
+</td>
+
+<td>
+نام Resolve می‌شود؟
+</td>
+
+<td>
+<code>dig</code>
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+Port
+</td>
+
+<td>
+Service Listening است؟
+</td>
+
+<td>
+<code>ss</code>
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+Application
+</td>
+
+<td>
+سرویس پاسخ می‌دهد؟
+</td>
+
+<td>
+<code>curl</code>
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+Packets
+</td>
+
+<td>
+Packet واقعاً عبور می‌کند؟
+</td>
+
+<td>
+<code>tcpdump</code>
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+
+<h2 id="s14">
+سناریوی واقعی Troubleshooting
+</h2>
+
+<p>
+فرض کنید کاربر گزارش داده است:
+</p>
+
+<div class="warning">
+
+<strong>
+«سایت باز نمی‌شود.»
+</strong>
+
+</div>
+
+<p>
+این جمله به تنهایی اطلاعات کافی ندارد. باید مرحله‌به‌مرحله بررسی کنیم.
+</p>
+
+<h3>
+مرحله اول — Interface
+</h3>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+Ubuntu
+</div>
+
+<pre class="code-block"><code>ip link</code></pre>
+
+</div>
+
+<h3>
+مرحله دوم — IP
+</h3>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+Ubuntu
+</div>
+
+<pre class="code-block"><code>ip addr</code></pre>
+
+</div>
+
+<h3>
+مرحله سوم — Gateway
+</h3>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+Ubuntu
+</div>
+
+<pre class="code-block"><code>ip route</code></pre>
+
+</div>
+
+<h3>
+مرحله چهارم — External Connectivity
+</h3>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+Ubuntu
+</div>
+
+<pre class="code-block"><code>ping -c 4 8.8.8.8</code></pre>
+
+</div>
+
+<h3>
+مرحله پنجم — DNS
+</h3>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+Ubuntu
+</div>
+
+<pre class="code-block"><code>dig example.com</code></pre>
+
+</div>
+
+<h3>
+مرحله ششم — TCP Port
+</h3>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+Ubuntu
+</div>
+
+<pre class="code-block"><code>nc -vz example.com 443</code></pre>
+
+</div>
+
+<h3>
+مرحله هفتم — HTTP/TLS
+</h3>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+Ubuntu
+</div>
+
+<pre class="code-block"><code>curl -v https://example.com</code></pre>
+
+</div>
+
+<p>
+اگر همه این مراحل درست باشند ولی Application همچنان مشکل داشته باشد، بررسی باید به سمت Web Server، Reverse Proxy، Application، Authentication، Certificate و سایر اجزای سرویس ادامه پیدا کند.
+</p>
+
+<div class="note">
+
+<strong>روش DevOps:</strong>
+
+هدف Troubleshooting این نیست که فقط یک دستور خاص را بلد باشید؛ هدف این است که بتوانید یک مشکل پیچیده را به چند بخش کوچک‌تر تقسیم کنید و هر بخش را مستقل بررسی کنید.
+
+</div>
+
+
+<h2 id="lab">
+🧪 Lab عملی
+</h2>
+
+<div class="exercise">
+
+<h3>
+Lab 1 — مشاهده وضعیت Network
+</h3>
+
+<p>
+در Ubuntu دستورات زیر را اجرا کنید:
+</p>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+Ubuntu
+</div>
+
+<pre class="code-block"><code>ip link
+ip addr
+ip route</code></pre>
+
+</div>
+
+<p>
+سپس موارد زیر را پیدا کنید:
+</p>
+
+<ul>
+
+<li>
+نام Interface اصلی
+</li>
+
+<li>
+MAC Address
+</li>
+
+<li>
+IPv4 Address
+</li>
+
+<li>
+IPv6 Address در صورت وجود
+</li>
+
+<li>
+Default Gateway
+</li>
+
+</ul>
+
+</div>
+
+
+<div class="exercise">
+
+<h3>
+Lab 2 — بررسی TCP
+</h3>
+
+<p>
+لیست Portهای Listening را مشاهده کنید:
+</p>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+Ubuntu
+</div>
+
+<pre class="code-block"><code>ss -lntup</code></pre>
+
+</div>
+
+<p>
+بررسی کنید آیا روی سیستم شما Serviceای روی Portهای زیر Listening است یا خیر:
+</p>
+
+<ul>
+
+<li>
+22
+</li>
+
+<li>
+80
+</li>
+
+<li>
+443
+</li>
+
+</ul>
+
+</div>
+
+
+<div class="exercise">
+
+<h3>
+Lab 3 — بررسی DNS و HTTP
+</h3>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+Ubuntu
+</div>
+
+<pre class="code-block"><code>dig example.com
+
+curl -I https://example.com
+
+curl -v https://example.com</code></pre>
+
+</div>
+
+<p>
+تفاوت خروجی سه دستور را بررسی کنید.
+</p>
+
+</div>
+
+
+<h2 id="lab2">
+🧪 Lab پیشرفته — مشاهده Packetها
+</h2>
+
+<p>
+برای مشاهده Packetهای واقعی می‌توانید از
+<code>tcpdump</code>
+استفاده کنید.
+</p>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+Ubuntu
+</div>
+
+<pre class="code-block"><code>sudo tcpdump -i any -n</code></pre>
+
+</div>
+
+<p>
+حالا در Terminal دیگری یک درخواست HTTP یا HTTPS ایجاد کنید:
+</p>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+Ubuntu
+</div>
+
+<pre class="code-block"><code>curl -I https://example.com</code></pre>
+
+</div>
+
+<p>
+در tcpdump می‌توانید Packetهایی را مشاهده کنید که در زمان اجرای درخواست از Interface عبور می‌کنند.
+</p>
+
+<h3>
+فیلتر TCP
+</h3>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+Ubuntu
+</div>
+
+<pre class="code-block"><code>sudo tcpdump -i any -n tcp</code></pre>
+
+</div>
+
+<h3>
+فیلتر Port 443
+</h3>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+Ubuntu
+</div>
+
+<pre class="code-block"><code>sudo tcpdump -i any -n port 443</code></pre>
+
+</div>
+
+<div class="warning">
+
+<strong>توجه:</strong>
+
+برای اجرای
+<code>tcpdump</code>
+معمولاً به دسترسی مناسب مانند
+<code>sudo</code>
+نیاز دارید. Capture کردن Packetها در شبکه‌های واقعی نیز باید مطابق مجوزهای سازمان انجام شود.
+
+</div>
+
+
+<h2>
+TCP/IP و Monitoring
+</h2>
+
+<p>
+در محیط‌های DevOps و Monitoring، بسیاری از Metricها و Alertها مستقیماً یا غیرمستقیم با TCP/IP ارتباط دارند.
+</p>
+
+<ul>
+
+<li>
+Packet Loss
+</li>
+
+<li>
+Latency
+</li>
+
+<li>
+TCP Connection Count
+</li>
+
+<li>
+Connection Errors
+</li>
+
+<li>
+Retransmission
+</li>
+
+<li>
+Network Throughput
+</li>
+
+<li>
+DNS Response Time
+</li>
+
+<li>
+HTTP Response Time
+</li>
+
+</ul>
+
+<p>
+برای مثال اگر یک Application در Grafana افزایش Latency نشان دهد، ممکن است علت در Application نباشد و Network Latency یا Packet Loss باعث افزایش زمان پاسخ شده باشد.
+</p>
+
+
+<h2>
+TCP/IP و DevOps
+</h2>
+
+<p>
+تقریباً تمام بخش‌های زیرساخت مدرن به Networking وابسته هستند:
+</p>
+
+<ul>
+
+<li>
+Linux Servers
+</li>
+
+<li>
+Virtual Machines
+</li>
+
+<li>
+Docker
+</li>
+
+<li>
+Kubernetes
+</li>
+
+<li>
+Cloud
+</li>
+
+<li>
+Load Balancer
+</li>
+
+<li>
+Reverse Proxy
+</li>
+
+<li>
+Monitoring
+</li>
+
+<li>
+Logging
+</li>
+
+<li>
+Databases
+</li>
+
+<li>
+Message Brokers
+</li>
+
+</ul>
+
+<p>
+بنابراین TCP/IP یکی از پایه‌های اصلی مسیر DevOps است. بدون درک آن، Troubleshooting سرویس‌های Distributed بسیار دشوار می‌شود.
+</p>
+
+
+<h2 id="cheat">
+📋 Cheat Sheet
+</h2>
+
+<table class="command-table">
+
+<thead>
+
+<tr>
+
+<th>
+Command
+</th>
+
+<th>
+کاربرد
+</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+
+<td>
+<code>ip link</code>
+</td>
+
+<td>
+مشاهده Network Interfaceها
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<code>ip addr</code>
+</td>
+
+<td>
+مشاهده IP Address
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<code>ip route</code>
+</td>
+
+<td>
+مشاهده Routing Table
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<code>ip route get 8.8.8.8</code>
+</td>
+
+<td>
+بررسی مسیر انتخاب‌شده برای مقصد
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<code>ping</code>
+</td>
+
+<td>
+تست ICMP Connectivity
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<code>ss -lntup</code>
+</td>
+
+<td>
+مشاهده Listening Socketها
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<code>dig</code>
+</td>
+
+<td>
+DNS Query
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<code>curl -v</code>
+</td>
+
+<td>
+HTTP/TLS Troubleshooting
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<code>nc -vz</code>
+</td>
+
+<td>
+تست TCP Port
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<code>tcpdump</code>
+</td>
+
+<td>
+Packet Capture
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+
+<h2>
+🧠 مدل ذهنی نهایی TCP/IP
+</h2>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+DevOps Mental Model
+</div>
+
+<pre class="code-block"><code>Application
+   │
+   │ HTTP / DNS / SSH
+   ↓
+Transport
+   │
+   │ TCP / UDP
+   ↓
+Internet
+   │
+   │ IPv4 / IPv6 / ICMP
+   ↓
+Link
+   │
+   │ Ethernet / Wi-Fi / MAC
+   ↓
+Network</code></pre>
+
+</div>
+
+<p>
+هر زمان یک سرویس شبکه‌ای مشکل داشت، سعی کنید این مسیر را در ذهن خود از پایین به بالا یا از بالا به پایین بررسی کنید.
+</p>
+
+
+<h2 id="learn">
+🎯 چه چیزی یاد گرفتیم؟
+</h2>
+
+<ul>
+
+<li>
+با مفهوم TCP/IP Model و Internet Protocol Suite آشنا شدیم.
+</li>
+
+<li>
+چهار لایه Link، Internet، Transport و Application را شناختیم.
+</li>
+
+<li>
+نقش Ethernet، MAC، IP، TCP، UDP و Port را بررسی کردیم.
+</li>
+
+<li>
+Encapsulation و Decapsulation را یاد گرفتیم.
+</li>
+
+<li>
+مسیر یک درخواست HTTPS را از DNS تا HTTP بررسی کردیم.
+</li>
+
+<li>
+ابزارهای مهم Linux Networking را شناختیم.
+</li>
+
+<li>
+رابطه TCP/IP با Docker و Kubernetes را بررسی کردیم.
+</li>
+
+<li>
+یک روش مرحله‌ای برای Network Troubleshooting یاد گرفتیم.
+</li>
+
+<li>
+با ابزارهایی مانند
+<code>ip</code>،
+<code>ss</code>،
+<code>ping</code>،
+<code>dig</code>،
+<code>curl</code>،
+<code>nc</code>
+و
+<code>tcpdump</code>
+کار کردیم.
+</li>
+
+</ul>
+
+
+<div class="note">
+
+<strong>نکته DevOps:</strong>
+
+TCP/IP را حفظ نکنید؛ آن را به یک مدل ذهنی تبدیل کنید.
+
+وقتی یک سرویس کار نمی‌کند، از خودتان بپرسید:
+
+<strong>
+Interface → IP → Route → Connectivity → DNS → Port → TCP/TLS → Application
+</strong>
+
+اگر بتوانید مشکل را به این مراحل تقسیم کنید، بسیاری از Incidentهای Networking که در Server، Docker، Cloud و Kubernetes با آن‌ها مواجه می‌شوید بسیار قابل فهم‌تر خواهند شد.
+
+</div>
+
+
+<div class="exercise">
+
+<h3>
+🎯 تمرین نهایی
+</h3>
+
+<p>
+روی Ubuntu خود یک سناریوی واقعی بسازید:
+</p>
+
+<ol>
+
+<li>
+با <code>ip addr</code> اطلاعات Interface و IP را پیدا کنید.
+</li>
+
+<li>
+با <code>ip route</code> Default Gateway را پیدا کنید.
+</li>
+
+<li>
+با <code>ping</code> یک مقصد IP را تست کنید.
+</li>
+
+<li>
+با <code>dig</code> یک Domain را Resolve کنید.
+</li>
+
+<li>
+با <code>ss -lntup</code> Portهای Listening را بررسی کنید.
+</li>
+
+<li>
+با <code>nc</code> یک Port را تست کنید.
+</li>
+
+<li>
+با <code>curl -v</code> یک HTTPS Connection ایجاد کنید.
+</li>
+
+<li>
+با <code>tcpdump</code> Packetهای مربوط به ارتباط را مشاهده کنید.
+</li>
+
+</ol>
+
+<p>
+در پایان برای هر مرحله بنویسید که کدام بخش از TCP/IP را مشاهده کردید و اگر آن مرحله شکست می‌خورد، چه نوع مشکلی احتمال می‌دادید.
+</p>
+
+</div>
+
+
+</article>
+
+
+<div class="article-footer">
+
+<a href="network-osi-model.html" class="btn btn-secondary">
+← مقاله قبلی
+</a>
+
+<a href="../index.html" class="btn btn-secondary">
+بازگشت به مقالات
+</a>
+
+<a href="../../index.html" class="btn btn-primary">
+صفحه اصلی →
+</a>
+
+<a href="mac-address.html" class="btn btn-primary">
+مقاله بعدی →
+</a>
+
+</div>
+
+
+</div>
+
+</section>
+
+</main>
+
+
+<footer>
+
+<div class="container">
+
+<p>
+© 2026 Z.DevOps — Built while learning DevOps.
+</p>
+
+<div class="social-links">
+
+<a href="../../index.html">
+Home
+</a>
+
+</div>
+
+</div>
+
+</footer>
+
+
+</body>
+</html>
