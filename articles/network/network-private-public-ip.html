@@ -1,73 +1,2475 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
+
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="آموزش کامل Public vs Private IP برای مسیر DevOps و Networking.">
-<meta name="keywords" content="Public vs Private IP, Networking, Linux, DevOps">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
+<meta name="description"
+      content="آموزش عمیق و عملی تفاوت Public IP و Private IP، NAT، PAT، CGNAT و کاربرد آنها در Linux و DevOps.">
+
+<meta name="keywords"
+      content="Public IP, Private IP, NAT, PAT, CGNAT, RFC1918, Networking, Linux, DevOps">
+
 <title>Public vs Private IP | Z.DevOps</title>
-<link rel="stylesheet" href="../../style.css">
-<style>.article-wrapper{max-width:900px;margin:auto}
-.article-header{text-align:center;margin-bottom:70px}
-.article-header .badge{margin-bottom:20px}
-.article-header h1{font-size:clamp(38px,6vw,60px);line-height:1.2;margin-bottom:20px}
-.article-header h1 span{color:var(--primary)}
-.article-subtitle{color:var(--text-secondary);font-size:18px;max-width:700px;margin:auto}
-.article-meta{margin-top:20px;color:#64748b;font-size:13px}
-.toc{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:25px 30px;margin-bottom:55px}
-.toc h3{margin-bottom:15px}.toc ol{margin:0;padding-right:22px}.toc li{margin-bottom:8px}
-.toc a{color:var(--text-secondary);transition:.2s}.toc a:hover{color:var(--primary)}
-.article-body{text-align:right;font-family:"Vazirmatn","Tahoma",sans-serif}
-.article-body h2{font-size:30px;margin-top:65px;margin-bottom:20px;padding-bottom:10px;border-bottom:1px solid var(--border)}
-.article-body h3{font-size:21px;margin-top:35px;margin-bottom:12px}
-.article-body p{color:#cbd5e1;font-size:16px;line-height:2;margin-bottom:20px}
-.article-body ul,.article-body ol{color:#cbd5e1;line-height:2;margin-bottom:25px;padding-right:25px}
-.article-body li{margin-bottom:7px}.article-body strong{color:#f8fafc}
-.code-wrapper{position:relative;margin:20px 0 28px}
-.code-label{direction:ltr;text-align:left;background:#111827;color:#64748b;padding:7px 15px;border-radius:8px 8px 0 0;font-family:Consolas,monospace;font-size:12px;border:1px solid rgba(148,163,184,.15);border-bottom:none}
-.code-block{direction:ltr;text-align:left;background:#020617;border:1px solid rgba(148,163,184,.15);border-radius:0 0 8px 8px;padding:20px;overflow-x:auto;margin:0}
-.code-block code{font-family:Consolas,"Courier New",monospace;font-size:14px;line-height:1.8;color:#e2e8f0}
-.note{background:rgba(56,189,248,.07);border-right:4px solid var(--primary);padding:20px 22px;border-radius:8px;margin:30px 0;color:#cbd5e1;line-height:1.9}
-.warning{background:rgba(251,191,36,.07);border-right:4px solid #fbbf24;padding:20px 22px;border-radius:8px;margin:30px 0;color:#cbd5e1;line-height:1.9}
-.command-table{width:100%;border-collapse:collapse;margin:25px 0 35px;border-radius:10px}
-.command-table th,.command-table td{padding:13px 15px;border-bottom:1px solid var(--border);text-align:right}
-.command-table th{background:var(--card);color:var(--primary);font-weight:600}
-.command-table td{color:#cbd5e1}.command-table code{direction:ltr;display:inline-block;background:rgba(148,163,184,.08);padding:3px 7px;border-radius:5px;color:#e2e8f0;font-family:Consolas,monospace}
-.exercise{background:linear-gradient(135deg,rgba(56,189,248,.08),rgba(14,165,233,.02));border:1px solid rgba(56,189,248,.18);border-radius:14px;padding:28px;margin:35px 0}
-.exercise h3{margin-top:0;color:var(--primary)}
-.article-footer{margin-top:80px;padding-top:30px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;gap:15px;flex-wrap:wrap}
-@media(max-width:650px){.article-header h1{font-size:38px}.article-body h2{font-size:25px}.article-body p{font-size:15px}.command-table{font-size:13px}}</style>
+
+<link rel="stylesheet"
+      href="../../style.css">
+
+<style>
+
+.article-wrapper{
+    max-width:900px;
+    margin:auto
+}
+
+.article-header{
+    text-align:center;
+    margin-bottom:70px
+}
+
+.article-header .badge{
+    margin-bottom:20px
+}
+
+.article-header h1{
+    font-size:clamp(38px,6vw,60px);
+    line-height:1.2;
+    margin-bottom:20px
+}
+
+.article-header h1 span{
+    color:var(--primary)
+}
+
+.article-subtitle{
+    color:var(--text-secondary);
+    font-size:18px;
+    max-width:700px;
+    margin:auto
+}
+
+.article-meta{
+    margin-top:20px;
+    color:#64748b;
+    font-size:13px
+}
+
+.toc{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:14px;
+    padding:25px 30px;
+    margin-bottom:55px
+}
+
+.toc h3{
+    margin-bottom:15px
+}
+
+.toc ol{
+    margin:0;
+    padding-right:22px
+}
+
+.toc li{
+    margin-bottom:8px
+}
+
+.toc a{
+    color:var(--text-secondary);
+    transition:.2s
+}
+
+.toc a:hover{
+    color:var(--primary)
+}
+
+.article-body{
+    text-align:right;
+    font-family:"Vazirmatn","Tahoma",sans-serif
+}
+
+.article-body h2{
+    font-size:30px;
+    margin-top:65px;
+    margin-bottom:20px;
+    padding-bottom:10px;
+    border-bottom:1px solid var(--border)
+}
+
+.article-body h3{
+    font-size:21px;
+    margin-top:35px;
+    margin-bottom:12px
+}
+
+.article-body p{
+    color:#cbd5e1;
+    font-size:16px;
+    line-height:2;
+    margin-bottom:20px
+}
+
+.article-body ul,
+.article-body ol{
+    color:#cbd5e1;
+    line-height:2;
+    margin-bottom:25px;
+    padding-right:25px
+}
+
+.article-body li{
+    margin-bottom:7px
+}
+
+.article-body strong{
+    color:#f8fafc
+}
+
+.code-wrapper{
+    position:relative;
+    margin:20px 0 28px
+}
+
+.code-label{
+    direction:ltr;
+    text-align:left;
+    background:#111827;
+    color:#64748b;
+    padding:7px 15px;
+    border-radius:8px 8px 0 0;
+    font-family:Consolas,monospace;
+    font-size:12px;
+    border:1px solid rgba(148,163,184,.15);
+    border-bottom:none
+}
+
+.code-block{
+    direction:ltr;
+    text-align:left;
+    background:#020617;
+    border:1px solid rgba(148,163,184,.15);
+    border-radius:0 0 8px 8px;
+    padding:20px;
+    overflow-x:auto;
+    margin:0
+}
+
+.code-block code{
+    font-family:Consolas,"Courier New",monospace;
+    font-size:14px;
+    line-height:1.8;
+    color:#e2e8f0
+}
+
+.note{
+    background:rgba(56,189,248,.07);
+    border-right:4px solid var(--primary);
+    padding:20px 22px;
+    border-radius:8px;
+    margin:30px 0;
+    color:#cbd5e1;
+    line-height:1.9
+}
+
+.warning{
+    background:rgba(251,191,36,.07);
+    border-right:4px solid #fbbf24;
+    padding:20px 22px;
+    border-radius:8px;
+    margin:30px 0;
+    color:#cbd5e1;
+    line-height:1.9
+}
+
+.command-table{
+    width:100%;
+    border-collapse:collapse;
+    margin:25px 0 35px;
+    border-radius:10px
+}
+
+.command-table th,
+.command-table td{
+    padding:13px 15px;
+    border-bottom:1px solid var(--border);
+    text-align:right
+}
+
+.command-table th{
+    background:var(--card);
+    color:var(--primary);
+    font-weight:600
+}
+
+.command-table td{
+    color:#cbd5e1
+}
+
+.command-table code{
+    direction:ltr;
+    display:inline-block;
+    background:rgba(148,163,184,.08);
+    padding:3px 7px;
+    border-radius:5px;
+    color:#e2e8f0;
+    font-family:Consolas,monospace
+}
+
+.exercise{
+    background:linear-gradient(
+        135deg,
+        rgba(56,189,248,.08),
+        rgba(14,165,233,.02)
+    );
+    border:1px solid rgba(56,189,248,.18);
+    border-radius:14px;
+    padding:28px;
+    margin:35px 0
+}
+
+.exercise h3{
+    margin-top:0;
+    color:var(--primary)
+}
+
+.diagram{
+    background:#020617;
+    border:1px solid rgba(148,163,184,.15);
+    border-radius:12px;
+    padding:25px;
+    margin:30px 0;
+    direction:ltr;
+    text-align:center;
+    font-family:Consolas,monospace;
+    color:#e2e8f0;
+    line-height:2
+}
+
+.article-footer{
+    margin-top:80px;
+    padding-top:30px;
+    border-top:1px solid var(--border);
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:15px;
+    flex-wrap:wrap
+}
+
+@media(max-width:650px){
+
+    .article-header h1{
+        font-size:38px
+    }
+
+    .article-body h2{
+        font-size:25px
+    }
+
+    .article-body p{
+        font-size:15px
+    }
+
+    .command-table{
+        font-size:13px
+    }
+
+}
+
+</style>
+
 </head>
+
+
 <body>
-<header class="navbar"><div class="container navbar-inner">
-<a href="../../index.html" class="logo">Z<span>.DevOps</span></a>
-<nav><ul class="nav-links">
-<li><a href="../../index.html">Home</a></li>
-<li><a href="../index.html">Articles</a></li>
-<li><a href="../../index.html#projects">Projects</a>
-</li><li><a href="../../index.html#roadmap">Roadmap</a></li>
-<li><a href="../../index.html#about">About</a></li>
-</ul></nav></div></header>
-<main><section><div class="container article-wrapper">
-<header class="article-header">
-<div class="badge">NETWORKING · DEVOPS</div>
-<h1>Public vs Private IP</h1>
-<p class="article-subtitle">آموزش عمیق و عملی Public vs Private IP با مثال‌های واقعی Linux، Troubleshooting و کاربردهای DevOps.</p>
-<div class="article-meta">📅 September 2026 &nbsp; · &nbsp; ⏱ Beginner → Intermediate &nbsp; · &nbsp; 🌐 Networking</div>
-</header>
-<div class="toc"><h3>📚 فهرست مطالب</h3><ol><li><a href="#s0">Private</a></li><li><a href="#s1">Public</a></li><li><a href="#s2">RFC1918</a></li><li><a href="#s3">NAT/PAT</a></li><li><a href="#s4">CGNAT</a></li><li><a href="#s5">IPv6</a></li>
-<li><a href="#lab">Lab عملی</a></li><li><a href="#cheat">Cheat Sheet</a></li><li><a href="#learn">چه چیزی یاد گرفتیم؟</a></li></ol></div>
-<article class="article-body"><h2 id="s0">Private</h2><p>Private IPv4 برای شبکه‌های داخلی است و در Internet Routing عمومی استفاده نمی‌شود.</p><h2 id="s1">Public</h2><p>Public بودن به معنی دسترسی ورودی آزاد نیست؛ Firewall، NAT و Policy می‌توانند دسترسی را مسدود کنند.</p><h2 id="s2">RFC1918</h2><p>محدوده‌ها: 10/8، 172.16/12 و 192.168/16.</p><h2 id="s3">NAT/PAT</h2><p>NAT می‌تواند Address را ترجمه کند و PAT/NAPT چند Host را پشت یک Public IP با Portهای مختلف قرار می‌دهد.</p><h2 id="s4">CGNAT</h2><p>100.64.0.0/10 Shared Address Space است و با RFC1918 یکی نیست.</p><h2 id="s5">IPv6</h2><p>ULA در fc00::/7 برای Local Addressing و Global Unicast برای ارتباطات قابل Route استفاده می‌شود.</p><h2 id="lab">🧪 Lab عملی</h2><div class="exercise"><h3>تمرین مرحله‌ای</h3><p>در Ubuntu این دستورات را اجرا کنید و برای هر خروجی یک جمله توضیح بنویسید. هدف، فهمیدن رابطه بین تئوری و وضعیت واقعی سیستم است.</p><div class="code-wrapper"><div class="code-label">Ubuntu</div><pre class="code-block"><code>ip addr
-ip route
-ss -lntup
-ping -c 4 1.1.1.1
-curl -I https://example.com</code></pre></div><p>اگر دستوری خطا داد، متن خطا را ثبت کنید و مشخص کنید مشکل احتمالاً در کدام بخش است: Interface/IP، Routing، DNS، Transport، TLS یا Application.</p></div><h2 id="cheat">📋 Cheat Sheet</h2><table class="command-table"><thead><tr><th>مفهوم</th><th>نکته</th></tr></thead><tbody><tr><td>ip addr</td><td>IP و Interface</td></tr><tr><td>ip route</td><td>Routing Table</td></tr><tr><td>ss -lntup</td><td>Listening Socketها</td></tr><tr><td>ping</td><td>ICMP Reachability</td></tr><tr><td>traceroute</td><td>مسیر تقریبی</td></tr><tr><td>dig</td><td>DNS Query</td></tr><tr><td>curl -v</td><td>HTTP/TLS Troubleshooting</td></tr><tr><td>tcpdump</td><td>Packet Capture</td></tr></tbody></table><h2 id="learn">🎯 چه چیزی یاد گرفتیم؟</h2><ul><li>مفهوم و اجزای اصلی این مبحث را شناختیم.</li><li>یک روش عملی برای مشاهده یا Troubleshooting آن در Linux یاد گرفتیم.</li><li>ارتباط آن با DevOps، Cloud، Server و Monitoring را درک کردیم.</li></ul><div class="note"><strong>نکته DevOps:</strong> این مبحث را فقط حفظ نکنید. در Lab خود خروجی واقعی Linux را با مدل ذهنی Networking مقایسه کنید؛ این کار بعدها در Docker، Kubernetes، Cloud و Incident Troubleshooting بسیار ارزشمند است.</div></article>
-<div class="article-footer">
-<a href="network-arp.html" class="btn btn-secondary">← مقاله قبلی</a>
-<a href="../index.html" class="btn btn-secondary">بازگشت به مقالات</a>
-<a href="../../index.html" class="btn btn-primary">صفحه اصلی →</a>
-<a href="subnet-mask.html" class="btn btn-primary">مقاله بعدی →</a>
+
+
+<header class="navbar">
+
+<div class="container navbar-inner">
+
+<a href="../../index.html"
+   class="logo">
+
+Z<span>.DevOps</span>
+
+</a>
+
+
+<nav>
+
+<ul class="nav-links">
+
+<li>
+<a href="../../index.html">
+Home
+</a>
+</li>
+
+<li>
+<a href="../index.html">
+Articles
+</a>
+</li>
+
+<li>
+<a href="../../index.html#projects">
+Projects
+</a>
+</li>
+
+<li>
+<a href="../../index.html#roadmap">
+Roadmap
+</a>
+</li>
+
+<li>
+<a href="../../index.html#about">
+About
+</a>
+</li>
+
+</ul>
+
+</nav>
+
 </div>
-</div></section></main>
-<footer><div class="container"><p>© 2026 Z.DevOps — Built while learning DevOps.</p><div class="social-links"><a href="../../index.html">Home</a></div></div></footer>
-</body></html>
+
+</header>
+
+
+<main>
+
+<section>
+
+<div class="container article-wrapper">
+
+
+<header class="article-header">
+
+<div class="badge">
+NETWORKING · DEVOPS
+</div>
+
+<h1>
+Public vs Private IP
+</h1>
+
+<p class="article-subtitle">
+درک عمیق تفاوت IPهای عمومی و خصوصی، NAT، PAT، CGNAT
+و نحوه استفاده از آنها در شبکه‌های واقعی، Linux، Server، Cloud و DevOps.
+</p>
+
+<div class="article-meta">
+
+📅 September 2026
+&nbsp; · &nbsp;
+⏱ Beginner → Intermediate
+&nbsp; · &nbsp;
+🌐 Networking
+
+</div>
+
+</header>
+
+
+
+<div class="toc">
+
+<h3>
+📚 فهرست مطالب
+</h3>
+
+<ol>
+
+<li>
+<a href="#s0">
+اصلاً چرا Public و Private IP داریم؟
+</a>
+</li>
+
+<li>
+<a href="#s1">
+Private IP چیست؟
+</a>
+</li>
+
+<li>
+<a href="#s2">
+RFC1918 و محدوده‌های Private
+</a>
+</li>
+
+<li>
+<a href="#s3">
+Public IP چیست؟
+</a>
+</li>
+
+<li>
+<a href="#s4">
+آیا Public IP یعنی دسترسی از اینترنت؟
+</a>
+</li>
+
+<li>
+<a href="#s5">
+NAT چیست؟
+</a>
+</li>
+
+<li>
+<a href="#s6">
+PAT / NAPT چیست؟
+</a>
+</li>
+
+<li>
+<a href="#s7">
+SNAT و DNAT
+</a>
+</li>
+
+<li>
+<a href="#s8">
+Port Forwarding
+</a>
+</li>
+
+<li>
+<a href="#s9">
+CGNAT چیست؟
+</a>
+</li>
+
+<li>
+<a href="#s10">
+Public و Private در شبکه واقعی
+</a>
+</li>
+
+<li>
+<a href="#s11">
+Public و Private در Server و Cloud
+</a>
+</li>
+
+<li>
+<a href="#s12">
+Docker و Private Networking
+</a>
+</li>
+
+<li>
+<a href="#s13">
+Kubernetes و Service IP
+</a>
+</li>
+
+<li>
+<a href="#s14">
+IPv6 و تفاوت آن با IPv4
+</a>
+</li>
+
+<li>
+<a href="#s15">
+تشخیص IP در Linux
+</a>
+</li>
+
+<li>
+<a href="#s16">
+Troubleshooting
+</a>
+</li>
+
+<li>
+<a href="#lab">
+Lab عملی
+</a>
+</li>
+
+<li>
+<a href="#cheat">
+Cheat Sheet
+</a>
+</li>
+
+<li>
+<a href="#learn">
+چه چیزی یاد گرفتیم؟
+</a>
+</li>
+
+</ol>
+
+</div>
+
+
+
+<article class="article-body">
+
+
+<h2 id="s0">
+چرا اصلاً Public و Private IP داریم؟
+</h2>
+
+<p>
+
+برای اینکه بهتر متوجه تفاوت Public و Private IP شویم،
+اول باید یک مشکل اساسی را در IPv4 درک کنیم.
+
+IPv4 فقط حدود 4.3 میلیارد آدرس دارد و این تعداد برای
+تمام کامپیوترها، سرورها، موبایل‌ها، تجهیزات شبکه و
+دستگاه‌های IoT دنیا کافی نیست.
+
+</p>
+
+<p>
+
+راه‌حل مهمی که در شبکه‌های IPv4 استفاده شد،
+استفاده از <strong>Private IP + NAT</strong> بود.
+
+به این ترتیب تعداد زیادی دستگاه می‌توانند در یک شبکه
+داخلی از آدرس‌های خصوصی استفاده کنند و هنگام ارتباط
+با Internet، ترافیک آنها توسط Router یا Firewall
+به یک یا چند Public IP ترجمه شود.
+
+</p>
+
+
+<div class="diagram">
+
+PC 1 ── 192.168.1.10 ┐
+
+PC 2 ── 192.168.1.11 ├── Router ── Public IP ── Internet
+
+PC 3 ── 192.168.1.12 ┘
+
+</div>
+
+
+<p>
+
+بنابراین در یک شبکه ممکن است ده‌ها، صدها یا حتی هزاران
+دستگاه Private IP داشته باشند، ولی کل شبکه فقط چند
+Public IP داشته باشد.
+
+</p>
+
+
+
+<h2 id="s1">
+Private IP چیست؟
+</h2>
+
+<p>
+
+Private IP آدرسی است که برای استفاده در شبکه‌های داخلی
+اختصاص داده شده است.
+
+این آدرس‌ها برای Routing عمومی در Internet استفاده نمی‌شوند.
+
+</p>
+
+<p>
+
+برای مثال اگر لپ‌تاپ شما IP زیر را داشته باشد:
+
+</p>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+Example
+</div>
+
+<pre class="code-block"><code>192.168.1.20</code></pre>
+
+</div>
+
+<p>
+
+این IP به تنهایی مشخص نمی‌کند که دستگاه شما در کدام
+خانه یا شرکت قرار دارد؛ زیرا میلیون‌ها شبکه مختلف
+می‌توانند همزمان از همین آدرس استفاده کنند.
+
+</p>
+
+
+<div class="note">
+
+<strong>نکته مهم:</strong>
+
+Private بودن IP به معنی ناامن بودن یا غیرقابل استفاده
+بودن آن نیست. بسیاری از Serverها، Databaseها،
+Application Serverها و تجهیزات داخلی سازمان‌ها عمداً
+Private IP دارند.
+
+</div>
+
+
+
+<h2 id="s2">
+RFC1918 و محدوده‌های Private IPv4
+</h2>
+
+<p>
+
+سه محدوده اصلی Private IPv4 عبارت‌اند از:
+
+</p>
+
+
+<table class="command-table">
+
+<thead>
+
+<tr>
+
+<th>
+محدوده
+</th>
+
+<th>
+Prefix
+</th>
+
+<th>
+کاربرد
+</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+
+<td>
+10.0.0.0 – 10.255.255.255
+</td>
+
+<td>
+<code>10.0.0.0/8</code>
+</td>
+
+<td>
+شبکه‌های بزرگ سازمانی
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+172.16.0.0 – 172.31.255.255
+</td>
+
+<td>
+<code>172.16.0.0/12</code>
+</td>
+
+<td>
+شبکه‌های داخلی
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+192.168.0.0 – 192.168.255.255
+</td>
+
+<td>
+<code>192.168.0.0/16</code>
+</td>
+
+<td>
+شبکه‌های خانگی و کوچک
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+
+<p>
+
+یکی از اشتباهات رایج این است که تصور کنیم کل
+172.x.x.x خصوصی است.
+
+این درست نیست.
+
+فقط محدوده:
+
+</p>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+Private Range
+</div>
+
+<pre class="code-block"><code>172.16.0.0/12</code></pre>
+
+</div>
+
+<p>
+
+خصوصی است.
+
+برای مثال <code>172.20.10.5</code> یک Private IP است،
+اما یک آدرس خارج از این محدوده الزاماً Private نیست.
+
+</p>
+
+
+
+<h2 id="s3">
+Public IP چیست؟
+</h2>
+
+<p>
+
+Public IP آدرسی است که در فضای عمومی Internet استفاده
+می‌شود و می‌تواند توسط شبکه‌های مختلف برای ارتباط
+Internet قابل Route باشد.
+
+</p>
+
+<p>
+
+برای مثال یک Server در Cloud ممکن است چیزی شبیه این داشته باشد:
+
+</p>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+Example
+</div>
+
+<pre class="code-block"><code>203.0.113.10</code></pre>
+
+</div>
+
+<p>
+
+البته در مثال‌های مستنداتی باید توجه داشت که برخی
+محدوده‌ها مانند <code>203.0.113.0/24</code> برای
+Documentation رزرو شده‌اند و نمونه واقعی Public IP
+محسوب نمی‌شوند.
+
+</p>
+
+
+<div class="warning">
+
+<strong>نکته امنیتی مهم:</strong>
+
+Public IP به معنی باز بودن Server نیست.
+
+ممکن است Server یک Public IP داشته باشد ولی Firewall
+تمام Portهای ورودی را بسته باشد.
+
+بنابراین این سه مفهوم را جدا کنید:
+
+</div>
+
+<ul>
+
+<li>
+Public IP
+</li>
+
+<li>
+Open Port
+</li>
+
+<li>
+Application Listening
+</li>
+
+</ul>
+
+
+
+<h2 id="s4">
+آیا Public IP یعنی دسترسی از اینترنت؟
+</h2>
+
+<p>
+
+خیر.
+
+این یکی از مهم‌ترین مفاهیم Networking برای یک DevOps
+Engineer است.
+
+فرض کنید Server شما Public IP دارد:
+
+</p>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+Server
+</div>
+
+<pre class="code-block"><code>Public IP: 203.x.x.x
+TCP Port: 22
+Firewall: DENY</code></pre>
+
+</div>
+
+<p>
+
+در این حالت Public IP وجود دارد ولی SSH ممکن است
+از Internet قابل دسترسی نباشد.
+
+</p>
+
+<p>
+
+برای اینکه یک سرویس واقعاً از Internet قابل دسترسی باشد،
+معمولاً چند لایه باید درست باشند:
+
+</p>
+
+<ol>
+
+<li>
+Public IP یا مسیر قابل دسترسی
+</li>
+
+<li>
+Routing صحیح
+</li>
+
+<li>
+Firewall / Security Group
+</li>
+
+<li>
+Port باز
+</li>
+
+<li>
+Application در حال Listen کردن
+</li>
+
+<li>
+در صورت نیاز NAT یا Load Balancer
+</li>
+
+</ol>
+
+
+
+<h2 id="s5">
+NAT چیست؟
+</h2>
+
+<p>
+
+NAT مخفف Network Address Translation است.
+
+NAT وظیفه دارد آدرس IP را هنگام عبور Packet از یک
+مرز شبکه تغییر دهد.
+
+</p>
+
+<p>
+
+یک سناریوی ساده:
+
+</p>
+
+<div class="diagram">
+
+192.168.1.10:51520
+
+        ↓
+
+Router / NAT
+
+        ↓
+
+Public-IP:43001
+
+        ↓
+
+Internet Server
+
+</div>
+
+<p>
+
+در این حالت دستگاه داخلی Private IP دارد، اما Router
+هنگام ارسال Traffic، آدرس Source را به Public IP ترجمه
+می‌کند.
+
+</p>
+
+
+<h3>
+چرا NAT مهم است؟
+</h3>
+
+<ul>
+
+<li>
+صرفه‌جویی در Public IPv4
+</li>
+
+<li>
+امکان استفاده تعداد زیادی Host از یک Public IP
+</li>
+
+<li>
+جداسازی شبکه داخلی از Internet
+</li>
+
+<li>
+پیاده‌سازی Port Forwarding
+</li>
+
+<li>
+استفاده گسترده در Home Network و Enterprise
+</li>
+
+</ul>
+
+
+
+<h2 id="s6">
+PAT / NAPT چیست؟
+</h2>
+
+<p>
+
+در شبکه‌های واقعی معمولاً چندین دستگاه باید از یک
+Public IP استفاده کنند.
+
+اینجاست که Port نیز وارد ترجمه می‌شود.
+
+به این روش معمولاً PAT یا NAPT گفته می‌شود.
+
+</p>
+
+
+<div class="diagram">
+
+192.168.1.10:50000
+        ↓
+Public-IP:40001
+
+192.168.1.11:50000
+        ↓
+Public-IP:40002
+
+192.168.1.12:50000
+        ↓
+Public-IP:40003
+
+</div>
+
+
+<p>
+
+Router با استفاده از ترکیب IP و Port می‌تواند Sessionهای
+مختلف را از یکدیگر تشخیص دهد.
+
+</p>
+
+
+<div class="note">
+
+<strong>دیدگاه DevOps:</strong>
+
+وقتی یک Container یا Application به Internet متصل می‌شود،
+درک NAT و Port Mapping کمک می‌کند بفهمید Traffic دقیقاً
+چگونه از محیط داخلی به بیرون می‌رود.
+
+</div>
+
+
+
+<h2 id="s7">
+SNAT و DNAT
+</h2>
+
+<h3>
+SNAT
+</h3>
+
+<p>
+
+SNAT یعنی Source Network Address Translation.
+
+در این حالت Source Address تغییر می‌کند.
+
+یکی از کاربردهای رایج آن زمانی است که یک سیستم داخلی
+با Private IP می‌خواهد به Internet متصل شود.
+
+</p>
+
+
+<h3>
+DNAT
+</h3>
+
+<p>
+
+DNAT یعنی Destination Network Address Translation.
+
+در این حالت Destination Address تغییر می‌کند.
+
+برای مثال یک Client از Internet به Public IP متصل می‌شود
+و Firewall آن را به یک Server داخلی هدایت می‌کند.
+
+</p>
+
+
+<div class="diagram">
+
+Internet Client
+
+      ↓
+
+Public-IP:443
+
+      ↓
+
+Firewall / DNAT
+
+      ↓
+
+192.168.10.20:443
+
+      ↓
+
+Internal Web Server
+
+</div>
+
+
+
+<h2 id="s8">
+Port Forwarding چیست؟
+</h2>
+
+<p>
+
+Port Forwarding یکی از کاربردهای رایج DNAT است.
+
+مثلاً فرض کنید یک Web Server داخل شبکه دارید:
+
+</p>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+Internal Server
+</div>
+
+<pre class="code-block"><code>192.168.1.50:443</code></pre>
+
+</div>
+
+<p>
+
+اما Router یک Public IP دارد.
+
+می‌توان Ruleای تعریف کرد که:
+
+</p>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+NAT Rule
+</div>
+
+<pre class="code-block"><code>Public-IP:443
+        ↓
+192.168.1.50:443</code></pre>
+
+</div>
+
+<p>
+
+در این حالت درخواست‌های ورودی به Port 443 به Server
+داخلی ارسال می‌شوند.
+
+</p>
+
+
+<div class="warning">
+
+<strong>هشدار امنیتی:</strong>
+
+باز کردن مستقیم سرویس‌های داخلی روی Internet باید
+با دقت انجام شود.
+
+در محیط Production معمولاً استفاده از Firewall،
+Reverse Proxy، VPN، Load Balancer، Zero Trust یا
+روش‌های مشابه می‌تواند مناسب‌تر باشد.
+
+</div>
+
+
+
+<h2 id="s9">
+CGNAT چیست؟
+</h2>
+
+<p>
+
+CGNAT یا Carrier-Grade NAT زمانی استفاده می‌شود که
+ISP چندین مشترک را پشت یک یا تعداد محدودی Public IP
+قرار می‌دهد.
+
+</p>
+
+<p>
+
+یکی از محدوده‌های مهم در این سناریو:
+
+</p>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+Shared Address Space
+</div>
+
+<pre class="code-block"><code>100.64.0.0/10</code></pre>
+
+</div>
+
+<p>
+
+این محدوده با Private Addressهای RFC1918 یکی نیست.
+
+این محدوده مخصوص Shared Address Space است و در
+سناریوهای Carrier-Grade NAT کاربرد دارد.
+
+</p>
+
+
+<div class="diagram">
+
+Home Router
+
+WAN IP:
+100.64.x.x
+
+       ↓
+
+ISP CGNAT
+
+       ↓
+
+ISP Public IP
+
+       ↓
+
+Internet
+
+</div>
+
+
+<p>
+
+یکی از مشکلات CGNAT این است که کاربر ممکن است نتواند
+به سادگی Port Forwarding ورودی انجام دهد.
+
+این موضوع برای بعضی کاربردها مانند:
+
+</p>
+
+<ul>
+
+<li>
+Self-hosted Server
+</li>
+
+<li>
+VPN Server
+</li>
+
+<li>
+Remote Access
+</li>
+
+<li>
+Game Server
+</li>
+
+<li>
+Home Lab
+</li>
+
+</ul>
+
+مهم است.
+
+
+
+<h2 id="s10">
+Public و Private در یک شبکه واقعی
+</h2>
+
+<p>
+
+یک شبکه سازمانی ساده را در نظر بگیرید:
+
+</p>
+
+
+<div class="diagram">
+
+                 Internet
+                     │
+                     │
+              Public IP
+                     │
+              Firewall/Router
+                     │
+        ┌────────────┴────────────┐
+        │                         │
+   Web Server                 Database
+ 10.10.10.20                 10.10.20.30
+        │                         │
+        └──────── Internal Network ┘
+
+</div>
+
+
+<p>
+
+در این معماری Database معمولاً نیازی به Public IP ندارد.
+
+Web Server نیز ممکن است Private باشد و از طریق
+Load Balancer یا Reverse Proxy در معرض Internet قرار بگیرد.
+
+</p>
+
+
+<div class="note">
+
+<strong>اصل مهم در معماری:</strong>
+
+هر چیزی که لازم نیست مستقیماً از Internet قابل دسترسی
+باشد، بهتر است در معرض Internet قرار نگیرد.
+
+این اصل در طراحی Infrastructure و Security بسیار مهم است.
+
+</div>
+
+
+
+<h2 id="s11">
+Public و Private در Server و Cloud
+</h2>
+
+<p>
+
+در Cloud معمولاً Server می‌تواند یک Private IP داشته باشد
+و در کنار آن یک Public IP یا یک مسیر عمومی از طریق
+Load Balancer داشته باشد.
+
+</p>
+
+<p>
+
+برای مثال:
+
+</p>
+
+<div class="diagram">
+
+Internet
+
+   ↓
+
+Public Load Balancer
+
+   ↓
+
+Private Network
+
+   ↓
+
+Application Server
+
+10.0.2.15
+
+   ↓
+
+Database Server
+
+10.0.3.20
+
+</div>
+
+
+<p>
+
+در این معماری Database فقط از شبکه داخلی قابل دسترسی است.
+
+Application Server نیز می‌تواند برای دسترسی به Database
+از Private IP استفاده کند.
+
+</p>
+
+<p>
+
+این طراحی باعث کاهش سطح حمله و ساده‌تر شدن کنترل
+دسترسی می‌شود.
+
+</p>
+
+
+
+<h2 id="s12">
+Public و Private در Docker
+</h2>
+
+<p>
+
+Docker نیز از مفهوم شبکه داخلی استفاده می‌کند.
+
+برای مثال Containerها ممکن است IPهای داخلی داشته باشند:
+
+</p>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+Docker
+</div>
+
+<pre class="code-block"><code>172.17.0.2
+172.17.0.3
+172.17.0.4</code></pre>
+
+</div>
+
+<p>
+
+این IPها معمولاً مستقیماً از Internet قابل Route نیستند.
+
+برای دسترسی از Host یا شبکه خارجی، Docker می‌تواند
+Port Mapping انجام دهد.
+
+</p>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+Docker
+</div>
+
+<pre class="code-block"><code>docker run -p 8080:80 nginx</code></pre>
+
+</div>
+
+<p>
+
+در این مثال:
+
+</p>
+
+<ul>
+
+<li>
+Port 80 داخل Container است.
+</li>
+
+<li>
+Port 8080 روی Host منتشر می‌شود.
+</li>
+
+<li>
+Traffic به Port 8080 به Port 80 Container هدایت می‌شود.
+</li>
+
+</ul>
+
+
+<div class="note">
+
+<strong>ارتباط با DevOps:</strong>
+
+در Docker باید تفاوت بین Container IP،
+Host IP، Published Port و External IP را به‌خوبی درک کنید.
+
+بسیاری از خطاهای Docker Networking از اشتباه گرفتن همین
+مفاهیم ایجاد می‌شوند.
+
+</div>
+
+
+
+<h2 id="s13">
+Public و Private در Kubernetes
+</h2>
+
+<p>
+
+در Kubernetes نیز IPهای مختلفی داریم و نباید همه آنها
+را Public IP تصور کنیم.
+
+برخی مفاهیم مهم:
+
+</p>
+
+<ul>
+
+<li>
+Pod IP
+</li>
+
+<li>
+Service ClusterIP
+</li>
+
+<li>
+Node IP
+</li>
+
+<li>
+LoadBalancer IP
+</li>
+
+<li>
+Ingress
+</li>
+
+</ul>
+
+
+<p>
+
+برای مثال <strong>ClusterIP</strong> معمولاً برای ارتباط
+داخلی Cluster استفاده می‌شود.
+
+اما یک Service با نوع <strong>LoadBalancer</strong> می‌تواند
+برای دسترسی خارجی استفاده شود؛ نحوه پیاده‌سازی آن به
+محیط Kubernetes و Cloud Provider بستگی دارد.
+
+</p>
+
+
+
+<h2 id="s14">
+IPv6 و تفاوت آن با IPv4
+</h2>
+
+<p>
+
+در IPv6 فضای Address بسیار بزرگ‌تر است و بسیاری از
+مشکلات کمبود IPv4 را کاهش می‌دهد.
+
+در IPv6 مفاهیمی مانند:
+
+</p>
+
+<ul>
+
+<li>
+Global Unicast
+</li>
+
+<li>
+Link-Local
+</li>
+
+<li>
+Unique Local Address
+</li>
+
+</ul>
+
+<p>
+
+وجود دارند.
+
+</p>
+
+<p>
+
+برای مثال:
+
+</p>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+IPv6
+</div>
+
+<pre class="code-block"><code>fe80::/10
+
+fc00::/7
+
+2000::/3</code></pre>
+
+</div>
+
+<p>
+
+Link-Localها معمولاً با <code>fe80::/10</code> شروع می‌شوند.
+
+Unique Local Address در محدوده <code>fc00::/7</code>
+قرار دارد.
+
+Global Unicast معمولاً در محدوده <code>2000::/3</code>
+قرار می‌گیرد.
+
+</p>
+
+
+<div class="note">
+
+<strong>نکته:</strong>
+
+وجود IPv6 به این معنی نیست که NAT دیگر هیچ کاربردی ندارد
+یا تمام شبکه‌ها بدون NAT کار می‌کنند.
+
+معماری IPv6 با IPv4 تفاوت‌های مهمی دارد و باید هرکدام را
+با مدل Routing و Security خودش بررسی کرد.
+
+</div>
+
+
+
+<h2 id="s15">
+تشخیص Public و Private IP در Linux
+</h2>
+
+<h3>
+مرحله اول: دیدن IPهای سیستم
+</h3>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+Ubuntu
+</div>
+
+<pre class="code-block"><code>ip addr</code></pre>
+
+</div>
+
+
+<h3>
+مرحله دوم: دیدن Routing Table
+</h3>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+Ubuntu
+</div>
+
+<pre class="code-block"><code>ip route</code></pre>
+
+</div>
+
+
+<p>
+
+به دنبال Default Route بگردید:
+
+</p>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+Example
+</div>
+
+<pre class="code-block"><code>default via 192.168.1.1 dev ens33</code></pre>
+
+</div>
+
+<p>
+
+در این مثال Default Gateway سیستم:
+
+</p>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+Gateway
+</div>
+
+<pre class="code-block"><code>192.168.1.1</code></pre>
+
+</div>
+
+
+<h3>
+مشاهده IP عمومی از بیرون
+</h3>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+Linux
+</div>
+
+<pre class="code-block"><code>curl -4 https://icanhazip.com</code></pre>
+
+</div>
+
+<p>
+
+این مقدار می‌تواند با IPای که روی Interface سیستم
+می‌بینید متفاوت باشد.
+
+</p>
+
+
+<div class="warning">
+
+<strong>نکته Troubleshooting:</strong>
+
+اگر:
+
+<br><br>
+
+IP روی Interface = 192.168.x.x
+
+<br>
+
+ولی IP مشاهده‌شده از Internet چیز دیگری است،
+
+<br><br>
+
+احتمالاً Traffic شما توسط NAT ترجمه می‌شود.
+
+</div>
+
+
+
+<h2 id="s16">
+Troubleshooting: وقتی اینترنت کار نمی‌کند
+</h2>
+
+<p>
+
+به عنوان DevOps Engineer بهتر است مشکل Networking را
+مرحله‌به‌مرحله بررسی کنید و از حدس زدن خودداری کنید.
+
+</p>
+
+
+<h3>
+1. آیا Interface فعال است؟
+</h3>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+Linux
+</div>
+
+<pre class="code-block"><code>ip link</code></pre>
+
+</div>
+
+
+<h3>
+2. آیا IP داریم؟
+</h3>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+Linux
+</div>
+
+<pre class="code-block"><code>ip addr</code></pre>
+
+</div>
+
+
+<h3>
+3. آیا Default Route داریم؟
+</h3>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+Linux
+</div>
+
+<pre class="code-block"><code>ip route</code></pre>
+
+</div>
+
+
+<h3>
+4. آیا Gateway قابل دسترسی است؟
+</h3>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+Linux
+</div>
+
+<pre class="code-block"><code>ping -c 4 192.168.1.1</code></pre>
+
+</div>
+
+
+<h3>
+5. آیا Internet IP قابل دسترسی است؟
+</h3>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+Linux
+</div>
+
+<pre class="code-block"><code>ping -c 4 1.1.1.1</code></pre>
+
+</div>
+
+
+<h3>
+6. آیا DNS کار می‌کند؟
+</h3>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+Linux
+</div>
+
+<pre class="code-block"><code>getent hosts example.com</code></pre>
+
+</div>
+
+
+<h3>
+7. آیا HTTP/HTTPS کار می‌کند؟
+</h3>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+Linux
+</div>
+
+<pre class="code-block"><code>curl -v https://example.com</code></pre>
+
+</div>
+
+
+<p>
+
+با این روش می‌توانیم مشکل را از Layerهای مختلف
+جدا کنیم.
+
+</p>
+
+
+
+<h2 id="lab">
+🧪 Lab عملی
+</h2>
+
+<div class="exercise">
+
+<h3>
+Lab 1 — پیدا کردن Private IP
+</h3>
+
+<p>
+
+روی Ubuntu خود اجرا کنید:
+
+</p>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+Ubuntu
+</div>
+
+<pre class="code-block"><code>ip addr</code></pre>
+
+</div>
+
+<p>
+
+Interface اصلی خود را پیدا کنید و IP آن را یادداشت کنید.
+
+سپس مشخص کنید آیا IP شما در یکی از این محدوده‌ها قرار دارد یا خیر:
+
+</p>
+
+<ul>
+
+<li>
+10.0.0.0/8
+</li>
+
+<li>
+172.16.0.0/12
+</li>
+
+<li>
+192.168.0.0/16
+</li>
+
+</ul>
+
+</div>
+
+
+
+<div class="exercise">
+
+<h3>
+Lab 2 — پیدا کردن Default Gateway
+</h3>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+Ubuntu
+</div>
+
+<pre class="code-block"><code>ip route</code></pre>
+
+</div>
+
+<p>
+
+خطی که با <code>default</code> شروع می‌شود را پیدا کنید.
+
+سپس Gateway را مشخص کنید.
+
+</p>
+
+</div>
+
+
+
+<div class="exercise">
+
+<h3>
+Lab 3 — مقایسه IP داخلی و خارجی
+</h3>
+
+<p>
+
+ابتدا IP سیستم را ببینید:
+
+</p>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+Ubuntu
+</div>
+
+<pre class="code-block"><code>ip addr</code></pre>
+
+</div>
+
+<p>
+
+سپس:
+
+</p>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+Ubuntu
+</div>
+
+<pre class="code-block"><code>curl -4 https://icanhazip.com</code></pre>
+
+</div>
+
+<p>
+
+دو مقدار را با یکدیگر مقایسه کنید.
+
+اگر متفاوت هستند، درباره مسیر NAT تحقیق کنید.
+
+</p>
+
+</div>
+
+
+
+<div class="exercise">
+
+<h3>
+Lab 4 — بررسی Listening Portها
+</h3>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+Ubuntu
+</div>
+
+<pre class="code-block"><code>ss -lntup</code></pre>
+
+</div>
+
+<p>
+
+بررسی کنید چه سرویس‌هایی روی سیستم در حال Listen کردن هستند.
+
+سپس از خودتان بپرسید:
+
+</p>
+
+<ul>
+
+<li>
+این سرویس روی چه IPای Listen می‌کند؟
+</li>
+
+<li>
+روی چه Portای Listen می‌کند؟
+</li>
+
+<li>
+آیا باید از شبکه خارجی قابل دسترسی باشد؟
+</li>
+
+<li>
+Firewall چه تصمیمی درباره آن می‌گیرد؟
+</li>
+
+</ul>
+
+</div>
+
+
+
+<div class="exercise">
+
+<h3>
+Lab 5 — سناریوی Troubleshooting
+</h3>
+
+<p>
+
+فرض کنید Server شما دارای این وضعیت است:
+
+</p>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+Server
+</div>
+
+<pre class="code-block"><code>Private IP: 10.10.10.20
+Public IP: 203.x.x.x
+Web Server: TCP/80
+Firewall: Unknown</code></pre>
+
+</div>
+
+<p>
+
+کار شما این است که مشخص کنید آیا Web Server از بیرون
+قابل دسترسی است یا خیر.
+
+مراحل بررسی را بنویسید:
+
+</p>
+
+<ol>
+
+<li>
+بررسی Interface
+</li>
+
+<li>
+بررسی IP
+</li>
+
+<li>
+بررسی Route
+</li>
+
+<li>
+بررسی سرویس
+</li>
+
+<li>
+بررسی Listening Port
+</li>
+
+<li>
+بررسی Firewall
+</li>
+
+<li>
+بررسی NAT / Load Balancer
+</li>
+
+<li>
+تست از یک سیستم خارج از شبکه
+</li>
+
+</ol>
+
+</div>
+
+
+
+<h2 id="cheat">
+📋 Cheat Sheet
+</h2>
+
+
+<table class="command-table">
+
+<thead>
+
+<tr>
+
+<th>
+مفهوم / دستور
+</th>
+
+<th>
+توضیح
+</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+
+<td>
+<code>ip addr</code>
+</td>
+
+<td>
+نمایش IP و Interfaceها
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<code>ip route</code>
+</td>
+
+<td>
+نمایش Routing Table
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<code>ip neigh</code>
+</td>
+
+<td>
+نمایش Neighbor / ARP Cache
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<code>ss -lntup</code>
+</td>
+
+<td>
+نمایش Portهای Listening
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<code>ping</code>
+</td>
+
+<td>
+تست Reachability با ICMP
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<code>curl -v</code>
+</td>
+
+<td>
+بررسی HTTP و TLS
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<code>dig</code>
+</td>
+
+<td>
+بررسی DNS
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<code>tcpdump</code>
+</td>
+
+<td>
+مشاهده Packetهای شبکه
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<code>10.0.0.0/8</code>
+</td>
+
+<td>
+Private IPv4
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<code>172.16.0.0/12</code>
+</td>
+
+<td>
+Private IPv4
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<code>192.168.0.0/16</code>
+</td>
+
+<td>
+Private IPv4
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<code>100.64.0.0/10</code>
+</td>
+
+<td>
+Shared Address Space / CGNAT
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+NAT
+</td>
+
+<td>
+ترجمه IP
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+PAT / NAPT
+</td>
+
+<td>
+ترجمه IP همراه با Port
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+SNAT
+</td>
+
+<td>
+تغییر Source Address
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+DNAT
+</td>
+
+<td>
+تغییر Destination Address
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+
+
+<h2 id="learn">
+🎯 چه چیزی یاد گرفتیم؟
+</h2>
+
+<ul>
+
+<li>
+متوجه شدیم Private IP برای شبکه‌های داخلی استفاده می‌شود.
+</li>
+
+<li>
+محدوده‌های اصلی RFC1918 را شناختیم.
+</li>
+
+<li>
+فهمیدیم Public IP الزاماً به معنی Open بودن Server نیست.
+</li>
+
+<li>
+نقش NAT در ترجمه Private IP به Public IP را بررسی کردیم.
+</li>
+
+<li>
+تفاوت NAT و PAT را فهمیدیم.
+</li>
+
+<li>
+با SNAT و DNAT آشنا شدیم.
+</li>
+
+<li>
+Port Forwarding را بررسی کردیم.
+</li>
+
+<li>
+CGNAT و محدوده 100.64.0.0/10 را شناختیم.
+</li>
+
+<li>
+کاربرد Public و Private IP را در Server و Cloud بررسی کردیم.
+</li>
+
+<li>
+ارتباط این مفاهیم با Docker و Kubernetes را دیدیم.
+</li>
+
+<li>
+با دستورات Linux برای Troubleshooting شبکه کار کردیم.
+</li>
+
+</ul>
+
+
+<div class="note">
+
+<strong>نکته مهم برای مسیر DevOps:</strong>
+
+Public و Private IP را فقط به عنوان دو تعریف حفظ نکنید.
+
+وقتی یک Application در Docker، یک VM در VMware،
+یک Server در Linux، یک Service در Kubernetes یا یک
+Instance در Cloud دارید، همیشه از خودتان بپرسید:
+
+<br><br>
+
+<strong>
+این سیستم چه IPای دارد؟
+</strong>
+
+<br>
+
+<strong>
+Gateway آن چیست؟
+</strong>
+
+<br>
+
+<strong>
+Traffic از چه Routeای عبور می‌کند؟
+</strong>
+
+<br>
+
+<strong>
+آیا NAT اتفاق می‌افتد؟
+</strong>
+
+<br>
+
+<strong>
+چه Portی باز است؟
+</strong>
+
+<br>
+
+<strong>
+Firewall چه تصمیمی می‌گیرد؟
+</strong>
+
+<br>
+
+<strong>
+و در نهایت Source و Destination واقعی Packet چیست؟
+</strong>
+
+<br><br>
+
+این مدل ذهنی بعدها در Troubleshooting مربوط به
+Docker، Kubernetes، Cloud، Load Balancer، Zabbix،
+Grafana و سرویس‌های Production بسیار مهم خواهد بود.
+
+</div>
+
+
+<div class="warning">
+
+<strong>
+یک نکته امنیتی نهایی:
+</strong>
+
+هیچ‌وقت صرفاً به این دلیل که یک Server Public IP دارد،
+آن را مستقیماً در معرض Internet قرار ندهید.
+
+قبل از Exposure باید Firewall، Authentication،
+TLS، Logging، Monitoring، Patch Management و
+Attack Surface سرویس بررسی شوند.
+
+</div>
+
+
+</article>
+
+
+
+<div class="article-footer">
+
+<a href="network-arp.html"
+   class="btn btn-secondary">
+
+← مقاله قبلی
+
+</a>
+
+
+<a href="../index.html"
+   class="btn btn-secondary">
+
+بازگشت به مقالات
+
+</a>
+
+
+<a href="../../index.html"
+   class="btn btn-primary">
+
+صفحه اصلی →
+
+</a>
+
+
+<a href="subnet-mask.html"
+   class="btn btn-primary">
+
+مقاله بعدی →
+
+</a>
+
+</div>
+
+
+</div>
+
+</section>
+
+</main>
+
+
+
+<footer>
+
+<div class="container">
+
+<p>
+© 2026 Z.DevOps — Built while learning DevOps.
+</p>
+
+<div class="social-links">
+
+<a href="../../index.html">
+Home
+</a>
+
+</div>
+
+</div>
+
+</footer>
+
+
+</body>
+
+</html>
