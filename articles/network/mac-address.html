@@ -1,73 +1,2284 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
+
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="آموزش کامل MAC Address برای مسیر DevOps و Networking.">
-<meta name="keywords" content="MAC Address, Networking, Linux, DevOps">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
+<meta name="description"
+      content="آموزش عمیق و عملی MAC Address در Networking با مثال‌های Linux، Ethernet، Switch، ARP، Troubleshooting و کاربردهای DevOps.">
+
+<meta name="keywords"
+      content="MAC Address, MAC, Ethernet, Networking, Linux, ARP, Switch, DevOps">
+
 <title>MAC Address | Z.DevOps</title>
-<link rel="stylesheet" href="../../style.css">
-<style>.article-wrapper{max-width:900px;margin:auto}
-.article-header{text-align:center;margin-bottom:70px}
-.article-header .badge{margin-bottom:20px}
-.article-header h1{font-size:clamp(38px,6vw,60px);line-height:1.2;margin-bottom:20px}
-.article-header h1 span{color:var(--primary)}
-.article-subtitle{color:var(--text-secondary);font-size:18px;max-width:700px;margin:auto}
-.article-meta{margin-top:20px;color:#64748b;font-size:13px}
-.toc{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:25px 30px;margin-bottom:55px}
-.toc h3{margin-bottom:15px}.toc ol{margin:0;padding-right:22px}.toc li{margin-bottom:8px}
-.toc a{color:var(--text-secondary);transition:.2s}.toc a:hover{color:var(--primary)}
-.article-body{text-align:right;font-family:"Vazirmatn","Tahoma",sans-serif}
-.article-body h2{font-size:30px;margin-top:65px;margin-bottom:20px;padding-bottom:10px;border-bottom:1px solid var(--border)}
-.article-body h3{font-size:21px;margin-top:35px;margin-bottom:12px}
-.article-body p{color:#cbd5e1;font-size:16px;line-height:2;margin-bottom:20px}
-.article-body ul,.article-body ol{color:#cbd5e1;line-height:2;margin-bottom:25px;padding-right:25px}
-.article-body li{margin-bottom:7px}.article-body strong{color:#f8fafc}
-.code-wrapper{position:relative;margin:20px 0 28px}
-.code-label{direction:ltr;text-align:left;background:#111827;color:#64748b;padding:7px 15px;border-radius:8px 8px 0 0;font-family:Consolas,monospace;font-size:12px;border:1px solid rgba(148,163,184,.15);border-bottom:none}
-.code-block{direction:ltr;text-align:left;background:#020617;border:1px solid rgba(148,163,184,.15);border-radius:0 0 8px 8px;padding:20px;overflow-x:auto;margin:0}
-.code-block code{font-family:Consolas,"Courier New",monospace;font-size:14px;line-height:1.8;color:#e2e8f0}
-.note{background:rgba(56,189,248,.07);border-right:4px solid var(--primary);padding:20px 22px;border-radius:8px;margin:30px 0;color:#cbd5e1;line-height:1.9}
-.warning{background:rgba(251,191,36,.07);border-right:4px solid #fbbf24;padding:20px 22px;border-radius:8px;margin:30px 0;color:#cbd5e1;line-height:1.9}
-.command-table{width:100%;border-collapse:collapse;margin:25px 0 35px;border-radius:10px}
-.command-table th,.command-table td{padding:13px 15px;border-bottom:1px solid var(--border);text-align:right}
-.command-table th{background:var(--card);color:var(--primary);font-weight:600}
-.command-table td{color:#cbd5e1}.command-table code{direction:ltr;display:inline-block;background:rgba(148,163,184,.08);padding:3px 7px;border-radius:5px;color:#e2e8f0;font-family:Consolas,monospace}
-.exercise{background:linear-gradient(135deg,rgba(56,189,248,.08),rgba(14,165,233,.02));border:1px solid rgba(56,189,248,.18);border-radius:14px;padding:28px;margin:35px 0}
-.exercise h3{margin-top:0;color:var(--primary)}
-.article-footer{margin-top:80px;padding-top:30px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;gap:15px;flex-wrap:wrap}
-@media(max-width:650px){.article-header h1{font-size:38px}.article-body h2{font-size:25px}.article-body p{font-size:15px}.command-table{font-size:13px}}</style>
+
+<link rel="stylesheet"
+      href="../../style.css">
+
+<style>
+
+.article-wrapper{
+    max-width:900px;
+    margin:auto
+}
+
+.article-header{
+    text-align:center;
+    margin-bottom:70px
+}
+
+.article-header .badge{
+    margin-bottom:20px
+}
+
+.article-header h1{
+    font-size:clamp(38px,6vw,60px);
+    line-height:1.2;
+    margin-bottom:20px
+}
+
+.article-header h1 span{
+    color:var(--primary)
+}
+
+.article-subtitle{
+    color:var(--text-secondary);
+    font-size:18px;
+    max-width:700px;
+    margin:auto
+}
+
+.article-meta{
+    margin-top:20px;
+    color:#64748b;
+    font-size:13px
+}
+
+.toc{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:14px;
+    padding:25px 30px;
+    margin-bottom:55px
+}
+
+.toc h3{
+    margin-bottom:15px
+}
+
+.toc ol{
+    margin:0;
+    padding-right:22px
+}
+
+.toc li{
+    margin-bottom:8px
+}
+
+.toc a{
+    color:var(--text-secondary);
+    transition:.2s
+}
+
+.toc a:hover{
+    color:var(--primary)
+}
+
+.article-body{
+    text-align:right;
+    font-family:"Vazirmatn","Tahoma",sans-serif
+}
+
+.article-body h2{
+    font-size:30px;
+    margin-top:65px;
+    margin-bottom:20px;
+    padding-bottom:10px;
+    border-bottom:1px solid var(--border)
+}
+
+.article-body h3{
+    font-size:21px;
+    margin-top:35px;
+    margin-bottom:12px
+}
+
+.article-body p{
+    color:#cbd5e1;
+    font-size:16px;
+    line-height:2;
+    margin-bottom:20px
+}
+
+.article-body ul,
+.article-body ol{
+    color:#cbd5e1;
+    line-height:2;
+    margin-bottom:25px;
+    padding-right:25px
+}
+
+.article-body li{
+    margin-bottom:7px
+}
+
+.article-body strong{
+    color:#f8fafc
+}
+
+.code-wrapper{
+    position:relative;
+    margin:20px 0 28px
+}
+
+.code-label{
+    direction:ltr;
+    text-align:left;
+    background:#111827;
+    color:#64748b;
+    padding:7px 15px;
+    border-radius:8px 8px 0 0;
+    font-family:Consolas,monospace;
+    font-size:12px;
+    border:1px solid rgba(148,163,184,.15);
+    border-bottom:none
+}
+
+.code-block{
+    direction:ltr;
+    text-align:left;
+    background:#020617;
+    border:1px solid rgba(148,163,184,.15);
+    border-radius:0 0 8px 8px;
+    padding:20px;
+    overflow-x:auto;
+    margin:0
+}
+
+.code-block code{
+    font-family:Consolas,"Courier New",monospace;
+    font-size:14px;
+    line-height:1.8;
+    color:#e2e8f0
+}
+
+.note{
+    background:rgba(56,189,248,.07);
+    border-right:4px solid var(--primary);
+    padding:20px 22px;
+    border-radius:8px;
+    margin:30px 0;
+    color:#cbd5e1;
+    line-height:1.9
+}
+
+.warning{
+    background:rgba(251,191,36,.07);
+    border-right:4px solid #fbbf24;
+    padding:20px 22px;
+    border-radius:8px;
+    margin:30px 0;
+    color:#cbd5e1;
+    line-height:1.9
+}
+
+.command-table{
+    width:100%;
+    border-collapse:collapse;
+    margin:25px 0 35px;
+    border-radius:10px
+}
+
+.command-table th,
+.command-table td{
+    padding:13px 15px;
+    border-bottom:1px solid var(--border);
+    text-align:right
+}
+
+.command-table th{
+    background:var(--card);
+    color:var(--primary);
+    font-weight:600
+}
+
+.command-table td{
+    color:#cbd5e1
+}
+
+.command-table code{
+    direction:ltr;
+    display:inline-block;
+    background:rgba(148,163,184,.08);
+    padding:3px 7px;
+    border-radius:5px;
+    color:#e2e8f0;
+    font-family:Consolas,monospace
+}
+
+.exercise{
+    background:
+        linear-gradient(
+            135deg,
+            rgba(56,189,248,.08),
+            rgba(14,165,233,.02)
+        );
+
+    border:1px solid rgba(56,189,248,.18);
+    border-radius:14px;
+    padding:28px;
+    margin:35px 0
+}
+
+.exercise h3{
+    margin-top:0;
+    color:var(--primary)
+}
+
+.article-footer{
+    margin-top:80px;
+    padding-top:30px;
+    border-top:1px solid var(--border);
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:15px;
+    flex-wrap:wrap
+}
+
+@media(max-width:650px){
+
+    .article-header h1{
+        font-size:38px
+    }
+
+    .article-body h2{
+        font-size:25px
+    }
+
+    .article-body p{
+        font-size:15px
+    }
+
+    .command-table{
+        font-size:13px
+    }
+
+}
+
+</style>
+
 </head>
+
+
 <body>
-<header class="navbar"><div class="container navbar-inner">
-<a href="../../index.html" class="logo">Z<span>.DevOps</span></a>
-<nav><ul class="nav-links">
-<li><a href="../../index.html">Home</a></li>
-<li><a href="../index.html">Articles</a></li>
-<li><a href="../../index.html#projects">Projects</a>
-</li><li><a href="../../index.html#roadmap">Roadmap</a></li>
-<li><a href="../../index.html#about">About</a></li>
-</ul></nav></div></header>
-<main><section><div class="container article-wrapper">
-<header class="article-header">
-<div class="badge">NETWORKING · DEVOPS</div>
-<h1>MAC Address</h1>
-<p class="article-subtitle">آموزش عمیق و عملی MAC Address با مثال‌های واقعی Linux، Troubleshooting و کاربردهای DevOps.</p>
-<div class="article-meta">📅 September 2026 &nbsp; · &nbsp; ⏱ Beginner → Intermediate &nbsp; · &nbsp; 🌐 Networking</div>
-</header>
-<div class="toc"><h3>📚 فهرست مطالب</h3><ol><li><a href="#s0">MAC چیست؟</a></li><li><a href="#s1">ساختار</a></li><li><a href="#s2">Broadcast و Multicast</a></li><li><a href="#s3">Switch</a></li><li><a href="#s4">Linux</a></li><li><a href="#s5">MAC در برابر IP</a></li>
-<li><a href="#lab">Lab عملی</a></li><li><a href="#cheat">Cheat Sheet</a></li><li><a href="#learn">چه چیزی یاد گرفتیم؟</a></li></ol></div>
-<article class="article-body"><h2 id="s0">MAC چیست؟</h2><p>MAC Address شناسه Layer-2 Interface است و در Ethernet معمولاً 48 بیت و Hexadecimal است.</p><h2 id="s1">ساختار</h2><p>نمونه 00:1A:2B:3C:4D:5E شامل شش Octet است. اولین Octet بیت‌هایی برای Group/Individual و Local/Universal دارد.</p><h2 id="s2">Broadcast و Multicast</h2><p>FF:FF:FF:FF:FF:FF Broadcast Ethernet است. Multicast به یک گروه منطقی از مقصدها می‌رسد.</p><h2 id="s3">Switch</h2><p>Switch Source MAC را از Frameها یاد می‌گیرد و در جدول MAC نگه می‌دارد؛ Forwarding بر اساس Destination MAC انجام می‌شود.</p><h2 id="s4">Linux</h2><p>برای دیدن MAC از ip link استفاده کنید.</p><h2 id="s5">MAC در برابر IP</h2><p>MAC برای تحویل محلی Frame و IP برای Addressing منطقی و Routing است.</p><h2 id="lab">🧪 Lab عملی</h2><div class="exercise"><h3>تمرین مرحله‌ای</h3><p>در Ubuntu این دستورات را اجرا کنید و برای هر خروجی یک جمله توضیح بنویسید. هدف، فهمیدن رابطه بین تئوری و وضعیت واقعی سیستم است.</p><div class="code-wrapper"><div class="code-label">Ubuntu</div><pre class="code-block"><code>ip addr
-ip route
-ss -lntup
-ping -c 4 1.1.1.1
-curl -I https://example.com</code></pre></div><p>اگر دستوری خطا داد، متن خطا را ثبت کنید و مشخص کنید مشکل احتمالاً در کدام بخش است: Interface/IP، Routing، DNS، Transport، TLS یا Application.</p></div><h2 id="cheat">📋 Cheat Sheet</h2><table class="command-table"><thead><tr><th>مفهوم</th><th>نکته</th></tr></thead><tbody><tr><td>ip addr</td><td>IP و Interface</td></tr><tr><td>ip route</td><td>Routing Table</td></tr><tr><td>ss -lntup</td><td>Listening Socketها</td></tr><tr><td>ping</td><td>ICMP Reachability</td></tr><tr><td>traceroute</td><td>مسیر تقریبی</td></tr><tr><td>dig</td><td>DNS Query</td></tr><tr><td>curl -v</td><td>HTTP/TLS Troubleshooting</td></tr><tr><td>tcpdump</td><td>Packet Capture</td></tr></tbody></table><h2 id="learn">🎯 چه چیزی یاد گرفتیم؟</h2><ul><li>مفهوم و اجزای اصلی این مبحث را شناختیم.</li><li>یک روش عملی برای مشاهده یا Troubleshooting آن در Linux یاد گرفتیم.</li><li>ارتباط آن با DevOps، Cloud، Server و Monitoring را درک کردیم.</li></ul><div class="note"><strong>نکته DevOps:</strong> این مبحث را فقط حفظ نکنید. در Lab خود خروجی واقعی Linux را با مدل ذهنی Networking مقایسه کنید؛ این کار بعدها در Docker، Kubernetes، Cloud و Incident Troubleshooting بسیار ارزشمند است.</div></article>
-<div class="article-footer">
-<a href="network-tcp-ip-model.html" class="btn btn-secondary">← مقاله قبلی</a>
-<a href="../index.html" class="btn btn-secondary">بازگشت به مقالات</a>
-<a href="../../index.html" class="btn btn-primary">صفحه اصلی →</a>
-<a href="ip-address.html" class="btn btn-primary">مقاله بعدی →</a>
+
+
+<header class="navbar">
+
+<div class="container navbar-inner">
+
+<a href="../../index.html"
+   class="logo">
+
+Z<span>.DevOps</span>
+
+</a>
+
+
+<nav>
+
+<ul class="nav-links">
+
+<li>
+<a href="../../index.html">
+Home
+</a>
+</li>
+
+<li>
+<a href="../index.html">
+Articles
+</a>
+</li>
+
+<li>
+<a href="../../index.html#projects">
+Projects
+</a>
+</li>
+
+<li>
+<a href="../../index.html#roadmap">
+Roadmap
+</a>
+</li>
+
+<li>
+<a href="../../index.html#about">
+About
+</a>
+</li>
+
+</ul>
+
+</nav>
+
 </div>
-</div></section></main>
-<footer><div class="container"><p>© 2026 Z.DevOps — Built while learning DevOps.</p><div class="social-links"><a href="../../index.html">Home</a></div></div></footer>
-</body></html>
+
+</header>
+
+
+
+<main>
+
+<section>
+
+<div class="container article-wrapper">
+
+
+<header class="article-header">
+
+<div class="badge">
+NETWORKING · DEVOPS
+</div>
+
+<h1>
+MAC <span>Address</span>
+</h1>
+
+<p class="article-subtitle">
+
+آموزش عمیق و عملی MAC Address؛
+از Ethernet و Switch و ARP تا Linux،
+Troubleshooting و کاربردهای واقعی در DevOps.
+
+</p>
+
+<div class="article-meta">
+
+📅 September 2026
+&nbsp; · &nbsp;
+⏱ Beginner → Intermediate
+&nbsp; · &nbsp;
+🌐 Networking
+
+</div>
+
+</header>
+
+
+
+<div class="toc">
+
+<h3>
+📚 فهرست مطالب
+</h3>
+
+<ol>
+
+<li>
+<a href="#s0">
+MAC Address چیست؟
+</a>
+</li>
+
+<li>
+<a href="#s1">
+MAC در کدام Layer قرار دارد؟
+</a>
+</li>
+
+<li>
+<a href="#s2">
+ساختار MAC Address
+</a>
+</li>
+
+<li>
+<a href="#s3">
+Unicast، Multicast و Broadcast
+</a>
+</li>
+
+<li>
+<a href="#s4">
+Switch چگونه MAC را یاد می‌گیرد؟
+</a>
+</li>
+
+<li>
+<a href="#s5">
+MAC Address Table
+</a>
+</li>
+
+<li>
+<a href="#s6">
+MAC و IP چه تفاوتی دارند؟
+</a>
+</li>
+
+<li>
+<a href="#s7">
+ARP چه ارتباطی با MAC دارد؟
+</a>
+</li>
+
+<li>
+<a href="#s8">
+MAC Address در Linux
+</a>
+</li>
+
+<li>
+<a href="#s9">
+تغییر MAC در Linux
+</a>
+</li>
+
+<li>
+<a href="#s10">
+MAC در Virtual Machine و Docker
+</a>
+</li>
+
+<li>
+<a href="#s11">
+Troubleshooting
+</a>
+</li>
+
+<li>
+<a href="#lab">
+Lab عملی
+</a>
+</li>
+
+<li>
+<a href="#devops">
+کاربرد MAC در DevOps
+</a>
+</li>
+
+<li>
+<a href="#cheat">
+Cheat Sheet
+</a>
+</li>
+
+<li>
+<a href="#learn">
+چه چیزی یاد گرفتیم؟
+</a>
+</li>
+
+</ol>
+
+</div>
+
+
+
+<article class="article-body">
+
+
+<!-- ====================================================== -->
+<!-- INTRO -->
+<!-- ====================================================== -->
+
+<h2 id="s0">
+MAC Address چیست؟
+</h2>
+
+<p>
+
+<strong>MAC Address</strong>
+یا
+<strong>Media Access Control Address</strong>
+یک شناسه در سطح
+<strong>Data Link Layer</strong>
+است که برای شناسایی Interface شبکه در ارتباطات محلی Ethernet استفاده می‌شود.
+
+</p>
+
+<p>
+
+اگر یک کامپیوتر را به Network وصل کنیم،
+Network Interface Card یا همان
+<strong>NIC</strong>
+باید یک شناسه داشته باشد تا Frameهای Ethernet بتوانند مقصد خود را مشخص کنند.
+
+</p>
+
+<p>
+
+یک MAC Address معمولاً به شکل زیر نمایش داده می‌شود:
+
+</p>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+Example
+</div>
+
+<pre class="code-block"><code>00:1A:2B:3C:4D:5E</code></pre>
+
+</div>
+
+<p>
+
+این Address از
+<strong>48 بیت</strong>
+تشکیل شده و معمولاً با
+<strong>12 رقم Hexadecimal</strong>
+نمایش داده می‌شود.
+
+</p>
+
+<div class="note">
+
+💡 نکته مهم:
+MAC Address مربوط به ارتباط در شبکه محلی است.
+وقتی Packet از یک Router عبور می‌کند،
+MAC Address مربوط به Frame در هر Segment می‌تواند تغییر کند،
+در حالی که IP مقصد معمولاً همان مقصد منطقی باقی می‌ماند.
+
+</div>
+
+
+
+<!-- ====================================================== -->
+<!-- LAYER -->
+<!-- ====================================================== -->
+
+<h2 id="s1">
+MAC در کدام Layer قرار دارد؟
+</h2>
+
+<p>
+
+برای درک MAC باید مدل
+<strong>OSI</strong>
+را بشناسیم.
+
+</p>
+
+<table class="command-table">
+
+<thead>
+
+<tr>
+
+<th>
+Layer
+</th>
+
+<th>
+مثال
+</th>
+
+<th>
+نقش
+</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+
+<td>
+Layer 7
+</td>
+
+<td>
+HTTP
+</td>
+
+<td>
+Application
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+Layer 4
+</td>
+
+<td>
+TCP / UDP
+</td>
+
+<td>
+Transport
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+Layer 3
+</td>
+
+<td>
+IPv4 / IPv6
+</td>
+
+<td>
+Routing و Logical Addressing
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+Layer 2
+</td>
+
+<td>
+Ethernet / MAC
+</td>
+
+<td>
+Frame و ارتباط محلی
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+Layer 1
+</td>
+
+<td>
+Cable / Fiber / Radio
+</td>
+
+<td>
+انتقال Physical Signal
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+<p>
+
+پس:
+
+</p>
+
+<div class="note">
+
+<strong>MAC → Layer 2</strong>
+
+<br>
+
+<strong>IP → Layer 3</strong>
+
+<br>
+
+<strong>TCP/UDP → Layer 4</strong>
+
+</div>
+
+<p>
+
+این تفکیک در Troubleshooting بسیار مهم است.
+
+اگر مشکل در MAC، VLAN یا Ethernet باشد،
+نباید مستقیماً دنبال DNS یا HTTP بگردیم.
+
+</p>
+
+
+
+<!-- ====================================================== -->
+<!-- STRUCTURE -->
+<!-- ====================================================== -->
+
+<h2 id="s2">
+ساختار MAC Address
+</h2>
+
+<p>
+
+یک MAC معمولی مانند:
+
+</p>
+
+<div class="code-wrapper">
+
+<pre class="code-block"><code>00:1A:2B:3C:4D:5E</code></pre>
+
+</div>
+
+<p>
+
+از شش بخش دو رقمی تشکیل شده است.
+
+هر بخش یک
+<strong>Octet</strong>
+است.
+
+</p>
+
+<p>
+
+در MAC Addressهای سنتی Ethernet،
+48 بیت وجود دارد:
+
+</p>
+
+<div class="code-wrapper">
+
+<pre class="code-block"><code>48 bits
+
+00000000 00011010 00101011 00111100 01001101 01011110</code></pre>
+
+</div>
+
+<p>
+
+دو مفهوم مهم در بخش ابتدایی MAC عبارت‌اند از:
+
+</p>
+
+<ul>
+
+<li>
+<strong>U/L bit</strong>
+برای مشخص‌کردن Local یا Universal بودن Address
+</li>
+
+<li>
+<strong>I/G bit</strong>
+برای مشخص‌کردن Individual یا Group بودن Address
+</li>
+
+</ul>
+
+<p>
+
+در محیط واقعی معمولاً لازم نیست این بیت‌ها را دستی محاسبه کنیم،
+اما دانستن مفهوم آن‌ها برای درک ساختار Ethernet مفید است.
+
+</p>
+
+
+
+<!-- ====================================================== -->
+<!-- TYPES -->
+<!-- ====================================================== -->
+
+<h2 id="s3">
+Unicast، Multicast و Broadcast
+</h2>
+
+<p>
+
+همه MAC Addressها به یک شکل استفاده نمی‌شوند.
+
+یکی از دسته‌بندی‌های مهم،
+نوع مقصد Frame است.
+
+</p>
+
+
+<h3>
+Unicast
+</h3>
+
+<p>
+
+در Unicast،
+Frame برای یک مقصد مشخص ارسال می‌شود.
+
+مثلاً:
+
+</p>
+
+<div class="code-wrapper">
+
+<pre class="code-block"><code>Destination MAC:
+00:1A:2B:3C:4D:5E</code></pre>
+
+</div>
+
+
+<h3>
+Broadcast
+</h3>
+
+<p>
+
+Broadcast یعنی Frame برای همه Hostهای موجود در Broadcast Domain ارسال شود.
+
+MAC مخصوص Broadcast:
+
+</p>
+
+<div class="code-wrapper">
+
+<pre class="code-block"><code>FF:FF:FF:FF:FF:FF</code></pre>
+
+</div>
+
+<p>
+
+یکی از مثال‌های مهم استفاده از Broadcast،
+برخی فرآیندهای Discovery در شبکه محلی است.
+
+</p>
+
+
+<h3>
+Multicast
+</h3>
+
+<p>
+
+در Multicast،
+Frame برای یک گروه از Receiverها ارسال می‌شود.
+
+این مفهوم در بعضی پروتکل‌های Networking،
+Service Discovery و برخی سیستم‌های Distributed کاربرد دارد.
+
+</p>
+
+<div class="note">
+
+💡 در Troubleshooting شبکه،
+تشخیص اینکه Traffic به صورت Unicast، Broadcast یا Multicast است،
+می‌تواند در فهم رفتار Network بسیار کمک‌کننده باشد.
+
+</div>
+
+
+
+<!-- ====================================================== -->
+<!-- SWITCH -->
+<!-- ====================================================== -->
+
+<h2 id="s4">
+Switch چگونه MAC را یاد می‌گیرد؟
+</h2>
+
+<p>
+
+یکی از مهم‌ترین مفاهیم MAC Address،
+نحوه کار
+<strong>Ethernet Switch</strong>
+است.
+
+</p>
+
+<p>
+
+Switch معمولاً یک
+<strong>MAC Address Table</strong>
+دارد.
+
+وقتی یک Ethernet Frame وارد Port می‌شود،
+Switch می‌تواند
+<strong>Source MAC</strong>
+را مشاهده کند و متوجه شود که آن MAC از کدام Port آمده است.
+
+</p>
+
+<p>
+
+مثلاً فرض کنیم Switch چنین وضعیتی دارد:
+
+</p>
+
+<table class="command-table">
+
+<thead>
+
+<tr>
+
+<th>
+MAC
+</th>
+
+<th>
+Port
+</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+
+<td>
+00:11:22:33:44:55
+</td>
+
+<td>
+Gi0/1
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+AA:BB:CC:DD:EE:FF
+</td>
+
+<td>
+Gi0/2
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+<p>
+
+اگر Frameای برای
+AA:BB:CC:DD:EE:FF
+برسد،
+Switch می‌داند که باید آن را به Port مربوطه Forward کند.
+
+</p>
+
+<p>
+
+اگر Destination MAC را در Table نداشته باشد،
+Switch ممکن است Frame را در Portهای مناسب Flood کند
+تا مقصد پیدا شود.
+
+</p>
+
+
+
+<!-- ====================================================== -->
+<!-- MAC TABLE -->
+<!-- ====================================================== -->
+
+<h2 id="s5">
+MAC Address Table
+</h2>
+
+<p>
+
+در Switchهای Managed معمولاً می‌توان MAC Address Table را مشاهده کرد.
+
+این Table برای Troubleshooting بسیار ارزشمند است.
+
+</p>
+
+<p>
+
+برای مثال در تجهیزات Cisco معمولاً دستوری مشابه زیر وجود دارد:
+
+</p>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+Cisco IOS
+</div>
+
+<pre class="code-block"><code>show mac address-table</code></pre>
+
+</div>
+
+<p>
+
+از این اطلاعات می‌توانیم بفهمیم:
+
+</p>
+
+<ul>
+
+<li>
+یک MAC از کدام Port دیده شده است.
+</li>
+
+<li>
+آیا یک MAC روی چند Port دیده می‌شود یا نه.
+</li>
+
+<li>
+آیا ممکن است Loop یا Misconfiguration داشته باشیم.
+</li>
+
+<li>
+آیا Host موردنظر از مسیر مورد انتظار به Switch متصل است.
+</li>
+
+</ul>
+
+<div class="warning">
+
+⚠️ دیدن یک MAC روی چند Port همیشه به معنی مشکل نیست.
+در محیط‌هایی مثل Virtualization، Trunk، Port-Channel و بعضی معماری‌های Network،
+رفتار طبیعی می‌تواند پیچیده‌تر باشد.
+
+</div>
+
+
+
+<!-- ====================================================== -->
+<!-- MAC VS IP -->
+<!-- ====================================================== -->
+
+<h2 id="s6">
+MAC Address در برابر IP Address
+</h2>
+
+<p>
+
+یکی از رایج‌ترین اشتباهات افراد تازه‌کار این است که MAC و IP را تقریباً یک مفهوم در نظر بگیرند.
+
+در حالی که این دو نقش متفاوتی دارند.
+
+</p>
+
+<table class="command-table">
+
+<thead>
+
+<tr>
+
+<th>
+MAC
+</th>
+
+<th>
+IP
+</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+
+<td>
+Layer 2
+</td>
+
+<td>
+Layer 3
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+برای ارتباط محلی
+</td>
+
+<td>
+برای Logical Addressing
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+در Ethernet Frame
+</td>
+
+<td>
+در IP Packet
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+Switch بیشتر با آن کار می‌کند
+</td>
+
+<td>
+Router با آن Route می‌کند
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+معمولاً 48 بیت در Ethernet
+</td>
+
+<td>
+IPv4 برابر 32 بیت
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+<p>
+
+یک مثال ساده:
+
+فرض کن کامپیوتر A می‌خواهد با Server B در همان شبکه محلی ارتباط برقرار کند.
+
+برای ارسال Ethernet Frame،
+کامپیوتر A باید MAC مقصد را بداند.
+
+اما اگر مقصد در یک Network دیگر باشد،
+Frame ابتدا به MAC مربوط به
+<strong>Next Hop / Default Gateway</strong>
+ارسال می‌شود.
+
+</p>
+
+<div class="note">
+
+💡 این نکته یکی از پایه‌های مهم Networking است:
+
+<strong>
+IP مشخص می‌کند Packet منطقی به کجا می‌رود،
+اما MAC مشخص می‌کند Frame فعلی در همین Segment به کدام Interface تحویل داده شود.
+</strong>
+
+</div>
+
+
+
+<!-- ====================================================== -->
+<!-- ARP -->
+<!-- ====================================================== -->
+
+<h2 id="s7">
+ARP چه ارتباطی با MAC دارد؟
+</h2>
+
+<p>
+
+اگر یک Host فقط IP مقصد را بداند،
+اما MAC آن را نداند،
+در شبکه IPv4 می‌تواند از
+<strong>ARP</strong>
+برای پیدا کردن MAC استفاده کند.
+
+</p>
+
+<p>
+
+مثلاً فرض کنیم:
+
+</p>
+
+<div class="code-wrapper">
+
+<pre class="code-block"><code>Destination IP:
+192.168.1.20
+
+Destination MAC:
+Unknown</code></pre>
+
+</div>
+
+<p>
+
+Host می‌تواند یک ARP Request ارسال کند که مفهوم آن تقریباً این است:
+
+</p>
+
+<div class="note">
+
+«چه کسی IP آدرس 192.168.1.20 را دارد؟ MAC Address خودت را اعلام کن.»
+
+</div>
+
+<p>
+
+Host مقصد پاسخ می‌دهد و MAC خود را اعلام می‌کند.
+
+در نتیجه Host فرستنده می‌تواند Mapping زیر را داشته باشد:
+
+</p>
+
+<div class="code-wrapper">
+
+<pre class="code-block"><code>192.168.1.20
+        ↓
+AA:BB:CC:DD:EE:FF</code></pre>
+
+</div>
+
+<p>
+
+این اطلاعات معمولاً برای مدتی در
+<strong>ARP Cache</strong>
+نگهداری می‌شود.
+
+</p>
+
+
+
+<!-- ====================================================== -->
+<!-- LINUX -->
+<!-- ====================================================== -->
+
+<h2 id="s8">
+مشاهده MAC Address در Linux
+</h2>
+
+<p>
+
+در Linux ابزار اصلی مدرن برای مشاهده Network Interfaceها،
+دستور
+<strong>ip</strong>
+است.
+
+</p>
+
+<h3>
+مشاهده همه Interfaceها
+</h3>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+Ubuntu
+</div>
+
+<pre class="code-block"><code>ip link</code></pre>
+
+</div>
+
+<p>
+
+نمونه خروجی ممکن است چیزی شبیه این باشد:
+
+</p>
+
+<div class="code-wrapper">
+
+<pre class="code-block"><code>2: ens33: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt;
+    link/ether 00:0c:29:12:34:56
+</code></pre>
+
+</div>
+
+<p>
+
+قسمت:
+
+</p>
+
+<div class="code-wrapper">
+
+<pre class="code-block"><code>link/ether 00:0c:29:12:34:56</code></pre>
+
+</div>
+
+<p>
+
+MAC Address Interface را نشان می‌دهد.
+
+</p>
+
+
+<h3>
+مشاهده یک Interface مشخص
+</h3>
+
+<div class="code-wrapper">
+
+<pre class="code-block"><code>ip link show ens33</code></pre>
+
+</div>
+
+
+<h3>
+مشاهده MAC با sysfs
+</h3>
+
+<div class="code-wrapper">
+
+<pre class="code-block"><code>cat /sys/class/net/ens33/address</code></pre>
+
+</div>
+
+
+<h3>
+مشاهده اطلاعات کامل Interface
+</h3>
+
+<div class="code-wrapper">
+
+<pre class="code-block"><code>ip addr show ens33</code></pre>
+
+</div>
+
+
+
+<!-- ====================================================== -->
+<!-- CHANGE MAC -->
+<!-- ====================================================== -->
+
+<h2 id="s9">
+تغییر MAC Address در Linux
+</h2>
+
+<p>
+
+در بعضی محیط‌های Lab یا Virtualization ممکن است بخواهیم MAC Interface را موقتاً تغییر دهیم.
+
+ابتدا Interface را Down می‌کنیم:
+
+</p>
+
+<div class="code-wrapper">
+
+<pre class="code-block"><code>sudo ip link set dev ens33 down</code></pre>
+
+</div>
+
+<p>
+
+سپس MAC جدید را تنظیم می‌کنیم:
+
+</p>
+
+<div class="code-wrapper">
+
+<pre class="code-block"><code>sudo ip link set dev ens33 address 02:11:22:33:44:55</code></pre>
+
+</div>
+
+<p>
+
+و دوباره Interface را بالا می‌آوریم:
+
+</p>
+
+<div class="code-wrapper">
+
+<pre class="code-block"><code>sudo ip link set dev ens33 up</code></pre>
+
+</div>
+
+<p>
+
+برای بررسی:
+
+</p>
+
+<div class="code-wrapper">
+
+<pre class="code-block"><code>ip link show ens33</code></pre>
+
+</div>
+
+<div class="warning">
+
+⚠️ این کار را روی Interface اصلی سیستم Production بدون شناخت دقیق Network انجام نده.
+تغییر MAC می‌تواند باعث قطع ارتباط،
+مشکل DHCP،
+Port Security،
+Duplicate Address Detection
+یا مشکلات دیگر شود.
+
+</div>
+
+
+
+<!-- ====================================================== -->
+<!-- VM DOCKER -->
+<!-- ====================================================== -->
+
+<h2 id="s10">
+MAC در Virtual Machine و Docker
+</h2>
+
+<p>
+
+در محیط‌های مدرن DevOps فقط با Physical NIC سروکار نداریم.
+
+Virtualization باعث می‌شود Interfaceهای مجازی نیز داشته باشیم.
+
+</p>
+
+
+<h3>
+Virtual Machine
+</h3>
+
+<p>
+
+یک VM معمولاً یک Virtual NIC دارد که برای آن MAC Address تعریف می‌شود.
+
+مثلاً در VMware یا VirtualBox ممکن است چیزی شبیه این داشته باشیم:
+
+</p>
+
+<div class="code-wrapper">
+
+<pre class="code-block"><code>Virtual Machine
+       |
+       v
+Virtual NIC
+       |
+       v
+MAC Address
+       |
+       v
+Virtual Switch
+</code></pre>
+
+</div>
+
+<p>
+
+بنابراین وقتی روی Ubuntu داخل VM دستور زیر را اجرا می‌کنی:
+
+</p>
+
+<div class="code-wrapper">
+
+<pre class="code-block"><code>ip link</code></pre>
+
+</div>
+
+ممکن است MACای ببینی که متعلق به Virtual NIC ماشین باشد.
+
+</p>
+
+
+<h3>
+Docker
+</h3>
+
+<p>
+
+Containerها نیز Network Interface مجازی دارند.
+
+مثلاً در Docker معمولاً یک Interface مانند
+<strong>eth0</strong>
+داخل Container وجود دارد.
+
+</p>
+
+<div class="code-wrapper">
+
+<pre class="code-block"><code>docker exec -it CONTAINER_ID ip link</code></pre>
+
+</div>
+
+<p>
+
+این موضوع بعدها هنگام یادگیری Docker Networking بسیار مهم خواهد شد.
+
+Container فقط یک Process ساده نیست؛
+در Network Namespace خودش Interface، IP و Route دارد.
+
+</p>
+
+<div class="note">
+
+💡 وقتی Docker را یاد بگیری،
+خواهی دید که مفاهیمی مثل
+MAC،
+IP،
+Network Namespace،
+Bridge،
+Veth Pair
+و NAT چگونه به یکدیگر متصل می‌شوند.
+
+</div>
+
+
+
+<!-- ====================================================== -->
+<!-- TROUBLESHOOTING -->
+<!-- ====================================================== -->
+
+<h2 id="s11">
+Troubleshooting با MAC Address
+</h2>
+
+<p>
+
+MAC Address در Troubleshooting چند کاربرد مهم دارد.
+
+</p>
+
+
+<h3>
+سناریو ۱: Interface بالا نیست
+</h3>
+
+<div class="code-wrapper">
+
+<pre class="code-block"><code>ip link</code></pre>
+
+</div>
+
+<p>
+
+به وضعیت‌هایی مثل
+<strong>UP</strong>
+و
+<strong>LOWER_UP</strong>
+توجه کن.
+
+</p>
+
+
+<h3>
+سناریو ۲: IP داریم اما Network کار نمی‌کند
+</h3>
+
+<p>
+
+ابتدا Interface و MAC را بررسی کن:
+
+</p>
+
+<div class="code-wrapper">
+
+<pre class="code-block"><code>ip link
+ip addr
+ip route</code></pre>
+
+</div>
+
+<p>
+
+سپس Gateway را تست کن:
+
+</p>
+
+<div class="code-wrapper">
+
+<pre class="code-block"><code>ping -c 4 GATEWAY_IP</code></pre>
+
+</div>
+
+<p>
+
+اگر Gateway قابل دسترسی نیست،
+قبل از بررسی DNS باید Layerهای پایین‌تر را بررسی کنیم.
+
+</p>
+
+
+<h3>
+سناریو ۳: بررسی ARP
+</h3>
+
+<p>
+
+برای مشاهده Neighbor Table:
+
+</p>
+
+<div class="code-wrapper">
+
+<pre class="code-block"><code>ip neigh</code></pre>
+
+</div>
+
+<p>
+
+خروجی می‌تواند چیزی شبیه این باشد:
+
+</p>
+
+<div class="code-wrapper">
+
+<pre class="code-block"><code>192.168.1.1 dev ens33
+lladdr 00:11:22:33:44:55
+REACHABLE</code></pre>
+
+</div>
+
+<p>
+
+اینجا می‌توانیم رابطه بین:
+
+</p>
+
+<div class="code-wrapper">
+
+<pre class="code-block"><code>IP
+ ↓
+MAC
+ ↓
+Interface
+</code></pre>
+
+</div>
+
+<p>
+
+را مشاهده کنیم.
+
+</p>
+
+
+<h3>
+سناریو ۴: Duplicate یا MAC Conflict
+</h3>
+
+<p>
+
+در بعضی شبکه‌ها اگر دو Device با وضعیت نامناسب MAC یا تنظیمات Virtualization مشابه وارد Network شوند،
+ممکن است رفتارهای غیرعادی دیده شود.
+
+نشانه‌ها می‌توانند شامل:
+
+</p>
+
+<ul>
+
+<li>
+قطع و وصل شدن ارتباط
+</li>
+
+<li>
+جابجایی MAC بین Portهای Switch
+</li>
+
+<li>
+رفتار غیرقابل پیش‌بینی Traffic
+</li>
+
+<li>
+مشکل در Virtual Machineها
+</li>
+
+</ul>
+
+<p>
+
+در این شرایط بررسی MAC Table روی Switch و بررسی Virtual NICها می‌تواند مفید باشد.
+
+</p>
+
+
+
+<!-- ====================================================== -->
+<!-- LAB -->
+<!-- ====================================================== -->
+
+<h2 id="lab">
+🧪 Lab عملی MAC Address
+</h2>
+
+<div class="exercise">
+
+<h3>
+تمرین ۱ — پیدا کردن MAC سیستم
+</h3>
+
+<p>
+
+روی Ubuntu اجرا کن:
+
+</p>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+Ubuntu
+</div>
+
+<pre class="code-block"><code>ip link</code></pre>
+
+</div>
+
+<p>
+
+حالا Interface اصلی سیستم را پیدا کن و MAC آن را یادداشت کن.
+
+</p>
+
+</div>
+
+
+<div class="exercise">
+
+<h3>
+تمرین ۲ — ارتباط IP و MAC</h3>
+
+<p>
+
+ابتدا IP و Route را ببین:
+
+</p>
+
+<div class="code-wrapper">
+
+<pre class="code-block"><code>ip addr
+ip route</code></pre>
+
+</div>
+
+<p>
+
+سپس Neighbor Table را بررسی کن:
+
+</p>
+
+<div class="code-wrapper">
+
+<pre class="code-block"><code>ip neigh</code></pre>
+
+</div>
+
+<p>
+
+حالا سعی کن توضیح بدهی:
+
+</p>
+
+<ul>
+
+<li>
+Gateway من چیست؟
+</li>
+
+<li>
+MAC Gateway چیست؟
+</li>
+
+<li>
+این MAC روی کدام Interface دیده می‌شود؟
+</li>
+
+<li>
+وضعیت Neighbor چیست؟
+</li>
+
+</ul>
+
+</div>
+
+
+<div class="exercise">
+
+<h3>
+تمرین ۳ — بررسی Network</h3>
+
+<div class="code-wrapper">
+
+<pre class="code-block"><code>ip link
+ip addr
+ip route
+ip neigh
+ping -c 4 1.1.1.1
+</code></pre>
+
+</div>
+
+<p>
+
+برای هر Command توضیح بده که مربوط به کدام Layer یا بخش Network است.
+
+</p>
+
+</div>
+
+
+
+<!-- ====================================================== -->
+<!-- DEVOPS -->
+<!-- ====================================================== -->
+
+<h2 id="devops">
+کاربرد MAC Address در DevOps
+</h2>
+
+<p>
+
+شاید در نگاه اول MAC Address یک موضوع صرفاً Network باشد،
+اما در کار واقعی DevOps بارها با آن مواجه خواهی شد.
+
+</p>
+
+<h3>
+Virtualization
+</h3>
+
+<p>
+
+در VMware،
+VirtualBox،
+Hyper-V
+و سایر Hypervisorها،
+Virtual NICها MAC Address دارند.
+
+</p>
+
+
+<h3>
+Docker Networking
+</h3>
+
+<p>
+
+Docker Containerها Network Interface مجازی دارند و در شبکه‌های Bridge،
+ارتباط بین Containerها و Host به مفاهیمی مثل Ethernet، MAC و Virtual Interface وابسته است.
+
+</p>
+
+
+<h3>
+Kubernetes
+</h3>
+
+<p>
+
+در Kubernetes نیز Network از Interfaceها و Network Namespaceهای مختلف تشکیل می‌شود.
+وقتی وارد مباحث CNI و Container Networking شوی،
+درک Layer 2 و Layer 3 بسیار مهم خواهد بود.
+
+</p>
+
+
+<h3>
+Monitoring
+</h3>
+
+<p>
+
+در بعضی محیط‌های Monitoring و Asset Management،
+MAC Address می‌تواند به‌عنوان یکی از مشخصه‌های شناسایی Interface یا Device استفاده شود.
+
+</p>
+
+
+<h3>
+Troubleshooting
+</h3>
+
+<p>
+
+وقتی یک Server،
+VM،
+Container
+یا Network Device رفتار غیرعادی دارد،
+دانستن رابطه:
+
+</p>
+
+<div class="code-wrapper">
+
+<pre class="code-block"><code>Device
+   ↓
+Interface
+   ↓
+MAC
+   ↓
+IP
+   ↓
+Route
+   ↓
+Application</code></pre>
+
+</div>
+
+<p>
+
+باعث می‌شود Troubleshooting را به‌صورت منطقی و Layer-by-Layer انجام دهی.
+
+</p>
+
+
+
+<!-- ====================================================== -->
+<!-- CHEAT -->
+<!-- ====================================================== -->
+
+<h2 id="cheat">
+📋 MAC Address Cheat Sheet
+</h2>
+
+<table class="command-table">
+
+<thead>
+
+<tr>
+
+<th>
+Command / Concept
+</th>
+
+<th>
+کاربرد
+</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+
+<td>
+<code>ip link</code>
+</td>
+
+<td>
+مشاهده Interface و MAC
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<code>ip link show eth0</code>
+</td>
+
+<td>
+
+مشاهده اطلاعات یک Interface
+
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<code>ip addr</code>
+</td>
+
+<td>
+
+مشاهده IP و Interface
+
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<code>ip neigh</code>
+</td>
+
+<td>
+
+مشاهده IP ↔ MAC Neighborها
+
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<code>ip route</code>
+</td>
+
+<td>
+
+مشاهده Routing Table
+
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<code>show mac address-table</code>
+</td>
+
+<td>
+
+مشاهده MAC Table در Cisco
+
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<code>tcpdump</code>
+</td>
+
+<td>
+
+Packet Capture و بررسی Traffic
+
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<code>FF:FF:FF:FF:FF:FF</code>
+</td>
+
+<td>
+
+Ethernet Broadcast
+
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+
+
+<!-- ====================================================== -->
+<!-- LEARN -->
+<!-- ====================================================== -->
+
+<h2 id="learn">
+🎯 چه چیزی یاد گرفتیم؟
+</h2>
+
+<ul>
+
+<li>
+MAC Address یک شناسه مهم در Layer 2 و Ethernet است.
+</li>
+
+<li>
+MAC و IP دو مفهوم متفاوت با نقش‌های متفاوت هستند.
+</li>
+
+<li>
+Switchها از MAC Address Table برای Forward کردن Frameها استفاده می‌کنند.
+</li>
+
+<li>
+ARP در IPv4 برای پیدا کردن MAC متناظر با IP در شبکه محلی کاربرد دارد.
+</li>
+
+<li>
+در Linux می‌توان با <code>ip link</code> و <code>ip neigh</code> اطلاعات MAC را بررسی کرد.
+</li>
+
+<li>
+Virtual Machineها و Containerها نیز می‌توانند Interfaceهای شبکه و MAC داشته باشند.
+</li>
+
+<li>
+MAC Address یکی از مفاهیم پایه برای درک Docker Networking و Kubernetes Networking است.
+</li>
+
+<li>
+در Troubleshooting بهتر است از Layerهای پایین‌تر شروع کنیم و مرحله‌به‌مرحله به Application برسیم.
+</li>
+
+</ul>
+
+
+<div class="note">
+
+<strong>🚀 نکته مهم برای مسیر DevOps:</strong>
+
+MAC Address را فقط به‌عنوان یک شماره حفظ نکن.
+
+سعی کن همیشه این زنجیره را در ذهن داشته باشی:
+
+<br><br>
+
+<strong>
+Physical / Virtual Interface
+↓
+MAC
+↓
+ARP / Neighbor
+↓
+IP
+↓
+Route
+↓
+TCP / UDP
+↓
+Application
+</strong>
+
+<br><br>
+
+وقتی این مدل ذهنی را داشته باشی،
+Troubleshooting شبکه در Linux،
+Docker،
+Kubernetes،
+Cloud
+و Infrastructure بسیار قابل‌فهم‌تر می‌شود.
+
+</div>
+
+
+
+<!-- ====================================================== -->
+<!-- NEXT -->
+<!-- ====================================================== -->
+
+<h2>
+مرحله بعدی چیست؟
+</h2>
+
+<div class="exercise">
+
+<h3>
+🌐 IP Address
+</h3>
+
+<p>
+
+در مقاله بعدی سراغ
+<strong>IP Address</strong>
+می‌رویم و IPv4 را عمیق‌تر بررسی می‌کنیم:
+
+</p>
+
+<ul>
+
+<li>
+IPv4 چیست؟
+</li>
+
+<li>
+Public و Private IP
+</li>
+
+<li>
+Network و Host
+</li>
+
+<li>
+Subnet Mask
+</li>
+
+<li>
+CIDR
+</li>
+
+<li>
+Gateway
+</li>
+
+<li>
+Broadcast
+</li>
+
+<li>
+محاسبه Subnet
+</li>
+
+</ul>
+
+<p>
+
+بعد از IP،
+بهتر می‌توانیم رابطه بین
+<strong>MAC → ARP → IP → Routing</strong>
+را درک کنیم.
+
+</p>
+
+</div>
+
+
+</article>
+
+
+
+<div class="article-footer">
+
+<a href="network-tcp-ip-model.html"
+   class="btn btn-secondary">
+
+← مقاله قبلی
+
+</a>
+
+<a href="../index.html"
+   class="btn btn-secondary">
+
+بازگشت به مقالات
+
+</a>
+
+<a href="../../index.html"
+   class="btn btn-primary">
+
+صفحه اصلی →
+
+</a>
+
+<a href="ip-address.html"
+   class="btn btn-primary">
+
+مقاله بعدی →
+
+</a>
+
+</div>
+
+
+</div>
+
+</section>
+
+</main>
+
+
+
+<footer>
+
+<div class="container">
+
+<p>
+© 2026 Z.DevOps — Built while learning DevOps.
+</p>
+
+<div class="social-links">
+
+<a href="../../index.html">
+Home
+</a>
+
+</div>
+
+</div>
+
+</footer>
+
+
+</body>
+
+</html>
