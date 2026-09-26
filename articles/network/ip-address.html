@@ -1,73 +1,2953 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
+
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="آموزش کامل IP Address برای مسیر DevOps و Networking.">
-<meta name="keywords" content="IP Address, Networking, Linux, DevOps">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
+<meta name="description"
+      content="آموزش عمیق و عملی IP Address برای مسیر DevOps و Networking؛ شامل IPv4، IPv6، Subnet Mask، CIDR، Network، Host، Gateway، Broadcast، Routing و Troubleshooting در Linux.">
+
+<meta name="keywords"
+      content="IP Address, IPv4, IPv6, CIDR, Subnetting, Networking, Linux, DevOps, Routing">
+
 <title>IP Address | Z.DevOps</title>
-<link rel="stylesheet" href="../../style.css">
-<style>.article-wrapper{max-width:900px;margin:auto}
-.article-header{text-align:center;margin-bottom:70px}
-.article-header .badge{margin-bottom:20px}
-.article-header h1{font-size:clamp(38px,6vw,60px);line-height:1.2;margin-bottom:20px}
-.article-header h1 span{color:var(--primary)}
-.article-subtitle{color:var(--text-secondary);font-size:18px;max-width:700px;margin:auto}
-.article-meta{margin-top:20px;color:#64748b;font-size:13px}
-.toc{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:25px 30px;margin-bottom:55px}
-.toc h3{margin-bottom:15px}.toc ol{margin:0;padding-right:22px}.toc li{margin-bottom:8px}
-.toc a{color:var(--text-secondary);transition:.2s}.toc a:hover{color:var(--primary)}
-.article-body{text-align:right;font-family:"Vazirmatn","Tahoma",sans-serif}
-.article-body h2{font-size:30px;margin-top:65px;margin-bottom:20px;padding-bottom:10px;border-bottom:1px solid var(--border)}
-.article-body h3{font-size:21px;margin-top:35px;margin-bottom:12px}
-.article-body p{color:#cbd5e1;font-size:16px;line-height:2;margin-bottom:20px}
-.article-body ul,.article-body ol{color:#cbd5e1;line-height:2;margin-bottom:25px;padding-right:25px}
-.article-body li{margin-bottom:7px}.article-body strong{color:#f8fafc}
-.code-wrapper{position:relative;margin:20px 0 28px}
-.code-label{direction:ltr;text-align:left;background:#111827;color:#64748b;padding:7px 15px;border-radius:8px 8px 0 0;font-family:Consolas,monospace;font-size:12px;border:1px solid rgba(148,163,184,.15);border-bottom:none}
-.code-block{direction:ltr;text-align:left;background:#020617;border:1px solid rgba(148,163,184,.15);border-radius:0 0 8px 8px;padding:20px;overflow-x:auto;margin:0}
-.code-block code{font-family:Consolas,"Courier New",monospace;font-size:14px;line-height:1.8;color:#e2e8f0}
-.note{background:rgba(56,189,248,.07);border-right:4px solid var(--primary);padding:20px 22px;border-radius:8px;margin:30px 0;color:#cbd5e1;line-height:1.9}
-.warning{background:rgba(251,191,36,.07);border-right:4px solid #fbbf24;padding:20px 22px;border-radius:8px;margin:30px 0;color:#cbd5e1;line-height:1.9}
-.command-table{width:100%;border-collapse:collapse;margin:25px 0 35px;border-radius:10px}
-.command-table th,.command-table td{padding:13px 15px;border-bottom:1px solid var(--border);text-align:right}
-.command-table th{background:var(--card);color:var(--primary);font-weight:600}
-.command-table td{color:#cbd5e1}.command-table code{direction:ltr;display:inline-block;background:rgba(148,163,184,.08);padding:3px 7px;border-radius:5px;color:#e2e8f0;font-family:Consolas,monospace}
-.exercise{background:linear-gradient(135deg,rgba(56,189,248,.08),rgba(14,165,233,.02));border:1px solid rgba(56,189,248,.18);border-radius:14px;padding:28px;margin:35px 0}
-.exercise h3{margin-top:0;color:var(--primary)}
-.article-footer{margin-top:80px;padding-top:30px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;gap:15px;flex-wrap:wrap}
-@media(max-width:650px){.article-header h1{font-size:38px}.article-body h2{font-size:25px}.article-body p{font-size:15px}.command-table{font-size:13px}}</style>
+
+<link rel="stylesheet"
+      href="../../style.css">
+
+<style>
+
+.article-wrapper{
+    max-width:900px;
+    margin:auto
+}
+
+.article-header{
+    text-align:center;
+    margin-bottom:70px
+}
+
+.article-header .badge{
+    margin-bottom:20px
+}
+
+.article-header h1{
+    font-size:clamp(38px,6vw,60px);
+    line-height:1.2;
+    margin-bottom:20px
+}
+
+.article-header h1 span{
+    color:var(--primary)
+}
+
+.article-subtitle{
+    color:var(--text-secondary);
+    font-size:18px;
+    max-width:720px;
+    margin:auto
+}
+
+.article-meta{
+    margin-top:20px;
+    color:#64748b;
+    font-size:13px
+}
+
+.toc{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:14px;
+    padding:25px 30px;
+    margin-bottom:55px
+}
+
+.toc h3{
+    margin-bottom:15px
+}
+
+.toc ol{
+    margin:0;
+    padding-right:22px
+}
+
+.toc li{
+    margin-bottom:8px
+}
+
+.toc a{
+    color:var(--text-secondary);
+    transition:.2s
+}
+
+.toc a:hover{
+    color:var(--primary)
+}
+
+.article-body{
+    text-align:right;
+    font-family:"Vazirmatn","Tahoma",sans-serif
+}
+
+.article-body h2{
+    font-size:30px;
+    margin-top:65px;
+    margin-bottom:20px;
+    padding-bottom:10px;
+    border-bottom:1px solid var(--border)
+}
+
+.article-body h3{
+    font-size:21px;
+    margin-top:35px;
+    margin-bottom:12px
+}
+
+.article-body p{
+    color:#cbd5e1;
+    font-size:16px;
+    line-height:2;
+    margin-bottom:20px
+}
+
+.article-body ul,
+.article-body ol{
+    color:#cbd5e1;
+    line-height:2;
+    margin-bottom:25px;
+    padding-right:25px
+}
+
+.article-body li{
+    margin-bottom:7px
+}
+
+.article-body strong{
+    color:#f8fafc
+}
+
+.code-wrapper{
+    position:relative;
+    margin:20px 0 28px
+}
+
+.code-label{
+    direction:ltr;
+    text-align:left;
+    background:#111827;
+    color:#64748b;
+    padding:7px 15px;
+    border-radius:8px 8px 0 0;
+    font-family:Consolas,monospace;
+    font-size:12px;
+    border:1px solid rgba(148,163,184,.15);
+    border-bottom:none
+}
+
+.code-block{
+    direction:ltr;
+    text-align:left;
+    background:#020617;
+    border:1px solid rgba(148,163,184,.15);
+    border-radius:0 0 8px 8px;
+    padding:20px;
+    overflow-x:auto;
+    margin:0
+}
+
+.code-block code{
+    font-family:Consolas,"Courier New",monospace;
+    font-size:14px;
+    line-height:1.8;
+    color:#e2e8f0
+}
+
+.note{
+    background:rgba(56,189,248,.07);
+    border-right:4px solid var(--primary);
+    padding:20px 22px;
+    border-radius:8px;
+    margin:30px 0;
+    color:#cbd5e1;
+    line-height:1.9
+}
+
+.warning{
+    background:rgba(251,191,36,.07);
+    border-right:4px solid #fbbf24;
+    padding:20px 22px;
+    border-radius:8px;
+    margin:30px 0;
+    color:#cbd5e1;
+    line-height:1.9
+}
+
+.command-table{
+    width:100%;
+    border-collapse:collapse;
+    margin:25px 0 35px;
+    border-radius:10px
+}
+
+.command-table th,
+.command-table td{
+    padding:13px 15px;
+    border-bottom:1px solid var(--border);
+    text-align:right
+}
+
+.command-table th{
+    background:var(--card);
+    color:var(--primary);
+    font-weight:600
+}
+
+.command-table td{
+    color:#cbd5e1
+}
+
+.command-table code{
+    direction:ltr;
+    display:inline-block;
+    background:rgba(148,163,184,.08);
+    padding:3px 7px;
+    border-radius:5px;
+    color:#e2e8f0;
+    font-family:Consolas,monospace
+}
+
+.exercise{
+    background:
+        linear-gradient(
+            135deg,
+            rgba(56,189,248,.08),
+            rgba(14,165,233,.02)
+        );
+
+    border:1px solid rgba(56,189,248,.18);
+    border-radius:14px;
+    padding:28px;
+    margin:35px 0
+}
+
+.exercise h3{
+    margin-top:0;
+    color:var(--primary)
+}
+
+.article-footer{
+    margin-top:80px;
+    padding-top:30px;
+    border-top:1px solid var(--border);
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:15px;
+    flex-wrap:wrap
+}
+
+@media(max-width:650px){
+
+    .article-header h1{
+        font-size:38px
+    }
+
+    .article-body h2{
+        font-size:25px
+    }
+
+    .article-body p{
+        font-size:15px
+    }
+
+    .command-table{
+        font-size:13px
+    }
+
+}
+
+</style>
+
 </head>
+
+
 <body>
-<header class="navbar"><div class="container navbar-inner">
-<a href="../../index.html" class="logo">Z<span>.DevOps</span></a>
-<nav><ul class="nav-links">
-<li><a href="../../index.html">Home</a></li>
-<li><a href="../index.html">Articles</a></li>
-<li><a href="../../index.html#projects">Projects</a>
-</li><li><a href="../../index.html#roadmap">Roadmap</a></li>
-<li><a href="../../index.html#about">About</a></li>
-</ul></nav></div></header>
-<main><section><div class="container article-wrapper">
-<header class="article-header">
-<div class="badge">NETWORKING · DEVOPS</div>
-<h1>IP Address</h1>
-<p class="article-subtitle">آموزش عمیق و عملی IP Address با مثال‌های واقعی Linux، Troubleshooting و کاربردهای DevOps.</p>
-<div class="article-meta">📅 September 2026 &nbsp; · &nbsp; ⏱ Beginner → Intermediate &nbsp; · &nbsp; 🌐 Networking</div>
-</header>
-<div class="toc"><h3>📚 فهرست مطالب</h3><ol><li><a href="#s0">IP چیست؟</a></li><li><a href="#s1">Network و Host</a></li><li><a href="#s2">IPv4</a></li><li><a href="#s3">IPv6</a></li><li><a href="#s4">Special Addresses</a></li><li><a href="#s5">Linux</a></li>
-<li><a href="#lab">Lab عملی</a></li><li><a href="#cheat">Cheat Sheet</a></li><li><a href="#learn">چه چیزی یاد گرفتیم؟</a></li></ol></div>
-<article class="article-body"><h2 id="s0">IP چیست؟</h2><p>IP Address یک آدرس منطقی برای Interface است. Routerها بر اساس Prefix مقصد مسیر را انتخاب می‌کنند.</p><h2 id="s1">Network و Host</h2><p>Prefix مشخص می‌کند چه بخشی Network و چه بخشی Host است؛ این پایه Subnetting است.</p><h2 id="s2">IPv4</h2><p>IPv4 دارای 32 بیت است و معمولاً در چهار Octet ده‌دهی نمایش داده می‌شود.</p><h2 id="s3">IPv6</h2><p>IPv6 دارای 128 بیت است و با گروه‌های Hexadecimal نمایش داده می‌شود.</p><h2 id="s4">Special Addresses</h2><p>127.0.0.1 Loopback است؛ 0.0.0.0 در IPv4 unspecified است؛ ::1 در IPv6 Loopback است.</p><h2 id="s5">Linux</h2><p>ip addr آدرس‌ها و ip route مسیرها را نشان می‌دهد.</p><h2 id="lab">🧪 Lab عملی</h2><div class="exercise"><h3>تمرین مرحله‌ای</h3><p>در Ubuntu این دستورات را اجرا کنید و برای هر خروجی یک جمله توضیح بنویسید. هدف، فهمیدن رابطه بین تئوری و وضعیت واقعی سیستم است.</p><div class="code-wrapper"><div class="code-label">Ubuntu</div><pre class="code-block"><code>ip addr
-ip route
-ss -lntup
-ping -c 4 1.1.1.1
-curl -I https://example.com</code></pre></div><p>اگر دستوری خطا داد، متن خطا را ثبت کنید و مشخص کنید مشکل احتمالاً در کدام بخش است: Interface/IP، Routing، DNS، Transport، TLS یا Application.</p></div><h2 id="cheat">📋 Cheat Sheet</h2><table class="command-table"><thead><tr><th>مفهوم</th><th>نکته</th></tr></thead><tbody><tr><td>ip addr</td><td>IP و Interface</td></tr><tr><td>ip route</td><td>Routing Table</td></tr><tr><td>ss -lntup</td><td>Listening Socketها</td></tr><tr><td>ping</td><td>ICMP Reachability</td></tr><tr><td>traceroute</td><td>مسیر تقریبی</td></tr><tr><td>dig</td><td>DNS Query</td></tr><tr><td>curl -v</td><td>HTTP/TLS Troubleshooting</td></tr><tr><td>tcpdump</td><td>Packet Capture</td></tr></tbody></table><h2 id="learn">🎯 چه چیزی یاد گرفتیم؟</h2><ul><li>مفهوم و اجزای اصلی این مبحث را شناختیم.</li><li>یک روش عملی برای مشاهده یا Troubleshooting آن در Linux یاد گرفتیم.</li><li>ارتباط آن با DevOps، Cloud، Server و Monitoring را درک کردیم.</li></ul><div class="note"><strong>نکته DevOps:</strong> این مبحث را فقط حفظ نکنید. در Lab خود خروجی واقعی Linux را با مدل ذهنی Networking مقایسه کنید؛ این کار بعدها در Docker، Kubernetes، Cloud و Incident Troubleshooting بسیار ارزشمند است.</div></article>
-<div class="article-footer">
-<a href="mac-address.html" class="btn btn-secondary">← مقاله قبلی</a>
-<a href="../index.html" class="btn btn-secondary">بازگشت به مقالات</a>
-<a href="../../index.html" class="btn btn-primary">صفحه اصلی →</a>
-<a href="ipv4-ipv6.html" class="btn btn-primary">مقاله بعدی →</a>
+
+
+<header class="navbar">
+
+<div class="container navbar-inner">
+
+<a href="../../index.html"
+   class="logo">
+
+Z<span>.DevOps</span>
+
+</a>
+
+<nav>
+
+<ul class="nav-links">
+
+<li>
+<a href="../../index.html">
+Home
+</a>
+</li>
+
+<li>
+<a href="../index.html">
+Articles
+</a>
+</li>
+
+<li>
+<a href="../../index.html#projects">
+Projects
+</a>
+</li>
+
+<li>
+<a href="../../index.html#roadmap">
+Roadmap
+</a>
+</li>
+
+<li>
+<a href="../../index.html#about">
+About
+</a>
+</li>
+
+</ul>
+
+</nav>
+
 </div>
-</div></section></main>
-<footer><div class="container"><p>© 2026 Z.DevOps — Built while learning DevOps.</p><div class="social-links"><a href="../../index.html">Home</a></div></div></footer>
-</body></html>
+
+</header>
+
+
+<main>
+
+<section>
+
+<div class="container article-wrapper">
+
+
+<header class="article-header">
+
+<div class="badge">
+NETWORKING · DEVOPS
+</div>
+
+<h1>
+IP <span>Address</span>
+</h1>
+
+<p class="article-subtitle">
+
+آموزش عمیق و عملی IP Address؛
+از IPv4 و IPv6 و Subnetting تا Gateway،
+Routing، Linux Troubleshooting و کاربردهای واقعی در DevOps.
+
+</p>
+
+<div class="article-meta">
+
+📅 September 2026
+&nbsp; · &nbsp;
+⏱ Beginner → Intermediate
+&nbsp; · &nbsp;
+🌐 Networking
+
+</div>
+
+</header>
+
+
+<div class="toc">
+
+<h3>
+📚 فهرست مطالب
+</h3>
+
+<ol>
+
+<li>
+<a href="#s0">
+IP Address چیست؟
+</a>
+</li>
+
+<li>
+<a href="#s1">
+Network و Host چیستند؟
+</a>
+</li>
+
+<li>
+<a href="#s2">
+IPv4 و ساختار آن
+</a>
+</li>
+
+<li>
+<a href="#s3">
+Subnet Mask چیست؟
+</a>
+</li>
+
+<li>
+<a href="#s4">
+CIDR چیست؟
+</a>
+</li>
+
+<li>
+<a href="#s5">
+Network Address و Broadcast Address
+</a>
+</li>
+
+<li>
+<a href="#s6">
+Private و Public IP
+</a>
+</li>
+
+<li>
+<a href="#s7">
+Special IP Addresses
+</a>
+</li>
+
+<li>
+<a href="#s8">
+Default Gateway
+</a>
+</li>
+
+<li>
+<a href="#s9">
+DHCP و Static IP
+</a>
+</li>
+
+<li>
+<a href="#s10">
+IPv6 چیست؟
+</a>
+</li>
+
+<li>
+<a href="#s11">
+IP Address در Linux
+</a>
+</li>
+
+<li>
+<a href="#s12">
+Routing و IP
+</a>
+</li>
+
+<li>
+<a href="#s13">
+Troubleshooting
+</a>
+</li>
+
+<li>
+<a href="#lab">
+Lab عملی
+</a>
+</li>
+
+<li>
+<a href="#devops">
+کاربرد IP در DevOps
+</a>
+</li>
+
+<li>
+<a href="#cheat">
+Cheat Sheet
+</a>
+</li>
+
+<li>
+<a href="#learn">
+چه چیزی یاد گرفتیم؟
+</a>
+</li>
+
+</ol>
+
+</div>
+
+
+<article class="article-body">
+
+
+<!-- ====================================================== -->
+<!-- S0 -->
+<!-- ====================================================== -->
+
+<h2 id="s0">
+IP Address چیست؟
+</h2>
+
+<p>
+
+<strong>IP Address</strong>
+یا
+<strong>Internet Protocol Address</strong>
+یک آدرس منطقی برای شناسایی یک Interface در یک شبکه IP است.
+
+</p>
+
+<p>
+
+اگر MAC Address را در مقاله قبلی به عنوان یکی از مفاهیم Layer 2 در نظر بگیریم،
+IP Address در
+<strong>Layer 3</strong>
+قرار دارد.
+
+</p>
+
+<p>
+
+وظیفه اصلی IP این است که به Network Stack کمک کند بفهمد:
+
+</p>
+
+<ul>
+
+<li>
+مبدأ Packet کجاست؟
+</li>
+
+<li>
+مقصد Packet کجاست؟
+</li>
+
+<li>
+آیا مقصد در همین Network است؟
+</li>
+
+<li>
+اگر مقصد در Network دیگری است، Packet باید به کدام Router یا Gateway ارسال شود؟
+</li>
+
+</ul>
+
+<p>
+
+برای مثال:
+
+</p>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+Example
+</div>
+
+<pre class="code-block"><code>Client:
+192.168.1.10
+
+Server:
+192.168.1.20</code></pre>
+
+</div>
+
+<p>
+
+این دو Host ممکن است در یک شبکه محلی باشند و مستقیماً با یکدیگر ارتباط برقرار کنند.
+
+اما اگر Server دارای IP زیر باشد:
+
+</p>
+
+<div class="code-wrapper">
+
+<pre class="code-block"><code>10.10.20.50</code></pre>
+
+</div>
+
+احتمالاً مقصد در Network دیگری قرار دارد و Router باید در مسیر قرار بگیرد.
+
+<div class="note">
+
+<strong>مدل ذهنی مهم:</strong>
+
+MAC بیشتر برای ارتباط محلی و Frame در Layer 2 استفاده می‌شود،
+در حالی که IP برای Addressing و Routing در Layer 3 استفاده می‌شود.
+
+</div>
+
+
+
+<!-- ====================================================== -->
+<!-- S1 -->
+<!-- ====================================================== -->
+
+<h2 id="s1">
+Network و Host چیستند؟
+</h2>
+
+<p>
+
+یکی از مهم‌ترین مفاهیمی که قبل از Subnetting باید یاد بگیریم،
+تفاوت بین
+<strong>Network</strong>
+و
+<strong>Host</strong>
+است.
+
+</p>
+
+<p>
+
+فرض کنیم IP زیر را داریم:
+
+</p>
+
+<div class="code-wrapper">
+
+<pre class="code-block"><code>192.168.1.25/24</code></pre>
+
+</div>
+
+<p>
+
+قسمت
+<strong>/24</strong>
+مشخص می‌کند که 24 بیت اول مربوط به Network Prefix است.
+
+در نتیجه:
+
+</p>
+
+<div class="code-wrapper">
+
+<pre class="code-block"><code>Network:
+192.168.1.0
+
+Host:
+25</code></pre>
+
+</div>
+
+<p>
+
+البته این بیان ساده‌شده است؛
+در واقع Host Portion شامل بیت‌هایی است که توسط Prefix برای Host باقی مانده‌اند.
+
+</p>
+
+<p>
+
+با /24:
+
+</p>
+
+<div class="code-wrapper">
+
+<pre class="code-block"><code>IPv4 = 32 bits
+
+Network = 24 bits
+Host    = 8 bits</code></pre>
+
+</div>
+
+<p>
+
+پس تعداد بیت‌های Host برابر است با:
+
+</p>
+
+<div class="code-wrapper">
+
+<pre class="code-block"><code>32 - 24 = 8</code></pre>
+
+</div>
+
+<p>
+
+و تعداد کل حالت‌های آدرس Host در آن Subnet برابر است با:
+
+</p>
+
+<div class="code-wrapper">
+
+<pre class="code-block"><code>2^8 = 256 addresses</code></pre>
+
+</div>
+
+<p>
+
+در Subnetهای معمول IPv4،
+همه این 256 آدرس الزاماً برای Hostها قابل استفاده نیستند؛
+Network Address و Broadcast Address کاربردهای ویژه دارند.
+
+</p>
+
+
+
+<!-- ====================================================== -->
+<!-- S2 -->
+<!-- ====================================================== -->
+
+<h2 id="s2">
+IPv4 و ساختار آن
+</h2>
+
+<p>
+
+<strong>IPv4</strong>
+یک Address برابر با
+<strong>32 بیت</strong>
+است.
+
+برای خوانایی، این 32 بیت به چهار بخش 8 بیتی تقسیم می‌شود.
+
+</p>
+
+<div class="code-wrapper">
+
+<pre class="code-block"><code>8 bits    8 bits    8 bits    8 bits
+
+  192       168        1         25</code></pre>
+
+</div>
+
+<p>
+
+هر بخش را
+<strong>Octet</strong>
+می‌نامیم.
+
+بنابراین یک IPv4 Address چهار Octet دارد.
+
+</p>
+
+<table class="command-table">
+
+<thead>
+
+<tr>
+
+<th>
+مقدار
+</th>
+
+<th>
+محدوده
+</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+
+<td>
+هر Octet
+</td>
+
+<td>
+0 تا 255
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+کل IPv4
+</td>
+
+<td>
+32 بیت
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+تعداد کل IPv4 Addressها
+</td>
+
+<td>
+2³² ≈ 4.29 میلیارد
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+<h3>
+مثال Binary
+</h3>
+
+<p>
+
+IP زیر را در نظر بگیر:
+
+</p>
+
+<div class="code-wrapper">
+
+<pre class="code-block"><code>192.168.1.10</code></pre>
+
+</div>
+
+<p>
+
+نمایش Binary آن:
+
+</p>
+
+<div class="code-wrapper">
+
+<pre class="code-block"><code>192       168       1         10
+
+11000000  10101000  00000001  00001010</code></pre>
+
+</div>
+
+<p>
+
+درک Binary در ابتدا کمی سخت است،
+اما هنگام یادگیری Subnetting بسیار مهم خواهد شد.
+
+</p>
+
+
+
+<!-- ====================================================== -->
+<!-- S3 -->
+<!-- ====================================================== -->
+
+<h2 id="s3">
+Subnet Mask چیست؟
+</h2>
+
+<p>
+
+Subnet Mask مشخص می‌کند کدام بخش از IPv4 Address مربوط به Network است
+و کدام بخش برای Host باقی می‌ماند.
+
+</p>
+
+<p>
+
+مثلاً:
+
+</p>
+
+<div class="code-wrapper">
+
+<pre class="code-block"><code>IP Address:
+192.168.1.25
+
+Subnet Mask:
+255.255.255.0</code></pre>
+
+</div>
+
+<p>
+
+در Binary:
+
+</p>
+
+<div class="code-wrapper">
+
+<pre class="code-block"><code>IP:
+11000000.10101000.00000001.00011001
+
+Mask:
+11111111.11111111.11111111.00000000</code></pre>
+
+</div>
+
+<p>
+
+قسمت‌هایی که Mask در آن‌ها
+<strong>1</strong>
+است، Network Portion هستند.
+
+قسمت‌هایی که
+<strong>0</strong>
+هستند، Host Portion هستند.
+
+</p>
+
+<div class="note">
+
+برای Mask برابر با
+255.255.255.0
+داریم:
+
+<br><br>
+
+<strong>
+Network = 24 bits
+</strong>
+
+<br>
+
+<strong>
+Host = 8 bits
+</strong>
+
+</div>
+
+<h3>
+چند Subnet Mask رایج
+</h3>
+
+<table class="command-table">
+
+<thead>
+
+<tr>
+
+<th>
+CIDR
+</th>
+
+<th>
+Subnet Mask
+</th>
+
+<th>
+تعداد کل Address
+</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+
+<td>
+/8
+</td>
+
+<td>
+255.0.0.0
+</td>
+
+<td>
+16,777,216
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+/16
+</td>
+
+<td>
+255.255.0.0
+</td>
+
+<td>
+65,536
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+/24
+</td>
+
+<td>
+255.255.255.0
+</td>
+
+<td>
+256
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+/25
+</td>
+
+<td>
+255.255.255.128
+</td>
+
+<td>
+128
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+/26
+</td>
+
+<td>
+255.255.255.192
+</td>
+
+<td>
+64
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+/27
+</td>
+
+<td>
+255.255.255.224
+</td>
+
+<td>
+32
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+/28
+</td>
+
+<td>
+255.255.255.240
+</td>
+
+<td>
+16
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+/30
+</td>
+
+<td>
+255.255.255.252
+</td>
+
+<td>
+4
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+
+
+<!-- ====================================================== -->
+<!-- S4 -->
+<!-- ====================================================== -->
+
+<h2 id="s4">
+CIDR چیست؟
+</h2>
+
+<p>
+
+<strong>CIDR</strong>
+مخفف
+<strong>Classless Inter-Domain Routing</strong>
+است.
+
+در شبکه‌های امروزی معمولاً به جای نوشتن کامل Subnet Mask،
+از Prefix Length استفاده می‌کنیم.
+
+</p>
+
+<p>
+
+مثلاً:
+
+</p>
+
+<div class="code-wrapper">
+
+<pre class="code-block"><code>192.168.1.25/24</code></pre>
+
+</div>
+
+<p>
+
+یعنی 24 بیت اول برای Network Prefix در نظر گرفته شده است.
+
+</p>
+
+<p>
+
+مثال دیگر:
+
+</p>
+
+<div class="code-wrapper">
+
+<pre class="code-block"><code>10.10.20.15/16</code></pre>
+
+</div>
+
+<p>
+
+در اینجا:
+
+</p>
+
+<div class="code-wrapper">
+
+<pre class="code-block"><code>Network bits = 16
+Host bits    = 16</code></pre>
+
+</div>
+
+<p>
+
+و تعداد کل Addressها:
+
+</p>
+
+<div class="code-wrapper">
+
+<pre class="code-block"><code>2^16 = 65,536</code></pre>
+
+</div>
+
+<div class="note">
+
+<strong>CIDR را خیلی جدی بگیر.</strong>
+
+در ادامه مسیر DevOps،
+CIDR را در:
+
+<br><br>
+
+VPC → Cloud → Kubernetes → Docker → Firewall → Routing → Security Groups
+
+بارها خواهی دید.
+
+</div>
+
+
+
+<!-- ====================================================== -->
+<!-- S5 -->
+<!-- ====================================================== -->
+
+<h2 id="s5">
+Network Address و Broadcast Address
+</h2>
+
+<p>
+
+یکی از مهم‌ترین مباحث Subnetting،
+تشخیص
+<strong>Network Address</strong>
+و
+<strong>Broadcast Address</strong>
+است.
+
+</p>
+
+<p>
+
+فرض کنیم:
+
+</p>
+
+<div class="code-wrapper">
+
+<pre class="code-block"><code>192.168.1.25/24</code></pre>
+
+</div>
+
+<p>
+
+برای /24:
+
+</p>
+
+<div class="code-wrapper">
+
+<pre class="code-block"><code>Network:
+192.168.1.0
+
+First usable:
+192.168.1.1
+
+Last usable:
+192.168.1.254
+
+Broadcast:
+192.168.1.255</code></pre>
+
+</div>
+
+<p>
+
+بنابراین در یک Subnet معمول /24:
+
+</p>
+
+<ul>
+
+<li>
+<strong>192.168.1.0</strong>
+→ Network Address
+</li>
+
+<li>
+<strong>192.168.1.1 تا 192.168.1.254</strong>
+→ معمولاً Host Address
+</li>
+
+<li>
+<strong>192.168.1.255</strong>
+→ Broadcast Address
+</li>
+
+</ul>
+
+<div class="warning">
+
+⚠️ این قاعده را به صورت کورکورانه برای همه Prefixها استفاده نکن.
+در IPv4، رفتار آدرس‌های قابل استفاده به Prefix و نوع کاربرد Subnet بستگی دارد؛
+همچنین در Point-to-Point و بعضی سناریوهای خاص،
+قواعد عملی می‌توانند متفاوت باشند.
+
+</div>
+
+
+
+<!-- ====================================================== -->
+<!-- S6 -->
+<!-- ====================================================== -->
+
+<h2 id="s6">
+Private و Public IP
+</h2>
+
+<p>
+
+همه IPv4 Addressها مستقیماً روی Internet قابل استفاده نیستند.
+
+یکی از مفاهیم مهم،
+<strong>Private IP</strong>
+است.
+
+محدوده‌های Private IPv4 طبق RFC 1918 عبارت‌اند از:
+
+</p>
+
+<table class="command-table">
+
+<thead>
+
+<tr>
+
+<th>
+Range
+</th>
+
+<th>
+CIDR
+</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+
+<td>
+10.0.0.0 – 10.255.255.255
+</td>
+
+<td>
+10.0.0.0/8
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+172.16.0.0 – 172.31.255.255
+</td>
+
+<td>
+172.16.0.0/12
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+192.168.0.0 – 192.168.255.255
+</td>
+
+<td>
+192.168.0.0/16
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+<p>
+
+این Addressها معمولاً در شبکه‌های داخلی استفاده می‌شوند.
+
+برای مثال:
+
+</p>
+
+<div class="code-wrapper">
+
+<pre class="code-block"><code>Server:
+192.168.10.20
+
+Database:
+192.168.10.30
+
+Gateway:
+192.168.10.1</code></pre>
+
+</div>
+
+<p>
+
+برای دسترسی Hostهای Private به Internet معمولاً از تکنیک‌هایی مانند
+<strong>NAT</strong>
+استفاده می‌شود.
+
+</p>
+
+
+
+<!-- ====================================================== -->
+<!-- S7 -->
+<!-- ====================================================== -->
+
+<h2 id="s7">
+Special IP Addresses
+</h2>
+
+<h3>
+Loopback
+</h3>
+
+<p>
+
+در IPv4 محدوده
+<strong>127.0.0.0/8</strong>
+برای Loopback رزرو شده است.
+
+معروف‌ترین Address آن:
+
+</p>
+
+<div class="code-wrapper">
+
+<pre class="code-block"><code>127.0.0.1</code></pre>
+
+</div>
+
+<p>
+
+این Address برای ارتباط سیستم با خودش استفاده می‌شود.
+
+مثلاً:
+
+</p>
+
+<div class="code-wrapper">
+
+<pre class="code-block"><code>curl http://127.0.0.1:8080</code></pre>
+
+</div>
+
+
+<h3>
+0.0.0.0
+</h3>
+
+<p>
+
+<strong>0.0.0.0</strong>
+در IPv4 در چند Context مختلف استفاده می‌شود.
+
+یکی از کاربردهای بسیار مهم آن در Serverها،
+Bind کردن یک سرویس روی همه Interfaceهای IPv4 سیستم است.
+
+مثلاً:
+
+</p>
+
+<div class="code-wrapper">
+
+<pre class="code-block"><code>0.0.0.0:8080</code></pre>
+
+</div>
+
+<p>
+
+یعنی سرویس از همه Interfaceهای IPv4 که مناسب باشند قابل دسترسی است،
+نه اینکه خود
+0.0.0.0
+یک IP واقعی برای اتصال به Server باشد.
+
+</p>
+
+
+<h3>
+APIPA
+</h3>
+
+<p>
+
+در بعضی محیط‌های IPv4،
+اگر سیستم نتواند از DHCP آدرس دریافت کند،
+ممکن است Addressی از محدوده:
+
+</p>
+
+<div class="code-wrapper">
+
+<pre class="code-block"><code>169.254.0.0/16</code></pre>
+
+</div>
+
+دریافت کند.
+
+این نوع Address را معمولاً
+<strong>Link-Local / APIPA</strong>
+می‌نامیم.
+
+</p>
+
+
+
+<!-- ====================================================== -->
+<!-- S8 -->
+<!-- ====================================================== -->
+
+<h2 id="s8">
+Default Gateway چیست؟
+</h2>
+
+<p>
+
+فرض کن کامپیوتر ما:
+
+</p>
+
+<div class="code-wrapper">
+
+<pre class="code-block"><code>IP:
+192.168.1.20/24</code></pre>
+
+</div>
+
+<p>
+
+و می‌خواهیم با:
+
+</p>
+
+<div class="code-wrapper">
+
+<pre class="code-block"><code>8.8.8.8</code></pre>
+
+ارتباط برقرار کنیم.
+
+این مقصد در همان Subnet محلی نیست.
+
+بنابراین سیستم باید Packet را به
+<strong>Default Gateway</strong>
+ارسال کند.
+
+مثلاً:
+
+</p>
+
+<div class="code-wrapper">
+
+<pre class="code-block"><code>Default Gateway:
+192.168.1.1</code></pre>
+
+</div>
+
+<p>
+
+Router سپس تصمیم می‌گیرد Packet را از کدام مسیر Forward کند.
+
+</p>
+
+<div class="code-wrapper">
+
+<pre class="code-block"><code>Client
+192.168.1.20
+      |
+      | Packet
+      v
+Gateway
+192.168.1.1
+      |
+      v
+Router / Internet
+      |
+      v
+8.8.8.8</code></pre>
+
+</div>
+
+<div class="note">
+
+این دقیقاً جایی است که مفاهیم مقاله قبلی یعنی
+<strong>MAC + ARP</strong>
+با IP به یکدیگر متصل می‌شوند.
+
+اگر مقصد خارج از Subnet باشد،
+Host معمولاً Frame را به MAC مربوط به Next Hop یا Default Gateway ارسال می‌کند،
+نه MAC سرور نهایی Internet.
+
+</div>
+
+
+
+<!-- ====================================================== -->
+<!-- S9 -->
+<!-- ====================================================== -->
+
+<h2 id="s9">
+DHCP و Static IP
+</h2>
+
+<p>
+
+یک سیستم می‌تواند IP را به صورت دستی یا خودکار دریافت کند.
+
+</p>
+
+<h3>
+Static IP
+</h3>
+
+<p>
+
+در Static Configuration،
+IP، Prefix و معمولاً Gateway و DNS را به صورت مشخص تنظیم می‌کنیم.
+
+برای Serverها،
+Static یا Reservation-based addressing در بسیاری از محیط‌ها رایج است،
+چون آدرس سرویس باید قابل پیش‌بینی باشد.
+
+</p>
+
+<h3>
+DHCP
+</h3>
+
+<p>
+
+در DHCP،
+Client برای دریافت تنظیمات Network با DHCP Server ارتباط برقرار می‌کند.
+
+معمولاً اطلاعاتی مانند:
+
+</p>
+
+<ul>
+
+<li>
+IP Address
+</li>
+
+<li>
+Subnet Mask / Prefix
+</li>
+
+<li>
+Default Gateway
+</li>
+
+<li>
+DNS Server
+</li>
+
+</ul>
+
+<p>
+
+به Client ارائه می‌شود.
+
+</p>
+
+<p>
+
+فرآیند معروف DHCP را می‌توان به شکل زیر خلاصه کرد:
+
+</p>
+
+<div class="code-wrapper">
+
+<pre class="code-block"><code>Discover
+    ↓
+Offer
+    ↓
+Request
+    ↓
+ACK</code></pre>
+
+</div>
+
+
+
+<!-- ====================================================== -->
+<!-- S10 -->
+<!-- ====================================================== -->
+
+<h2 id="s10">
+IPv6 چیست؟
+</h2>
+
+<p>
+
+IPv4 با وجود کاربرد گسترده،
+فضای Addressing محدودی دارد.
+
+برای حل مشکلات مختلف از جمله گسترش فضای Address،
+<strong>IPv6</strong>
+طراحی شد.
+
+</p>
+
+<p>
+
+IPv6 دارای:
+
+</p>
+
+<div class="code-wrapper">
+
+<pre class="code-block"><code>128 bits</code></pre>
+
+</div>
+
+<p>
+
+است.
+
+یک IPv6 Address نمونه:
+
+</p>
+
+<div class="code-wrapper">
+
+<pre class="code-block"><code>2001:db8:1234:5678:abcd:1234:5678:9abc</code></pre>
+
+</div>
+
+<p>
+
+IPv6 به صورت گروه‌های Hexadecimal نمایش داده می‌شود.
+
+</p>
+
+<h3>
+Loopback در IPv6
+</h3>
+
+<div class="code-wrapper">
+
+<pre class="code-block"><code>::1</code></pre>
+
+</div>
+
+<p>
+
+معادل مفهومی Loopback در IPv4 یعنی
+127.0.0.1
+است.
+
+</p>
+
+<h3>
+Unspecified Address
+</h3>
+
+<div class="code-wrapper">
+
+<pre class="code-block"><code>::</code></pre>
+
+</div>
+
+<p>
+
+این Address در IPv6 نقش Unspecified Address را دارد.
+
+</p>
+
+<h3>
+Link-Local IPv6
+</h3>
+
+<p>
+
+IPv6 برای Link-Local Addressها از محدوده:
+
+</p>
+
+<div class="code-wrapper">
+
+<pre class="code-block"><code>fe80::/10</code></pre>
+
+</div>
+
+<p>
+
+استفاده می‌کند.
+
+</p>
+
+<div class="note">
+
+در مسیر DevOps لازم نیست در اولین مرحله IPv6 را کامل یاد بگیری،
+اما باید بتوانی IPv6 Addressها را تشخیص بدهی و مفاهیمی مانند
+<strong>fe80::</strong>،
+<strong>::1</strong>
+و Prefixها را بشناسی.
+
+</div>
+
+
+
+<!-- ====================================================== -->
+<!-- S11 -->
+<!-- ====================================================== -->
+
+<h2 id="s11">
+IP Address در Linux
+</h2>
+
+<p>
+
+در Linux ابزار اصلی برای مدیریت و مشاهده Network Configuration،
+دستور
+<strong>ip</strong>
+است.
+
+</p>
+
+<h3>
+مشاهده IPها
+</h3>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+Ubuntu
+</div>
+
+<pre class="code-block"><code>ip addr</code></pre>
+
+</div>
+
+<p>
+
+یا:
+
+</p>
+
+<div class="code-wrapper">
+
+<pre class="code-block"><code>ip a</code></pre>
+
+</div>
+
+<p>
+
+برای مشاهده Interface خاص:
+
+</p>
+
+<div class="code-wrapper">
+
+<pre class="code-block"><code>ip addr show ens33</code></pre>
+
+</div>
+
+
+<h3>
+مشاهده Route
+</h3>
+
+<div class="code-wrapper">
+
+<pre class="code-block"><code>ip route</code></pre>
+
+</div>
+
+
+<h3>
+مشاهده Neighbor
+</h3>
+
+<div class="code-wrapper">
+
+<pre class="code-block"><code>ip neigh</code></pre>
+
+</div>
+
+
+<h3>
+مشاهده وضعیت Interface
+</h3>
+
+<div class="code-wrapper">
+
+<pre class="code-block"><code>ip link</code></pre>
+
+</div>
+
+
+
+<!-- ====================================================== -->
+<!-- S12 -->
+<!-- ====================================================== -->
+
+<h2 id="s12">
+Routing و IP Address
+</h2>
+
+<p>
+
+داشتن IP به تنهایی به معنی داشتن ارتباط کامل با Network نیست.
+
+سیستم باید بداند Packet را از کدام Interface و به سمت کدام Next Hop ارسال کند.
+
+این اطلاعات در
+<strong>Routing Table</strong>
+قرار دارد.
+
+</p>
+
+<p>
+
+با دستور زیر Routing Table را ببین:
+
+</p>
+
+<div class="code-wrapper">
+
+<pre class="code-block"><code>ip route</code></pre>
+
+</div>
+
+<p>
+
+یک خروجی نمونه:
+
+</p>
+
+<div class="code-wrapper">
+
+<pre class="code-block"><code>default via 192.168.1.1 dev ens33
+192.168.1.0/24 dev ens33 proto kernel scope link
+</code></pre>
+
+</div>
+
+<p>
+
+خط اول:
+
+</p>
+
+<div class="code-wrapper">
+
+<pre class="code-block"><code>default via 192.168.1.1 dev ens33</code></pre>
+
+</div>
+
+<p>
+
+یعنی برای مقصدهایی که Route دقیق‌تری وجود ندارد،
+Gateway برابر
+192.168.1.1
+و Interface برابر
+ens33
+است.
+
+</p>
+
+<div class="note">
+
+<strong>Routing بر اساس Prefix انجام می‌شود.</strong>
+
+این مفهوم در آینده برای یادگیری:
+
+<br><br>
+
+Static Route → OSPF → BGP → Cloud Routing → Kubernetes Networking
+
+<br><br>
+
+بسیار مهم خواهد بود.
+
+</div>
+
+
+
+<!-- ====================================================== -->
+<!-- S13 -->
+<!-- ====================================================== -->
+
+<h2 id="s13">
+Troubleshooting با IP Address
+</h2>
+
+<p>
+
+یکی از مهارت‌های مهم DevOps این است که وقتی یک Server یا Application ارتباط ندارد،
+بدانیم از کجا شروع کنیم.
+
+</p>
+
+<h3>
+مرحله اول — Interface
+</h3>
+
+<div class="code-wrapper">
+
+<pre class="code-block"><code>ip link</code></pre>
+
+</div>
+
+<p>
+
+بررسی کن Interface فعال است یا نه.
+
+</p>
+
+
+<h3>
+مرحله دوم — IP
+</h3>
+
+<div class="code-wrapper">
+
+<pre class="code-block"><code>ip addr</code></pre>
+
+</div>
+
+<p>
+
+بررسی کن Interface موردنظر IP مناسب دارد یا خیر.
+
+</p>
+
+
+<h3>
+مرحله سوم — Routing
+</h3>
+
+<div class="code-wrapper">
+
+<pre class="code-block"><code>ip route</code></pre>
+
+</div>
+
+<p>
+
+بررسی کن Default Route یا Route مقصد وجود دارد یا خیر.
+
+</p>
+
+
+<h3>
+مرحله چهارم — Gateway
+</h3>
+
+<div class="code-wrapper">
+
+<pre class="code-block"><code>ping -c 4 192.168.1.1</code></pre>
+
+</div>
+
+<p>
+
+اگر Gateway قابل دسترسی نیست،
+قبل از رفتن سراغ DNS و Application باید Network محلی را بررسی کنیم.
+
+</p>
+
+
+<h3>
+مرحله پنجم — Internet Connectivity
+</h3>
+
+<div class="code-wrapper">
+
+<pre class="code-block"><code>ping -c 4 1.1.1.1</code></pre>
+
+</div>
+
+<p>
+
+اگر IP مقصد قابل دسترسی است ولی Domain کار نمی‌کند،
+احتمال دارد مشکل مربوط به DNS باشد.
+
+</p>
+
+
+<h3>
+مرحله ششم — DNS
+</h3>
+
+<div class="code-wrapper">
+
+<pre class="code-block"><code>dig example.com</code></pre>
+
+</div>
+
+<p>
+
+یا:
+
+</p>
+
+<div class="code-wrapper">
+
+<pre class="code-block"><code>getent hosts example.com</code></pre>
+
+</div>
+
+
+<h3>
+مرحله هفتم — Application
+</h3>
+
+<div class="code-wrapper">
+
+<pre class="code-block"><code>curl -v https://example.com</code></pre>
+
+</div>
+
+<p>
+
+اینجا دیگر وارد لایه‌های بالاتر می‌شویم.
+
+</p>
+
+<div class="note">
+
+<strong>مدل Troubleshooting:</strong>
+
+<br><br>
+
+Interface
+<br>
+↓
+IP
+<br>
+↓
+ARP / Neighbor
+<br>
+↓
+Route
+<br>
+↓
+Gateway
+<br>
+↓
+DNS
+<br>
+↓
+TCP/UDP
+<br>
+↓
+TLS
+<br>
+↓
+Application
+
+</div>
+
+
+
+<!-- ====================================================== -->
+<!-- LAB -->
+<!-- ====================================================== -->
+
+<h2 id="lab">
+🧪 Lab عملی IP Address
+</h2>
+
+
+<div class="exercise">
+
+<h3>
+تمرین ۱ — اطلاعات Network سیستم
+</h3>
+
+<p>
+
+در Ubuntu دستورات زیر را اجرا کن:
+
+</p>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+Ubuntu
+</div>
+
+<pre class="code-block"><code>ip addr
+ip link
+ip route
+ip neigh</code></pre>
+
+</div>
+
+<p>
+
+حالا این موارد را از خروجی پیدا کن:
+
+</p>
+
+<ul>
+
+<li>
+نام Interface اصلی
+</li>
+
+<li>
+MAC Address
+</li>
+
+<li>
+IPv4 Address
+</li>
+
+<li>
+IPv6 Address در صورت وجود
+</li>
+
+<li>
+Subnet Prefix
+</li>
+
+<li>
+Default Gateway
+</li>
+
+<li>
+Neighborهای موجود
+</li>
+
+</ul>
+
+</div>
+
+
+<div class="exercise">
+
+<h3>
+تمرین ۲ — تشخیص Network</h3>
+
+<p>
+
+فرض کن:
+
+</p>
+
+<div class="code-wrapper">
+
+<pre class="code-block"><code>IP:
+192.168.10.75/24</code></pre>
+
+</div>
+
+<p>
+
+بدون استفاده از Calculator مشخص کن:
+
+</p>
+
+<ul>
+
+<li>
+Network Address چیست؟
+</li>
+
+<li>
+Broadcast Address چیست؟
+</li>
+
+<li>
+First Usable Address چیست؟
+</li>
+
+<li>
+Last Usable Address چیست؟
+</li>
+
+<li>
+چند Host Address در این Subnet وجود دارد؟
+</li>
+
+</ul>
+
+</div>
+
+
+<div class="exercise">
+
+<h3>
+تمرین ۳ — Subnet کوچک‌تر</h3>
+
+<p>
+
+حالا:
+
+</p>
+
+<div class="code-wrapper">
+
+<pre class="code-block"><code>192.168.10.75/26</code></pre>
+
+</div>
+
+<p>
+
+را بررسی کن.
+
+</p>
+
+<p>
+
+سعی کن بدون ابزار خارجی محاسبه کنی:
+
+</p>
+
+<ul>
+
+<li>
+Network Address
+</li>
+
+<li>
+Broadcast Address
+</li>
+
+<li>
+First Host
+</li>
+
+<li>
+Last Host
+</li>
+
+</ul>
+
+</div>
+
+
+<div class="exercise">
+
+<h3>
+تمرین ۴ — Troubleshooting واقعی</h3>
+
+<p>
+
+فرض کن یک Server نمی‌تواند به Internet دسترسی داشته باشد.
+
+این دستورات را به ترتیب اجرا کن:
+
+</p>
+
+<div class="code-wrapper">
+
+<pre class="code-block"><code>ip link
+ip addr
+ip route
+ip neigh
+ping -c 4 GATEWAY_IP
+ping -c 4 1.1.1.1
+dig example.com
+curl -v https://example.com</code></pre>
+
+</div>
+
+<p>
+
+برای هر مرحله بنویس:
+
+<strong>
+اگر این مرحله Fail شد، چه چیزهایی را بررسی می‌کنم؟
+</strong>
+
+</p>
+
+</div>
+
+
+
+<!-- ====================================================== -->
+<!-- DEVOPS -->
+<!-- ====================================================== -->
+
+<h2 id="devops">
+کاربرد IP Address در DevOps
+</h2>
+
+<p>
+
+IP Address تقریباً در تمام بخش‌های Infrastructure و DevOps حضور دارد.
+
+</p>
+
+<h3>
+Linux Server
+</h3>
+
+<p>
+
+هر Server معمولاً چند Interface یا Address دارد و Serviceها ممکن است روی IP مشخصی Bind شوند.
+
+</p>
+
+
+<h3>
+Docker
+</h3>
+
+<p>
+
+Containerها معمولاً IP داخلی دارند.
+
+در Docker Networking،
+Bridge Network،
+Container IP،
+Gateway،
+NAT
+و Port Mapping به یکدیگر مرتبط هستند.
+
+</p>
+
+
+<h3>
+Kubernetes
+</h3>
+
+<p>
+
+در Kubernetes با چند سطح Addressing مواجه می‌شوی:
+
+</p>
+
+<ul>
+
+<li>
+Pod IP
+</li>
+
+<li>
+Service IP
+</li>
+
+<li>
+Node IP
+</li>
+
+<li>
+Cluster Network
+</li>
+
+<li>
+Service Network
+</li>
+
+</ul>
+
+<p>
+
+بنابراین فهم IP و CIDR برای Kubernetes کاملاً ضروری است.
+
+</p>
+
+
+<h3>
+Cloud
+</h3>
+
+<p>
+
+در Cloud Providerها،
+CIDR و IP را در مفاهیمی مانند:
+
+</p>
+
+<ul>
+
+<li>
+VPC
+</li>
+
+<li>
+Subnet
+</li>
+
+<li>
+Route Table
+</li>
+
+<li>
+Security Group
+</li>
+
+<li>
+Load Balancer
+</li>
+
+<li>
+Private Endpoint
+</li>
+
+</ul>
+
+<p>
+
+خواهی دید.
+
+</p>
+
+
+<h3>
+Monitoring
+</h3>
+
+<p>
+
+در ابزارهایی مثل Zabbix و Grafana،
+IP Address معمولاً یکی از اطلاعات اصلی برای ارتباط با Hostها،
+Agentها،
+SNMP،
+HTTP Endpointها
+و سرویس‌های مختلف است.
+
+</p>
+
+
+
+<!-- ====================================================== -->
+<!-- CHEAT SHEET -->
+<!-- ====================================================== -->
+
+<h2 id="cheat">
+📋 IP Address Cheat Sheet
+</h2>
+
+<table class="command-table">
+
+<thead>
+
+<tr>
+
+<th>
+مفهوم / Command
+</th>
+
+<th>
+کاربرد
+</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+
+<td>
+<code>ip addr</code>
+</td>
+
+<td>
+مشاهده IP و Interface
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<code>ip link</code>
+</td>
+
+<td>
+مشاهده وضعیت Interface
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<code>ip route</code>
+</td>
+
+<td>
+مشاهده Routing Table
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<code>ip neigh</code>
+</td>
+
+<td>
+مشاهده Neighbor و ARP
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<code>ping</code>
+</td>
+
+<td>
+بررسی Reachability با ICMP
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<code>traceroute</code>
+</td>
+
+<td>
+بررسی تقریبی مسیر Packet
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<code>tracepath</code>
+</td>
+
+<td>
+بررسی مسیر و MTU
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<code>dig</code>
+</td>
+
+<td>
+بررسی DNS
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<code>curl -v</code>
+</td>
+
+<td>
+بررسی HTTP/TLS
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+127.0.0.1
+</td>
+
+<td>
+IPv4 Loopback
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+::1
+</td>
+
+<td>
+IPv6 Loopback
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+0.0.0.0
+</td>
+
+<td>
+IPv4 Unspecified / Wildcard در برخی Contextها
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+169.254.0.0/16
+</td>
+
+<td>
+IPv4 Link-Local / APIPA
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+10.0.0.0/8
+</td>
+
+<td>
+Private IPv4
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+172.16.0.0/12
+</td>
+
+<td>
+Private IPv4
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+192.168.0.0/16
+</td>
+
+<td>
+Private IPv4
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+
+
+<!-- ====================================================== -->
+<!-- LEARN -->
+<!-- ====================================================== -->
+
+<h2 id="learn">
+🎯 چه چیزی یاد گرفتیم؟
+</h2>
+
+<ul>
+
+<li>
+IP Address یک آدرس منطقی در Layer 3 است.
+</li>
+
+<li>
+IPv4 دارای 32 بیت و IPv6 دارای 128 بیت است.
+</li>
+
+<li>
+Subnet Mask مشخص می‌کند چه بخشی از Address مربوط به Network است.
+</li>
+
+<li>
+CIDR روش رایج نمایش Prefix Length است.
+</li>
+
+<li>
+Network Address و Broadcast Address مفاهیم مهم IPv4 Subnetting هستند.
+</li>
+
+<li>
+Private IPها برای شبکه‌های داخلی استفاده می‌شوند.
+</li>
+
+<li>
+Default Gateway برای رسیدن به Networkهای خارج از Subnet محلی اهمیت دارد.
+</li>
+
+<li>
+DHCP می‌تواند IP و سایر تنظیمات Network را به صورت خودکار ارائه کند.
+</li>
+
+<li>
+Routing Table مشخص می‌کند Packet از چه مسیر و Interfaceای ارسال شود.
+</li>
+
+<li>
+Linux ابزارهای قدرتمندی مانند <code>ip</code> برای مشاهده و Troubleshooting Network دارد.
+</li>
+
+<li>
+IP Address پایه بسیاری از مفاهیم Docker، Kubernetes، Cloud و Monitoring است.
+</li>
+
+</ul>
+
+
+<div class="note">
+
+<strong>🚀 نکته DevOps:</strong>
+
+اگر فقط یک چیز از این مقاله به خاطر می‌سپاری،
+این زنجیره را در ذهن داشته باش:
+
+<br><br>
+
+<strong>
+MAC
+↓
+ARP / Neighbor
+↓
+IP
+↓
+Subnet
+↓
+Gateway
+↓
+Route
+↓
+TCP / UDP
+↓
+Application
+</strong>
+
+<br><br>
+
+وقتی این رابطه را واقعاً بفهمی،
+مباحث بعدی مثل
+<strong>Subnetting، Routing، DNS، Firewall، Docker Networking و Kubernetes Networking</strong>
+خیلی منطقی‌تر خواهند شد.
+
+</div>
+
+
+
+<!-- ====================================================== -->
+<!-- NEXT -->
+<!-- ====================================================== -->
+
+<h2>
+مرحله بعدی چیست؟
+</h2>
+
+<div class="exercise">
+
+<h3>
+🌐 IPv4 و IPv6
+</h3>
+
+<p>
+
+در مقاله بعدی وارد جزئیات بیشتر
+<strong>IPv4 و IPv6</strong>
+می‌شویم و بعد از آن سراغ
+<strong>Subnetting</strong>
+می‌رویم.
+
+</p>
+
+<p>
+
+مباحث مهم مرحله بعد:
+
+</p>
+
+<ul>
+
+<li>
+Binary و تبدیل Decimal/Binary
+</li>
+
+<li>
+محاسبه Subnet
+</li>
+
+<li>
+CIDR
+</li>
+
+<li>
+VLSM
+</li>
+
+<li>
+Network Range
+</li>
+
+<li>
+Broadcast
+</li>
+
+<li>
+Usable Hosts
+</li>
+
+<li>
+Route Summarization
+</li>
+
+</ul>
+
+<p>
+
+هدف این است که در نهایت بتوانی مثلاً
+<strong>10.10.0.0/16</strong>
+را به چندین Subnet منطقی تقسیم کنی و دقیقاً بفهمی هر Subnet چه Rangeای دارد.
+
+</p>
+
+</div>
+
+
+</article>
+
+
+<div class="article-footer">
+
+<a href="mac-address.html"
+   class="btn btn-secondary">
+
+← مقاله قبلی
+
+</a>
+
+<a href="../index.html"
+   class="btn btn-secondary">
+
+بازگشت به مقالات
+
+</a>
+
+<a href="../../index.html"
+   class="btn btn-primary">
+
+صفحه اصلی →
+
+</a>
+
+<a href="ipv4-ipv6.html"
+   class="btn btn-primary">
+
+مقاله بعدی →
+
+</a>
+
+</div>
+
+
+</div>
+
+</section>
+
+</main>
+
+
+<footer>
+
+<div class="container">
+
+<p>
+© 2026 Z.DevOps — Built while learning DevOps.
+</p>
+
+<div class="social-links">
+
+<a href="../../index.html">
+Home
+</a>
+
+</div>
+
+</div>
+
+</footer>
+
+
+</body>
+
+</html>
