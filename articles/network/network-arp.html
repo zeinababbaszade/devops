@@ -1,73 +1,2072 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
+
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="آموزش کامل ARP برای مسیر DevOps و Networking.">
-<meta name="keywords" content="ARP, Networking, Linux, DevOps">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
+<meta name="description"
+      content="آموزش عمیق و عملی ARP در شبکه، Linux، Troubleshooting، Docker و DevOps.">
+
+<meta name="keywords"
+      content="ARP, ARP Cache, ARP Request, ARP Reply, Linux, Networking, Docker, DevOps">
+
 <title>ARP | Z.DevOps</title>
-<link rel="stylesheet" href="../../style.css">
-<style>.article-wrapper{max-width:900px;margin:auto}
-.article-header{text-align:center;margin-bottom:70px}
-.article-header .badge{margin-bottom:20px}
-.article-header h1{font-size:clamp(38px,6vw,60px);line-height:1.2;margin-bottom:20px}
-.article-header h1 span{color:var(--primary)}
-.article-subtitle{color:var(--text-secondary);font-size:18px;max-width:700px;margin:auto}
-.article-meta{margin-top:20px;color:#64748b;font-size:13px}
-.toc{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:25px 30px;margin-bottom:55px}
-.toc h3{margin-bottom:15px}.toc ol{margin:0;padding-right:22px}.toc li{margin-bottom:8px}
-.toc a{color:var(--text-secondary);transition:.2s}.toc a:hover{color:var(--primary)}
-.article-body{text-align:right;font-family:"Vazirmatn","Tahoma",sans-serif}
-.article-body h2{font-size:30px;margin-top:65px;margin-bottom:20px;padding-bottom:10px;border-bottom:1px solid var(--border)}
-.article-body h3{font-size:21px;margin-top:35px;margin-bottom:12px}
-.article-body p{color:#cbd5e1;font-size:16px;line-height:2;margin-bottom:20px}
-.article-body ul,.article-body ol{color:#cbd5e1;line-height:2;margin-bottom:25px;padding-right:25px}
-.article-body li{margin-bottom:7px}.article-body strong{color:#f8fafc}
-.code-wrapper{position:relative;margin:20px 0 28px}
-.code-label{direction:ltr;text-align:left;background:#111827;color:#64748b;padding:7px 15px;border-radius:8px 8px 0 0;font-family:Consolas,monospace;font-size:12px;border:1px solid rgba(148,163,184,.15);border-bottom:none}
-.code-block{direction:ltr;text-align:left;background:#020617;border:1px solid rgba(148,163,184,.15);border-radius:0 0 8px 8px;padding:20px;overflow-x:auto;margin:0}
-.code-block code{font-family:Consolas,"Courier New",monospace;font-size:14px;line-height:1.8;color:#e2e8f0}
-.note{background:rgba(56,189,248,.07);border-right:4px solid var(--primary);padding:20px 22px;border-radius:8px;margin:30px 0;color:#cbd5e1;line-height:1.9}
-.warning{background:rgba(251,191,36,.07);border-right:4px solid #fbbf24;padding:20px 22px;border-radius:8px;margin:30px 0;color:#cbd5e1;line-height:1.9}
-.command-table{width:100%;border-collapse:collapse;margin:25px 0 35px;border-radius:10px}
-.command-table th,.command-table td{padding:13px 15px;border-bottom:1px solid var(--border);text-align:right}
-.command-table th{background:var(--card);color:var(--primary);font-weight:600}
-.command-table td{color:#cbd5e1}.command-table code{direction:ltr;display:inline-block;background:rgba(148,163,184,.08);padding:3px 7px;border-radius:5px;color:#e2e8f0;font-family:Consolas,monospace}
-.exercise{background:linear-gradient(135deg,rgba(56,189,248,.08),rgba(14,165,233,.02));border:1px solid rgba(56,189,248,.18);border-radius:14px;padding:28px;margin:35px 0}
-.exercise h3{margin-top:0;color:var(--primary)}
-.article-footer{margin-top:80px;padding-top:30px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;gap:15px;flex-wrap:wrap}
-@media(max-width:650px){.article-header h1{font-size:38px}.article-body h2{font-size:25px}.article-body p{font-size:15px}.command-table{font-size:13px}}</style>
+
+<link rel="stylesheet"
+      href="../../style.css">
+
+<style>
+
+.article-wrapper{
+    max-width:900px;
+    margin:auto
+}
+
+.article-header{
+    text-align:center;
+    margin-bottom:70px
+}
+
+.article-header .badge{
+    margin-bottom:20px
+}
+
+.article-header h1{
+    font-size:clamp(38px,6vw,60px);
+    line-height:1.2;
+    margin-bottom:20px
+}
+
+.article-header h1 span{
+    color:var(--primary)
+}
+
+.article-subtitle{
+    color:var(--text-secondary);
+    font-size:18px;
+    max-width:700px;
+    margin:auto;
+    line-height:2
+}
+
+.article-meta{
+    margin-top:20px;
+    color:#64748b;
+    font-size:13px
+}
+
+.toc{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:14px;
+    padding:25px 30px;
+    margin-bottom:55px
+}
+
+.toc h3{
+    margin-bottom:15px
+}
+
+.toc ol{
+    margin:0;
+    padding-right:22px
+}
+
+.toc li{
+    margin-bottom:8px
+}
+
+.toc a{
+    color:var(--text-secondary);
+    transition:.2s
+}
+
+.toc a:hover{
+    color:var(--primary)
+}
+
+.article-body{
+    text-align:right;
+    font-family:"Vazirmatn","Tahoma",sans-serif
+}
+
+.article-body h2{
+    font-size:30px;
+    margin-top:65px;
+    margin-bottom:20px;
+    padding-bottom:10px;
+    border-bottom:1px solid var(--border)
+}
+
+.article-body h3{
+    font-size:21px;
+    margin-top:35px;
+    margin-bottom:12px
+}
+
+.article-body p{
+    color:#cbd5e1;
+    font-size:16px;
+    line-height:2;
+    margin-bottom:20px
+}
+
+.article-body ul,
+.article-body ol{
+    color:#cbd5e1;
+    line-height:2;
+    margin-bottom:25px;
+    padding-right:25px
+}
+
+.article-body li{
+    margin-bottom:7px
+}
+
+.article-body strong{
+    color:#f8fafc
+}
+
+.code-wrapper{
+    position:relative;
+    margin:20px 0 28px
+}
+
+.code-label{
+    direction:ltr;
+    text-align:left;
+    background:#111827;
+    color:#64748b;
+    padding:7px 15px;
+    border-radius:8px 8px 0 0;
+    font-family:Consolas,monospace;
+    font-size:12px;
+    border:1px solid rgba(148,163,184,.15);
+    border-bottom:none
+}
+
+.code-block{
+    direction:ltr;
+    text-align:left;
+    background:#020617;
+    border:1px solid rgba(148,163,184,.15);
+    border-radius:0 0 8px 8px;
+    padding:20px;
+    overflow-x:auto;
+    margin:0
+}
+
+.code-block code{
+    font-family:Consolas,"Courier New",monospace;
+    font-size:14px;
+    line-height:1.8;
+    color:#e2e8f0
+}
+
+.note{
+    background:rgba(56,189,248,.07);
+    border-right:4px solid var(--primary);
+    padding:20px 22px;
+    border-radius:8px;
+    margin:30px 0;
+    color:#cbd5e1;
+    line-height:1.9
+}
+
+.warning{
+    background:rgba(251,191,36,.07);
+    border-right:4px solid #fbbf24;
+    padding:20px 22px;
+    border-radius:8px;
+    margin:30px 0;
+    color:#cbd5e1;
+    line-height:1.9
+}
+
+.command-table{
+    width:100%;
+    border-collapse:collapse;
+    margin:25px 0 35px;
+    border-radius:10px
+}
+
+.command-table th,
+.command-table td{
+    padding:13px 15px;
+    border-bottom:1px solid var(--border);
+    text-align:right
+}
+
+.command-table th{
+    background:var(--card);
+    color:var(--primary);
+    font-weight:600
+}
+
+.command-table td{
+    color:#cbd5e1
+}
+
+.command-table code{
+    direction:ltr;
+    display:inline-block;
+    background:rgba(148,163,184,.08);
+    padding:3px 7px;
+    border-radius:5px;
+    color:#e2e8f0;
+    font-family:Consolas,monospace
+}
+
+.exercise{
+    background:linear-gradient(
+        135deg,
+        rgba(56,189,248,.08),
+        rgba(14,165,233,.02)
+    );
+    border:1px solid rgba(56,189,248,.18);
+    border-radius:14px;
+    padding:28px;
+    margin:35px 0
+}
+
+.exercise h3{
+    margin-top:0;
+    color:var(--primary)
+}
+
+.article-footer{
+    margin-top:80px;
+    padding-top:30px;
+    border-top:1px solid var(--border);
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:15px;
+    flex-wrap:wrap
+}
+
+@media(max-width:650px){
+
+    .article-header h1{
+        font-size:38px
+    }
+
+    .article-body h2{
+        font-size:25px
+    }
+
+    .article-body p{
+        font-size:15px
+    }
+
+    .command-table{
+        font-size:13px
+    }
+
+}
+
+</style>
+
 </head>
+
+
 <body>
-<header class="navbar"><div class="container navbar-inner">
-<a href="../../index.html" class="logo">Z<span>.DevOps</span></a>
-<nav><ul class="nav-links">
-<li><a href="../../index.html">Home</a></li>
-<li><a href="../index.html">Articles</a></li>
-<li><a href="../../index.html#projects">Projects</a>
-</li><li><a href="../../index.html#roadmap">Roadmap</a></li>
-<li><a href="../../index.html#about">About</a></li>
-</ul></nav></div></header>
-<main><section><div class="container article-wrapper">
-<header class="article-header">
-<div class="badge">NETWORKING · DEVOPS</div>
-<h1>ARP</h1>
-<p class="article-subtitle">آموزش عمیق و عملی ARP با مثال‌های واقعی Linux، Troubleshooting و کاربردهای DevOps.</p>
-<div class="article-meta">📅 September 2026 &nbsp; · &nbsp; ⏱ Beginner → Intermediate &nbsp; · &nbsp; 🌐 Networking</div>
-</header>
-<div class="toc"><h3>📚 فهرست مطالب</h3><ol><li><a href="#s0">ARP چیست؟</a></li><li><a href="#s1">Request</a></li><li><a href="#s2">Reply</a></li><li><a href="#s3">Router</a></li><li><a href="#s4">Linux</a></li><li><a href="#s5">IPv6</a></li>
-<li><a href="#lab">Lab عملی</a></li><li><a href="#cheat">Cheat Sheet</a></li><li><a href="#learn">چه چیزی یاد گرفتیم؟</a></li></ol></div>
-<article class="article-body"><h2 id="s0">ARP چیست؟</h2><p>ARP در IPv4 نگاشت IP به MAC را روی Local Link پیدا می‌کند.</p><h2 id="s1">Request</h2><p>وقتی MAC مقصد در Cache نباشد، Request معمولاً Broadcast می‌شود.</p><h2 id="s2">Reply</h2><p>مالک IP با Reply پاسخ می‌دهد و نتیجه در Neighbor/ARP Cache نگهداری می‌شود.</p><h2 id="s3">Router</h2><p>برای مقصد خارج از Subnet، Host معمولاً MAC Default Gateway را پیدا می‌کند، نه MAC سرور دور.</p><h2 id="s4">Linux</h2><p>ip neigh جایگزین مدرن ابزار قدیمی arp است.</p><h2 id="s5">IPv6</h2><p>IPv6 از ARP استفاده نمی‌کند؛ NDP بر پایه ICMPv6 نقش Neighbor Discovery را انجام می‌دهد.</p><h2 id="lab">🧪 Lab عملی</h2><div class="exercise"><h3>تمرین مرحله‌ای</h3><p>در Ubuntu این دستورات را اجرا کنید و برای هر خروجی یک جمله توضیح بنویسید. هدف، فهمیدن رابطه بین تئوری و وضعیت واقعی سیستم است.</p><div class="code-wrapper"><div class="code-label">Ubuntu</div><pre class="code-block"><code>ip addr
-ip route
-ss -lntup
-ping -c 4 1.1.1.1
-curl -I https://example.com</code></pre></div><p>اگر دستوری خطا داد، متن خطا را ثبت کنید و مشخص کنید مشکل احتمالاً در کدام بخش است: Interface/IP، Routing، DNS، Transport، TLS یا Application.</p></div><h2 id="cheat">📋 Cheat Sheet</h2><table class="command-table"><thead><tr><th>مفهوم</th><th>نکته</th></tr></thead><tbody><tr><td>ip addr</td><td>IP و Interface</td></tr><tr><td>ip route</td><td>Routing Table</td></tr><tr><td>ss -lntup</td><td>Listening Socketها</td></tr><tr><td>ping</td><td>ICMP Reachability</td></tr><tr><td>traceroute</td><td>مسیر تقریبی</td></tr><tr><td>dig</td><td>DNS Query</td></tr><tr><td>curl -v</td><td>HTTP/TLS Troubleshooting</td></tr><tr><td>tcpdump</td><td>Packet Capture</td></tr></tbody></table><h2 id="learn">🎯 چه چیزی یاد گرفتیم؟</h2><ul><li>مفهوم و اجزای اصلی این مبحث را شناختیم.</li><li>یک روش عملی برای مشاهده یا Troubleshooting آن در Linux یاد گرفتیم.</li><li>ارتباط آن با DevOps، Cloud، Server و Monitoring را درک کردیم.</li></ul><div class="note"><strong>نکته DevOps:</strong> این مبحث را فقط حفظ نکنید. در Lab خود خروجی واقعی Linux را با مدل ذهنی Networking مقایسه کنید؛ این کار بعدها در Docker، Kubernetes، Cloud و Incident Troubleshooting بسیار ارزشمند است.</div></article>
-<div class="article-footer">
-<a href="ipv4-ipv6.html" class="btn btn-secondary">← مقاله قبلی</a>
-<a href="../index.html" class="btn btn-secondary">بازگشت به مقالات</a>
-<a href="../../index.html" class="btn btn-primary">صفحه اصلی →</a>
-<a href="network-private-public-ip.html" class="btn btn-primary">مقاله بعدی →</a>
+
+
+<header class="navbar">
+
+<div class="container navbar-inner">
+
+<a href="../../index.html"
+   class="logo">
+
+Z<span>.DevOps</span>
+
+</a>
+
+
+<nav>
+
+<ul class="nav-links">
+
+<li>
+<a href="../../index.html">
+Home
+</a>
+</li>
+
+<li>
+<a href="../index.html">
+Articles
+</a>
+</li>
+
+<li>
+<a href="../../index.html#projects">
+Projects
+</a>
+</li>
+
+<li>
+<a href="../../index.html#roadmap">
+Roadmap
+</a>
+</li>
+
+<li>
+<a href="../../index.html#about">
+About
+</a>
+</li>
+
+</ul>
+
+</nav>
+
 </div>
-</div></section></main>
-<footer><div class="container"><p>© 2026 Z.DevOps — Built while learning DevOps.</p><div class="social-links"><a href="../../index.html">Home</a></div></div></footer>
-</body></html>
+
+</header>
+
+
+<main>
+
+<section>
+
+<div class="container article-wrapper">
+
+
+<header class="article-header">
+
+<div class="badge">
+NETWORKING · DEVOPS
+</div>
+
+<h1>
+ARP
+</h1>
+
+<p class="article-subtitle">
+
+آموزش عمیق و عملی ARP؛ از نحوه پیدا کردن MAC مقصد
+تا ARP Cache، Default Gateway، Troubleshooting،
+tcpdump، امنیت شبکه و کاربردهای ARP در Linux و DevOps.
+
+</p>
+
+<div class="article-meta">
+
+📅 September 2026
+&nbsp; · &nbsp;
+⏱ Beginner → Intermediate
+&nbsp; · &nbsp;
+🌐 Networking
+
+</div>
+
+</header>
+
+
+<div class="toc">
+
+<h3>
+📚 فهرست مطالب
+</h3>
+
+<ol>
+
+<li>
+<a href="#s0">
+ARP چیست و چرا به آن نیاز داریم؟
+</a>
+</li>
+
+<li>
+<a href="#s1">
+رابطه IP و MAC
+</a>
+</li>
+
+<li>
+<a href="#s2">
+ARP Request
+</a>
+</li>
+
+<li>
+<a href="#s3">
+ARP Reply
+</a>
+</li>
+
+<li>
+<a href="#s4">
+ARP Cache
+</a>
+</li>
+
+<li>
+<a href="#s5">
+ARP و Default Gateway
+</a>
+</li>
+
+<li>
+<a href="#s6">
+ARP در Subnet
+</a>
+</li>
+
+<li>
+<a href="#s7">
+ARP در Linux
+</a>
+</li>
+
+<li>
+<a href="#s8">
+Gratuitous ARP
+</a>
+</li>
+
+<li>
+<a href="#s9">
+Proxy ARP
+</a>
+</li>
+
+<li>
+<a href="#s10">
+ARP Spoofing و امنیت
+</a>
+</li>
+
+<li>
+<a href="#s11">
+Troubleshooting با tcpdump
+</a>
+</li>
+
+<li>
+<a href="#s12">
+ARP و Docker
+</a>
+</li>
+
+<li>
+<a href="#lab">
+Lab عملی کامل
+</a>
+</li>
+
+<li>
+<a href="#cheat">
+Cheat Sheet
+</a>
+</li>
+
+<li>
+<a href="#learn">
+چه چیزی یاد گرفتیم؟
+</a>
+</li>
+
+</ol>
+
+</div>
+
+
+<article class="article-body">
+
+
+<h2 id="s0">
+ARP چیست و چرا به آن نیاز داریم؟
+</h2>
+
+<p>
+
+ARP مخفف
+<strong>Address Resolution Protocol</strong>
+است.
+
+در شبکه‌های IPv4، سیستم‌ها برای ارتباط از
+<strong>IP Address</strong>
+استفاده می‌کنند، اما در شبکه Ethernet، ارسال Frame در Layer 2 بر اساس
+<strong>MAC Address</strong>
+انجام می‌شود.
+
+بنابراین سیستم باید بتواند بفهمد:
+
+</p>
+
+<div class="note">
+
+<strong>
+اگر IP مقصد را دارم، MAC Address مربوط به آن چیست؟
+</strong>
+
+</div>
+
+<p>
+
+اینجاست که ARP وارد عمل می‌شود.
+
+فرض کنید کامپیوتر ما دارای IP زیر است:
+
+</p>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+Example
+</div>
+
+<pre class="code-block"><code>192.168.1.10</code></pre>
+
+</div>
+
+<p>
+
+و می‌خواهیم با سیستم دیگری با IP زیر ارتباط برقرار کنیم:
+
+</p>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+Destination
+</div>
+
+<pre class="code-block"><code>192.168.1.20</code></pre>
+
+</div>
+
+<p>
+
+اگر مقصد در همان شبکه Local باشد، سیستم باید MAC مربوط به
+<code>192.168.1.20</code>
+را پیدا کند تا بتواند Ethernet Frame را ارسال کند.
+
+ARP دقیقاً برای همین Mapping استفاده می‌شود:
+
+</p>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+Concept
+</div>
+
+<pre class="code-block"><code>IPv4 Address
+     ↓
+    ARP
+     ↓
+MAC Address</code></pre>
+
+</div>
+
+
+<h2 id="s1">
+رابطه IP و MAC
+</h2>
+
+<p>
+
+یکی از مهم‌ترین مفاهیمی که در Networking باید یاد بگیریم تفاوت بین
+<strong>IP Address</strong>
+و
+<strong>MAC Address</strong>
+است.
+
+IP در Layer 3 قرار دارد و برای Addressing منطقی و Routing استفاده می‌شود.
+
+MAC در Layer 2 قرار دارد و برای انتقال Frame در شبکه محلی Ethernet استفاده می‌شود.
+
+</p>
+
+<table class="command-table">
+
+<thead>
+
+<tr>
+
+<th>
+ویژگی
+</th>
+
+<th>
+IP Address
+</th>
+
+<th>
+MAC Address
+</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+
+<td>
+Layer
+</td>
+
+<td>
+Layer 3
+</td>
+
+<td>
+Layer 2
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+کاربرد
+</td>
+
+<td>
+Addressing و Routing
+</td>
+
+<td>
+انتقال Local Frame
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+مثال
+</td>
+
+<td>
+192.168.1.10
+</td>
+
+<td>
+00:1A:2B:3C:4D:5E
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+تغییرپذیری
+</td>
+
+<td>
+ممکن است تغییر کند
+</td>
+
+<td>
+معمولاً به Interface مرتبط است
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+<div class="note">
+
+<strong>
+نکته مهم:
+</strong>
+
+ARP نمی‌گوید «این IP متعلق به این کامپیوتر در کل اینترنت است».
+
+ARP فقط برای پیدا کردن ارتباط بین IPv4 و MAC در
+<strong>Local Network / Broadcast Domain</strong>
+استفاده می‌شود.
+
+</div>
+
+
+<h2 id="s2">
+ARP Request
+</h2>
+
+<p>
+
+فرض کنید سیستم ما می‌خواهد به
+<code>192.168.1.20</code>
+دسترسی پیدا کند، اما MAC مقصد را در Cache ندارد.
+
+سیستم یک ARP Request تولید می‌کند.
+
+مفهوم پیام تقریباً این است:
+
+</p>
+
+<div class="note">
+
+<strong>
+Who has 192.168.1.20?
+Tell 192.168.1.10
+</strong>
+
+</div>
+
+<p>
+
+از آنجا که سیستم هنوز MAC مقصد را نمی‌داند، Request باید به صورت
+<strong>Broadcast</strong>
+ارسال شود.
+
+MAC مقصد Broadcast در Ethernet:
+
+</p>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+Broadcast MAC
+</div>
+
+<pre class="code-block"><code>ff:ff:ff:ff:ff:ff</code></pre>
+
+</div>
+
+<p>
+
+بنابراین تمام سیستم‌های موجود در همان Broadcast Domain می‌توانند ARP Request را دریافت کنند.
+
+اما فقط سیستمی که مالک IP موردنظر است باید پاسخ مناسب بدهد.
+
+</p>
+
+
+<h2 id="s3">
+ARP Reply
+</h2>
+
+<p>
+
+سیستم دارای IP
+<code>192.168.1.20</code>
+ARP Request را دریافت می‌کند.
+
+اگر IP متعلق به خودش باشد، یک ARP Reply ارسال می‌کند.
+
+برای مثال:
+
+</p>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+ARP Reply
+</div>
+
+<pre class="code-block"><code>192.168.1.20 is at
+00:11:22:33:44:55</code></pre>
+
+</div>
+
+<p>
+
+سیستم مبدأ حالا می‌داند:
+
+</p>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+Mapping
+</div>
+
+<pre class="code-block"><code>192.168.1.20
+        ↓
+00:11:22:33:44:55</code></pre>
+
+</div>
+
+<p>
+
+و می‌تواند Ethernet Frame را به MAC مقصد ارسال کند.
+
+</p>
+
+
+<h2 id="s4">
+ARP Cache چیست؟
+</h2>
+
+<p>
+
+اگر سیستم برای هر Packet دوباره ARP Request ارسال کند، تعداد Broadcastها بسیار زیاد خواهد شد.
+
+به همین دلیل سیستم‌عامل نتیجه ARP را برای مدتی در یک جدول نگهداری می‌کند که به آن:
+
+<strong>ARP Cache</strong>
+
+یا در Linux مدرن:
+
+<strong>Neighbor Table</strong>
+
+گفته می‌شود.
+
+</p>
+
+<p>
+
+در Linux می‌توانیم این جدول را مشاهده کنیم:
+
+</p>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+Ubuntu / Linux
+</div>
+
+<pre class="code-block"><code>ip neigh</code></pre>
+
+</div>
+
+<p>
+
+ممکن است چیزی شبیه این ببینید:
+
+</p>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+Example Output
+</div>
+
+<pre class="code-block"><code>192.168.1.1 dev ens33 lladdr 00:11:22:33:44:55 REACHABLE
+
+192.168.1.20 dev ens33 lladdr aa:bb:cc:dd:ee:ff STALE</code></pre>
+
+</div>
+
+<p>
+
+در این خروجی:
+
+</p>
+
+<ul>
+
+<li>
+<code>192.168.1.1</code>
+آدرس IP مقصد است.
+</li>
+
+<li>
+<code>dev ens33</code>
+Interface مورد استفاده است.
+</li>
+
+<li>
+<code>lladdr</code>
+MAC Address مقصد است.
+</li>
+
+<li>
+<code>REACHABLE</code>
+نشان می‌دهد Neighbor اخیراً قابل دسترس بوده است.
+</li>
+
+<li>
+<code>STALE</code>
+یعنی اطلاعات وجود دارد ولی تازگی آن تضمین نشده است.
+</li>
+
+</ul>
+
+<div class="note">
+
+<strong>
+نکته DevOps:
+</strong>
+
+وقتی یک Server نمی‌تواند با Gateway یا Server دیگری ارتباط برقرار کند، بررسی
+<code>ip neigh</code>
+یکی از تست‌های سریع و مفید است.
+
+</div>
+
+
+<h2 id="s5">
+ARP و Default Gateway
+</h2>
+
+<p>
+
+این قسمت یکی از مهم‌ترین کاربردهای ARP است.
+
+فرض کنید Server ما:
+
+</p>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+Server
+</div>
+
+<pre class="code-block"><code>IP:      192.168.1.10
+Mask:    255.255.255.0
+Gateway: 192.168.1.1</code></pre>
+
+</div>
+
+<p>
+
+حالا می‌خواهیم به این IP دسترسی پیدا کنیم:
+
+</p>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+Remote Server
+</div>
+
+<pre class="code-block"><code>8.8.8.8</code></pre>
+
+</div>
+
+<p>
+
+این مقصد خارج از Subnet ماست.
+
+در این حالت Server نمی‌رود MAC مربوط به
+<code>8.8.8.8</code>
+را پیدا کند.
+
+بلکه MAC مربوط به
+<strong>Default Gateway</strong>
+را پیدا می‌کند.
+
+</p>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+Concept
+</div>
+
+<pre class="code-block"><code>8.8.8.8
+   ↓
+Routing Table
+   ↓
+Default Gateway
+   ↓
+192.168.1.1
+   ↓
+ARP
+   ↓
+Gateway MAC
+   ↓
+Ethernet Frame</code></pre>
+
+</div>
+
+<div class="warning">
+
+<strong>
+اشتباه رایج:
+</strong>
+
+برای ارتباط با یک Server خارج از شبکه Local، لازم نیست MAC آن Server را بدانیم.
+
+MAC فقط برای Link فعلی اهمیت دارد.
+
+Router در هر Hop، Frame جدیدی ایجاد می‌کند.
+
+</div>
+
+
+<h2 id="s6">
+ARP و Subnet
+</h2>
+
+<p>
+
+ARP فقط در همان Local Network معنا دارد.
+
+فرض کنید سیستم ما:
+
+</p>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+Host
+</div>
+
+<pre class="code-block"><code>IP: 192.168.10.50
+Mask: 255.255.255.0</code></pre>
+
+</div>
+
+<p>
+
+و مقصد:
+
+</p>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+Destination
+</div>
+
+<pre class="code-block"><code>192.168.10.100</code></pre>
+
+</div>
+
+<p>
+
+هر دو در:
+
+</p>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+Network
+</div>
+
+<pre class="code-block"><code>192.168.10.0/24</code></pre>
+
+</div>
+
+<p>
+
+قرار دارند.
+
+پس Host می‌تواند مستقیماً برای IP مقصد ARP انجام دهد.
+
+اما اگر مقصد:
+
+</p>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+Remote Network
+</div>
+
+<pre class="code-block"><code>192.168.20.100</code></pre>
+
+</div>
+
+<p>
+
+باشد، سیستم باید Routing Table را بررسی کند و معمولاً Packet را به Gateway بفرستد.
+
+</p>
+
+
+<h2 id="s7">
+ARP در Linux
+</h2>
+
+<p>
+
+در Linux ابزار مدرن برای مشاهده Neighbor Table دستور
+<code>ip neigh</code>
+است.
+
+برای مشاهده:
+
+</p>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+Linux
+</div>
+
+<pre class="code-block"><code>ip neigh show</code></pre>
+
+</div>
+
+<p>
+
+برای Interface خاص:
+
+</p>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+Linux
+</div>
+
+<pre class="code-block"><code>ip neigh show dev eth0</code></pre>
+
+</div>
+
+<p>
+
+برای مشاهده Interfaceها:
+
+</p>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+Linux
+</div>
+
+<pre class="code-block"><code>ip link</code></pre>
+
+</div>
+
+<p>
+
+برای مشاهده IP:
+
+</p>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+Linux
+</div>
+
+<pre class="code-block"><code>ip addr</code></pre>
+
+</div>
+
+<p>
+
+و برای مشاهده Routing:
+
+</p>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+Linux
+</div>
+
+<pre class="code-block"><code>ip route</code></pre>
+
+</div>
+
+<p>
+
+این سه دستور را کنار هم استفاده کنید:
+
+</p>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+Network Troubleshooting
+</div>
+
+<pre class="code-block"><code>ip addr
+ip route
+ip neigh</code></pre>
+
+</div>
+
+<p>
+
+به این ترتیب می‌توانیم بفهمیم:
+
+</p>
+
+<ul>
+
+<li>
+Interface ما چه IPای دارد؟
+</li>
+
+<li>
+Subnet ما چیست؟
+</li>
+
+<li>
+Default Gateway کدام است؟
+</li>
+
+<li>
+آیا MAC مربوط به Gateway در Neighbor Table وجود دارد؟
+</li>
+
+<li>
+وضعیت Neighbor چیست؟
+</li>
+
+</ul>
+
+
+<h2 id="s8">
+Gratuitous ARP چیست؟
+</h2>
+
+<p>
+
+Gratuitous ARP یا GARP حالتی است که یک سیستم بدون اینکه الزاماً منتظر ARP Request باشد، اطلاعات مربوط به IP/MAC خود را روی شبکه اعلام می‌کند.
+
+این کار می‌تواند کاربردهای مختلفی داشته باشد.
+
+</p>
+
+<ul>
+
+<li>
+اطلاع دادن تغییر MAC برای یک IP
+</li>
+
+<li>
+High Availability
+</li>
+
+<li>
+Failover
+</li>
+
+<li>
+به‌روزرسانی Cache سیستم‌های دیگر
+</li>
+
+<li>
+تشخیص Duplicate IP در برخی سناریوها
+</li>
+
+</ul>
+
+<p>
+
+برای مثال در یک Cluster ممکن است Virtual IP از یک Node به Node دیگر منتقل شود.
+
+Node جدید می‌تواند با ارسال GARP باعث شود سیستم‌های شبکه سریع‌تر Mapping جدید را یاد بگیرند.
+
+</p>
+
+<div class="note">
+
+<strong>
+کاربرد DevOps:
+</strong>
+
+در معماری‌های High Availability، Load Balancing و Failover، درک GARP می‌تواند برای Troubleshooting تغییر ناگهانی مسیر یا MAC بسیار مفید باشد.
+
+</div>
+
+
+<h2 id="s9">
+Proxy ARP
+</h2>
+
+<p>
+
+در حالت معمول یک Host فقط برای مقصدهای Local ARP انجام می‌دهد.
+
+اما در برخی معماری‌ها Router می‌تواند به جای Host دیگر به ARP Request پاسخ دهد.
+
+به این قابلیت:
+
+<strong>Proxy ARP</strong>
+
+گفته می‌شود.
+
+</p>
+
+<p>
+
+یعنی یک Router ممکن است بگوید:
+
+</p>
+
+<div class="note">
+
+«برای این IP، MAC من را استفاده کن؛ من Packet را به مقصد واقعی Forward می‌کنم.»
+
+</div>
+
+<p>
+
+Proxy ARP در شبکه‌های خاص و برخی معماری‌های Legacy یا پیچیده استفاده می‌شود، اما برای طراحی‌های مدرن باید با درک کامل از Routing و Security استفاده شود.
+
+</p>
+
+
+<h2 id="s10">
+ARP Spoofing و امنیت
+</h2>
+
+<p>
+
+ARP ذاتاً یک مکانیزم احراز هویت قوی ندارد.
+
+به همین دلیل در شبکه‌های Local، حملاتی مانند:
+
+<strong>ARP Spoofing</strong>
+
+یا
+
+<strong>ARP Poisoning</strong>
+
+ممکن است رخ دهند.
+
+</p>
+
+<p>
+
+در یک سناریوی ساده، مهاجم می‌تواند تلاش کند سیستم‌ها را متقاعد کند که:
+
+</p>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+Fake Mapping
+</div>
+
+<pre class="code-block"><code>192.168.1.1
+      ↓
+Attacker MAC</code></pre>
+
+</div>
+
+<p>
+
+در نتیجه ممکن است Traffic از مسیر مهاجم عبور کند.
+
+این موضوع می‌تواند زمینه‌ساز حملاتی مانند
+<strong>Man-in-the-Middle</strong>
+باشد.
+
+</p>
+
+<div class="warning">
+
+<strong>
+نکته امنیتی:
+</strong>
+
+ARP Spoofing را فقط در Lab یا محیطی که مجوز تست دارید بررسی کنید.
+
+در شبکه واقعی، بررسی ARP غیرعادی باید با ابزارهای Monitoring و Security انجام شود.
+
+</div>
+
+<p>
+
+برای مشاهده Mappingهای فعلی در Linux:
+
+</p>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+Linux
+</div>
+
+<pre class="code-block"><code>ip neigh</code></pre>
+
+</div>
+
+<p>
+
+اگر MAC مربوط به Gateway بدون دلیل تغییر کند، می‌تواند یکی از مواردی باشد که در Troubleshooting امنیتی بررسی می‌شود؛ البته تغییر MAC به تنهایی اثبات حمله نیست.
+
+</p>
+
+
+<h2 id="s11">
+Troubleshooting با tcpdump
+</h2>
+
+<p>
+
+یکی از بهترین روش‌ها برای فهم واقعی ARP، مشاهده Packetهای آن است.
+
+ابزار
+<strong>tcpdump</strong>
+در Linux برای Packet Capture بسیار کاربردی است.
+
+ابتدا Interface را پیدا کنید:
+
+</p>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+Linux
+</div>
+
+<pre class="code-block"><code>ip link</code></pre>
+
+</div>
+
+<p>
+
+فرض کنیم Interface ما
+<code>eth0</code>
+است.
+
+برای مشاهده ARP:
+
+</p>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+tcpdump
+</div>
+
+<pre class="code-block"><code>sudo tcpdump -i eth0 arp</code></pre>
+
+</div>
+
+<p>
+
+حالا یک Host موجود در شبکه را Ping کنید.
+
+</p>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+Linux
+</div>
+
+<pre class="code-block"><code>ping -c 3 192.168.1.1</code></pre>
+
+</div>
+
+<p>
+
+اگر MAC مربوط به Gateway در Cache وجود نداشته باشد، ممکن است ابتدا ARP Request را ببینید و سپس ARP Reply.
+
+این کار باعث می‌شود چیزی که در تئوری خوانده‌ایم را به صورت واقعی داخل Packet Capture ببینیم.
+
+</p>
+
+<div class="note">
+
+<strong>
+روش حرفه‌ای Troubleshooting:
+</strong>
+
+به جای اینکه فقط بگوییم «شبکه قطع است»، مرحله‌به‌مرحله بررسی کنیم:
+
+Interface → IP → Route → ARP/Neighbor → ICMP → TCP → Application
+
+</div>
+
+
+<h2 id="s12">
+ARP و Docker
+</h2>
+
+<p>
+
+در محیط‌های DevOps، Networking فقط به Serverهای فیزیکی محدود نیست.
+
+Docker نیز Networking را به شکل Virtual انجام می‌دهد.
+
+برای مثال در Docker معمولاً Networkهایی مانند Bridge وجود دارند.
+
+</p>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+Docker
+</div>
+
+<pre class="code-block"><code>docker network ls</code></pre>
+
+</div>
+
+<p>
+
+برای مشاهده جزئیات یک Network:
+
+</p>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+Docker
+</div>
+
+<pre class="code-block"><code>docker network inspect bridge</code></pre>
+
+</div>
+
+<p>
+
+درک ARP و Layer 2 کمک می‌کند بفهمیم Containerها چگونه در یک شبکه مجازی با یکدیگر ارتباط برقرار می‌کنند و Docker چگونه Traffic را از طریق Interfaceها و Bridgeهای Linux عبور می‌دهد.
+
+</p>
+
+<div class="note">
+
+<strong>
+ارتباط با DevOps:
+</strong>
+
+اگر ARP، MAC، IP، Routing و Interface را درست درک کنید، یادگیری Docker Networking، Kubernetes Networking، CNI و Cloud Networking بسیار ساده‌تر می‌شود.
+
+</div>
+
+
+<h2 id="lab">
+🧪 Lab عملی کامل
+</h2>
+
+<div class="exercise">
+
+<h3>
+مرحله ۱ — اطلاعات شبکه سیستم
+</h3>
+
+<p>
+
+ابتدا Interfaceها و IPهای سیستم خود را بررسی کنید.
+
+</p>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+Ubuntu
+</div>
+
+<pre class="code-block"><code>ip addr</code></pre>
+
+</div>
+
+<p>
+
+حالا Routing Table را ببینید:
+
+</p>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+Ubuntu
+</div>
+
+<pre class="code-block"><code>ip route</code></pre>
+
+</div>
+
+</div>
+
+
+<div class="exercise">
+
+<h3>
+مرحله ۲ — مشاهده Neighbor Table
+</h3>
+
+<p>
+
+حالا وضعیت ARP/Neighbor سیستم را بررسی کنید:
+
+</p>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+Ubuntu
+</div>
+
+<pre class="code-block"><code>ip neigh</code></pre>
+
+</div>
+
+<p>
+
+به دنبال IP مربوط به Default Gateway بگردید.
+
+اگر قبلاً با Gateway ارتباط داشته باشید، احتمالاً Mapping مربوط به آن را مشاهده خواهید کرد.
+
+</p>
+
+</div>
+
+
+<div class="exercise">
+
+<h3>
+مرحله ۳ — تولید ARP Traffic
+</h3>
+
+<p>
+
+ابتدا Cache را مشاهده کنید:
+
+</p>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+Ubuntu
+</div>
+
+<pre class="code-block"><code>ip neigh</code></pre>
+
+</div>
+
+<p>
+
+سپس Gateway را از Routing Table پیدا کنید:
+
+</p>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+Ubuntu
+</div>
+
+<pre class="code-block"><code>ip route</code></pre>
+
+</div>
+
+<p>
+
+حالا Gateway را Ping کنید:
+
+</p>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+Ubuntu
+</div>
+
+<pre class="code-block"><code>ping -c 4 &lt;GATEWAY-IP&gt;</code></pre>
+
+</div>
+
+<p>
+
+دوباره Neighbor Table را بررسی کنید:
+
+</p>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+Ubuntu
+</div>
+
+<pre class="code-block"><code>ip neigh</code></pre>
+
+</div>
+
+<p>
+
+بررسی کنید آیا وضعیت Neighbor تغییر کرده است یا خیر.
+
+</p>
+
+</div>
+
+
+<div class="exercise">
+
+<h3>
+مرحله ۴ — مشاهده ARP با tcpdump
+</h3>
+
+<p>
+
+یک Terminal باز کنید و Capture را شروع کنید:
+
+</p>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+Terminal 1
+</div>
+
+<pre class="code-block"><code>sudo tcpdump -i &lt;INTERFACE&gt; -n arp</code></pre>
+
+</div>
+
+<p>
+
+در Terminal دوم Gateway را Ping کنید:
+
+</p>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+Terminal 2
+</div>
+
+<pre class="code-block"><code>ping -c 3 &lt;GATEWAY-IP&gt;</code></pre>
+
+</div>
+
+<p>
+
+هدف این تمرین این است که ARP Request و Reply را در Packet Capture مشاهده کنید.
+
+</p>
+
+</div>
+
+
+<div class="exercise">
+
+<h3>
+مرحله ۵ — بررسی ارتباط کامل
+</h3>
+
+<p>
+
+بعد از بررسی ARP، مسیر ارتباط را تا لایه‌های بالاتر دنبال کنید:
+
+</p>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+Linux
+</div>
+
+<pre class="code-block"><code>ip addr
+ip route
+ip neigh
+ping -c 4 1.1.1.1
+ss -lntup
+curl -v https://example.com</code></pre>
+
+</div>
+
+<p>
+
+در هر مرحله مشخص کنید مشکل احتمالی در کدام Layer قرار دارد.
+
+</p>
+
+</div>
+
+
+<h2 id="cheat">
+📋 Cheat Sheet
+</h2>
+
+<table class="command-table">
+
+<thead>
+
+<tr>
+
+<th>
+دستور
+</th>
+
+<th>
+کاربرد
+</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+
+<td>
+<code>ip addr</code>
+</td>
+
+<td>
+مشاهده IP و Interfaceها
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<code>ip link</code>
+</td>
+
+<td>
+مشاهده وضعیت Interface و MAC
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<code>ip route</code>
+</td>
+
+<td>
+مشاهده Routing Table
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<code>ip neigh</code>
+</td>
+
+<td>
+مشاهده ARP/Neighbor Table
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<code>ping</code>
+</td>
+
+<td>
+بررسی Reachability
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<code>tcpdump</code>
+</td>
+
+<td>
+مشاهده Packetهای شبکه
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<code>docker network ls</code>
+</td>
+
+<td>
+مشاهده Docker Networkها
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<code>docker network inspect</code>
+</td>
+
+<td>
+بررسی جزئیات Docker Network
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+
+<h2 id="learn">
+🎯 چه چیزی یاد گرفتیم؟
+</h2>
+
+<ul>
+
+<li>
+ARP وظیفه پیدا کردن MAC مربوط به IPv4 در Local Network را بر عهده دارد.
+</li>
+
+<li>
+ARP Request معمولاً به صورت Broadcast ارسال می‌شود.
+</li>
+
+<li>
+ARP Reply اطلاعات MAC مقصد را در اختیار Host قرار می‌دهد.
+</li>
+
+<li>
+Linux اطلاعات Neighbor را در جدول Neighbor نگهداری می‌کند.
+</li>
+
+<li>
+دستور <code>ip neigh</code> ابزار اصلی بررسی این اطلاعات در Linux است.
+</li>
+
+<li>
+برای مقصدهای خارج از Subnet، Host معمولاً MAC مربوط به Default Gateway را پیدا می‌کند.
+</li>
+
+<li>
+Gratuitous ARP در برخی سناریوهای Failover و High Availability کاربرد دارد.
+</li>
+
+<li>
+Proxy ARP می‌تواند باعث پاسخ Router به ARP Request شود.
+</li>
+
+<li>
+ARP از نظر امنیتی دارای محدودیت‌هایی است و ARP Spoofing یکی از تهدیدهای شناخته‌شده آن است.
+</li>
+
+<li>
+با tcpdump می‌توان ARP را به صورت واقعی در Packet Capture مشاهده کرد.
+</li>
+
+<li>
+درک ARP پایه مهمی برای یادگیری Docker Networking، Kubernetes و Cloud Networking است.
+</li>
+
+</ul>
+
+
+<div class="note">
+
+<strong>
+نکته مهم برای مسیر DevOps:
+</strong>
+
+ARP را فقط به عنوان یک پروتکل حفظ نکنید.
+
+سعی کنید همیشه ارتباط این مفاهیم را در ذهن داشته باشید:
+
+</div>
+
+<div class="code-wrapper">
+
+<div class="code-label">
+DevOps Networking Mental Model
+</div>
+
+<pre class="code-block"><code>Application
+     ↓
+TCP / UDP
+     ↓
+IP / Routing
+     ↓
+ARP / Neighbor Discovery
+     ↓
+MAC / Ethernet
+     ↓
+Network Interface
+     ↓
+Physical / Virtual Network</code></pre>
+
+</div>
+
+<p>
+
+وقتی یک سرویس در محیط Production در دسترس نیست، داشتن همین مدل ذهنی باعث می‌شود به جای حدس زدن، مشکل را مرحله‌به‌مرحله پیدا کنید.
+
+</p>
+
+
+<div class="warning">
+
+<strong>
+تمرین پیشنهادی:
+</strong>
+
+در Ubuntu خود یک سناریوی ساده طراحی کنید:
+
+یک Server، یک Gateway و یک مقصد دیگر.
+
+سپس با استفاده از:
+
+<code>ip addr</code>،
+<code>ip route</code>،
+<code>ip neigh</code>
+و
+<code>tcpdump</code>
+
+مسیر Packet را از لحظه‌ای که Application درخواست را ایجاد می‌کند تا رسیدن آن به Gateway بررسی کنید.
+
+این تمرین یکی از بهترین راه‌ها برای تثبیت مفاهیم Layer 2 و Layer 3 است.
+
+</div>
+
+
+</article>
+
+
+<div class="article-footer">
+
+<a href="ipv4-ipv6.html"
+   class="btn btn-secondary">
+← مقاله قبلی
+</a>
+
+<a href="../index.html"
+   class="btn btn-secondary">
+بازگشت به مقالات
+</a>
+
+<a href="../../index.html"
+   class="btn btn-primary">
+صفحه اصلی →
+</a>
+
+<a href="network-private-public-ip.html"
+   class="btn btn-primary">
+مقاله بعدی →
+</a>
+
+</div>
+
+
+</div>
+
+</section>
+
+</main>
+
+
+<footer>
+
+<div class="container">
+
+<p>
+© 2026 Z.DevOps — Built while learning DevOps.
+</p>
+
+<div class="social-links">
+
+<a href="../../index.html">
+Home
+</a>
+
+</div>
+
+</div>
+
+</footer>
+
+
+</body>
+
+</html>
